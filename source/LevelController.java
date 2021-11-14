@@ -23,23 +23,25 @@ import javafx.util.Duration;
     //loader.setController(levelController); (and then do all the pane and scene stuff)
 
 //TODO:
-    //Initialize level map properly
     //Fix sizing of game canvas and overall window
     //tick() exit clauses (both rat counters == 0 or time ended (game won/lost)) and save and exit
     //Implement time tracking for ability to lose level
     //Implement giving new powers
     //Implement rat counter (visual + methods)
     //Make code for canvas receiving item dropping shorter (enums/Item class ??) (toolbar + image + counter in one thing)
-
+    //Add powers to level creation from level file
 
 //Questions and notes for other classes:
-    //How big are our levels (height and width)?
+    //How big are our levels (height and width)? Are they different?
     //Which class initializes LevelController?
     //How do rats and some powers know to tick()?
     //How often are items given (what do the numbers mean)?
     //What on gods green earth is the score?
+    //Consensus on adding like 10 different powers on a tile
+    //How are powers represented in a level file?
     //
     //Rats have to ask the government whether they are allowed to have babies!! (.canReproduce())
+    //Stop Sing isInteractive = false (to avoid having to deal with someone putting a death rat on a stop sign)
 
 public class LevelController {
     @FXML
@@ -73,6 +75,10 @@ public class LevelController {
     //Game timeline
     private Timeline tickTimeline;
 
+    //Game tilemap dimensions
+    private final int WIDTH;
+    private final int HEIGHT;
+
     //Game map
     private Tile[][] tileMap = new Tile[0][0];
 
@@ -90,11 +96,22 @@ public class LevelController {
     private int stopSignCounter = 4;
     private int deathRatCounter = 4;
 
-    private static int MAX_RATS;
+    private final int MAX_RATS;
+
+    private final int PAR_TIME;
+
+    private final int[] DROP_RATES;
 
     public LevelController (LevelFileReader fileReader) {
         LEVEL_READER = fileReader;
+        WIDTH = LEVEL_READER.getWidth();
+        HEIGHT = LEVEL_READER.getHeight();
+
         buildNewLevel();
+
+        MAX_RATS = LEVEL_READER.getMaxRats();
+        PAR_TIME = LEVEL_READER.getParTime();
+        DROP_RATES = LEVEL_READER.getDropRates();
     }
 
     /**
@@ -115,34 +132,69 @@ public class LevelController {
     /**
      * Builds new level from level file.
      */
-    public void buildNewLevel() {
-        //TO BE UPDATED WITH LEVEL BUILDING FROM LEVEL FILE, THIS WAS JUST USED FOR DEBUG
-        tileMap = new Tile[8][3];
-        for(int i = 0; i < 8; i++) {
-            tileMap[i][0] = new Grass(1);
-        }
-        tileMap[0][1] = new Grass(1);
-        tileMap[1][1] = new Road(1);
-        tileMap[2][1] = new Road(1);
-        tileMap[3][1] = new Road(1);
-        tileMap[4][1] = new Tunnel(1);
-        tileMap[5][1] = new Tunnel(1);
-        tileMap[6][1] = new Road(1);
-        tileMap[7][1] = new Grass(1);
-        for(int i = 0; i < 8; i++) {
-            tileMap[i][2] = new Grass(1);
-        }
+    private void buildNewLevel() {
+        tileMap = new Tile[WIDTH][HEIGHT];
+        String tileString = LEVEL_READER.getTiles();
+        populateTileMap(tileString);
 
-        MAX_RATS = 4;
+        String ratString = LEVEL_READER.getRatSpawns();
+        addRatsToTileMap(ratString);
+
         femaleRatCounter = 0;
         maleRatCounter = 0;
     }
 
-    private boolean tileInteractivityAt(double x, double y) {
-        int xPos = (int) (Math.floor(x)/64);
-        int yPos = (int) (Math.floor(y)/64);
+    private void addRatsToTileMap(String rats) {
+        int charPos = -1;
+        for(int i = 0; i < HEIGHT ; i++) {
+            for (int j = 0; j < WIDTH; j++) {
+                charPos ++;
+                if(rats.charAt(charPos) != '-'){
+                    switch (rats.charAt(charPos)) {
+                        case 'f':
+                            tileMap[j][i].addRat(new AdultFemale());
+                            femaleRatCounter++;
+                            break;
+                        case 'm':
+                            tileMap[j][i].addRat(new AdultMale());
+                            maleRatCounter++;
+                            break;
+                        case 'c':
+                            tileMap[j][i].addRat(new ChildRat());
+                    }
+                }
+            }
+        }
+    }
 
-        return tileMap[xPos][yPos].isInteractive();
+    private void populateTileMap(String tiles) {
+        int charPos = -1;
+        for(int i = 0; i < HEIGHT ; i++) {
+            for (int j = 0; j < WIDTH; j++) {
+                charPos ++;
+                switch (tiles.charAt(charPos)) {
+                    case 'G':
+                        tileMap[j][i] = new Grass(1);
+                        break;
+                    case 'P':
+                        tileMap[j][i] = new Path(1);
+                        break;
+                    case 'T':
+                        tileMap[j][i] = new Tunnel(1);
+                }
+            }
+        }
+    }
+
+    private boolean tileInteractivityAt(double x, double y) {
+        if (x > (WIDTH*64) || y > (HEIGHT*64)){
+            return false;
+        } else {
+            int xPos = (int) (Math.floor(x) / 64);
+            int yPos = (int) (Math.floor(y) / 64);
+
+            return tileMap[xPos][yPos].isInteractive();
+        }
     }
 
     /**
@@ -220,7 +272,7 @@ public class LevelController {
     /**
      * Periodically refreshes game screen.
      */
-    public void tick() {
+    private void tick() {
         renderGame();
     }
 
@@ -305,7 +357,7 @@ public class LevelController {
      * @param item item that is being made draggable.
      * @param dbContent String used in setupCanvasDragBehaviour.
      */
-    public static void makeDraggable( final ImageView item, String dbContent ) {
+    private static void makeDraggable( final ImageView item, String dbContent ) {
         item.setOnDragDetected( new EventHandler<MouseEvent>() {
             @Override
             public void handle( MouseEvent event ) {
