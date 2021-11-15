@@ -6,11 +6,15 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Class that implements a playable level.
@@ -25,9 +29,7 @@ import javafx.util.Duration;
 //TODO:
     //Fix sizing of game canvas and overall window
     //tick() exit clauses (both rat counters == 0 or time ended (game won/lost)) and save and exit
-    //Implement time tracking for ability to lose level
     //Implement giving new powers
-    //Implement rat counter (visual + methods)
     //Make code for canvas receiving item dropping shorter (enums/Item class ??) (toolbar + image + counter in one thing)
     //Add powers to level creation from level file
 
@@ -37,7 +39,7 @@ import javafx.util.Duration;
     //How do rats and some powers know to tick()?
     //How often are items given (what do the numbers mean)?
     //What on gods green earth is the score?
-    //Consensus on adding like 10 different powers on a tile
+    //Consensus on adding like 10 different powers on a tile (+ adding powers directly on top of a rat)
     //How are powers represented in a level file?
     //
     //Rats have to ask the government whether they are allowed to have babies!! (.canReproduce())
@@ -74,8 +76,11 @@ public class LevelController {
 
     //Game timeline
     private Timeline tickTimeline;
+    private final int FRAME_TIME = 500;
+    private int currentTimeLeft;
 
-    //Game tilemap dimensions
+    public Label timerLabel;
+
     private final int WIDTH;
     private final int HEIGHT;
 
@@ -85,6 +90,9 @@ public class LevelController {
     //Rat counters
     private int femaleRatCounter;
     private int maleRatCounter;
+    private int childRatCounter;
+    public Label femaleRatCounterLabel;
+    public Label maleRatCounterLabel;
 
     //Item counters
     private int bombCounter = 4;
@@ -97,11 +105,13 @@ public class LevelController {
     private int deathRatCounter = 4;
 
     private final int MAX_RATS;
-
     private final int PAR_TIME;
-
     private final int[] DROP_RATES;
 
+    /**
+     * Constructor for LevelController class.
+     * @param fileReader instance of LevelFileReader that the level will be loaded from.
+     */
     public LevelController (LevelFileReader fileReader) {
         LEVEL_READER = fileReader;
         WIDTH = LEVEL_READER.getWidth();
@@ -118,12 +128,17 @@ public class LevelController {
      * Initializes game.
      */
     public void initialize() {
+        currentTimeLeft = PAR_TIME;
+        timerLabel.setText(millisToString(currentTimeLeft));
+
         renderAllItems();
         setupCanvasDragBehaviour();
 
         renderGame();
 
-        tickTimeline = new Timeline(new KeyFrame(Duration.millis(1000), event -> tick()));
+        renderCounters();
+
+        tickTimeline = new Timeline(new KeyFrame(Duration.millis(FRAME_TIME), event -> tick()));
         tickTimeline.setCycleCount(Animation.INDEFINITE);
         tickTimeline.play();
 
@@ -133,15 +148,17 @@ public class LevelController {
      * Builds new level from level file.
      */
     private void buildNewLevel() {
+
         tileMap = new Tile[WIDTH][HEIGHT];
         String tileString = LEVEL_READER.getTiles();
         populateTileMap(tileString);
 
-        String ratString = LEVEL_READER.getRatSpawns();
-        addRatsToTileMap(ratString);
-
         femaleRatCounter = 0;
         maleRatCounter = 0;
+        childRatCounter = 0;
+
+        String ratString = LEVEL_READER.getRatSpawns();
+        addRatsToTileMap(ratString);
     }
 
     private void addRatsToTileMap(String rats) {
@@ -161,6 +178,7 @@ public class LevelController {
                             break;
                         case 'c':
                             tileMap[j][i].addRat(new ChildRat());
+                            childRatCounter++;
                     }
                 }
             }
@@ -186,8 +204,17 @@ public class LevelController {
         }
     }
 
+    public void renderCounters() {
+        String mc = String.valueOf(maleRatCounter);
+        String fc = String.valueOf(femaleRatCounter);
+
+        maleRatCounterLabel.setText(mc);
+        femaleRatCounterLabel.setText(fc);
+    }
+
+
     private boolean tileInteractivityAt(double x, double y) {
-        if (x > (WIDTH*64) || y > (HEIGHT*64)){
+        if (x >= (WIDTH*64) || y >= (HEIGHT*64)){
             return false;
         } else {
             int xPos = (int) (Math.floor(x) / 64);
@@ -195,6 +222,31 @@ public class LevelController {
 
             return tileMap[xPos][yPos].isInteractive();
         }
+    }
+
+    /**
+     * Converts milliseconds (as int) to a string of format mm:ss.
+     * @param millis milliseconds as int.
+     * @return String mm:ss.
+     */
+    public String millisToString(int millis) {
+        int seconds = millis/1000;
+        int minutes = (int) TimeUnit.SECONDS.toMinutes(seconds);
+        int remainSeconds = seconds - (int) TimeUnit.MINUTES.toSeconds(minutes);
+        return String.format("%02d:%02d", minutes, remainSeconds);
+    }
+
+    /**
+     * Periodically refreshes game screen.
+     */
+    public void tick() {
+        //TELL EVERYTHING TO UPDATE ONCE HERE
+
+        renderGame();
+        renderCounters();
+
+        currentTimeLeft = currentTimeLeft - FRAME_TIME;
+        timerLabel.setText(millisToString(currentTimeLeft));
     }
 
     /**
@@ -264,16 +316,8 @@ public class LevelController {
                     deathRatCounter--;
                     renderItem(deathRatToolbar,DEATH_RAT_IMAGE,deathRatCounter,"deathrat");
                 }
-
             }
         });
-    }
-
-    /**
-     * Periodically refreshes game screen.
-     */
-    private void tick() {
-        renderGame();
     }
 
     /**
@@ -375,7 +419,35 @@ public class LevelController {
      * @return can rats reproduce.
      */
     public boolean canReproduce() {
-        boolean canReproduce = (femaleRatCounter + maleRatCounter) > MAX_RATS;
+        boolean canReproduce = (femaleRatCounter + maleRatCounter + childRatCounter) < MAX_RATS;
         return canReproduce;
+    }
+
+    /**
+     * Removes rat from a rat counter.
+     * @param rat the rat being removed.
+     */
+    public void ratRemoved(LivingRat rat) {
+        if (rat instanceof ChildRat) {
+            childRatCounter--;
+        } else if (rat instanceof AdultMale) {
+            maleRatCounter--;
+        } else if (rat instanceof AdultFemale) {
+            femaleRatCounter--;
+        }
+    }
+
+    /**
+     * Adds rat to rat counter.
+     * @param rat the rat being added.
+     */
+    public void ratAdded(LivingRat rat) {
+        if (rat instanceof ChildRat) {
+            childRatCounter++;
+        } else if (rat instanceof AdultMale) {
+            maleRatCounter++;
+        } else if (rat instanceof AdultFemale) {
+            femaleRatCounter++;
+        }
     }
 }

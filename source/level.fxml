@@ -3,12 +3,15 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="860.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LevelController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="860.0" prefWidth="1270.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -67,13 +70,6 @@
                </padding>
             </VBox>
          </center>
-         <top>
-            <Pane prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Canvas height="100.0" width="200.0" />
-               </children>
-            </Pane>
-         </top>
          <bottom>
             <Button fx:id="saveAndExitButton" mnemonicParsing="false" onAction="#saveAndExit" text="Save And Exit" BorderPane.alignment="BOTTOM_CENTER">
                <BorderPane.margin>
@@ -81,6 +77,59 @@
                </BorderPane.margin>
             </Button>
          </bottom>
+         <top>
+            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <TextFlow prefHeight="200.0" prefWidth="200.0" textAlignment="RIGHT">
+                           <children>
+                              <Label fx:id="maleRatCounterLabel" text="0" textFill="#3e70bf">
+                                 <font>
+                                    <Font name="Comic Sans MS" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </TextFlow>
+                        <TextFlow fx:id="femaleRatCounterBox" prefHeight="200.0" prefWidth="200.0" textAlignment="RIGHT">
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding>
+                        </TextFlow>
+                        <Label fx:id="femaleRatCounterLabel" text="0" textFill="#cd336e">
+                           <font>
+                              <Font name="Comic Sans MS" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <TextFlow prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER">
+                     <HBox.margin>
+                        <Insets bottom="30.0" top="30.0" />
+                     </HBox.margin>
+                     <children>
+                        <Label fx:id="timerLabel" text="00:00">
+                           <font>
+                              <Font name="Comic Sans MS Bold" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets top="3.0" />
+                     </padding>
+                  </TextFlow>
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </HBox>
+         </top>
       </BorderPane>
    </right>
 </BorderPane>
