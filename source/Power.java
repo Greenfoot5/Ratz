@@ -1,19 +1,8 @@
-public class Power{
+import java.util.ArrayList;
 
-    private int[] position;
+//Abstract Power class for communication with Tile and activating the right type of power.
 
-    public Power(int[] position) {
-        this.position = position;
-    }
-    public static void main(String[] args) {
-        
-    }
+abstract class Power{
 
-    public int[] getPosition() {
-        return position;
-    }
-
-    public void setPosition(int[] position) {
-        this.position = position;
-    }
+    abstract void activate(ArrayList<Rat> rats);
 }
