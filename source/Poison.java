@@ -6,7 +6,7 @@ public class Poison extends Power{
 
     public static void killRats(ArrayList<Rat> rats) {
         for (int i : rats){
-            rats.get(i).die;
+            rats.get(i).die();
         }
     }
 
