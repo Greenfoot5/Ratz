@@ -5,6 +5,7 @@
 
 public abstract class LivingRat {
     private boolean fertile;
+    private boolean sex;
 
     public void setFertile(boolean newFertility) {
         this.fertile = newFertility;
@@ -12,5 +13,9 @@ public abstract class LivingRat {
 
     public boolean getFertile() {
         return this.fertile;
+    }
+
+    public void setSex(boolean sex) {
+        this.sex = sex;
     }
 }
