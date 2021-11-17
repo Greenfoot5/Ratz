@@ -3,6 +3,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -11,7 +12,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 import java.util.concurrent.TimeUnit;
@@ -28,7 +31,6 @@ import java.util.concurrent.TimeUnit;
 
 //TODO:
     //Fix sizing of game canvas and overall window
-    //tick() exit clauses (both rat counters == 0 or time ended (game won/lost)) and save and exit
     //Implement giving new powers
     //Make code for canvas receiving item dropping shorter (enums/Item class ??) (toolbar + image + counter in one thing)
     //Add powers to level creation from level file
@@ -41,6 +43,7 @@ import java.util.concurrent.TimeUnit;
     //What on gods green earth is the score?
     //Consensus on adding like 10 different powers on a tile (+ adding powers directly on top of a rat)
     //How are powers represented in a level file?
+    //How to go back to MainMenuManager at the end of a level?
     //
     //Rats have to ask the government whether they are allowed to have babies!! (.canReproduce())
     //Stop Sing isInteractive = false (to avoid having to deal with someone putting a death rat on a stop sign)
@@ -240,13 +243,47 @@ public class LevelController {
      * Periodically refreshes game screen.
      */
     public void tick() {
-        //TELL EVERYTHING TO UPDATE ONCE HERE
+        if ((childRatCounter + femaleRatCounter + maleRatCounter) == 0) {
+            endGame(true);
+        } else if (currentTimeLeft <= 0){
+            endGame(false);
+        } else {
+            //TELL EVERYTHING TO UPDATE ONCE HERE
 
-        renderGame();
-        renderCounters();
+            renderGame();
+            renderCounters();
 
-        currentTimeLeft = currentTimeLeft - FRAME_TIME;
-        timerLabel.setText(millisToString(currentTimeLeft));
+            currentTimeLeft = currentTimeLeft - FRAME_TIME;
+            timerLabel.setText(millisToString(currentTimeLeft));
+        }
+    }
+
+    private void endGame(boolean wonGame) {
+        tickTimeline.stop();
+        //disableToolbars();
+        GraphicsContext gc = levelCanvas.getGraphicsContext2D();
+        gc.setFill(Color.GRAY);
+        gc.fillRect(0,0,levelCanvas.getWidth(),levelCanvas.getHeight());
+
+        gc.setFill(Color.BLACK);
+        gc.setTextAlign(TextAlignment.CENTER);
+        gc.setTextBaseline(VPos.CENTER);
+        if(wonGame) {
+            gc.fillText("You've won! :)",levelCanvas.getWidth()/2,levelCanvas.getHeight()/2);
+        } else {
+            gc.fillText("You've lost! :(",levelCanvas.getWidth()/2,levelCanvas.getHeight()/2);
+        }
+
+        saveAndExitButton.setText("Back to Main Menu");
+
+        saveAndExitButton.setOnAction( e -> {
+            exitGame();
+        });
+
+    }
+
+    private void exitGame() {
+        levelCanvas.getGraphicsContext2D().drawImage(POISON_IMAGE,0,0);
     }
 
     /**
