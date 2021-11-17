@@ -23,4 +23,8 @@ public class AdultFemale extends LivingRat {
         this.pregnancyTime = pregnancyTime;
         this.pregnant = pregnant;
     }
+
+    public void birth() {
+        // make a new, smaller rat.
+    }
 }
