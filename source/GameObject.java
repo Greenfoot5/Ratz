@@ -10,7 +10,7 @@ import javafx.scene.image.Image;
 /**
  * Class that describes a game object.
  */
-public abstract class Object {
+public abstract class GameObject {
     private final Image img;
 
     private final static int WIDTH = 64;
@@ -24,7 +24,7 @@ public abstract class Object {
      * @param isInteractive can players place powers on.
      * @param isPassable can rats walk through.
      */
-    Object(boolean isInteractive, boolean isPassable) {
+    GameObject(boolean isInteractive, boolean isPassable) {
         this.isInteractive = isInteractive;
         this.isPassable = isPassable;
         img = new Image(createTexturePath());
