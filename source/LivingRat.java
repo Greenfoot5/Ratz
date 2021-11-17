@@ -18,8 +18,8 @@ public abstract class LivingRat extends Rat {
      * @param yPos          where the rat is on the y axis.
      * @param fertile       whether or not the rat can breed.
      */
-    LivingRat(boolean isInteractive, boolean isPassable, int speed, int direction,
-              int gasTimer, int xPos, int yPos, boolean fertile) {
+    public LivingRat(boolean isInteractive, boolean isPassable, int speed, int direction,
+                     int gasTimer, int xPos, int yPos, boolean fertile) {
         super(isInteractive, isPassable, speed, direction, gasTimer, xPos, yPos);
     }
 
