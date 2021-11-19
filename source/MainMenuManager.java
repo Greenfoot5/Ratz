@@ -2,6 +2,9 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class MainMenuManager extends Application {
+    // Profiles
+    private String selectedProfile;
+
     // The dimensions of the window
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 500;
@@ -24,4 +27,15 @@ public class MainMenuManager extends Application {
     }
 
     private void displayLevels() {}
+
+    public void login(String username) {
+        ProfileFileReader reader = new ProfileFileReader();
+        // TODO - Check if the profile exists
+        reader.createNewProfile(username);
+        selectedProfile = username;
+    }
+    
+    public void logout() {
+        selectedProfile = null;
+    }
 }
