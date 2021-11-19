@@ -30,7 +30,7 @@ public class MOTD {
         char[] puzzleChars = puzzleInput.toCharArray();
 
         for (int i = 0; i < puzzleChars.length; i++) {
-            int position = ;
+            int position = 0;
             if (position % 2 == 1)
             {
                 puzzleChars[i] = alphabet.get(5);
