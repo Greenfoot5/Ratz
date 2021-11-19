@@ -4,7 +4,7 @@ import javafx.stage.Stage;
 /**
  * The main class to begin, and the one that handles the main menu
  */
-public class MainMenuManager extends Application {
+public class MainMenuController extends Application {
     // Profiles
     private String selectedProfile = null;
 

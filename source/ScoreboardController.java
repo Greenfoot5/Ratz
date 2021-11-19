@@ -1,7 +1,7 @@
 /**
  * It displays the scoreboard *woah*
  */
-public class ScoreboardManager {
+public class ScoreboardController {
 
     /**
      * Main function to display the scoreboard
