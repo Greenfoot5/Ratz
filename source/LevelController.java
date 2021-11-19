@@ -75,7 +75,7 @@ public class LevelController {
     private final Image DEATH_RAT_IMAGE = new Image("file:resources/deathrat.png");
 
     //Current level reader
-    private final LevelFileReader LEVEL_READER;
+    private final FileReader LEVEL_READER;
 
     //Game timeline
     private Timeline tickTimeline;
@@ -115,7 +115,7 @@ public class LevelController {
      * Constructor for LevelController class.
      * @param fileReader instance of LevelFileReader that the level will be loaded from.
      */
-    public LevelController (LevelFileReader fileReader) {
+    public LevelController (FileReader fileReader) {
         LEVEL_READER = fileReader;
         WIDTH = LEVEL_READER.getWidth();
         HEIGHT = LEVEL_READER.getHeight();
