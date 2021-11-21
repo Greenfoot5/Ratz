@@ -24,15 +24,34 @@ import java.util.concurrent.TimeUnit;
  * Class that implements a playable level.
  */
 
-//FOR OTHERS:
-    //AdultFemale (only used when pregnant) method for amount of babies needed.
-    //ChildRat .getSex() method needed.
-    //
-    //Rats have to ask the government whether they are allowed to have babies!! (.canReproduce())
-    //Stop Sing isInteractive = false (to avoid having to deal with someone putting a death rat on a stop sign)
-    //ratKilled() and ratRemoved() are two different things.
-        //ratKilled() is for when a rat is killed by a power,
-        //ratRemoved() is for when one instance of a rat is changed for another (gender swap/child growing up).
+//FOR OTHER CLASSES:
+
+    //NOT SURE WHO:
+        //ratKilled() and ratRemoved() are two different things:
+            //ratKilled() is for when a rat is killed by a power,
+            //ratRemoved() is for when one instance of a rat is changed for another (gender swap).
+        //Rats, bombs, and gas need to periodically update (tick()), LevelController either has to call Tile so that it calls and updates everything
+            //or call everything (by accessing the rats and powers on a tile) itself.
+
+    //ALL GAME OBJECTS:
+        //do not need to be initialized with a different isInteractive/isPassable, stop where the differences stop.
+            //ex1. powers have differences, but all stop signs aren't passable or interactive, so just do super(false,false, *whatever else is needed* ) in StopSign
+            //ex2. all rats are passable (will have to figure out interactivity,assuming not interactive for now), so just do super(false,true) in Rat
+
+    //RATS:
+        //AdultFemale method for amount of babies needed (only used when pregnant).
+        //ChildRat .getSex() method needed (what do the booleans mean? D: )
+        //Rats have to ask the government whether they are allowed to have babies! (.canReproduce()).
+
+    //TILES:
+        //Getters and adders for powers and rats needed.
+
+    //POWERS:
+        //Stop Sign isInteractive = false (to avoid having to deal with someone putting a death rat on a stop sign), =true for other powers.
+
+    //FILE READER:
+        //FileReader .getWidth() and .getHeight() instead of .getSize().
+        //How are multiple rats/powers on one tile and pregnant rats(+num of babies) represented?
 
 
 //HOW TO INITIALIZE FROM EXTERNAL CLASS:
@@ -58,7 +77,6 @@ import java.util.concurrent.TimeUnit;
     //Which class initializes LevelController?
     //How do rats and some powers know to tick()?
     //Consensus on adding like 10 different powers on a tile (+ adding powers directly on top of a rat)
-    //How are powers represented in a level file?
     //How to go back to MainMenuManager at the end of a level?
 
 public class LevelController {
@@ -78,13 +96,13 @@ public class LevelController {
     public HBox deathRatToolbar;
 
     //Images for different game items
-    private final Image BOMB_IMAGE = new Image("file:resources/bomb.png");
+    private final Image BOMB_IMAGE = new Image("file:resources/bomb0.png");
     private final Image GAS_IMAGE = new Image("file:resources/gas.png");
     private final Image STERILISATION_IMAGE = new Image("file:resources/sterilisation.png");
     private final Image POISON_IMAGE = new Image("file:resources/poison.png");
     private final Image MALE_SWAP_IMAGE = new Image("file:resources/maleswapper.png");
     private final Image FEMALE_SWAP_IMAGE = new Image("file:resources/femaleswapper.png");
-    private final Image STOP_SIGN_IMAGE = new Image("file:resources/stopsign.png");
+    private final Image STOP_SIGN_IMAGE = new Image("file:resources/stopsign5.png");
     private final Image DEATH_RAT_IMAGE = new Image("file:resources/deathrat.png");
 
     //Current level reader
@@ -175,61 +193,17 @@ public class LevelController {
      */
     private void buildNewLevel() {
 
-        //tileMap = new Tile[WIDTH][HEIGHT];
-        //String tileString = LEVEL_READER.getTiles();
-        //populateTileMap(tileString);
-
         femaleRatCounter = 0;
         maleRatCounter = 0;
         score = 0;
 
-        //String ratString = LEVEL_READER.getRatSpawns();
-        //addRatsToTileMap(ratString);
+        //tileMap = new Tile[WIDTH][HEIGHT];
+        //tileMap = LevelLoader.loadTileMap(LEVEL_READER,this);
     }
 
-    private void addRatsToTileMap(String rats) {
-        int charPos = -1;
-        //for(int i = 0; i < HEIGHT ; i++) {
-        //    for (int j = 0; j < WIDTH; j++) {
-        //        charPos ++;
-        //        if(rats.charAt(charPos) != '-'){
-        //            switch (rats.charAt(charPos)) {
-        //                case 'f':
-        //                    tileMap[j][i].addRat(new AdultFemale());
-        //                    femaleRatCounter++;
-        //                    break;
-        //                case 'm':
-        //                    tileMap[j][i].addRat(new AdultMale());
-        //                    maleRatCounter++;
-        //                    break;
-        //                case 'c':
-        //                    tileMap[j][i].addRat(new ChildRat());
-        //                    childRatCounter++;
-        //            }
-        //        }
-        //    }
-        //}
-    }
-
-    private void populateTileMap(String tiles) {
-        //int charPos = -1;
-        //for(int i = 0; i < HEIGHT ; i++) {
-        //    for (int j = 0; j < WIDTH; j++) {
-        //        charPos ++;
-        //        switch (tiles.charAt(charPos)) {
-        //            case 'G':
-        //                tileMap[j][i] = new Grass(1);
-        //                break;
-        //            case 'P':
-        //                tileMap[j][i] = new Path(1);
-        //                break;
-        //            case 'T':
-        //                tileMap[j][i] = new Tunnel(1);
-        //        }
-        //    }
-        //}
-    }
-
+    /**
+     * Renders female and male counters on the screen.
+     */
     public void renderCounters() {
         String mc = String.valueOf(maleRatCounter);
         String fc = String.valueOf(femaleRatCounter);
@@ -238,7 +212,12 @@ public class LevelController {
         femaleRatCounterLabel.setText(fc);
     }
 
-
+    /**
+     * Returns whether tile at position (x,y) on canvas can be interacted with.
+     * @param x canvas x position.
+     * @param y canvas y position.
+     * @return interactivity.
+     */
     private boolean tileInteractivityAt(double x, double y) {
         //if (x >= (WIDTH*64) || y >= (HEIGHT*64)){
         //    return false;
@@ -282,6 +261,10 @@ public class LevelController {
         }
     }
 
+    /**
+     * Ends game in a win/lose scenario.
+     * @param wonGame whether level was won.
+     */
     private void endGame(boolean wonGame) {
         tickTimeline.stop();
         //disableToolbars();
@@ -307,6 +290,9 @@ public class LevelController {
 
     }
 
+    /**
+     * Exits level and goes back to main menu.
+     */
     private void exitGame() {
         //TELL SOMETHING(??) TO GO BACK TO MAIN MENU
         levelCanvas.getGraphicsContext2D().drawImage(POISON_IMAGE,0,0);
@@ -373,12 +359,12 @@ public class LevelController {
                     stopSignCounter--;
                     renderItem(stopSignToolbar,STOP_SIGN_IMAGE,stopSignCounter,"stopsign");
                 }
-                //if (event.getDragboard().getString() == "deathrat" ) {
+                if (event.getDragboard().getString() == "deathrat" ) {
                 //    itemDropped(event, new DeathRat());
-                //    event.consume();
-                //    deathRatCounter--;
-                //    renderItem(deathRatToolbar,DEATH_RAT_IMAGE,deathRatCounter,"deathrat");
-                //}
+                    event.consume();
+                    deathRatCounter--;
+                    renderItem(deathRatToolbar,DEATH_RAT_IMAGE,deathRatCounter,"deathrat");
+                }
             }
         });
     }
@@ -495,9 +481,7 @@ public class LevelController {
      * @param rat the rat being removed.
      */
     public void ratRemoved(LivingRat rat) {
-        if (rat instanceof ChildRat) {
-            //check gender of rat and change counter accordingly
-        } else if (rat instanceof AdultMale) {
+        if (rat instanceof AdultMale) {
             maleRatCounter--;
         } else if (rat instanceof AdultFemale) {
             femaleRatCounter--;
@@ -518,6 +502,10 @@ public class LevelController {
         }
     }
 
+    /**
+     * Removes rat that has been killed from rat counter and adds to score.
+     * @param rat rat that has been killed.
+     */
     public void ratKilled(Rat rat) {
         if(rat instanceof AdultFemale) {
             //if (((AdultFemale) rat).isPregnant()) {
