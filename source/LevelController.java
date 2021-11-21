@@ -17,36 +17,49 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Class that implements a playable level.
  */
 
+//FOR OTHERS:
+    //AdultFemale (only used when pregnant) method for amount of babies needed.
+    //ChildRat .getSex() method needed.
+    //
+    //Rats have to ask the government whether they are allowed to have babies!! (.canReproduce())
+    //Stop Sing isInteractive = false (to avoid having to deal with someone putting a death rat on a stop sign)
+    //ratKilled() and ratRemoved() are two different things.
+        //ratKilled() is for when a rat is killed by a power,
+        //ratRemoved() is for when one instance of a rat is changed for another (gender swap/child growing up).
+
+
 //HOW TO INITIALIZE FROM EXTERNAL CLASS:
     //loader = new FXMLLoader(getClass().getResource("level.fxml"));
     //LevelController levelController = new LevelController(--level file reader instance goes here--);
     //
-    //loader.setController(levelController); (and then do all the pane and scene stuff)
+    //loader.setController(levelController);
+    //
+    //Pane root = loader.load();
+    //
+    //Scene scene = new Scene(root,root.getPrefWidth(),root.getPrefHeight());
+    //
+    //primaryStage.setScene(scene);
 
 //TODO:
-    //Fix sizing of game canvas and overall window
-    //Implement giving new powers
-    //Make code for canvas receiving item dropping shorter (enums/Item class ??) (toolbar + image + counter in one thing)
+    //Make code for canvas receiving item dropping shorter (enums/Item class/bunch of arrays ??) (toolbar + image + counter + drop rate in one thing)
     //Add powers to level creation from level file
+    //Update everything in tick()
+    //Actually exit level
+    //Implement game saving
 
-//Questions and notes for other classes:
-    //How big are our levels (height and width)? Are they different?
+//Questions:
     //Which class initializes LevelController?
     //How do rats and some powers know to tick()?
-    //How often are items given (what do the numbers mean)?
-    //What on gods green earth is the score?
     //Consensus on adding like 10 different powers on a tile (+ adding powers directly on top of a rat)
     //How are powers represented in a level file?
     //How to go back to MainMenuManager at the end of a level?
-    //
-    //Rats have to ask the government whether they are allowed to have babies!! (.canReproduce())
-    //Stop Sing isInteractive = false (to avoid having to deal with someone putting a death rat on a stop sign)
 
 public class LevelController {
     @FXML
@@ -84,16 +97,16 @@ public class LevelController {
 
     public Label timerLabel;
 
-    private final int WIDTH;
-    private final int HEIGHT;
+    //private final int WIDTH;
+    //private final int HEIGHT;
 
     //Game map
     private Tile[][] tileMap = new Tile[0][0];
+    private int score;
 
     //Rat counters
     private int femaleRatCounter;
     private int maleRatCounter;
-    private int childRatCounter;
     public Label femaleRatCounterLabel;
     public Label maleRatCounterLabel;
 
@@ -109,7 +122,10 @@ public class LevelController {
 
     private final int MAX_RATS;
     private final int PAR_TIME;
+
     private final int[] DROP_RATES;
+    private final int MAX_RATE = 1000;
+    private Random RANDOM_RATE;
 
     /**
      * Constructor for LevelController class.
@@ -117,8 +133,8 @@ public class LevelController {
      */
     public LevelController (FileReader fileReader) {
         LEVEL_READER = fileReader;
-        WIDTH = LEVEL_READER.getWidth();
-        HEIGHT = LEVEL_READER.getHeight();
+        //WIDTH = LEVEL_READER.getWidth();
+        //HEIGHT = LEVEL_READER.getHeight();
 
         buildNewLevel();
 
@@ -139,7 +155,14 @@ public class LevelController {
 
         renderGame();
 
-        renderCounters();
+        bombCounter = 0;
+        gasCounter = 0;
+        sterilisationCounter = 0;
+        poisonCounter = 0;
+        maleSwapCounter = 0;
+        femaleSwapCounter = 0;
+        stopSignCounter = 0;
+        deathRatCounter = 0;
 
         tickTimeline = new Timeline(new KeyFrame(Duration.millis(FRAME_TIME), event -> tick()));
         tickTimeline.setCycleCount(Animation.INDEFINITE);
@@ -152,59 +175,59 @@ public class LevelController {
      */
     private void buildNewLevel() {
 
-        tileMap = new Tile[WIDTH][HEIGHT];
-        String tileString = LEVEL_READER.getTiles();
-        populateTileMap(tileString);
+        //tileMap = new Tile[WIDTH][HEIGHT];
+        //String tileString = LEVEL_READER.getTiles();
+        //populateTileMap(tileString);
 
         femaleRatCounter = 0;
         maleRatCounter = 0;
-        childRatCounter = 0;
+        score = 0;
 
-        String ratString = LEVEL_READER.getRatSpawns();
-        addRatsToTileMap(ratString);
+        //String ratString = LEVEL_READER.getRatSpawns();
+        //addRatsToTileMap(ratString);
     }
 
     private void addRatsToTileMap(String rats) {
         int charPos = -1;
-        for(int i = 0; i < HEIGHT ; i++) {
-            for (int j = 0; j < WIDTH; j++) {
-                charPos ++;
-                if(rats.charAt(charPos) != '-'){
-                    switch (rats.charAt(charPos)) {
-                        case 'f':
-                            tileMap[j][i].addRat(new AdultFemale());
-                            femaleRatCounter++;
-                            break;
-                        case 'm':
-                            tileMap[j][i].addRat(new AdultMale());
-                            maleRatCounter++;
-                            break;
-                        case 'c':
-                            tileMap[j][i].addRat(new ChildRat());
-                            childRatCounter++;
-                    }
-                }
-            }
-        }
+        //for(int i = 0; i < HEIGHT ; i++) {
+        //    for (int j = 0; j < WIDTH; j++) {
+        //        charPos ++;
+        //        if(rats.charAt(charPos) != '-'){
+        //            switch (rats.charAt(charPos)) {
+        //                case 'f':
+        //                    tileMap[j][i].addRat(new AdultFemale());
+        //                    femaleRatCounter++;
+        //                    break;
+        //                case 'm':
+        //                    tileMap[j][i].addRat(new AdultMale());
+        //                    maleRatCounter++;
+        //                    break;
+        //                case 'c':
+        //                    tileMap[j][i].addRat(new ChildRat());
+        //                    childRatCounter++;
+        //            }
+        //        }
+        //    }
+        //}
     }
 
     private void populateTileMap(String tiles) {
-        int charPos = -1;
-        for(int i = 0; i < HEIGHT ; i++) {
-            for (int j = 0; j < WIDTH; j++) {
-                charPos ++;
-                switch (tiles.charAt(charPos)) {
-                    case 'G':
-                        tileMap[j][i] = new Grass(1);
-                        break;
-                    case 'P':
-                        tileMap[j][i] = new Path(1);
-                        break;
-                    case 'T':
-                        tileMap[j][i] = new Tunnel(1);
-                }
-            }
-        }
+        //int charPos = -1;
+        //for(int i = 0; i < HEIGHT ; i++) {
+        //    for (int j = 0; j < WIDTH; j++) {
+        //        charPos ++;
+        //        switch (tiles.charAt(charPos)) {
+        //            case 'G':
+        //                tileMap[j][i] = new Grass(1);
+        //                break;
+        //            case 'P':
+        //                tileMap[j][i] = new Path(1);
+        //                break;
+        //            case 'T':
+        //                tileMap[j][i] = new Tunnel(1);
+        //        }
+        //    }
+        //}
     }
 
     public void renderCounters() {
@@ -217,14 +240,15 @@ public class LevelController {
 
 
     private boolean tileInteractivityAt(double x, double y) {
-        if (x >= (WIDTH*64) || y >= (HEIGHT*64)){
-            return false;
-        } else {
-            int xPos = (int) (Math.floor(x) / 64);
-            int yPos = (int) (Math.floor(y) / 64);
+        //if (x >= (WIDTH*64) || y >= (HEIGHT*64)){
+        //    return false;
+        //} else {
+        //    int xPos = (int) (Math.floor(x) / 64);
+        //    int yPos = (int) (Math.floor(y) / 64);
 
-            return tileMap[xPos][yPos].isInteractive();
-        }
+        //    return tileMap[xPos][yPos].isInteractive();
+        //}
+        return false;
     }
 
     /**
@@ -243,7 +267,7 @@ public class LevelController {
      * Periodically refreshes game screen.
      */
     public void tick() {
-        if ((childRatCounter + femaleRatCounter + maleRatCounter) == 0) {
+        if ((femaleRatCounter + maleRatCounter) == 0) {
             endGame(true);
         } else if (currentTimeLeft <= 0){
             endGame(false);
@@ -270,6 +294,7 @@ public class LevelController {
         gc.setTextBaseline(VPos.CENTER);
         if(wonGame) {
             gc.fillText("You've won! :)",levelCanvas.getWidth()/2,levelCanvas.getHeight()/2);
+            score += currentTimeLeft/1000;
         } else {
             gc.fillText("You've lost! :(",levelCanvas.getWidth()/2,levelCanvas.getHeight()/2);
         }
@@ -283,6 +308,7 @@ public class LevelController {
     }
 
     private void exitGame() {
+        //TELL SOMETHING(??) TO GO BACK TO MAIN MENU
         levelCanvas.getGraphicsContext2D().drawImage(POISON_IMAGE,0,0);
     }
 
@@ -306,53 +332,53 @@ public class LevelController {
         levelCanvas.setOnDragDropped(new EventHandler<DragEvent>() {
             public void handle(DragEvent event) {
                 if (event.getDragboard().getString() == "bomb" ) {
-                    itemDropped(event, new Bomb());
+                    //itemDropped(event, new Bomb());
                     event.consume();
                     bombCounter--;
                     renderItem(bombToolbar,BOMB_IMAGE,bombCounter,"bomb");
                 }
                 if (event.getDragboard().getString() == "gas" ) {
-                    itemDropped(event, new Gas());
+                    //itemDropped(event, new Gas());
                     event.consume();
                     gasCounter--;
                     renderItem(gasToolbar,GAS_IMAGE,gasCounter,"gas");
                 }
                 if (event.getDragboard().getString() == "sterilisation" ) {
-                    itemDropped(event, new Sterilisation());
+                    //itemDropped(event, new Sterilisation());
                     event.consume();
                     sterilisationCounter--;
                     renderItem(sterilisationToolbar,STERILISATION_IMAGE,sterilisationCounter,"sterilisation");
                 }
                 if (event.getDragboard().getString() == "poison" ) {
-                    itemDropped(event, new Poison());
+                    //itemDropped(event, new Poison());
                     event.consume();
                     poisonCounter--;
                     renderItem(poisonToolbar,POISON_IMAGE,poisonCounter,"poison");
                 }
                 if (event.getDragboard().getString() == "maleswap" ) {
-                    itemDropped(event, new MaleSwapper());
+                    //itemDropped(event, new MaleSwapper());
                     event.consume();
                     maleSwapCounter--;
                     renderItem(maleSwapToolbar,MALE_SWAP_IMAGE,maleSwapCounter,"maleswap");
                 }
                 if (event.getDragboard().getString() == "femaleswap" ) {
-                    itemDropped(event, new FemaleSwapper());
+                    //itemDropped(event, new FemaleSwapper());
                     event.consume();
                     femaleSwapCounter--;
                     renderItem(femaleSwapToolbar,FEMALE_SWAP_IMAGE,femaleSwapCounter,"femaleswap");
                 }
                 if (event.getDragboard().getString() == "stopsign" ) {
-                    itemDropped(event, new StopSign());
+                    //itemDropped(event, new StopSign());
                     event.consume();
                     stopSignCounter--;
                     renderItem(stopSignToolbar,STOP_SIGN_IMAGE,stopSignCounter,"stopsign");
                 }
-                if (event.getDragboard().getString() == "deathrat" ) {
-                    itemDropped(event, new DeathRat());
-                    event.consume();
-                    deathRatCounter--;
-                    renderItem(deathRatToolbar,DEATH_RAT_IMAGE,deathRatCounter,"deathrat");
-                }
+                //if (event.getDragboard().getString() == "deathrat" ) {
+                //    itemDropped(event, new DeathRat());
+                //    event.consume();
+                //    deathRatCounter--;
+                //    renderItem(deathRatToolbar,DEATH_RAT_IMAGE,deathRatCounter,"deathrat");
+                //}
             }
         });
     }
@@ -365,7 +391,7 @@ public class LevelController {
         if (tileMap != null) {
             for (int i = 0; i < tileMap.length; i++) {
                 for (int j = 0; j < tileMap[i].length; j++) {
-                    tileMap[i][j].draw(i,j,gc);
+                    //tileMap[i][j].draw(i,j,gc);
                 }
             }
         }
@@ -394,7 +420,7 @@ public class LevelController {
         int x = (int) event.getX() / 64;
         int y = (int) event.getY() / 64;
 
-        tileMap[x][y].addPower(p);
+        //tileMap[x][y].addPower(p);
 
         // Draw an icon at the dropped location.
         //GraphicsContext gc = levelCanvas.getGraphicsContext2D();
@@ -411,6 +437,10 @@ public class LevelController {
         GraphicsContext gc = levelCanvas.getGraphicsContext2D();
 
         gc.drawImage(STOP_SIGN_IMAGE,0,0);
+
+        //SAVE GAME HERE
+
+        exitGame();
 
     }
 
@@ -456,7 +486,7 @@ public class LevelController {
      * @return can rats reproduce.
      */
     public boolean canReproduce() {
-        boolean canReproduce = (femaleRatCounter + maleRatCounter + childRatCounter) < MAX_RATS;
+        boolean canReproduce = (femaleRatCounter + maleRatCounter) < MAX_RATS;
         return canReproduce;
     }
 
@@ -466,7 +496,7 @@ public class LevelController {
      */
     public void ratRemoved(LivingRat rat) {
         if (rat instanceof ChildRat) {
-            childRatCounter--;
+            //check gender of rat and change counter accordingly
         } else if (rat instanceof AdultMale) {
             maleRatCounter--;
         } else if (rat instanceof AdultFemale) {
@@ -480,11 +510,27 @@ public class LevelController {
      */
     public void ratAdded(LivingRat rat) {
         if (rat instanceof ChildRat) {
-            childRatCounter++;
+            //check gender of rat and change counter accordingly
         } else if (rat instanceof AdultMale) {
             maleRatCounter++;
         } else if (rat instanceof AdultFemale) {
             femaleRatCounter++;
+        }
+    }
+
+    public void ratKilled(Rat rat) {
+        if(rat instanceof AdultFemale) {
+            //if (((AdultFemale) rat).isPregnant()) {
+                score += 10;
+                //TODO: Figure out how many babies a pregnant rat has and +10 for each baby (combo kill)
+            //}
+            femaleRatCounter--;
+        } else if(rat instanceof AdultMale) {
+            score += 10;
+            maleRatCounter--;
+        } else if(rat instanceof ChildRat) {
+            score += 10;
+            //check gender of rat and change counter accordingly
         }
     }
 }
