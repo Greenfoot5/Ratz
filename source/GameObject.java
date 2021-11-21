@@ -42,6 +42,18 @@ public abstract class GameObject {
         g.drawImage(img,x,y);
     }
 
+    public static int getWIDTH() {
+        return WIDTH;
+    }
+
+    public static String getTextureFolder() {
+        return TEXTURE_FOLDER;
+    }
+
+    public Image getImg() {
+        return img;
+    }
+
     /**
      * Creates file path to the texture of a specific object.
      * @return File path as String.
