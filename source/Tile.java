@@ -27,7 +27,7 @@ public class Tile extends GameObject {
        // this.activePowers.add(new Power(), activePowers.size()+1);
     }
     public void addOccupantRat(ArrayList<LivingRat> occupantRats) {
-       // this.occupantRats.add(new LivingRat(), occupantRats.size()+1 );
+       // this.occupantRats.add(new LivingRat(), occupantRats.size()+1);
     }
     //==================================Getters==================================
     public ArrayList<LivingRat> getOccupantRats() {
