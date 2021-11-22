@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class Tile extends GameObject {
     //private boolean canRatMove;
-    private ArrayList<Power> activePowers = new ArrayList<Power>();
-    private ArrayList<LivingRat> occupantRats = new ArrayList<LivingRat>();
+    private ArrayList<Power> activePowers;
+    private ArrayList<LivingRat> occupantRats;
 
     /**
      * Tile constructor.
@@ -16,16 +16,12 @@ public class Tile extends GameObject {
      * @param activePowers    What powers are active on this tile.
      * @param occupantRats    What rats are present on this tile.
      */
-
     public Tile(boolean isPassable,/* boolean canRatMove,*/ ArrayList<Power> activePowers, ArrayList<LivingRat> occupantRats) {
         super(false, isPassable);
         //this.canRatMove = canRatMove;
         this.activePowers = activePowers;
         this.occupantRats = occupantRats;
     }
-
-
-
 
     //========================Getters and setters========================
 
