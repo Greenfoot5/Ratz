@@ -5,16 +5,15 @@ import javafx.scene.image.Image;
     //@Override draw in Path (that draws the path + everything that is on it)
     //@Override draw in Rat (that makes rat sprite face a certain direction)
     //@Override draw in Bomb (that makes the countdown of a bomb visible to player)
-    //@Override draw in StopSign (that makes the deterioration of stop sign visible to player)
 
 /**
  * Class that describes a game object.
  */
 public abstract class GameObject {
-    private final Image img;
+    private static final int WIDTH = 64;
 
-    private final static int WIDTH = 64;
     private static String TEXTURE_FOLDER = "resources";
+    private final Image img;
 
     private final boolean isInteractive;
     private final boolean isPassable;
@@ -24,7 +23,7 @@ public abstract class GameObject {
      * @param isInteractive can players place powers on.
      * @param isPassable can rats walk through.
      */
-    GameObject(boolean isInteractive, boolean isPassable) {
+    public GameObject(boolean isInteractive, boolean isPassable) {
         this.isInteractive = isInteractive;
         this.isPassable = isPassable;
         img = new Image(createTexturePath());
@@ -42,15 +41,27 @@ public abstract class GameObject {
         g.drawImage(img,x,y);
     }
 
-    public static int getWIDTH() {
+    /**
+     * Gets width of a single game object texture in pixels.
+     * @return width of game object.
+     */
+    protected static int getWIDTH() {
         return WIDTH;
     }
 
-    public static String getTextureFolder() {
+    /**
+     * Gets folder that textures are being held in.
+     * @return texture folder.
+     */
+    protected static String getTextureFolder() {
         return TEXTURE_FOLDER;
     }
 
-    public Image getImg() {
+    /**
+     * Gets game object image.
+     * @return game object image.
+     */
+    protected Image getImg() {
         return img;
     }
 
@@ -71,10 +82,18 @@ public abstract class GameObject {
         TEXTURE_FOLDER = folder;
     }
 
+    /**
+     * Returns whether players can place powers on that object.
+     * @return interactivity.
+     */
     public boolean isInteractive() {
         return  isInteractive;
     }
 
+    /**
+     * Returns whether rats can pass through game object.
+     * @return can be passed.
+     */
     public boolean isPassable() {
         return isPassable;
     }

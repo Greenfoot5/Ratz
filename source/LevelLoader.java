@@ -1,4 +1,4 @@
-public abstract class LevelLoader {
+public class LevelLoader {
     /**
      * Loads tile map from a file reader.
      * @param levelReader file reader.

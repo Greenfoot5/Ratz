@@ -1,7 +1,6 @@
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
@@ -13,7 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
@@ -46,9 +44,6 @@ import java.util.concurrent.TimeUnit;
     //TILES:
         //Getters and adders for powers and rats needed.
 
-    //POWERS:
-        //Stop Sign isInteractive = false (to avoid having to deal with someone putting a death rat on a stop sign), =true for other powers.
-
     //FILE READER:
         //FileReader .getWidth() and .getHeight() instead of .getSize().
         //How are multiple rats/powers on one tile and pregnant rats(+num of babies) represented?
@@ -80,6 +75,53 @@ import java.util.concurrent.TimeUnit;
     //How to go back to MainMenuManager at the end of a level?
 
 public class LevelController {
+    //TODO: Change to images from an actual class
+    //Images for different game items
+    private final Image BOMB_IMAGE = new Image("file:resources/bomb0.png");
+    private final Image GAS_IMAGE = new Image("file:resources/gas.png");
+    private final Image STERILISATION_IMAGE = new Image("file:resources/sterilisation.png");
+    private final Image POISON_IMAGE = new Image("file:resources/poison.png");
+    private final Image MALE_SWAP_IMAGE = new Image("file:resources/maleswapper.png");
+    private final Image FEMALE_SWAP_IMAGE = new Image("file:resources/femaleswapper.png");
+    private final Image STOP_SIGN_IMAGE = new Image("file:resources/stopsign5.png");
+    private final Image DEATH_RAT_IMAGE = new Image("file:resources/deathrat.png");
+
+    //private final int WIDTH;
+    //private final int HEIGHT;
+
+    private final int MAX_RATS;
+    private final int PAR_TIME;
+
+    private final int[] DROP_RATES;
+    private final int MAX_RATE = 1000;
+    private Random RANDOM_RATE;
+
+    //Current level reader
+    private final FileReader LEVEL_READER;
+    private final int FRAME_TIME = 500;
+
+    //Game timeline
+    private Timeline tickTimeline;
+    private int currentTimeLeft;
+
+    //Item counters
+    private int bombCounter = 4;
+    private int gasCounter = 4;
+    private int sterilisationCounter = 4;
+    private int poisonCounter = 4;
+    private int maleSwapCounter = 4;
+    private int femaleSwapCounter = 4;
+    private int stopSignCounter = 4;
+    private int deathRatCounter = 4;
+
+    //Game map
+    private Tile[][] tileMap = new Tile[0][0];
+    private int score;
+
+    //Rat counters
+    private int femaleRatCounter;
+    private int maleRatCounter;
+
     @FXML
     public Canvas levelCanvas; //Game map canvas
 
@@ -95,55 +137,9 @@ public class LevelController {
     public HBox stopSignToolbar;
     public HBox deathRatToolbar;
 
-    //Images for different game items
-    private final Image BOMB_IMAGE = new Image("file:resources/bomb0.png");
-    private final Image GAS_IMAGE = new Image("file:resources/gas.png");
-    private final Image STERILISATION_IMAGE = new Image("file:resources/sterilisation.png");
-    private final Image POISON_IMAGE = new Image("file:resources/poison.png");
-    private final Image MALE_SWAP_IMAGE = new Image("file:resources/maleswapper.png");
-    private final Image FEMALE_SWAP_IMAGE = new Image("file:resources/femaleswapper.png");
-    private final Image STOP_SIGN_IMAGE = new Image("file:resources/stopsign5.png");
-    private final Image DEATH_RAT_IMAGE = new Image("file:resources/deathrat.png");
-
-    //Current level reader
-    private final FileReader LEVEL_READER;
-
-    //Game timeline
-    private Timeline tickTimeline;
-    private final int FRAME_TIME = 500;
-    private int currentTimeLeft;
-
     public Label timerLabel;
-
-    //private final int WIDTH;
-    //private final int HEIGHT;
-
-    //Game map
-    private Tile[][] tileMap = new Tile[0][0];
-    private int score;
-
-    //Rat counters
-    private int femaleRatCounter;
-    private int maleRatCounter;
     public Label femaleRatCounterLabel;
     public Label maleRatCounterLabel;
-
-    //Item counters
-    private int bombCounter = 4;
-    private int gasCounter = 4;
-    private int sterilisationCounter = 4;
-    private int poisonCounter = 4;
-    private int maleSwapCounter = 4;
-    private int femaleSwapCounter = 4;
-    private int stopSignCounter = 4;
-    private int deathRatCounter = 4;
-
-    private final int MAX_RATS;
-    private final int PAR_TIME;
-
-    private final int[] DROP_RATES;
-    private final int MAX_RATE = 1000;
-    private Random RANDOM_RATE;
 
     /**
      * Constructor for LevelController class.
@@ -284,9 +280,7 @@ public class LevelController {
 
         saveAndExitButton.setText("Back to Main Menu");
 
-        saveAndExitButton.setOnAction( e -> {
-            exitGame();
-        });
+        saveAndExitButton.setOnAction( e -> exitGame());
 
     }
 
@@ -303,68 +297,63 @@ public class LevelController {
      */
     private void setupCanvasDragBehaviour() {
 
-        levelCanvas.setOnDragOver(new EventHandler<DragEvent>() {
-            public void handle(DragEvent event) {
-                // Mark the drag as acceptable if the source is a draggable ImageView
-                if (event.getGestureSource() instanceof ImageView ) {
-                    if (tileInteractivityAt(event.getSceneX(), event.getSceneY()))
-                        event.acceptTransferModes(TransferMode.ANY);
-                    event.consume();
-                }
+        levelCanvas.setOnDragOver(event -> {
+            // Mark the drag as acceptable if the source is a draggable ImageView
+            if (event.getGestureSource() instanceof ImageView ) {
+                if (tileInteractivityAt(event.getSceneX(), event.getSceneY()))
+                    event.acceptTransferModes(TransferMode.ANY);
+                event.consume();
             }
         });
 
         // This code allows the canvas to react to a dragged object when it is finally dropped.
-        levelCanvas.setOnDragDropped(new EventHandler<DragEvent>() {
-            public void handle(DragEvent event) {
-                if (event.getDragboard().getString() == "bomb" ) {
+        levelCanvas.setOnDragDropped(event -> {
+            switch(event.getDragboard().getString()) {
+                case "bomb":
                     //itemDropped(event, new Bomb());
                     event.consume();
                     bombCounter--;
-                    renderItem(bombToolbar,BOMB_IMAGE,bombCounter,"bomb");
-                }
-                if (event.getDragboard().getString() == "gas" ) {
+                    renderItem(bombToolbar, BOMB_IMAGE, bombCounter, "bomb");
+                    break;
+                case "gas":
                     //itemDropped(event, new Gas());
                     event.consume();
                     gasCounter--;
-                    renderItem(gasToolbar,GAS_IMAGE,gasCounter,"gas");
-                }
-                if (event.getDragboard().getString() == "sterilisation" ) {
+                    renderItem(gasToolbar, GAS_IMAGE, gasCounter, "gas");
+                    break;
+                case "sterilisation":
                     //itemDropped(event, new Sterilisation());
                     event.consume();
                     sterilisationCounter--;
-                    renderItem(sterilisationToolbar,STERILISATION_IMAGE,sterilisationCounter,"sterilisation");
-                }
-                if (event.getDragboard().getString() == "poison" ) {
+                    renderItem(sterilisationToolbar, STERILISATION_IMAGE, sterilisationCounter, "sterilisation");
+                    break;
+                case "poison":
                     //itemDropped(event, new Poison());
                     event.consume();
                     poisonCounter--;
-                    renderItem(poisonToolbar,POISON_IMAGE,poisonCounter,"poison");
-                }
-                if (event.getDragboard().getString() == "maleswap" ) {
+                    renderItem(poisonToolbar, POISON_IMAGE, poisonCounter, "poison");
+                    break;
+                case "maleswap":
                     //itemDropped(event, new MaleSwapper());
                     event.consume();
                     maleSwapCounter--;
-                    renderItem(maleSwapToolbar,MALE_SWAP_IMAGE,maleSwapCounter,"maleswap");
-                }
-                if (event.getDragboard().getString() == "femaleswap" ) {
+                    renderItem(maleSwapToolbar, MALE_SWAP_IMAGE, maleSwapCounter, "maleswap");
+                case "femaleswap":
                     //itemDropped(event, new FemaleSwapper());
                     event.consume();
                     femaleSwapCounter--;
-                    renderItem(femaleSwapToolbar,FEMALE_SWAP_IMAGE,femaleSwapCounter,"femaleswap");
-                }
-                if (event.getDragboard().getString() == "stopsign" ) {
+                    renderItem(femaleSwapToolbar, FEMALE_SWAP_IMAGE, femaleSwapCounter, "femaleswap");
+                case "stopsign":
                     //itemDropped(event, new StopSign());
                     event.consume();
                     stopSignCounter--;
-                    renderItem(stopSignToolbar,STOP_SIGN_IMAGE,stopSignCounter,"stopsign");
-                }
-                if (event.getDragboard().getString() == "deathrat" ) {
-                //    itemDropped(event, new DeathRat());
+                    renderItem(stopSignToolbar, STOP_SIGN_IMAGE, stopSignCounter, "stopsign");
+                    break;
+                case "deathrat":
+                    //itemDropped(event, new DeathRat());
                     event.consume();
                     deathRatCounter--;
-                    renderItem(deathRatToolbar,DEATH_RAT_IMAGE,deathRatCounter,"deathrat");
-                }
+                    renderItem(deathRatToolbar, DEATH_RAT_IMAGE, deathRatCounter, "deathrat");
             }
         });
     }
@@ -375,8 +364,8 @@ public class LevelController {
     private void renderGame() {
         GraphicsContext gc = levelCanvas.getGraphicsContext2D();
         if (tileMap != null) {
-            for (int i = 0; i < tileMap.length; i++) {
-                for (int j = 0; j < tileMap[i].length; j++) {
+            for (Tile[] tiles : tileMap) {
+                for (int j = 0; j < tiles.length; j++) {
                     //tileMap[i][j].draw(i,j,gc);
                 }
             }
@@ -455,16 +444,13 @@ public class LevelController {
      * @param dbContent String used in setupCanvasDragBehaviour.
      */
     private static void makeDraggable( final ImageView item, String dbContent ) {
-        item.setOnDragDetected( new EventHandler<MouseEvent>() {
-            @Override
-            public void handle( MouseEvent event ) {
-                Dragboard dragboard = item.startDragAndDrop( TransferMode.MOVE );
-                ClipboardContent clipboardContent = new ClipboardContent();
-                clipboardContent.putString(dbContent);
-                dragboard.setContent( clipboardContent );
-                event.consume();
-            }
-        } );
+        item.setOnDragDetected(event -> {
+            Dragboard dragboard = item.startDragAndDrop( TransferMode.MOVE );
+            ClipboardContent clipboardContent = new ClipboardContent();
+            clipboardContent.putString(dbContent);
+            dragboard.setContent( clipboardContent );
+            event.consume();
+        });
     }
 
     /**
@@ -472,8 +458,7 @@ public class LevelController {
      * @return can rats reproduce.
      */
     public boolean canReproduce() {
-        boolean canReproduce = (femaleRatCounter + maleRatCounter) < MAX_RATS;
-        return canReproduce;
+        return (femaleRatCounter + maleRatCounter) < MAX_RATS;
     }
 
     /**
