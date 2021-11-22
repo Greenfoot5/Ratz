@@ -31,18 +31,32 @@ public abstract class Rat extends GameObject {
     }
 
 
+    /**
+     * Causes the rat to walk in a direction. If multiple directions are valid, it will choose a random one.
+     * The rat will only go backwards if no other directions are valid.
+     */
     public void walk() {
         // walk in your direction
     }
 
-    public void changeDirection(){
+    /**
+     * Swaps the rat's direction to the given value.
+     * Note that 0, 1, 2, 3 equal north, east, south, and west respectively. (until I get around to making this an enum)
+     */
+    public void changeDirection(int direction){
         // swap your direction
     }
 
+    /**
+     * Adds 1 to the rat's record of how long it's been in toxic gas.
+     */
     public void incGasTimer(){
         // increment gasTimer
     }
 
+    /**
+     * Causes the rat to die.
+     */
     public void die() {
         // cease existing. lucky.
     }
