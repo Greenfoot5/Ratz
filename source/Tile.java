@@ -6,35 +6,43 @@ import java.util.ArrayList;
  */
 
 public class Tile extends GameObject {
-    private boolean isPassable;
-    private boolean canRatMove;
+    //private boolean canRatMove;
     private ArrayList<Power> activePowers = new ArrayList<Power>();
     private ArrayList<LivingRat> occupantRats = new ArrayList<LivingRat>();
 
-    public Tile(boolean isPassable, boolean canRatMove, ArrayList<Power> activePowers, ArrayList<LivingRat> occupantRats) {
+    /**
+     * Tile constructor.
+     *
+     * @param activePowers    What powers are active on this tile.
+     * @param occupantRats    What rats are present on this tile.
+     */
+
+    public Tile(boolean isPassable,/* boolean canRatMove,*/ ArrayList<Power> activePowers, ArrayList<LivingRat> occupantRats) {
         super(false, isPassable);
-        this.canRatMove = canRatMove;
+        //this.canRatMove = canRatMove;
         this.activePowers = activePowers;
         this.occupantRats = occupantRats;
     }
 
-    public void setCanRatMove(boolean canRatMove) {
-        this.canRatMove = canRatMove;
-    }
-    public Tile(boolean isPassable, boolean canRatMove) {
-        super(false, isPassable);
-        this.canRatMove = canRatMove;
-    }
-    public boolean isCanRatMove() {
-        return canRatMove;
+
+
+
+    //========================Getters and setters========================
+
+    public ArrayList<Power> getActivePowers() {
+        return activePowers;
     }
 
-    public void setPassable(boolean passable) {
-        isPassable = passable;
-    }
-    public boolean isPassable() {
-        return isPassable;
+    public void setActivePowers(ArrayList<Power> activePowers) {
+        this.activePowers = activePowers;
     }
 
+    public ArrayList<LivingRat> getOccupantRats() {
+        return occupantRats;
+    }
+
+    public void setOccupantRats(ArrayList<LivingRat> occupantRats) {
+        this.occupantRats = occupantRats;
+    }
 }
 
