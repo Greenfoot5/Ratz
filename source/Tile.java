@@ -30,7 +30,7 @@ public class Tile extends GameObject {
     }
 
     public void setActivePowers(ArrayList<Power> activePowers) {
-        this.activePowers = activePowers;
+        /*this.activePowers.add(new Power());*/
     }
 
     public ArrayList<LivingRat> getOccupantRats() {
