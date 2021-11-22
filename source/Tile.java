@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-
 /**
  * Abstract class that defines what a tile even is anyway
  * @author Alexander Douglas Lloyd-Ward
@@ -16,29 +15,25 @@ public class Tile extends GameObject {
      * @param activePowers    What powers are active on this tile.
      * @param occupantRats    What rats are present on this tile.
      */
-    public Tile(boolean isPassable,/* boolean canRatMove,*/ ArrayList<Power> activePowers, ArrayList<LivingRat> occupantRats) {
+    public Tile(boolean isPassable,ArrayList<Power> activePowers, ArrayList<LivingRat> occupantRats) {
         super(false, isPassable);
-        //this.canRatMove = canRatMove;
         this.activePowers = activePowers;
         this.occupantRats = occupantRats;
     }
 
-    //========================Getters and setters========================
+    //===========================ArrayList controllers===========================
 
-    public ArrayList<Power> getActivePowers() {
-        return activePowers;
+    public void addActivePower(ArrayList<Power> activePowers) {
+       // this.activePowers.add(new Power(), activePowers.size()+1);
     }
-
-    public void setActivePowers(ArrayList<Power> activePowers) {
-        /*this.activePowers.add(new Power());*/
+    public void addOccupantRat(ArrayList<LivingRat> occupantRats) {
+       // this.occupantRats.add(new LivingRat(), occupantRats.size()+1 );
     }
-
+    //==================================Getters==================================
     public ArrayList<LivingRat> getOccupantRats() {
         return occupantRats;
     }
-
-    public void setOccupantRats(ArrayList<LivingRat> occupantRats) {
-        this.occupantRats = occupantRats;
+    public ArrayList<Power> getActivePowers() {
+        return activePowers;
     }
 }
-
