@@ -3,7 +3,7 @@
  * @author James McWilliams
  */
 
-public abstract class Rat extends Object {
+public abstract class Rat extends GameObject {
     private int speed;
     private int direction; // TODO: swap this to an enum
     private int gasTimer;

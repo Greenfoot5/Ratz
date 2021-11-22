@@ -1,12 +1,15 @@
 import java.util.ArrayList;
 
-public class Poison extends Power{
+public class Poison extends Power {
+    Poison(boolean isInteractive, boolean isPassable) {
+        super(isInteractive, isPassable);
+    }
 
     //This class kills all rats that are passed to it.
 
     public static void killRats(ArrayList<Rat> rats) {
-        for (int i : rats){
-            rats.get(i).die();
+        for (Rat rat : rats) {
+            rat.die();
         }
     }
 

@@ -19,8 +19,8 @@ public class Sterilisation extends Power{
 
     @Override
     void activate(ArrayList<Rat> rats) {
-        for(int i : rats) {
-            rats.get(i).setFertile(false);
+        for(Rat rat : rats) {
+            // TODO - rat.setFertile(false);
         }
     }
     

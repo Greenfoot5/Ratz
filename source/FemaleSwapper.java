@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class FemaleSwapper extends Power{
+public class FemaleSwapper extends Power {
 
     FemaleSwapper(boolean isInteractive, boolean isPassable) {
         super(isInteractive, isPassable);
@@ -16,6 +16,4 @@ public class FemaleSwapper extends Power{
         Need to copy the rat that stepped on, kill it, spawn a copy of the old one but with opposite gender.
         */
     }
-    }
-    
 }

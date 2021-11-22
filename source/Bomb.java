@@ -1,4 +1,3 @@
-import java.lang.FdLibm.Pow;
 import java.util.ArrayList;
 
 public class Bomb extends Power {
