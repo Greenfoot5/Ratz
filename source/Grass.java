@@ -1,8 +1,6 @@
 import java.util.ArrayList;
-
 /**
  * Class that defines green stuff.
- *
  * @author Alexander Douglas Lloyd-Ward
  */
 public class Grass extends Tile {
@@ -14,3 +12,4 @@ public class Grass extends Tile {
         super(false, new ArrayList<>(), new ArrayList<>());
     }
 }
+
