@@ -24,6 +24,9 @@ public abstract class LivingRat extends Rat {
         this.isFertile = isFertile;
     }
 
+    /**
+     * Makes a rat infertile.
+     */
     public void infertilize() {
         this.isFertile = false;
     }
