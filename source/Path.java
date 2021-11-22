@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+
 /**
  * Class that defines a Path.
+ *
  * @author Alexander Douglas Lloyd-Ward
  */
 public class Path extends Tile {
