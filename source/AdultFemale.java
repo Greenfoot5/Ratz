@@ -1,3 +1,9 @@
+/**
+ * A class to model a female rat. Gives birth to baby rats.
+ * @author James McWilliams
+ */
+
+
 public class AdultFemale extends LivingRat {
     private int pregnancyTime;
     private boolean pregnant;
@@ -15,13 +21,12 @@ public class AdultFemale extends LivingRat {
      * @param yPos          where the rat is on the y axis.
      * @param fertile       whether or not the rat can breed.
      * @param pregnancyTime how long the rat has left being pregnant.
-     * @param pregnant      whether the rat is pregnant.
      */
     public AdultFemale(boolean isInteractive, boolean isPassable, int speed, int direction,
-                       int gasTimer, int xPos, int yPos, boolean fertile, int pregnancyTime, boolean pregnant) {
+                       int gasTimer, int xPos, int yPos, boolean fertile, int pregnancyTime) {
         super(isInteractive, isPassable, speed, direction, gasTimer, xPos, yPos, fertile);
         this.pregnancyTime = pregnancyTime;
-        this.pregnant = pregnant;
+        this.pregnant = pregnancyTime > 0;
     }
 
     public void birth() {
