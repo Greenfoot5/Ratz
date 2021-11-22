@@ -1,12 +1,9 @@
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -58,7 +55,7 @@ public class MainMenuController extends Application {
         playButton.setOnAction(event -> loadLevelSelect(primaryStage));
 
         // Create a scene based on the pane.
-        Scene scene = new Scene(root, 400, 400);
+        Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         // Show the scene
         primaryStage.setScene(scene);
@@ -67,6 +64,7 @@ public class MainMenuController extends Application {
 
     /**
      * Displays the level select screen
+     * @param selectStage The stage
      */
     private void loadLevelSelect(Stage selectStage) {
         // Create a new pane to hold our GUI
@@ -93,13 +91,18 @@ public class MainMenuController extends Application {
         root.getChildren().addAll(title, levels);
 
         // Create a scene based on the pane.
-        Scene scene = new Scene(root, 400, 400);
+        Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         // Show the scene
         selectStage.setScene(scene);
         selectStage.show();
     }
 
+    /**
+     * Loads the level
+     * @param levelStage /shrug
+     * @throws IOException If the level cannot be loaded
+     */
     public void loadLevel(Stage levelStage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
         LevelController levelController = new LevelController(new FileReader());
