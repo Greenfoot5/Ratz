@@ -5,15 +5,35 @@
 
 public class ChildRat extends LivingRat {
     private int age;
-    private boolean sex;
+    private boolean isFemale;
 
+    /**
+     * ChildRat constructor.
+     *
+     * @param isInteractive can players place powers on.
+     * @param isPassable    can rats walk through.
+     * @param speed         how fast the rat moves.
+     * @param direction     the direction the rat is facing.
+     * @param gasTimer      how long the rat has spent inside poison gas.
+     * @param xPos          where the rat is on the x axis.
+     * @param yPos          where the rat is on the y axis.
+     * @param fertile       whether or not the rat can breed.
+     * @param age           how old the rat is (in frames? figure out later lol)
+     * @param isFemale        whether or not the rat is female.
+     */
     ChildRat(boolean isInteractive, boolean isPassable, int speed, int direction, int gasTimer,
-             int xPos, int yPos, int age, boolean fertile) {
+             int xPos, int yPos, boolean fertile, int age, boolean isFemale) {
         super(isInteractive, isPassable, speed, direction, gasTimer, xPos, yPos, fertile);
+        this.age = age;
+        this.isFemale = isFemale;
     }
 
-    public void setSex(boolean sex) {
-        this.sex = sex;
+    public void setFemale(boolean isFemale) {
+        this.isFemale = this.isFemale;
+    }
+
+    public boolean getIsFemale() {
+        return isFemale;
     }
 
     public void growUp() {
