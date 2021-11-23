@@ -5,7 +5,7 @@ public class LevelLoader {
      * @param levelController
      * @return
      */
-    public static Tile[][] loadTileMap(FileReader levelReader, LevelController levelController) {
+    public static Tile[][] loadTileMap(LevelFileReader levelReader, LevelController levelController) {
         //int width = levelReader.getWidth();
         //int height = levelReader.getHeight();
 
@@ -97,7 +97,7 @@ public class LevelLoader {
         return tileMap;
     }
 
-    public static void saveTileMap(Tile[][] tileMap, FileReader levelFileReader) {
+    public static void saveTileMap(Tile[][] tileMap, LevelFileReader levelFileReader) {
         String tileString = tilesToString(tileMap);
         String ratString = ratsToString(tileMap);
     }

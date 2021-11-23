@@ -97,7 +97,7 @@ public class LevelController {
     private Random RANDOM_RATE;
 
     //Current level reader
-    private final FileReader LEVEL_READER;
+    private final LevelFileReader LEVEL_READER;
     private final int FRAME_TIME = 500;
 
     //Game timeline
@@ -145,7 +145,7 @@ public class LevelController {
      * Constructor for LevelController class.
      * @param fileReader instance of LevelFileReader that the level will be loaded from.
      */
-    public LevelController (FileReader fileReader) {
+    public LevelController (LevelFileReader fileReader) {
         LEVEL_READER = fileReader;
         //WIDTH = LEVEL_READER.getWidth();
         //HEIGHT = LEVEL_READER.getHeight();
