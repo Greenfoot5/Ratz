@@ -2,30 +2,29 @@ public class LevelLoader {
     /**
      * Loads tile map from a file reader.
      * @param levelReader file reader.
-     * @param levelController
-     * @return
+     * @param levelController reference to current level controller.
+     * @return tile map.
      */
     public static Tile[][] loadTileMap(LevelFileReader levelReader, LevelController levelController) {
-        //int width = levelReader.getWidth();
-        //int height = levelReader.getHeight();
+        int width = levelReader.getWidth();
+        int height = levelReader.getHeight();
 
-        //Tile[][] tileMap = new Tile[width][height];
-        //String tileString = levelReader.getTiles();
+        Tile[][] tileMap = new Tile[width][height];
+        //String[] tileString = levelReader.getTiles();
         //tileMap = populateTileMap(tileString,tileMap);
 
-        //String ratString = levelReader.getRatSpawns();
+        //String[] ratString = levelReader.getRatSpawns();
         //tileMap = addRatsToTileMap(ratString,tileMap,levelController);
 
-        //String powerString = levelReader.getPowers();
+        //String[] powerString = levelReader.getPowers();
         //tileMap = addPowersToTileMap(powerString,tileMap);
 
-        //return tileMap;
-        return null;
+        return tileMap;
     }
 
-    private static Tile[][] addPowersToTileMap(String powerString, Tile[][] tileMap) {
-        //int charPos = -1;
+    private static Tile[][] addPowersToTileMap(String[] powerString, Tile[][] tileMap) {
         //for(int i = 0; i < tileMap.length; i++) {
+        //    int charPos = -1;
         //    for (int j = 0; j < tileMap[i].length; j++) {
         //        charPos ++;
         //        switch (powerString.charAt(charPos)) {
@@ -42,12 +41,12 @@ public class LevelLoader {
      * @param tileMap current tile map.
      * @return tile map.
      */
-    private static Tile[][] populateTileMap(String tiles, Tile[][] tileMap) {
-        int charPos = -1;
+    private static Tile[][] populateTileMap(String[] tiles, Tile[][] tileMap) {
         for(int i = 0; i < tileMap[0].length; i++) {
+            int charPos = -1;
             for (int j = 0; j < tileMap.length; j++) {
                 charPos ++;
-                switch (tiles.charAt(charPos)) {
+                switch (tiles[i].charAt(charPos)) {
                     case 'G':
                         tileMap[j][i] = new Grass();
                         break;
@@ -69,28 +68,26 @@ public class LevelLoader {
      * @param levelController reference to the level controller that is using level loader.
      * @return tile map.
      */
-    private static Tile[][] addRatsToTileMap(String rats, Tile[][] tileMap, LevelController levelController) {
-        int charPos = -1;
+    private static Tile[][] addRatsToTileMap(String[] rats, Tile[][] tileMap, LevelController levelController) {
         for(int i = 0; i < tileMap[i].length ; i++) {
+            int charPos = -1;
             for (int j = 0; j < tileMap.length; j++) {
                 charPos ++;
-                if(rats.charAt(charPos) != '-'){
-                    switch (rats.charAt(charPos)) {
-                        case 'f':
-                            //Rat fRat = new AdultFemale();
-                            //tileMap[j][i].addRat(fRat);
-                            //levelController.ratAdded(fRat);
-                            break;
-                        case 'm':
-                            //Rat mRat = new AdultMale();
-                            //tileMap[j][i].addRat(mRat);
-                            //levelController.ratAdded(mRat);
-                            break;
-                        case 'c':
-                            //Rat cRat = new ChildRat();
-                            //tileMap[j][i].addRat(cRat);
-                            //levelController.ratAdded(cRat);
-                    }
+                switch (rats[i].charAt(charPos)) {
+                    case 'f':
+                        //Rat fRat = new AdultFemale();
+                        //tileMap[j][i].addRat(fRat);
+                        //levelController.ratAdded(fRat);
+                        break;
+                    case 'm':
+                        //Rat mRat = new AdultMale();
+                        //tileMap[j][i].addRat(mRat);
+                        //levelController.ratAdded(mRat);
+                        break;
+                    case 'c':
+                        //Rat cRat = new ChildRat();
+                        //tileMap[j][i].addRat(cRat);
+                        //levelController.ratAdded(cRat);
                 }
             }
         }
@@ -98,41 +95,41 @@ public class LevelLoader {
     }
 
     public static void saveTileMap(Tile[][] tileMap, LevelFileReader levelFileReader) {
-        String tileString = tilesToString(tileMap);
-        String ratString = ratsToString(tileMap);
+        String[] tileString = tilesToString(tileMap);
+        String[] ratString = ratsToString(tileMap);
     }
 
-    private static String tilesToString(Tile[][] tileMap) {
-        String tileString = "";
+    private static String[] tilesToString(Tile[][] tileMap) {
+        String[] tileString = new String[tileMap[0].length];
         for(int i = 0; i < tileMap.length ; i++) {
             for (int j = 0; j < tileMap[i].length; j++) {
                 Tile tile = tileMap[i][j];
                 if (tile instanceof Grass) {
-                    tileString = tileString + "G";
+                    tileString[j] = tileString[j] + "G";
                 } else if (tile instanceof Path) {
-                    tileString = tileString + "P";
+                    tileString[j] = tileString[j] + "P";
                 } else {
-                    tileString = tileString + "T";
+                    tileString[j] = tileString[j] + "T";
                 }
             }
         }
         return tileString;
     }
 
-    private static String ratsToString(Tile[][] tileMap) {
-        String ratString = "";
+    private static String[] ratsToString(Tile[][] tileMap) {
+        String[] ratString = new String[tileMap[0].length];
         //for(int i = 0; i < tileMap.length ; i++) {
         //    for (int j = 0; j < tileMap[i].length; j++) {
         //        Rat[] rats = tileMap[i][j].getRats();
         //        if (rats.length == 0) {
-        //            ratString += "-";
+        //            ratString[j] += "-";
         //        } else {
         //            for(int k = 0; k < rats.length; k++) {
         //                Rat rat = rats[k];
         //                if (rat instanceof AdultMale) {
-        //                    ratString += "m";
+        //                    ratString[j] += "m";
         //                } else if (rat instanceof AdultFemale) {
-        //                    ratString += "f";
+        //                    ratString[j] += "f";
         //                } else if (rat instanceof ChildRat) {
         //if female "c"
         //if male "k"
