@@ -14,6 +14,13 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <Canvas fx:id="levelCanvas" height="896.0" width="1024.0" />
+         <Pane fx:id="gameEndPane" layoutX="312.0" layoutY="248.0" prefHeight="400.0" prefWidth="400.0" styleClass="dialogueBox" visible="false">
+            <children>
+               <TextFlow fx:id="gamePaneText" layoutX="15.0" layoutY="59.0" prefHeight="124.0" prefWidth="370.0" styleClass="gamePaneText" />
+               <Button layoutX="107.0" layoutY="322.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Back to Main Menu" />
+               <TextFlow fx:id="gamePaneScore" layoutX="16.0" layoutY="200.0" prefHeight="47.0" prefWidth="370.0" styleClass="gamePaneScore" />
+            </children>
+         </Pane>
       </Pane>
    </center>
    <right>
