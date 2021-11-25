@@ -11,7 +11,8 @@ import java.util.Scanner;
 /**
  * Class to manage high scores.
  * @author Tomasz Fijalkowski
- *
+ * 
+ * Need file : "resources/highScores.txt" to work properly
  */
 public class HighScores {
 	
