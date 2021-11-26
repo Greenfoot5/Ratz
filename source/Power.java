@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 
-//Abstract Power class for communication with Tile and activating the right type of power.
+/**
+ * An abstract class which models all powers.
+ * @author Daumantas Balakauskas
+ */
 
 public abstract class Power extends GameObject{
 
@@ -8,5 +11,9 @@ public abstract class Power extends GameObject{
         super(isInteractive, isPassable);
     }
 
+    /**
+     * Abstract method to let any power know it's time to do something.
+     * @param rats used to interact with all rats that stepped on the power.
+     */
     abstract void activate(ArrayList<Rat> rats);
 }
