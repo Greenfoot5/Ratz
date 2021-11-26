@@ -23,7 +23,7 @@ public class FemaleSwapper extends Power {
      */
 
     @Override
-    void onTick() {
+    void onTick(ArrayList<Rat> rats, Tile currentTile) {
 
     }
 }

@@ -46,6 +46,13 @@ public class Tile extends GameObject {
     public void removeOccupantRat(Rat r) {
         this.occupantRats.remove(r);
     }
+
+    public void tickPowers() {
+        for(Power p : activePowers) {
+            p.onTick(occupantRats, this);
+        }
+    }
+
     //==================================Getters==================================
 
     /**

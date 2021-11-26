@@ -22,7 +22,7 @@ public class MaleSwapper extends Power{
      * certain amount of time.
      */
     @Override
-    void onTick() {
+    void onTick(ArrayList<Rat> rats, Tile currentTile) {
 
     }
 

@@ -221,6 +221,13 @@ public class LevelController {
             addPowers();
             //TELL EVERYTHING TO UPDATE ONCE HERE
 
+            //*Dom Edit* Loop through every tile and tell them to tick powers.
+            for(int i=0; i<tileMap.length; i++) {
+                for(int j=0; j<tileMap[i].length; j++) {
+                    tileMap[i][j].tickPowers();
+                }
+            }
+
             renderGame();
             renderCounters();
             renderAllItems();

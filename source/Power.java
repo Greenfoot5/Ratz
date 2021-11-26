@@ -29,5 +29,5 @@ public abstract class Power extends GameObject{
      * certain amount of time.
      */
 
-    abstract void onTick();
+    abstract void onTick(ArrayList<Rat> rats, Tile currentTile);
 }
