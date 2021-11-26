@@ -27,12 +27,15 @@ public class StopSign extends Power{
      * For StopSign - Means reducing HP if rat tried to pass it, which will
      * change the texture of this Power. Removes itself when HP hits 0.
      * @param rats used to interact with all rats that stepped on the power.
+     * rats are not being used for this power.
      */
     @Override
     void activate(ArrayList<Rat> rats, Tile currentTile) {
         HP = HP - 1;
+
+        //If sign is hit by a rat 5 times, remove it from that Tile.
         if (HP == 0) {
-            //Need to wait for Tile to work.
+            currentTile.removeActivePower(this);
         }
     }
 
