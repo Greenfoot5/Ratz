@@ -114,7 +114,7 @@ public class MainMenuController extends Application {
      * Allows the user to login to a profile
      * @param username The username to login to
      */
-    public void login(String username) {
+    public void login(String username) throws Exception {
         ProfileFileReader reader = new ProfileFileReader();
         // TODO - Check if the profile exists
         reader.createNewProfile(username);
