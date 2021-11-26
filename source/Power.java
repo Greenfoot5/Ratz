@@ -27,6 +27,8 @@ public abstract class Power extends GameObject{
     /**
      * Abstract method for certain powers that need to activate after a
      * certain amount of time.
+     * @param currentTile used for calling removeActivePower(this).
+     * @param rats used for updating the rat arraylist every game tick.
      */
 
     abstract void onTick(ArrayList<Rat> rats, Tile currentTile);
