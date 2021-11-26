@@ -31,10 +31,12 @@ public class Bomb extends Power {
 
     @Override
     void activate(ArrayList<Rat> rats, Tile currentTile) {
-        for (Rat r : rats) {
-            r.die();
+        if (ticksActive >= 5) {
+            for (Rat r : rats) {
+                r.die();
+            }
+            currentTile.removeActivePower(this);
         }
-        currentTile.removeActivePower(this);
     }
 
     /**
@@ -47,7 +49,7 @@ public class Bomb extends Power {
     @Override
     void onTick(ArrayList<Rat> rats, Tile currentTile) {
         ticksActive = ticksActive + 1;
-        if (ticksActive < 5) {
+        if (ticksActive >= 5) {
             activate(rats, currentTile);
         } else {
             currentTile.removeActivePower(this);
