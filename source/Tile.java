@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Tile extends GameObject {
     //private boolean canRatMove;
     private ArrayList<Power> activePowers;
-    private ArrayList<LivingRat> occupantRats;
+    private ArrayList<Rat> occupantRats;
 
     /**
      * Tile constructor.
@@ -17,7 +17,8 @@ public class Tile extends GameObject {
      * @param activePowers What powers are active on this tile.
      * @param occupantRats What rats are present on this tile.
      */
-    public Tile(boolean isPassable, ArrayList<Power> activePowers, ArrayList<LivingRat> occupantRats) {
+    public Tile(boolean isPassable, ArrayList<Power> activePowers,
+                ArrayList<Rat> occupantRats) {
         super(false, isPassable);
         this.activePowers = activePowers;
         this.occupantRats = occupantRats;
@@ -30,20 +31,20 @@ public class Tile extends GameObject {
      * <p>
      * Adds and removes powers/rats from the tile.
      */
-    public void addActivePower(ArrayList<Power> activePowers) {
-        // this.activePowers.add(DOSOMETHINGPLEASEFFS, activePowers.size()+1);
+    public void addActivePower(Power p) {
+        this.activePowers.add(p);
     }
 
-    public void addOccupantRat(ArrayList<LivingRat> occupantRats) {
-        //this.occupantRats.add(LivingRat.newRat(), occupantRats.size()+1);
+    public void addOccupantRat(Rat r) {
+        this.occupantRats.add(r);
     }
 
-    public void removeActivePower(ArrayList<Power> activePowers) {
-        //this.occupantRats.remove(ObjectAtIndex);
+    public void removeActivePower(Power p) {
+        this.activePowers.remove(p);
     }
 
-    public void removeOccupantRat(ArrayList<LivingRat> occupantRats) {
-        //this.occupantRats.remove(ObjectAtIndex);
+    public void removeOccupantRat(Rat r) {
+        this.occupantRats.remove(r);
     }
     //==================================Getters==================================
 
@@ -52,7 +53,7 @@ public class Tile extends GameObject {
      *
      * @return The rats and powers on a tile
      */
-    public ArrayList<LivingRat> getOccupantRats() {
+    public ArrayList<Rat> getOccupantRats() {
         return occupantRats;
     }
 
