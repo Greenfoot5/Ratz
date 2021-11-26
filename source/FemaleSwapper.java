@@ -7,7 +7,7 @@ public class FemaleSwapper extends Power {
     }
 
     @Override
-    void activate(ArrayList<Rat> rats) {
+    void activate(ArrayList<Rat> rats, Tile currentTile) {
         /*
         if(rats.get(0).getGender == "male") {
 

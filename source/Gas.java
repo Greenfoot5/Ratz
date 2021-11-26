@@ -21,7 +21,7 @@ public class Gas extends Power{
     }
 
     @Override
-    void activate(ArrayList<Rat> rats) {
+    void activate(ArrayList<Rat> rats, Tile currentTile) {
         for (Rat r : rats) {
             r.incGasTimer();
         }

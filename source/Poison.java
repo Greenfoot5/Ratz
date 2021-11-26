@@ -15,7 +15,7 @@ public class Poison extends Power {
     }
 
     @Override
-    void activate(ArrayList<Rat> rats) {
+    void activate(ArrayList<Rat> rats, Tile currentTile) {
         killRats(rats);
     }
 
