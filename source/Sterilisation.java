@@ -23,5 +23,15 @@ public class Sterilisation extends Power{
             // TODO - rat.setFertile(false);
         }
     }
-    
+
+    /**
+     * Abstract method for certain powers that need to activate after a
+     * certain amount of time.
+     */
+
+    @Override
+    void onTick() {
+
+    }
+
 }

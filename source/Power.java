@@ -23,4 +23,11 @@ public abstract class Power extends GameObject{
      * @param rats used to interact with all rats that stepped on the power.
      */
     abstract void activate(ArrayList<Rat> rats);
+
+    /**
+     * Abstract method for certain powers that need to activate after a
+     * certain amount of time.
+     */
+
+    abstract void onTick();
 }

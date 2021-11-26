@@ -16,7 +16,16 @@ public class StopSign extends Power{
     void activate(ArrayList<Rat> rats) {
         HP = HP - 1;
     }
-    
+
+    /**
+     * Abstract method for certain powers that need to activate after a
+     * certain amount of time.
+     */
+
+    @Override
+    void onTick() {
+
+    }
 
     public int getHP() {
         return HP;

@@ -16,5 +16,14 @@ public class MaleSwapper extends Power{
         Need to copy the rat that stepped on, kill it, spawn a copy of the old one but with opposite gender.
         */
     }
-    
+
+    /**
+     * Abstract method for certain powers that need to activate after a
+     * certain amount of time.
+     */
+    @Override
+    void onTick() {
+
+    }
+
 }
