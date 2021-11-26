@@ -9,11 +9,11 @@ import java.util.ArrayList;
  * @author Daumantas Balakauskas
  */
 
-public class StopSign extends Power{
+public class StopSign extends Power {
 
     private int HP = 5;
 
-    /**
+    /** StopSign constructor
      *
      * @param isInteractive can player place power on.
      * @param isPassable can rats walk through.

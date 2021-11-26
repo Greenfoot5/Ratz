@@ -18,7 +18,8 @@ public class Poison extends Power {
         super(isInteractive, isPassable);
     }
 
-    /**
+    /**M
+     *
      * @param rats used to interact with all rats that stepped on the power.
      * @param currentTile used to remove this Power from Tile.
      */
