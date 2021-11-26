@@ -7,6 +7,13 @@ import java.util.ArrayList;
 
 public abstract class Power extends GameObject{
 
+    /**
+     * Power constructor
+     *
+     * @param isInteractive can player place power on.
+     * @param isPassable can rats walk through.
+     */
+
     Power(boolean isInteractive, boolean isPassable) {
         super(isInteractive, isPassable);
     }
