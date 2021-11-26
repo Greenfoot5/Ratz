@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Sterilisation extends Power{
 
-    private int ticksActive = 0;
+    private int ticksActive = 0; //Tick counter since creation of this class.
 
     /**
      * Sterilisation constructor
@@ -35,6 +35,8 @@ public class Sterilisation extends Power{
     /**
      * Abstract method for certain powers that need to activate after a
      * certain amount of time.
+     * @param currentTile used for calling removeActivePower(this).
+     * @param rats used for updating the rat arraylist every game tick.
      */
 
     @Override
