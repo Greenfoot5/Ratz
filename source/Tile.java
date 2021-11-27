@@ -19,7 +19,7 @@ public class Tile extends GameObject {
      */
     public Tile(boolean isPassable, ArrayList<Power> activePowers,
                 ArrayList<Rat> occupantRats) {
-        super(false, isPassable);
+        super(isPassable);
         this.activePowers = activePowers;
         this.occupantRats = occupantRats;
     }
@@ -47,9 +47,12 @@ public class Tile extends GameObject {
         this.occupantRats.remove(r);
     }
 
-    public void tickPowers() {
+    public void update() {
         for(Power p : activePowers) {
             p.onTick(occupantRats, this);
+        }
+        for(Rat r : occupantRats) {
+            r.walk();
         }
     }
 
@@ -66,5 +69,13 @@ public class Tile extends GameObject {
 
     public ArrayList<Power> getActivePowers() {
         return activePowers;
+    }
+
+    /**
+     * Returns whether players can place items on the tile.
+     * @return interactivity.
+     */
+    public boolean isInteractive() {
+        return false;
     }
 }
