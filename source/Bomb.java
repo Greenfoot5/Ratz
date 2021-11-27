@@ -1,3 +1,6 @@
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 
 /**
@@ -12,13 +15,10 @@ public class Bomb extends Power {
 
     /**
      * Bomb constructor
-     *
-     * @param isInteractive can player place power on.
-     * @param isPassable can rats walk through.
      */
 
-    Bomb(boolean isInteractive, boolean isPassable) {
-        super(isInteractive, isPassable);
+    Bomb() {
+        super(true);
     }
 
     /**
@@ -54,5 +54,15 @@ public class Bomb extends Power {
         } else {
             currentTile.removeActivePower(this);
         }
+    }
+
+    @Override
+    public void draw(int x, int y, GraphicsContext g) {
+        x = GameObject.getWIDTH()* x;
+        y = GameObject.getWIDTH() * y;
+
+        String path = "file:" + getTextureFolder() + "/bomb" + ticksActive + ".png";
+
+        g.drawImage(new Image(path),x,y);
     }
 }
