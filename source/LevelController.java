@@ -44,7 +44,6 @@ import java.util.concurrent.TimeUnit;
 
 //TODO:
     //Add powers to level creation from level file
-    //Update everything in tick()
     //Actually exit level
     //Implement game saving
 
@@ -55,6 +54,9 @@ import java.util.concurrent.TimeUnit;
 public class LevelController {
 
     private static final int ITEM_NUM = 8;
+
+    //Game map
+    private static Tile[][] tileMap = new Tile[0][0];
 
     //TODO: Change to images from an actual class
     //Images for different game items
@@ -86,8 +88,6 @@ public class LevelController {
     private Timeline tickTimeline;
     private int currentTimeLeft;
 
-    //Game map
-    private Tile[][] tileMap = new Tile[0][0];
     private int score;
 
     //Rat counters
@@ -179,6 +179,10 @@ public class LevelController {
         femaleRatCounterLabel.setText(fc);
     }
 
+    public static Tile getTileAt(int x, int y) {
+        return tileMap[x][y];
+    }
+
     /**
      * Returns whether tile at position (x,y) on canvas can be interacted with.
      * @param x canvas x position.
@@ -189,12 +193,11 @@ public class LevelController {
         //if (x >= (WIDTH*64) || y >= (HEIGHT*64)){
         //    return false;
         //} else {
-        //    int xPos = (int) (Math.floor(x) / 64);
-        //    int yPos = (int) (Math.floor(y) / 64);
+            int xPos = (int) (Math.floor(x) / 64);
+            int yPos = (int) (Math.floor(y) / 64);
 
-        //    return tileMap[xPos][yPos].isInteractive();
+            return tileMap[xPos][yPos].isInteractive();
         //}
-        return false;
     }
 
     /**
@@ -219,12 +222,10 @@ public class LevelController {
             endGame(false);
         } else {
             addPowers();
-            //TELL EVERYTHING TO UPDATE ONCE HERE
 
-            //*Dom Edit* Loop through every tile and tell them to tick powers.
-            for(int i=0; i<tileMap.length; i++) {
-                for(int j=0; j<tileMap[i].length; j++) {
-                    tileMap[i][j].tickPowers();
+            for (Tile[] tiles : tileMap) {
+                for (Tile tile : tiles) {
+                    tile.update();
                 }
             }
 
@@ -238,7 +239,6 @@ public class LevelController {
     }
 
     private void addPowers() {
-        int maxPowers = 4;
         for (int i = 0; i < counters.length; i++) {
             timeUntilDrop[i] -= FRAME_TIME;
             if(timeUntilDrop[i] <= 0 && counters[i] < 4) {
@@ -254,13 +254,12 @@ public class LevelController {
      */
     private void endGame(boolean wonGame) {
         tickTimeline.stop();
-        //disableToolbars();
+        disableToolbars();
 
         gameEndPane.setVisible(true);
         saveAndExitButton.setVisible(false);
 
         if(wonGame) {
-            Text won = new Text("You've won! :)");
             gamePaneText.getChildren().add(new Text("You've won! :)"));
             score += currentTimeLeft/1000;
             gamePaneScore.getChildren().add(new Text("Score: " + score));
@@ -337,15 +336,42 @@ public class LevelController {
         int x = (int) event.getX() / 64;
         int y = (int) event.getY() / 64;
 
-        //tileMap[x][y].addPower(p);
+        Power power = null;
+        boolean addPower = true;
+        switch(index) {
+            case 0:
+                power = new Bomb();
+                break;
+            case 1:
+                power = new Gas();
+                break;
+            case 2:
+                power = new Sterilisation();
+                break;
+            case 3:
+                power = new Poison();
+                break;
+            case 4:
+                power = new MaleSwapper();
+                break;
+            case 5:
+                power = new FemaleSwapper();
+                break;
+            case 6:
+                power = new StopSign();
+                break;
+            case 7:
+                //tileMap[x][y].addOccupantRat(new DeathRat);
+                addPower = false;
+                break;
+            default: addPower = false;
+        }
+        if(addPower) {
+            tileMap[x][y].addActivePower(power);
+        }
 
         counters[index]--;
         renderItem(index);
-
-        // Draw an icon at the dropped location.
-        //GraphicsContext gc = levelCanvas.getGraphicsContext2D();
-        // Draw the the image so the top-left corner is where we dropped.
-        //gc.drawImage(itemImage, x, y);
     }
 
     /**
@@ -361,7 +387,6 @@ public class LevelController {
         //SAVE GAME HERE
 
         exitGame();
-
     }
 
     /**
@@ -380,7 +405,16 @@ public class LevelController {
     }
 
     private void disableToolbars(){
+        for(int i=0; i < toolbars.size(); i++) {
+            toolbars.get(i).getChildren().clear();
 
+            ImageView[] items = new ImageView[counters[i]];
+            for (int j=0; j < counters[i]; j++) {
+                ImageView item = new ImageView(itemImages.get(i));
+                items[j] = item;
+                toolbars.get(i).getChildren().add(items[i]);
+            }
+        }
     }
 
     /**
