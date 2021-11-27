@@ -9,12 +9,11 @@ public class MaleSwapper extends Power{
 
     /** MaleSwapper constructor
      *
-     * @param isInteractive can player place power on.
      * @param isPassable can rats walk through.
      */
 
-    MaleSwapper(boolean isInteractive, boolean isPassable) {
-        super(isInteractive, isPassable);
+    MaleSwapper() {
+        super(true);
     }
 
     /**

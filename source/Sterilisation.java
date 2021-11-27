@@ -12,12 +12,11 @@ public class Sterilisation extends Power{
     /**
      * Sterilisation constructor
      *
-     * @param isInteractive can player place power on.
      * @param isPassable can rats walk through.
      */
 
-    Sterilisation(boolean isInteractive, boolean isPassable) {
-        super(isInteractive, isPassable);
+    Sterilisation() {
+        super(true);
     }
 
     /**

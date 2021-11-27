@@ -15,16 +15,13 @@ public abstract class GameObject {
     private static String TEXTURE_FOLDER = "resources";
     private final Image img;
 
-    private final boolean isInteractive;
     private final boolean isPassable;
 
     /**
      * Object constructor.
-     * @param isInteractive can players place powers on.
      * @param isPassable can rats walk through.
      */
-    public GameObject(boolean isInteractive, boolean isPassable) {
-        this.isInteractive = isInteractive;
+    public GameObject(boolean isPassable) {
         this.isPassable = isPassable;
         img = new Image(createTexturePath());
     }
@@ -80,14 +77,6 @@ public abstract class GameObject {
      */
     public void setTextureFolder(String folder) {
         TEXTURE_FOLDER = folder;
-    }
-
-    /**
-     * Returns whether players can place powers on that object.
-     * @return interactivity.
-     */
-    public boolean isInteractive() {
-        return  isInteractive;
     }
 
     /**

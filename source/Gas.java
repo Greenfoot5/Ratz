@@ -11,13 +11,10 @@ public class Gas extends Power {
 
     /**
      * Gas constructor
-     *
-     * @param isInteractive can player place power on.
-     * @param isPassable can rats walk through.
      */
 
-    Gas(boolean isInteractive, boolean isPassable) {
-        super(isInteractive, isPassable);
+    Gas() {
+        super(true);
     }
 
     /**

@@ -13,14 +13,12 @@ public class StopSign extends Power {
 
     private int HP = 5;
 
-    /** StopSign constructor
-     *
-     * @param isInteractive can player place power on.
-     * @param isPassable can rats walk through.
+    /**
+     * StopSign constructor
      */
 
-    StopSign(boolean isInteractive, boolean isPassable) {
-        super(isInteractive, isPassable);
+    StopSign() {
+        super(false);
     }
 
     /**

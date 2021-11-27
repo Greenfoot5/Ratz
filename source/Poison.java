@@ -9,13 +9,10 @@ public class Poison extends Power {
 
     /**
      * Poison constructor
-     *
-     * @param isInteractive can player place power on.
-     * @param isPassable can rats walk through.
      */
 
-    Poison(boolean isInteractive, boolean isPassable) {
-        super(isInteractive, isPassable);
+    Poison() {
+        super(true);
     }
 
     /**M

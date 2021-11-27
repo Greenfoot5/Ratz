@@ -9,8 +9,6 @@ public class AdultMale extends LivingRat {
     /**
      * AdultMale constructor.
      *
-     * @param isInteractive can players place powers on.
-     * @param isPassable    can rats walk through.
      * @param speed         how fast the rat moves.
      * @param direction     the direction the rat is facing.
      * @param gasTimer      how long the rat has spent inside poison gas.
@@ -18,9 +16,9 @@ public class AdultMale extends LivingRat {
      * @param yPos          where the rat is on the y axis.
      * @param fertile       whether or not the rat can breed.
      */
-    public AdultMale(boolean isInteractive, boolean isPassable, int speed, int direction,
-                     int gasTimer, int xPos, int yPos, boolean fertile) {
-        super(isInteractive, isPassable, speed, direction, gasTimer, xPos, yPos, fertile);
+    public AdultMale(int speed, int direction, int gasTimer, int xPos,
+                     int yPos, boolean fertile) {
+        super(speed, direction, gasTimer, xPos, yPos, fertile);
     }
 
     public void theRatSexFunction() {

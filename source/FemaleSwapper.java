@@ -7,14 +7,12 @@ import java.util.ArrayList;
 
 public class FemaleSwapper extends Power {
 
-    /** FemaleSwapper constructor
-     *
-     * @param isInteractive can player place power on.
-     * @param isPassable can rats walk through.
+    /**
+     * FemaleSwapper constructor
      */
 
-    FemaleSwapper(boolean isInteractive, boolean isPassable) {
-        super(isInteractive, isPassable);
+    FemaleSwapper() {
+        super(true);
     }
 
 

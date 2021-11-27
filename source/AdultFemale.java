@@ -12,8 +12,6 @@ public class AdultFemale extends LivingRat {
     /**
      * AdultFemale constructor.
      *
-     * @param isInteractive can players place powers on.
-     * @param isPassable    can rats walk through.
      * @param speed         how fast the rat moves.
      * @param direction     the direction the rat is facing.
      * @param gasTimer      how long the rat has spent inside poison gas.
@@ -22,9 +20,9 @@ public class AdultFemale extends LivingRat {
      * @param fertile       whether or not the rat can breed.
      * @param pregnancyTime how long the rat has left being pregnant.
      */
-    public AdultFemale(boolean isInteractive, boolean isPassable, int speed, int direction,
-                       int gasTimer, int xPos, int yPos, boolean fertile, int pregnancyTime) {
-        super(isInteractive, isPassable, speed, direction, gasTimer, xPos, yPos, fertile);
+    public AdultFemale(int speed, int direction,  int gasTimer, int xPos,
+                       int yPos, boolean fertile, int pregnancyTime) {
+        super(speed, direction, gasTimer, xPos, yPos, fertile);
         this.pregnancyTime = pregnancyTime;
         this.pregnant = pregnancyTime > 0;
     }
