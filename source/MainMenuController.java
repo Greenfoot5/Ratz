@@ -19,10 +19,6 @@ public class MainMenuController extends Application {
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 500;
 
-    // The dimensions of the canvas
-    private static final int CANVAS_WIDTH = 600;
-    private static final int CANVAS_HEIGHT = 400;
-
     // Profiles
     private String selectedProfile = null;
 
@@ -47,7 +43,7 @@ public class MainMenuController extends Application {
         // Create a few GUI elements
         Label title = new Label("RATZ");
         // TODO - Display the motd
-        Label motd = new Label("<MOTD>");
+        Label motd = new Label(MOTD.GETMotd());
         Button playButton = new Button("Play!");
 
         root.getChildren().addAll(title, motd, playButton);
@@ -55,7 +51,7 @@ public class MainMenuController extends Application {
         playButton.setOnAction(event -> loadLevelSelect(primaryStage));
 
         // Create a scene based on the pane.
-        Scene scene = new Scene(root, 400, 400);
+        Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         // Show the scene
         primaryStage.setScene(scene);

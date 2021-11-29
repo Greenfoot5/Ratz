@@ -5,11 +5,30 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+/**
+ * A class to obtain the motd.
+ * It does this by getting the puzzle, solving it and
+ * posting the solution through http requests to get the motd.
+ * @author harvey
+ * @version 1.0
+ */
 public class MOTD {
-    public static void main(String[] args) throws IOException {
-        String puzzle = getPuzzle();
-        puzzle = solvePuzzle(puzzle);
-        System.out.println(postSolution(puzzle));
+
+    /**
+     * A public method to return the MOTD for the day
+     * @return The Message of the Day, or null if the motd is incorrectly solved
+     */
+    public static String GETMotd() {
+        MOTD messageOfTheDay = new MOTD();
+        try {
+            String puzzle = messageOfTheDay.getPuzzle();
+            puzzle = messageOfTheDay.solvePuzzle(puzzle);
+            return messageOfTheDay.postSolution(puzzle);
+        }
+        catch (IOException e) {
+            System.out.println("Error with solving MOTD puzzle");
+            return null;
+        }
     }
 
     /**
@@ -17,7 +36,7 @@ public class MOTD {
      * @return The puzzle to solve
      * @throws IOException There was an issue with sending the request
      */
-    public static String getPuzzle() throws IOException {
+    private String getPuzzle() throws IOException {
         // Url to send it to
         String urlString = "http://cswebcat.swansea.ac.uk/puzzle";
         URL url = new URL(urlString);
@@ -32,7 +51,7 @@ public class MOTD {
      * @param puzzleInput The input from the puzzle
      * @return The solved puzzle
      */
-    public static String solvePuzzle(String puzzleInput) {
+    private String solvePuzzle(String puzzleInput) {
         // Covert the input into it's ascii values
         char[] puzzleArray = puzzleInput.toCharArray();
         int[] puzzleNumbers = new int[puzzleArray.length];
@@ -75,7 +94,7 @@ public class MOTD {
         return Integer.toString(output.length()) + output;
     }
 
-    public static String postSolution(String solution) throws IOException {
+    private String postSolution(String solution) throws IOException {
         String solutionUrl = "http://cswebcat.swansea.ac.uk/message?solution=" + solution;
         URL url = new URL(solutionUrl);
         URLConnection conn = url.openConnection();
