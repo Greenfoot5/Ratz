@@ -15,13 +15,13 @@ public class ChildRat extends LivingRat {
      * @param gasTimer      how long the rat has spent inside poison gas.
      * @param xPos          where the rat is on the x axis.
      * @param yPos          where the rat is on the y axis.
-     * @param fertile       whether or not the rat can breed.
+     * @param isFertile       whether or not the rat can breed.
      * @param age           how old the rat is (in frames? figure out later lol)
      * @param isFemale        whether or not the rat is female.
      */
     ChildRat(int speed, int direction, int gasTimer, int xPos,
-             int yPos, boolean fertile, int age, boolean isFemale) {
-        super(speed, direction, gasTimer, xPos, yPos, fertile);
+             int yPos, boolean isFertile, int age, boolean isFemale) {
+        super(speed, direction, gasTimer, xPos, yPos, isFertile);
         this.age = age;
         this.isFemale = isFemale;
     }
