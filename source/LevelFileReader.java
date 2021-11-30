@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -12,12 +13,12 @@ public class LevelFileReader {
     private static int height;
     private static int width;
     private static String[] tiles;
-    private static String[] ratSpawns;
     private static String[] powers;
     private static int maxRats;
     private static int parTime;
     private static int[] dropRates;
-
+    private static ArrayList<Rat> ratArrayList = new ArrayList<Rat>();
+    private static Rat[] ratSpawns;
 
     public static int getHeight() {
         return height;
@@ -47,7 +48,8 @@ public class LevelFileReader {
         return tiles[y].charAt(x);
     }
 
-    public static String[] getRatSpawns() {
+    public static Rat[] getRatSpawns() {
+        ratSpawns = ratArrayList.toArray(new Rat[0]);
         return ratSpawns;
     }
 
@@ -106,6 +108,87 @@ public class LevelFileReader {
         // this ugly regex splits currentTiles based on the level's width
         tiles = currentTiles.split("(?<=\\G.{" + width + "})");
         reader.close();
+
+        /*
+         rat strings are divided by commas.
+         each string between the commas is an argument for the constructor.
+         NOTE: the final item for a child rat is its age, whereas the final
+         item for an adult rat is the pregnancy timer.
+        */
+
+        while (reader.nextLine().charAt(0) == '(') {
+            String[] currentItem = reader.nextLine().replaceAll("[()]", "").split(",");
+            // if current item is a female baby rat
+            if (currentItem[0] == "f") {
+                int speed = Integer.parseInt(currentItem[1]);
+                int direction = Integer.parseInt(currentItem[2]);
+                int gasTimer = Integer.parseInt(currentItem[3]);
+                int xPos = Integer.parseInt(currentItem[4]);
+                int yPos = Integer.parseInt(currentItem[5]);
+                boolean isFertile;
+                if (currentItem[6] == "1") {
+                    isFertile = true;
+                } else {
+                    isFertile = false;
+                }
+                int age = Integer.parseInt(currentItem[7]);
+                ChildRat newRat = new ChildRat(speed, direction, gasTimer, xPos, yPos, isFertile, age, true);
+                ratArrayList.add(newRat);
+            }
+
+            // if current item is a male baby rat
+            if (currentItem[0] == "m") {
+                int speed = Integer.parseInt(currentItem[1]);
+                int direction = Integer.parseInt(currentItem[2]);
+                int gasTimer = Integer.parseInt(currentItem[3]);
+                int xPos = Integer.parseInt(currentItem[4]);
+                int yPos = Integer.parseInt(currentItem[5]);
+                boolean isFertile;
+                if (currentItem[6] == "1") {
+                    isFertile = true;
+                } else {
+                    isFertile = false;
+                }
+                int age = Integer.parseInt(currentItem[7]);
+                ChildRat newRat = new ChildRat(speed, direction, gasTimer, xPos, yPos, isFertile, age, false);
+                ratArrayList.add(newRat);
+            }
+
+            // if current item is a female adult rat
+            if (currentItem[0] == "F") {
+                int speed = Integer.parseInt(currentItem[1]);
+                int direction = Integer.parseInt(currentItem[2]);
+                int gasTimer = Integer.parseInt(currentItem[3]);
+                int xPos = Integer.parseInt(currentItem[4]);
+                int yPos = Integer.parseInt(currentItem[5]);
+                boolean isFertile;
+                if (currentItem[6] == "1") {
+                    isFertile = true;
+                } else {
+                    isFertile = false;
+                }
+                int pregnancyTimer = Integer.parseInt(currentItem[7]);
+                AdultFemale newRat = new AdultFemale(speed, direction, gasTimer, xPos, yPos, isFertile, pregnancyTimer);
+                ratArrayList.add(newRat);
+            }
+
+            // if current item is a male adult rat
+            if (currentItem[0] == "M") {
+                int speed = Integer.parseInt(currentItem[1]);
+                int direction = Integer.parseInt(currentItem[2]);
+                int gasTimer = Integer.parseInt(currentItem[3]);
+                int xPos = Integer.parseInt(currentItem[4]);
+                int yPos = Integer.parseInt(currentItem[5]);
+                boolean isFertile;
+                if (currentItem[6] == "1") {
+                    isFertile = true;
+                } else {
+                    isFertile = false;
+                }
+                AdultMale newRat = new AdultMale(speed, direction, gasTimer, xPos, yPos, isFertile);
+                ratArrayList.add(newRat);
+            }
+        }
 
     }
 
