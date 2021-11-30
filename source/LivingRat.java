@@ -4,7 +4,7 @@
  */
 
 public abstract class LivingRat extends Rat {
-    private boolean isFertile;
+    protected boolean isFertile;
 
     /**
      * LivingRat constructor.

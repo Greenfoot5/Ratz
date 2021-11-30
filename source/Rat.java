@@ -4,11 +4,11 @@
  */
 
 public abstract class Rat extends GameObject {
-    private int speed;
-    private int direction; // TODO: swap this to an enum
-    private int gasTimer;
-    private int xPos;
-    private int yPos;
+    protected int speed;
+    protected int direction; // TODO: swap this to an enum
+    protected int gasTimer;
+    protected int xPos;
+    protected int yPos;
 
     /**
      * Rat constructor.
