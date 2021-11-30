@@ -36,20 +36,12 @@ import java.util.concurrent.TimeUnit;
         //AdultFemale method for amount of babies needed (only used when pregnant).
         //Rats have to ask the government whether they are allowed to have babies! (.canReproduce()).
 
-    //TILES:
-        //Getters and adders for powers and rats needed.
-
     //FILE READER:
         //How are multiple rats/powers on one tile and pregnant rats(+num of babies) represented?
 
 //TODO:
     //Add powers to level creation from level file
-    //Actually exit level
     //Implement game saving
-
-//Questions:
-    //How do rats and some powers know to tick()?
-    //How to go back to MainMenuManager at the end of a level?
 
 public class LevelController {
 
@@ -72,11 +64,13 @@ public class LevelController {
     private final int MAX_RATS;
     private final int PAR_TIME;
 
-    //private final int[] DROP_RATES;
+    private final int[] DROP_RATES;
     private final int[] timeUntilDrop = new int [ITEM_NUM];
 
     //Current level reader
     private final LevelFileReader LEVEL_READER;
+    private final MainMenuController MAIN_MENU;
+    private final ProfileFileReader PROFILE_READER;
 
     //Milliseconds between frames
     private final int FRAME_TIME = 500;
@@ -121,8 +115,10 @@ public class LevelController {
      * Constructor for LevelController class.
      * @param fileReader instance of LevelFileReader that the level will be loaded from.
      */
-    public LevelController (LevelFileReader fileReader) {
+    public LevelController (LevelFileReader fileReader, MainMenuController mainMenuController, ProfileFileReader profileFileReader) {
         LEVEL_READER = fileReader;
+        MAIN_MENU = mainMenuController;
+        PROFILE_READER = profileFileReader;
         //WIDTH = LEVEL_READER.getWidth();
         //HEIGHT = LEVEL_READER.getHeight();
 
@@ -130,7 +126,7 @@ public class LevelController {
 
         MAX_RATS = LEVEL_READER.getMaxRats();
         PAR_TIME = LEVEL_READER.getParTime();
-        //DROP_RATES = LEVEL_READER.getDropRates();
+        DROP_RATES = LEVEL_READER.getDropRates();
     }
 
     /**
@@ -263,6 +259,7 @@ public class LevelController {
             gamePaneText.getChildren().add(new Text("You've won! :)"));
             score += currentTimeLeft/1000;
             gamePaneScore.getChildren().add(new Text("Score: " + score));
+            //TODO: PROFILE_READER.saveBestScore(score);
         } else {
             gamePaneText.getChildren().add(new Text("You've lost! :("));
         }
@@ -273,7 +270,7 @@ public class LevelController {
      */
     @FXML
     private void exitGame() {
-        //TELL SOMETHING(??) TO GO BACK TO MAIN MENU
+        //TODO: MAIN_MENU.finishedLevel();
         levelCanvas.getGraphicsContext2D().drawImage(itemImages.get(4),0,0);
     }
 

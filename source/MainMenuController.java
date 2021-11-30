@@ -95,7 +95,7 @@ public class MainMenuController extends Application {
 
     public void loadLevel(Stage levelStage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
-        LevelController levelController = new LevelController(new LevelFileReader());
+        LevelController levelController = new LevelController(new LevelFileReader(),this,new ProfileFileReader());
 
         loader.setController(levelController);
 
