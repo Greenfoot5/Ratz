@@ -14,7 +14,8 @@ import java.util.Scanner;
  * Need file : "resources/profileFile.txt" to work properly
  */
 public class ProfileFileReader {
-
+	
+	private String selectedProfile = null;
 	private final static int NUMBER_OF_LEVELS = 10;
 	private Scanner in = null;
 	private String filePath = "resources/profileFile.txt";
@@ -23,7 +24,23 @@ public class ProfileFileReader {
 	FileWriter fileWriter = null;
 	PrintWriter printWriter = null;
 
+	/**
+	 * Instance of the class is created, but has no selected profile;
+	 */
 	public ProfileFileReader() {
+		this.selectedProfile = null;
+	}
+	
+	/**
+	 * Instance of the class is created and profileName is logged profile
+	 * @param profileName
+	 * @throws Exception 
+	 */
+	public ProfileFileReader(String profileName) throws Exception {
+		if(!doesProfileExist(profileName)) {
+			createNewProfile(profileName);
+		}
+		this.selectedProfile = profileName;
 	}
 
 	/**
@@ -204,8 +221,39 @@ public class ProfileFileReader {
 		tempFile.renameTo(rename);
 	}
 
-	// i'am not sure what it is going to do, probably should be moved to manager
-	public void loginProfile(String profileName) {
+	public boolean doesProfileExist(String profileName) throws FileNotFoundException {
+		file = new File(filePath);
+		in = new Scanner(file);
 
+		boolean exist = false;
+		while (in.hasNext()) {
+			int profNumber = in.nextInt();
+			String profName = in.next();
+			
+			if (profName.equals(profileName)) {
+				exist = true;
+			}
+
+			for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
+				int lvl = in.nextInt();
+				int scr = in.nextInt();
+			}
+		}
+		return exist;
+	}
+	// i'am not sure what it is going to do, probably should be moved to manager
+	public void loginProfile(String profileName) throws Exception {
+		if (doesProfileExist(profileName)) {
+			selectedProfile = profileName;
+		} else {
+			throw new Exception("Profile does not exist");
+		}
+	}
+	
+	/**
+	 * @return name of a profile which is logged in
+	 */
+	public String getLoggedProfile() {
+		return selectedProfile;
 	}
 }
