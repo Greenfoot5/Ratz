@@ -13,6 +13,8 @@ import java.io.IOException;
 
 /**
  * The main class to begin, and the one that handles the main menu
+ * @author harvey
+ * @version 1.0
  */
 public class MainMenuController extends Application {
     // The dimensions of the window
