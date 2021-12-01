@@ -29,6 +29,7 @@ public class ChildRat extends LivingRat {
     /**
      * A list of things the rat needs to do every tick.
      */
+    @Override
     public void onTick() {
         walk();
         decGasTimer();
