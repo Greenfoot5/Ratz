@@ -28,10 +28,8 @@ public class AdultMale extends LivingRat {
             for (int i = 0; i <= currentTile.getOccupantRats().size(); i++) {
                 Rat currentRat = currentTile.getOccupantRats().get(i);
 
-                if (currentRat instanceof LivingRat) {
-                    if ((LivingRat) currentRat instanceof AdultFemale) {
-                        ((AdultFemale) currentRat).becomePregnant();
-                    }
+                if (currentRat instanceof AdultFemale) {
+                    ((AdultFemale) currentRat).becomePregnant();
                 }
 
             }
