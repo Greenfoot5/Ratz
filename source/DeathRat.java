@@ -29,9 +29,13 @@ public class DeathRat extends Rat {
      */
     @Override
     public void onTick() {
+        if (killCounter >= 5) {
+            die();
+        }
         walk();
         decGasTimer();
         killRats();
+
     }
 
     /**
@@ -42,15 +46,11 @@ public class DeathRat extends Rat {
         Tile currentTile = LevelController.getTileAt(xPos, yPos);
         // kill every rat on the tile unless your kill counter is 5 or greater
         int numRats = currentTile.getOccupantRats().size();
-        for (int i = 0; i <= numRats; i++) {
+
+        while (currentTile.getOccupantRats().size() > 0 && killCounter < 5) {
             // killing the rat removes it from the list, no need to .get(i)
             currentTile.getOccupantRats().get(0).die();
             killCounter++;
-
-            if (killCounter >= 5) {
-                die();
-                break;
-            }
         }
     }
 }
