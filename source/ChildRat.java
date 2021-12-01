@@ -30,16 +30,14 @@ public class ChildRat extends LivingRat {
      * A list of things the rat needs to do every tick.
      */
     @Override
-    public void onTick() {
-        walk();
-        decGasTimer();
+    protected void onTickSpecific() {
         age++;
         if (age >= 40) {
             growUp();
         }
     }
 
-    public void setFemale(boolean isFemale) {
+    public void setIsFemale(boolean isFemale) {
         this.isFemale = isFemale;
     }
 

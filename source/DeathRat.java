@@ -28,12 +28,10 @@ public class DeathRat extends Rat {
      * A list of things the rat needs to do every tick.
      */
     @Override
-    public void onTick() {
+    protected void onTickSpecific() {
         if (killCounter >= 5) {
             die();
         }
-        walk();
-        decGasTimer();
         killRats();
 
     }

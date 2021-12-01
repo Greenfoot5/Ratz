@@ -34,9 +34,7 @@ public class AdultFemale extends LivingRat {
      * A list of things the rat needs to do every tick.
      */
     @Override
-    public void onTick() {
-        walk();
-        decGasTimer();
+    protected void onTickSpecific() {
         pregnancyTime--;
         if (pregnancyTime == 0 /*&& (LevelController.getTickCounter() % 4) == 0  */) {
             pregnant = false;

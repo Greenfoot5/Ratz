@@ -25,9 +25,7 @@ public class AdultMale extends LivingRat {
      * A list of things the rat needs to do every tick.
      */
     @Override
-    public void onTick() {
-        walk();
-        decGasTimer();
+    protected void onTickSpecific() {
         ratSexFunction();
     }
 

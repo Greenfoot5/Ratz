@@ -34,6 +34,14 @@ public abstract class Rat extends GameObject {
     public void onTick() {
         walk();
         decGasTimer();
+        onTickSpecific();
+    }
+
+    /**
+     * Does things that only certain subclasses of Rat need to do.
+     */
+    protected void onTickSpecific(){
+
     }
 
 
