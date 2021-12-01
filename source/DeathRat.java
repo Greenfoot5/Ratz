@@ -31,7 +31,9 @@ public class DeathRat extends Rat {
     public void killRats(){
         Tile currentTile = LevelController.getTileAt(this.xPos,this.yPos);
         // kill every rat on the tile unless your kill counter is 5 or greater
-        for (int i = 0; i <= currentTile.getOccupantRats().size(); i++) {
+        int numRats = currentTile.getOccupantRats().size();
+        for (int i = 0; i <= numRats; i++) {
+            // killing the rat removes it from the list, no need to .get(i)
             currentTile.getOccupantRats().get(0).die();
             killCounter++;
 
