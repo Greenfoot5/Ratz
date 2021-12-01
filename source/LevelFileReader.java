@@ -168,7 +168,8 @@ public class LevelFileReader {
                     isFertile = false;
                 }
                 int pregnancyTimer = Integer.parseInt(currentItem[7]);
-                AdultFemale newRat = new AdultFemale(speed, direction, gasTimer, xPos, yPos, isFertile, pregnancyTimer);
+                int ratFetusCount = Integer.parseInt(currentItem[8]);
+                AdultFemale newRat = new AdultFemale(speed, direction, gasTimer, xPos, yPos, isFertile, pregnancyTimer, ratFetusCount);
                 ratArrayList.add(newRat);
             }
 

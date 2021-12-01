@@ -471,7 +471,7 @@ public class LevelController {
      * Removes rat that has been killed from rat counter and adds to score.
      * @param rat rat that has been killed.
      */
-    public static void ratKilled(LivingRat rat) {
+    public static void ratKilled(Rat rat) {
         if(rat instanceof AdultFemale) {
             //if (((AdultFemale) rat).isPregnant()) {
                 score += 10;

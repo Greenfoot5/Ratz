@@ -56,6 +56,9 @@ public abstract class Rat extends GameObject {
      * Causes the rat to die.
      */
     public void die() {
-        // cease existing. lucky.
+        // tell level controller that a rat has died
+        LevelController.ratKilled(this);
+        // remove rat from current tile
+        LevelController.getTileAt(this.xPos,this.yPos).removeOccupantRat(this);
     }
 }
