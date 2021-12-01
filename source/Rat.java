@@ -32,6 +32,10 @@ public abstract class Rat extends GameObject {
      * A list of things the rat needs to do every tick.
      */
     public void onTick() {
+        // 12 ticks in gas = 2.5 seconds. increase or decrease later as appropriate
+        if (gasTimer > 12) {
+            die();
+        }
         walk();
         decGasTimer();
         onTickSpecific();
