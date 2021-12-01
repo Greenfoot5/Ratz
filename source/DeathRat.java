@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * @author James McWilliams
  */
 
-public abstract class DeathRat extends Rat {
+public class DeathRat extends Rat {
     private int killCounter;
 
     /**

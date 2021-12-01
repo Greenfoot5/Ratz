@@ -188,6 +188,18 @@ public class LevelFileReader {
                 AdultMale newRat = new AdultMale(speed, direction, gasTimer, xPos, yPos, isFertile);
                 ratArrayList.add(newRat);
             }
+
+            // if current item is a death rat
+            if (currentItem[0] == "D") {
+                int speed = Integer.parseInt(currentItem[1]);
+                int direction = Integer.parseInt(currentItem[2]);
+                int gasTimer = Integer.parseInt(currentItem[3]);
+                int xPos = Integer.parseInt(currentItem[4]);
+                int yPos = Integer.parseInt(currentItem[5]);
+                int killCounter = Integer.parseInt(currentItem[6]);
+                DeathRat newRat = new DeathRat(speed, direction, gasTimer, xPos, yPos, killCounter);
+                ratArrayList.add(newRat);
+            }
         }
 
     }
