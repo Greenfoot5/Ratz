@@ -30,6 +30,15 @@ public class AdultFemale extends LivingRat {
         this.ratFetusCount = ratFetusCount;
     }
 
+    public void becomePregnant() {
+        if (this.pregnant = false) {
+            this.pregnant = true;
+            this.pregnancyTime = 40;
+            // create 2d4 rats
+            this.ratFetusCount = (int) (Math.ceil(Math.random() * 4) + Math.ceil(Math.random() * 4));
+        }
+    }
+
     public int getRatFetusCount() {
         return ratFetusCount;
     }

@@ -21,8 +21,21 @@ public class AdultMale extends LivingRat {
         super(speed, direction, gasTimer, xPos, yPos, fertile);
     }
 
-    public void theRatSexFunction() {
-        // do(ratsex);
+    public void ratSexFunction() {
+        if (this.isFertile) {
+            Tile currentTile = LevelController.getTileAt(this.xPos,this.yPos);
+
+            for (int i = 0; i <= currentTile.getOccupantRats().size(); i++) {
+                Rat currentRat = currentTile.getOccupantRats().get(i);
+
+                if (currentRat instanceof LivingRat) {
+                    if ((LivingRat) currentRat instanceof AdultFemale) {
+                        ((AdultFemale) currentRat).becomePregnant();
+                    }
+                }
+
+            }
+        }
     }
 
 
