@@ -30,12 +30,26 @@ public class AdultFemale extends LivingRat {
         this.ratFetusCount = ratFetusCount;
     }
 
+    /**
+     * A list of things the rat needs to do every tick.
+     */
+    @Override
+    public void onTick() {
+        walk();
+        decGasTimer();
+        pregnancyTime--;
+        if (pregnancyTime == 0 /*&& (LevelController.getTickCounter() % 4) == 0  */) {
+            pregnant = false;
+            birth();
+        }
+    }
+
     public void becomePregnant() {
-        if (this.pregnant = false) {
-            this.pregnant = true;
-            this.pregnancyTime = 40;
+        if (pregnant = false) {
+            pregnant = true;
+            pregnancyTime = 40;
             // create 2d4 rats
-            this.ratFetusCount = (int) (Math.ceil(Math.random() * 4) + Math.ceil(Math.random() * 4));
+            ratFetusCount = (int) (Math.ceil(Math.random() * 4) + Math.ceil(Math.random() * 4));
         }
     }
 
@@ -53,10 +67,10 @@ public class AdultFemale extends LivingRat {
                 newIsFemale = false;
             }
 
-            ChildRat newBaby = new ChildRat(40, this.direction, 0,
-                    this.xPos, this.yPos, true, 0, newIsFemale);
+            ChildRat newBaby = new ChildRat(40, direction, 0,
+                    xPos, yPos, true, 0, newIsFemale);
             LevelController.ratAdded(newBaby);
-            LevelController.getTileAt(this.xPos,this.yPos).addOccupantRat(newBaby);
+            LevelController.getTileAt(xPos,yPos).addOccupantRat(newBaby);
 
         }
     }
