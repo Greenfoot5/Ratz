@@ -21,6 +21,16 @@ public class AdultMale extends LivingRat {
         super(speed, direction, gasTimer, xPos, yPos, fertile);
     }
 
+    /**
+     * A list of things the rat needs to do every tick.
+     */
+    @Override
+    public void onTick() {
+        walk();
+        decGasTimer();
+        ratSexFunction();
+    }
+
     public void ratSexFunction() {
         if (this.isFertile) {
             Tile currentTile = LevelController.getTileAt(this.xPos,this.yPos);
