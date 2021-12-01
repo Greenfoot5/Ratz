@@ -30,6 +30,10 @@ public class AdultFemale extends LivingRat {
         this.ratFetusCount = ratFetusCount;
     }
 
+    public int getRatFetusCount() {
+        return ratFetusCount;
+    }
+
     public void birth() {
         if (ratFetusCount > 0) {
             ratFetusCount--;
