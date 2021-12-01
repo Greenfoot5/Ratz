@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
     //NOT SURE WHO:
         //ratKilled() and ratRemoved() are two different things:
             //ratKilled() is for when a rat is killed by a power,
-            //ratRemoved() is for when one instance of a rat is changed for another (gender swap).
+            //ratRemoved() is for when one instance of a rat is changed for another (gender swap, growing up).
         //Rats, bombs, and gas need to periodically update (tick()), LevelController either has to call Tile so that it calls and updates everything
             //or call everything (by accessing the rats and powers on a tile) itself.
 
@@ -58,8 +58,8 @@ public class LevelController {
             new Image("file:resources/stopsign.png"),new Image("file:resources/deathrat.png"));
     private final int[] counters = new int[ITEM_NUM];
 
-    //private final int WIDTH;
-    //private final int HEIGHT;
+    private final int WIDTH;
+    private final int HEIGHT;
 
     private final int MAX_RATS;
     private final int PAR_TIME;
@@ -82,11 +82,12 @@ public class LevelController {
     private Timeline tickTimeline;
     private int currentTimeLeft;
 
-    private int score;
+    private static int score;
 
     //Rat counters
-    private int femaleRatCounter;
-    private int maleRatCounter;
+    private static int femaleRatCounter;
+    private static int maleRatCounter;
+    private static int childRatCounter;
 
     @FXML
     public Canvas levelCanvas; //Game map canvas
@@ -119,8 +120,8 @@ public class LevelController {
         LEVEL_READER = fileReader;
         MAIN_MENU = mainMenuController;
         PROFILE_READER = profileFileReader;
-        //WIDTH = LEVEL_READER.getWidth();
-        //HEIGHT = LEVEL_READER.getHeight();
+        WIDTH = LEVEL_READER.getWidth();
+        HEIGHT = LEVEL_READER.getHeight();
 
         buildNewLevel();
 
@@ -158,6 +159,7 @@ public class LevelController {
 
         femaleRatCounter = 0;
         maleRatCounter = 0;
+        childRatCounter = 0;
         score = 0;
 
         //tileMap = new Tile[WIDTH][HEIGHT];
@@ -212,7 +214,7 @@ public class LevelController {
      * Periodically refreshes game screen.
      */
     public void tick() {
-        if ((femaleRatCounter + maleRatCounter) == 0) {
+        if ((femaleRatCounter + maleRatCounter + childRatCounter) == 0) {
             endGame(true);
         } else if (currentTimeLeft <= 0){
             endGame(false);
@@ -221,7 +223,7 @@ public class LevelController {
 
             for (Tile[] tiles : tileMap) {
                 for (Tile tile : tiles) {
-                    tile.update();
+                    tile.update(FRAME_TIME);
                 }
             }
 
@@ -441,11 +443,13 @@ public class LevelController {
      * Removes rat from a rat counter.
      * @param rat the rat being removed.
      */
-    public void ratRemoved(LivingRat rat) {
+    public static void ratRemoved(LivingRat rat) {
         if (rat instanceof AdultMale) {
             maleRatCounter--;
         } else if (rat instanceof AdultFemale) {
             femaleRatCounter--;
+        } else if (rat instanceof ChildRat) {
+            childRatCounter--;
         }
     }
 
@@ -453,13 +457,9 @@ public class LevelController {
      * Adds rat to rat counter.
      * @param rat the rat being added.
      */
-    public void ratAdded(LivingRat rat) {
+    public static void ratAdded(LivingRat rat) {
         if (rat instanceof ChildRat) {
-            if(((ChildRat) rat).getIsFemale()) {
-                femaleRatCounter++;
-            } else {
-                maleRatCounter++;
-            }
+            childRatCounter++;
         } else if (rat instanceof AdultMale) {
             maleRatCounter++;
         } else if (rat instanceof AdultFemale) {
@@ -471,7 +471,7 @@ public class LevelController {
      * Removes rat that has been killed from rat counter and adds to score.
      * @param rat rat that has been killed.
      */
-    public void ratKilled(Rat rat) {
+    public static void ratKilled(LivingRat rat) {
         if(rat instanceof AdultFemale) {
             //if (((AdultFemale) rat).isPregnant()) {
                 score += 10;
@@ -483,11 +483,7 @@ public class LevelController {
             maleRatCounter--;
         } else if(rat instanceof ChildRat) {
             score += 10;
-            if(((ChildRat) rat).getIsFemale()){
-                femaleRatCounter--;
-            } else {
-                maleRatCounter--;
-            }
+            childRatCounter--;
         }
     }
 }
