@@ -34,26 +34,6 @@ public abstract class Rat extends GameObject {
         this.yPos = yPos;
     }
 
-    /**
-     * A list of things the rat needs to do every tick.
-     */
-    public void onTick() {
-        // 12 ticks in gas = 2.5 seconds. increase or decrease later as appropriate
-        if (gasTimer > 12) {
-            die();
-        }
-        walk();
-        decGasTimer();
-        onTickSpecific();
-    }
-
-    /**
-     * Does things that only certain subclasses of Rat need to do.
-     */
-    protected void onTickSpecific(){
-
-    }
-
 
     /**
      * Causes the rat to walk in a direction. If multiple directions are valid, it will choose a random one.
@@ -178,17 +158,10 @@ public abstract class Rat extends GameObject {
     }
 
     /**
-     * Adds 2 to the rat's record of how long it's been in toxic gas.
+     * Adds 1 to the rat's record of how long it's been in toxic gas.
      */
     public void incGasTimer(){
-        this.gasTimer += 2;
-    }
-
-    /**
-     * Subtracts 1 from the rat's record of how long it's been in toxic gas.
-     */
-    public void decGasTimer(){
-        this.gasTimer--;
+        // increment gasTimer
     }
 
     /**
