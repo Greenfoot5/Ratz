@@ -293,4 +293,8 @@ public class ProfileFileReader {
 	public String getLoggedProfile() {
 		return selectedProfile;
 	}
+	
+	public int getNumberOfLevels() {
+		return this.NUMBER_OF_LEVELS;
+	}
 }

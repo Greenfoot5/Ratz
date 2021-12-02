@@ -71,8 +71,8 @@ public class MainMenuController extends Application {
 		reader = new ProfileFileReader();
 
 		BorderPane profilePane = new BorderPane();
-
-		VBox vbox = new VBox();
+		VBox profileButtons = new VBox();
+		VBox profileScoreLabels = new VBox();
 		String[] s = { "" };
 		try {
 			s = reader.getProfiles();
@@ -81,20 +81,41 @@ public class MainMenuController extends Application {
 		}
 
 		Label loggedLabel = new Label();
+		loggedLabel.setAlignment(Pos.CENTER);
 		if (reader.getLoggedProfile() == null) {
 			loggedLabel.setText("You are looged as...");
 		} else {
 			loggedLabel.setText("You are looged as" + reader.getLoggedProfile());
 		}
 		
+		Label scoresHeading = new Label("Best ... scores:");
+		profileScoreLabels.getChildren().add(scoresHeading);
+
+		Label[] profileScore = new Label[reader.getNumberOfLevels()];
+		for (int i = 0; i < profileScore.length; i++) {
+			profileScore[i] = new Label("Lvl" + String.valueOf(i + 1) + " 0");
+			profileScoreLabels.getChildren().add(profileScore[i]);
+		}
+		
 		Button[] profButton = new Button[s.length];
 		for (int i = 0; i < profButton.length; i++) {
 			profButton[i] = new Button(s[i]);
-			vbox.getChildren().add(profButton[i]);
+			profileButtons.getChildren().add(profButton[i]);
+			
 			final int ii = i;
 			profButton[i].setOnAction(event -> {
 			reader.loginProfile(profButton[ii].getText());
 			loggedLabel.setText("You are looged as " + reader.getLoggedProfile());
+			scoresHeading.setText("Best " + reader.getLoggedProfile() + "'s scores:");
+			
+			for (int j = 0; j < reader.getNumberOfLevels(); j++) {
+				try {
+					profileScore[j].setText("Lvl" + String.valueOf(j + 1) + " " + reader.getBestScore(reader.getLoggedProfile(), j));
+				} catch (IOException e) {
+					profileScore[j].setText("Lvl" + String.valueOf(j + 1) + " error");
+
+				}
+			}
 			});
 		}
 
@@ -104,9 +125,12 @@ public class MainMenuController extends Application {
 			primaryStage.show();
 		});
 		
+		
+		
+		profilePane.setCenter(profileScoreLabels);
 		profilePane.setTop(loggedLabel);
 		profilePane.setRight(goBack);
-		profilePane.setLeft(vbox);
+		profilePane.setLeft(profileButtons);
 		profileScene = new Scene(profilePane, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	}
