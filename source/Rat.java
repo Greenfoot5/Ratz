@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * An abstract class to model a rat. Scurries around and dies when appropriate.
  * @author James McWilliams
@@ -5,10 +7,14 @@
 
 public abstract class Rat extends GameObject {
     protected int speed;
-    protected int direction; // TODO: swap this to an enum
+    Direction direction;
     protected int gasTimer;
     protected int xPos;
     protected int yPos;
+
+    public enum Direction {
+        NORTH, EAST, SOUTH, WEST
+    }
 
     /**
      * Rat constructor.
@@ -19,7 +25,7 @@ public abstract class Rat extends GameObject {
      * @param xPos          where the rat is on the x axis.
      * @param yPos          where the rat is on the y axis.
      */
-    Rat(int speed, int direction, int gasTimer, int xPos, int yPos) {
+    Rat(int speed, Direction direction, int gasTimer, int xPos, int yPos) {
         super(true);
         this.speed = speed;
         this.direction = direction;
@@ -34,15 +40,121 @@ public abstract class Rat extends GameObject {
      * The rat will only go backwards if no other directions are valid.
      */
     public void walk() {
-        // walk in your direction
+
+        switch(direction) {
+            case NORTH:
+                LevelController.getTileAt(xPos,yPos--).addOccupantRat(this);
+                yPos--;
+                break;
+            case EAST:
+                LevelController.getTileAt(xPos++,yPos).addOccupantRat(this);
+                xPos++;
+                break;
+            case SOUTH:
+                LevelController.getTileAt(xPos,yPos++).addOccupantRat(this);
+                yPos++;
+                break;
+            case WEST:
+                LevelController.getTileAt(xPos--,yPos).addOccupantRat(this);
+                xPos--;
+                break;
+        }
+        LevelController.getTileAt(xPos,yPos).removeOccupantRat(this);
     }
 
     /**
      * Swaps the rat's direction to the given value.
-     * Note that 0, 1, 2, 3 equal north, east, south, and west respectively. (until I get around to making this an enum)
      */
-    public void changeDirection(int direction){
-        // swap your direction
+    public void setDirection(Direction direction){
+        this.direction = direction;
+    }
+
+    public Direction findValidDirection() {
+        // add valid dirs to a list using getForwardTile() and co.
+        // pick one at random
+        // if the list is empty, go backwards because you've hit a dead end
+        return null;
+    }
+
+
+
+    public Tile getForwardTile() {
+        Tile forwardTile;
+        switch(direction) {
+            case NORTH:
+                forwardTile = LevelController.getTileAt(xPos,yPos--);
+                break;
+            case EAST:
+                forwardTile = LevelController.getTileAt(xPos++,yPos);
+                break;
+            case SOUTH:
+                forwardTile = LevelController.getTileAt(xPos,yPos++);
+                break;
+            default:
+                forwardTile = LevelController.getTileAt(xPos--,yPos);
+                break;
+
+        }
+        return forwardTile;
+    }
+
+    public Tile getLeftTile() {
+        Tile leftTile;
+        switch(direction) {
+            case NORTH:
+                leftTile = LevelController.getTileAt(xPos--,yPos);
+                break;
+            case EAST:
+                leftTile = LevelController.getTileAt(xPos,yPos--);
+                break;
+            case SOUTH:
+                leftTile = LevelController.getTileAt(xPos++,yPos);
+                break;
+            default:
+                leftTile = LevelController.getTileAt(xPos,yPos++);
+                break;
+        }
+        return leftTile;
+    }
+
+    public Tile getRightTile() {
+        Tile rightTile;
+        switch(direction) {
+            case NORTH:
+                rightTile = LevelController.getTileAt(xPos++,yPos);
+                break;
+            case EAST:
+                rightTile = LevelController.getTileAt(xPos,yPos++);
+                break;
+            case SOUTH:
+                rightTile = LevelController.getTileAt(xPos--,yPos);
+                break;
+            default:
+                rightTile = LevelController.getTileAt(xPos,yPos--);
+                break;
+
+        }
+        return rightTile;
+    }
+
+    public Tile getBackwardsTile() {
+        Tile backwardsTile;
+        switch(direction) {
+            case NORTH:
+                backwardsTile = LevelController.getTileAt(xPos,yPos++);
+                break;
+            case EAST:
+                backwardsTile = LevelController.getTileAt(xPos--,yPos);
+                break;
+            case SOUTH:
+                backwardsTile = LevelController.getTileAt(xPos,yPos--);
+                break;
+            default:
+                backwardsTile = LevelController.getTileAt(xPos++,yPos);
+                break;
+
+        }
+        return backwardsTile;
     }
 
     /**

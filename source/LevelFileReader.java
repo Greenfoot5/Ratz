@@ -121,7 +121,22 @@ public class LevelFileReader {
             // if current item is a female baby rat
             if (currentItem[0] == "f") {
                 int speed = Integer.parseInt(currentItem[1]);
-                int direction = Integer.parseInt(currentItem[2]);
+                int directionInt = Integer.parseInt(currentItem[2]);
+                Rat.Direction direction;
+                switch(directionInt) {
+                    case 0:
+                        direction = Rat.Direction.NORTH;
+                        break;
+                    case 1:
+                        direction = Rat.Direction.EAST;
+                        break;
+                    case 2:
+                        direction = Rat.Direction.SOUTH;
+                        break;
+                    default:
+                        direction = Rat.Direction.WEST;
+                        break;
+                }
                 int gasTimer = Integer.parseInt(currentItem[3]);
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
@@ -139,7 +154,22 @@ public class LevelFileReader {
             // if current item is a male baby rat
             if (currentItem[0] == "m") {
                 int speed = Integer.parseInt(currentItem[1]);
-                int direction = Integer.parseInt(currentItem[2]);
+                int directionInt = Integer.parseInt(currentItem[2]);
+                Rat.Direction direction;
+                switch(directionInt) {
+                    case 0:
+                        direction = Rat.Direction.NORTH;
+                        break;
+                    case 1:
+                        direction = Rat.Direction.EAST;
+                        break;
+                    case 2:
+                        direction = Rat.Direction.SOUTH;
+                        break;
+                    default:
+                        direction = Rat.Direction.WEST;
+                        break;
+                }
                 int gasTimer = Integer.parseInt(currentItem[3]);
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
@@ -157,7 +187,22 @@ public class LevelFileReader {
             // if current item is a female adult rat
             if (currentItem[0] == "F") {
                 int speed = Integer.parseInt(currentItem[1]);
-                int direction = Integer.parseInt(currentItem[2]);
+                int directionInt = Integer.parseInt(currentItem[2]);
+                Rat.Direction direction;
+                switch(directionInt) {
+                    case 0:
+                        direction = Rat.Direction.NORTH;
+                        break;
+                    case 1:
+                        direction = Rat.Direction.EAST;
+                        break;
+                    case 2:
+                        direction = Rat.Direction.SOUTH;
+                        break;
+                    default:
+                        direction = Rat.Direction.WEST;
+                        break;
+                }
                 int gasTimer = Integer.parseInt(currentItem[3]);
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
@@ -176,7 +221,22 @@ public class LevelFileReader {
             // if current item is a male adult rat
             if (currentItem[0] == "M") {
                 int speed = Integer.parseInt(currentItem[1]);
-                int direction = Integer.parseInt(currentItem[2]);
+                int directionInt = Integer.parseInt(currentItem[2]);
+                Rat.Direction direction;
+                switch(directionInt) {
+                    case 0:
+                        direction = Rat.Direction.NORTH;
+                        break;
+                    case 1:
+                        direction = Rat.Direction.EAST;
+                        break;
+                    case 2:
+                        direction = Rat.Direction.SOUTH;
+                        break;
+                    default:
+                        direction = Rat.Direction.WEST;
+                        break;
+                }
                 int gasTimer = Integer.parseInt(currentItem[3]);
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
@@ -193,7 +253,22 @@ public class LevelFileReader {
             // if current item is a death rat
             if (currentItem[0] == "D") {
                 int speed = Integer.parseInt(currentItem[1]);
-                int direction = Integer.parseInt(currentItem[2]);
+                int directionInt = Integer.parseInt(currentItem[2]);
+                Rat.Direction direction;
+                switch(directionInt) {
+                    case 0:
+                        direction = Rat.Direction.NORTH;
+                        break;
+                    case 1:
+                        direction = Rat.Direction.EAST;
+                        break;
+                    case 2:
+                        direction = Rat.Direction.SOUTH;
+                        break;
+                    default:
+                        direction = Rat.Direction.WEST;
+                        break;
+                }
                 int gasTimer = Integer.parseInt(currentItem[3]);
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);

@@ -16,7 +16,7 @@ public class AdultMale extends LivingRat {
      * @param yPos          where the rat is on the y axis.
      * @param fertile       whether or not the rat can breed.
      */
-    public AdultMale(int speed, int direction, int gasTimer, int xPos,
+    public AdultMale(int speed, Direction direction, int gasTimer, int xPos,
                      int yPos, boolean fertile) {
         super(speed, direction, gasTimer, xPos, yPos, fertile);
     }

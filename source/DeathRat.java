@@ -18,7 +18,7 @@ public class DeathRat extends Rat {
      * @param yPos          where the rat is on the y axis.
      * @param killCounter   how many times the death rat has killed another rat
      */
-    public DeathRat(int speed, int direction, int gasTimer, int xPos,
+    public DeathRat(int speed, Direction direction, int gasTimer, int xPos,
                      int yPos, int killCounter) {
         super(speed, direction, gasTimer, xPos, yPos);
         this.killCounter = killCounter;

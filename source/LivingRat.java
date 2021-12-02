@@ -16,7 +16,7 @@ public abstract class LivingRat extends Rat {
      * @param yPos          where the rat is on the y axis.
      * @param isFertile     whether or not the rat can breed.
      */
-    public LivingRat(int speed, int direction, int gasTimer, int xPos,
+    public LivingRat(int speed, Direction direction, int gasTimer, int xPos,
                      int yPos, boolean isFertile) {
         super(speed, direction, gasTimer, xPos, yPos);
         this.isFertile = isFertile;
