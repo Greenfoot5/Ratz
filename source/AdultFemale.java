@@ -22,7 +22,7 @@ public class AdultFemale extends LivingRat {
      * @param pregnancyTime how long the rat has left being pregnant.
      * @param ratFetusCount how many baby rats the mother rat is carrying
      */
-    public AdultFemale(int speed, int direction,  int gasTimer, int xPos,
+    public AdultFemale(int speed, Direction direction,  int gasTimer, int xPos,
                        int yPos, boolean fertile, int pregnancyTime, int ratFetusCount) {
         super(speed, direction, gasTimer, xPos, yPos, fertile);
         this.pregnancyTime = pregnancyTime;

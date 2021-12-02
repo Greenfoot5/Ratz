@@ -9,8 +9,7 @@ public class ChildRat extends LivingRat {
 
     /**
      * ChildRat constructor.
-     *
-     * @param speed         how fast the rat moves.
+     *  @param speed         how fast the rat moves.
      * @param direction     the direction the rat is facing.
      * @param gasTimer      how long the rat has spent inside poison gas.
      * @param xPos          where the rat is on the x axis.
@@ -19,7 +18,7 @@ public class ChildRat extends LivingRat {
      * @param age           how old the rat is
      * @param isFemale      whether or not the rat is female.
      */
-    ChildRat(int speed, int direction, int gasTimer, int xPos,
+    ChildRat(int speed, Direction direction, int gasTimer, int xPos,
              int yPos, boolean isFertile, int age, boolean isFemale) {
         super(speed, direction, gasTimer, xPos, yPos, isFertile);
         this.age = age;

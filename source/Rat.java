@@ -5,10 +5,14 @@
 
 public abstract class Rat extends GameObject {
     protected int speed;
-    protected int direction; // TODO: swap this to an enum
+    Direction direction;
     protected int gasTimer;
     protected int xPos;
     protected int yPos;
+
+    public enum Direction {
+        NORTH, EAST, SOUTH, WEST
+    }
 
     /**
      * Rat constructor.
@@ -19,7 +23,7 @@ public abstract class Rat extends GameObject {
      * @param xPos          where the rat is on the x axis.
      * @param yPos          where the rat is on the y axis.
      */
-    Rat(int speed, int direction, int gasTimer, int xPos, int yPos) {
+    Rat(int speed, Direction direction, int gasTimer, int xPos, int yPos) {
         super(true);
         this.speed = speed;
         this.direction = direction;
@@ -61,8 +65,8 @@ public abstract class Rat extends GameObject {
      * Swaps the rat's direction to the given value.
      * Note that 0, 1, 2, 3 equal north, east, south, and west respectively. (until I get around to making this an enum)
      */
-    public void changeDirection(int direction){
-        // swap your direction
+    public void setDirection(Direction direction){
+        this.direction = direction;
     }
 
     /**
