@@ -8,15 +8,17 @@ import java.util.Scanner;
 
 /**
  * Class to manage profiles and their best scores.
+ * 
  * @author Tomasz Fijalkowski
  * 
- * Please update number of levels!!!!
- * Need file : "resources/profileFile.txt" to work properly
+ *         Please update number of levels!!!! Need file :
+ *         "resources/profileFile.txt" to work properly
  */
 public class ProfileFileReader {
+
+	static private String selectedProfile = null;
 	
-	private String selectedProfile = null;
-	private final static int NUMBER_OF_LEVELS = 10;
+	private final static int NUMBER_OF_LEVELS = 5;
 	private Scanner in = null;
 	private String filePath = "resources/profileFile.txt";
 	private File file = null;
@@ -30,14 +32,15 @@ public class ProfileFileReader {
 	public ProfileFileReader() {
 		this.selectedProfile = null;
 	}
-	
+
 	/**
 	 * Instance of the class is created and profileName is logged profile
+	 * 
 	 * @param profileName
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public ProfileFileReader(String profileName) throws Exception {
-		if(!doesProfileExist(profileName)) {
+		if (!doesProfileExist(profileName)) {
 			createNewProfile(profileName);
 		}
 		this.selectedProfile = profileName;
@@ -45,6 +48,7 @@ public class ProfileFileReader {
 
 	/**
 	 * Create new profile in text file with chosen name.
+	 * 
 	 * @param profileName
 	 * @throws Exception - if there is a problem with a file or name is already used
 	 */
@@ -103,7 +107,8 @@ public class ProfileFileReader {
 
 	/**
 	 * Remove profile from the txt file. If name is not in a file then does nothing.
-	 * @param profileName 
+	 * 
+	 * @param profileName
 	 * @throws IOException - if there is a problem with a file
 	 */
 	public void deleteProfile(String profileName) throws IOException {
@@ -153,8 +158,9 @@ public class ProfileFileReader {
 
 	/**
 	 * Return best profile score for the specified level
+	 * 
 	 * @param profileName
-	 * @param level 
+	 * @param level
 	 * @return - best player score
 	 * @throws IOException - if there is a problem with a file
 	 */
@@ -180,9 +186,10 @@ public class ProfileFileReader {
 
 	/**
 	 * Save score if it is new best score for specified level
+	 * 
 	 * @param profileName
 	 * @param level
-	 * @param score - score you want to safe
+	 * @param score       - score you want to safe
 	 * @throws IOException - if there is a problem with a file
 	 */
 	public void saveBestScore(String profileName, int level, int score) throws IOException {
@@ -229,7 +236,7 @@ public class ProfileFileReader {
 		while (in.hasNext()) {
 			int profNumber = in.nextInt();
 			String profName = in.next();
-			
+
 			if (profName.equals(profileName)) {
 				exist = true;
 			}
@@ -241,15 +248,45 @@ public class ProfileFileReader {
 		}
 		return exist;
 	}
+
 	// i'am not sure what it is going to do, probably should be moved to manager
-	public void loginProfile(String profileName) throws Exception {
-		if (doesProfileExist(profileName)) {
-			selectedProfile = profileName;
-		} else {
-			throw new Exception("Profile does not exist");
+	public void loginProfile(String profileName) {
+		try {
+			if (doesProfileExist(profileName)) {
+				selectedProfile = profileName;
+			} else {
+				selectedProfile = "error";
+			}
+		} catch (FileNotFoundException e) {
+			selectedProfile = "error";
 		}
 	}
-	
+
+	public String[] getProfiles() throws FileNotFoundException {
+		file = new File(filePath);
+		in = new Scanner(file);
+
+		String[] profiles = new String[0];
+		int counter = 1;
+		while (in.hasNext()) {
+			int profNumber = in.nextInt();
+			String profName = in.next();
+
+			String[] newWords = new String[counter++];
+			for (int i = 0; i < profiles.length; i++) {
+				newWords[i] = profiles[i];
+			}
+			profiles = newWords;
+			profiles[counter - 2] = profName;
+
+			for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
+				int lvl = in.nextInt();
+				int scr = in.nextInt();
+			}
+		}
+		return profiles;
+	}
+
 	/**
 	 * @return name of a profile which is logged in
 	 */
