@@ -25,13 +25,27 @@ public class DeathRat extends Rat {
     }
 
     /**
+     * A list of things the rat needs to do every tick.
+     */
+    @Override
+    protected void onTickSpecific() {
+        if (killCounter >= 5) {
+            die();
+        }
+        killRats();
+
+    }
+
+    /**
      * Kills every rat on the current tile. Will stop midway if the death rat
      * runs out of killing... power?
      */
     public void killRats(){
-        Tile currentTile = LevelController.getTileAt(this.xPos,this.yPos);
+        Tile currentTile = LevelController.getTileAt(xPos,yPos);
         // kill every rat on the tile unless your kill counter is 5 or greater
-        for (int i = 0; i <= currentTile.getOccupantRats().size(); i++) {
+
+        while (currentTile.getOccupantRats().size() > 0 && killCounter < 5) {
+            // killing the rat removes it from the list, no need to .get(i)
             currentTile.getOccupantRats().get(0).die();
             killCounter++;
 

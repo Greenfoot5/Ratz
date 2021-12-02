@@ -52,7 +52,7 @@ public class Tile extends GameObject {
             p.onTick(occupantRats, this);
         }
         for(Rat r : occupantRats) {
-            r.walk();
+            r.onTick();
         }
     }
 
