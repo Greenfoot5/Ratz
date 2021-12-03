@@ -1,5 +1,7 @@
 /**
  * It displays the scoreboard *woah*
+ * @author harvey
+ * @version 1.0
  */
 public class ScoreboardController {
 

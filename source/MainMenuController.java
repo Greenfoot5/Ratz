@@ -25,8 +25,8 @@ public class MainMenuController extends Application {
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 500;
 
-    ProfileFileReader reader;
-    Scene profileScene;
+    private ProfileFileReader reader;
+    private Scene profileScene;
 
     /**
      * Launches the application
@@ -71,9 +71,11 @@ public class MainMenuController extends Application {
     }
 
     public Scene selectProfiles(Stage profileStage, Scene scene) {
-
-        // ProfileScene code
-        reader = new ProfileFileReader();
+        // Create reader if we don't have one yet
+        if (reader == null)
+        {
+            reader = new ProfileFileReader();
+        }
 
         // Layout items
         BorderPane profilePane = new BorderPane();
@@ -98,6 +100,7 @@ public class MainMenuController extends Application {
             loggedLabel.setText("You are logged as" + reader.getLoggedProfile());
         }
 
+        // Display the best scores for a user
         Label scoresHeading = new Label("Best ... scores:");
         profileScoreLabels.getChildren().add(scoresHeading);
 
@@ -107,6 +110,7 @@ public class MainMenuController extends Application {
             profileScoreLabels.getChildren().add(profileScore[i]);
         }
 
+        // Display a button for each profile
         Button[] profButton = new Button[s.length];
         for (int i = 0; i < profButton.length; i++) {
             profButton[i] = new Button(s[i]);
@@ -130,11 +134,15 @@ public class MainMenuController extends Application {
             });
         }
 
+        // Return to the main menu
         Button goBack = new Button("Go back to main menu");
         goBack.setOnAction(event -> {
             profileStage.setScene(scene);
             profileStage.show();
         });
+
+        // Removes a profile
+        // TODO - Remove the button
         Button removeProfile = new Button("Remove profile");
         removeProfile.setOnAction(event -> {
             try {
@@ -151,6 +159,7 @@ public class MainMenuController extends Application {
         });
         rightButtons.getChildren().addAll(goBack, removeProfile);
 
+        // Adds the elements to the layout
         profilePane.setCenter(profileScoreLabels);
         profilePane.setTop(loggedLabel);
         profilePane.setRight(rightButtons);
