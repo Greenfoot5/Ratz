@@ -48,5 +48,7 @@ public class ChildRat extends LivingRat {
         // call AdultMale or AdultFemale constructor as appropriate
     }
 
-
+    public int getAge() {
+        return age;
+    }
 }

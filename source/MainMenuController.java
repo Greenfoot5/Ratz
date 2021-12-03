@@ -146,11 +146,19 @@ public class MainMenuController extends Application {
         removeProfile.setOnAction(event -> {
             try {
                 System.out.println(reader.getLoggedProfile());
+              //  reader.loginProfile(null);
                 reader.deleteProfile(reader.getLoggedProfile());
                 ObservableList<Node> obL = profileButtons.getChildren();
                 for (Node n : obL) {
                     if (n.toString().contains("'" + reader.getLoggedProfile() + "'")) {
                         System.out.println(n);
+                        obL.remove(n);
+                        loggedLabel.setText("You are logged as ...");
+                        scoresHeading.setText("Best ...'s scores:");
+
+                        for (int j = 0; j < reader.getNumberOfLevels(); j++) {
+                            profileScore[j].setText("Lvl" + (j + 1) + " 0");
+                        }
                     }
                 }
             } catch (IOException ignored) {
