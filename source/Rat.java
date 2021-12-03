@@ -229,4 +229,28 @@ public abstract class Rat extends GameObject {
         // remove rat from current tile
         LevelController.getTileAt(this.xPos,this.yPos).removeOccupantRat(this);
     }
+
+    /**
+     * Gives current speed.
+     * @return speed.
+     */
+    public int getSpeed() {
+        return speed;
+    }
+
+    /**
+     * Gives current direction rat is facing.
+     * @return direction.
+     */
+    public Direction getDirection() {
+        return direction;
+    }
+
+    /**
+     * Gives current gas timer of rat.
+     * @return gas timer.
+     */
+    public int getGasTimer() {
+        return gasTimer;
+    }
 }

@@ -55,6 +55,10 @@ public class AdultFemale extends LivingRat {
         return ratFetusCount;
     }
 
+    public int getPregnancyTime() {
+        return pregnancyTime;
+    }
+
     public void birth() {
         if (ratFetusCount > 0) {
             ratFetusCount--;
