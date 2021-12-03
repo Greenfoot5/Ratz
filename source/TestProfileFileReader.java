@@ -9,13 +9,10 @@ public class TestProfileFileReader {
 //		pfr.createNewProfile("NATALIA2");
 //		pfr.createNewProfile("aaaa");
 //		pfr.createNewProfile("aaaa2");
-//		pfr.deleteProfile("aaaa");
+//		pfr.deleteProfile("Harvey");
 //		pfr.saveBestScore("aaaa2", 1, 12);
 		// */
-		System.out.println(pfr.getBestScore("aaaa2", 1));
-		System.out.println(pfr.getBestScore("aaaa2", 2));
-		pfr.loginProfile("aaaa2");
-		System.out.println(pfr.getLoggedProfile());
-
+		System.out.println(pfr.getBestScore("Dom", 3));
+		//System.out.println(pfr.getBestScore("aaaa2", 2));
 	}
 }

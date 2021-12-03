@@ -1,6 +1,8 @@
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -67,12 +69,15 @@ public class MainMenuController extends Application {
 		primaryStage.show();
 
 		// ProfileScene code
+		// -------------------------------------------------------------------
 
 		reader = new ProfileFileReader();
 
 		BorderPane profilePane = new BorderPane();
 		VBox profileButtons = new VBox();
 		VBox profileScoreLabels = new VBox();
+		VBox rightButtons = new VBox();
+		
 		String[] s = { "" };
 		try {
 			s = reader.getProfiles();
@@ -87,7 +92,7 @@ public class MainMenuController extends Application {
 		} else {
 			loggedLabel.setText("You are looged as" + reader.getLoggedProfile());
 		}
-		
+
 		Label scoresHeading = new Label("Best ... scores:");
 		profileScoreLabels.getChildren().add(scoresHeading);
 
@@ -96,26 +101,27 @@ public class MainMenuController extends Application {
 			profileScore[i] = new Label("Lvl" + String.valueOf(i + 1) + " 0");
 			profileScoreLabels.getChildren().add(profileScore[i]);
 		}
-		
+
 		Button[] profButton = new Button[s.length];
 		for (int i = 0; i < profButton.length; i++) {
 			profButton[i] = new Button(s[i]);
 			profileButtons.getChildren().add(profButton[i]);
-			
+
 			final int ii = i;
 			profButton[i].setOnAction(event -> {
-			reader.loginProfile(profButton[ii].getText());
-			loggedLabel.setText("You are looged as " + reader.getLoggedProfile());
-			scoresHeading.setText("Best " + reader.getLoggedProfile() + "'s scores:");
-			
-			for (int j = 0; j < reader.getNumberOfLevels(); j++) {
-				try {
-					profileScore[j].setText("Lvl" + String.valueOf(j + 1) + " " + reader.getBestScore(reader.getLoggedProfile(), j));
-				} catch (IOException e) {
-					profileScore[j].setText("Lvl" + String.valueOf(j + 1) + " error");
+				reader.loginProfile(profButton[ii].getText());
+				loggedLabel.setText("You are looged as " + reader.getLoggedProfile());
+				scoresHeading.setText("Best " + reader.getLoggedProfile() + "'s scores:");
 
+				for (int j = 0; j < reader.getNumberOfLevels(); j++) {
+					try {
+						profileScore[j].setText("Lvl" + String.valueOf(j + 1) + " "
+								+ reader.getBestScore(reader.getLoggedProfile(), j + 1));
+					} catch (IOException e) {
+						profileScore[j].setText("Lvl" + String.valueOf(j + 1) + " error");
+
+					}
 				}
-			}
 			});
 		}
 
@@ -124,12 +130,25 @@ public class MainMenuController extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		});
-		
-		
-		
+		Button removeProfile = new Button("Remove profile");
+		removeProfile.setOnAction(event -> {
+			try {
+				System.out.println(reader.getLoggedProfile());
+				reader.deleteProfile(reader.getLoggedProfile());
+				ObservableList<Node> obL = profileButtons.getChildren();
+				for (Node n : obL) {
+					if (n.toString().contains("'" + reader.getLoggedProfile() + "'")) {
+						System.out.println(n.toString());
+					}
+				}
+			} catch (IOException e) {
+			}
+		});
+		rightButtons.getChildren().addAll(goBack, removeProfile);
+
 		profilePane.setCenter(profileScoreLabels);
 		profilePane.setTop(loggedLabel);
-		profilePane.setRight(goBack);
+		profilePane.setRight(rightButtons);
 		profilePane.setLeft(profileButtons);
 		profileScene = new Scene(profilePane, WINDOW_WIDTH, WINDOW_HEIGHT);
 
