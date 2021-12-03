@@ -14,11 +14,13 @@ public class LevelFileReader {
     private static int width;
     private static String[] tiles;
     private static String[] powers;
+    private static Rat[] ratSpawns;
     private static int maxRats;
     private static int parTime;
     private static int[] dropRates;
-    private static ArrayList<Rat> ratArrayList = new ArrayList<Rat>();
-    private static Rat[] ratSpawns;
+    private static ArrayList<Rat> ratArrayList = new ArrayList<>();
+    private static ArrayList<Power> powerArrayList = new ArrayList<>();
+
 
     public static int getHeight() {
         return height;
@@ -242,6 +244,68 @@ public class LevelFileReader {
                 DeathRat newRat = new DeathRat(speed, direction, gasTimer, xPos, yPos, killCounter);
                 ratArrayList.add(newRat);
             }
+
+            // if currentItem item is a bomb
+            if (currentItem[0] == "B") {
+                int xPos = Integer.parseInt(currentItem[1]);
+                int yPos = Integer.parseInt(currentItem[2]);
+                int ticksActive; // TODO: set when there's a getter for this
+                Bomb newBomb = new Bomb(xPos,yPos);
+                powerArrayList.add(newBomb);
+            }
+
+            // if currentItem item is gas
+            if (currentItem[0] == "G") {
+                int xPos = Integer.parseInt(currentItem[1]);
+                int yPos = Integer.parseInt(currentItem[2]);
+                int ticksActive; // TODO: set when there's a getter for this
+                Gas newGas = new Gas(xPos, yPos);
+                powerArrayList.add(newGas);
+            }
+
+            // if currentItem item is steriliser
+            if (currentItem[0] == "S") {
+                int xPos = Integer.parseInt(currentItem[1]);
+                int yPos = Integer.parseInt(currentItem[2]);
+                int ticksActive; // TODO: set when there's a getter for this
+                Sterilisation newSterilisation = new Sterilisation(xPos, yPos);
+                powerArrayList.add(newSterilisation);
+            }
+
+            // if currentItem item is poison
+            if (currentItem[0] == "P") {
+                int xPos = Integer.parseInt(currentItem[1]);
+                int yPos = Integer.parseInt(currentItem[2]);
+                Poison newPoison = new Poison(xPos,yPos);
+                powerArrayList.add(newPoison);
+            }
+
+            // if currentItem item is a male sex change
+            if (currentItem[0] == "T") {
+                int xPos = Integer.parseInt(currentItem[1]);
+                int yPos = Integer.parseInt(currentItem[2]);
+                MaleSwapper newMaleSwapper = new MaleSwapper(xPos, yPos);
+                powerArrayList.add(newMaleSwapper);
+            }
+
+            // if currentItem item is a female sex change
+            if (currentItem[0] == "E") {
+                int xPos = Integer.parseInt(currentItem[1]);
+                int yPos = Integer.parseInt(currentItem[2]);
+                FemaleSwapper newFemaleSwapper = new FemaleSwapper(xPos, yPos);
+                powerArrayList.add(newFemaleSwapper);
+            }
+
+            // if currentItem item is a no-entry sign (StopSign)
+            if (currentItem[0] == "N") {
+                int xPos = Integer.parseInt(currentItem[1]);
+                int yPos = Integer.parseInt(currentItem[2]);
+                int HP = Integer.parseInt(currentItem[3]);
+                StopSign newStopSign = new StopSign(xPos, yPos);
+                newStopSign.setHP(HP);
+                powerArrayList.add(newStopSign);
+            }
+
         }
 
     }
