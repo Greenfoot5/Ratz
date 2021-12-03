@@ -58,6 +58,9 @@ public class AdultFemale extends LivingRat {
     }
 
 
+    public int getPregnancyTime() {
+        return pregnancyTime;
+    }
 
     /**
      * Creates a new baby rat at the mother's position.

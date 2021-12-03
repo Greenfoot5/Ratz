@@ -17,8 +17,8 @@ public class StopSign extends Power {
      * StopSign constructor
      */
 
-    StopSign() {
-        super(false);
+    StopSign(int xPos, int yPos) {
+        super(true, xPos, yPos);
     }
 
     /**
@@ -63,5 +63,9 @@ public class StopSign extends Power {
         String path = "file:" + getTextureFolder() + "/power" + HP + ".png";
 
         g.drawImage(new Image(path),x,y);
+    }
+
+    public int getHP() {
+        return HP;
     }
 }

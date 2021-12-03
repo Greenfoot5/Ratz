@@ -12,8 +12,8 @@ public class MaleSwapper extends Power{
      * @param isPassable can rats walk through.
      */
 
-    MaleSwapper() {
-        super(true);
+    MaleSwapper(int xPos, int yPos) {
+        super(true, xPos, yPos);
     }
 
     /**

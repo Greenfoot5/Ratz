@@ -57,5 +57,7 @@ public class ChildRat extends LivingRat {
         LevelController.getTileAt(xPos,yPos).removeOccupantRat(this);
     }
 
-
+    public int getAge() {
+        return age;
+    }
 }

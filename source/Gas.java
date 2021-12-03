@@ -13,8 +13,8 @@ public class Gas extends Power {
      * Gas constructor
      */
 
-    Gas() {
-        super(true);
+    Gas(int xPos, int yPos) {
+        super(true, xPos, yPos);
     }
 
     /**

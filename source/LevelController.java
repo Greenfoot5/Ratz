@@ -29,11 +29,8 @@ import java.util.concurrent.TimeUnit;
         //ratKilled() and ratRemoved() are two different things:
             //ratKilled() is for when a rat is killed by a power,
             //ratRemoved() is for when one instance of a rat is changed for another (gender swap, growing up).
-        //Rats, bombs, and gas need to periodically update (tick()), LevelController either has to call Tile so that it calls and updates everything
-            //or call everything (by accessing the rats and powers on a tile) itself.
 
     //RATS:
-        //AdultFemale method for amount of babies needed (only used when pregnant).
         //Rats have to ask the government whether they are allowed to have babies! (.canReproduce()).
 
     //FILE READER:
@@ -339,25 +336,25 @@ public class LevelController {
         boolean addPower = true;
         switch(index) {
             case 0:
-                power = new Bomb();
+                power = new Bomb(x, y);
                 break;
             case 1:
-                power = new Gas();
+                power = new Gas(x, y);
                 break;
             case 2:
-                power = new Sterilisation();
+                power = new Sterilisation(x, y);
                 break;
             case 3:
-                power = new Poison();
+                power = new Poison(x, y);
                 break;
             case 4:
-                power = new MaleSwapper();
+                power = new MaleSwapper(x, y);
                 break;
             case 5:
-                power = new FemaleSwapper();
+                power = new FemaleSwapper(x, y);
                 break;
             case 6:
-                power = new StopSign();
+                power = new StopSign(x, y);
                 break;
             case 7:
                 //tileMap[x][y].addOccupantRat(new DeathRat);
