@@ -148,10 +148,8 @@ public class LevelFileReader {
         reader.close();
 
         /*
-         rat strings are divided by commas.
+         rat and power strings are divided by commas.
          each string between the commas is an argument for the constructor.
-         NOTE: the final item for a child rat is its age, whereas the final
-         item for an adult rat is the pregnancy timer.
         */
 
         while (reader.nextLine().charAt(0) == '(') {
