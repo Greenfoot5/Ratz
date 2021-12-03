@@ -89,9 +89,16 @@ public abstract class Rat extends GameObject {
      */
     public void walk() {
         direction = pickNewDirection();
-        if (direction != null){
+        if (direction != null && !(this instanceof DeathRat)){
             getForwardTile().addOccupantRat(this);
             LevelController.getTileAt(xPos,yPos).removeOccupantRat(this);
+        }
+
+        if (direction != null && (this instanceof DeathRat)){
+            if (((DeathRat) this).getOminousWaiting() == 0) {
+                getForwardTile().addOccupantRat(this);
+                LevelController.getTileAt(xPos,yPos).removeOccupantRat(this);
+            }
         }
 
     }
