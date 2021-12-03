@@ -98,7 +98,7 @@ public class ProfileFileReader {
 		in.close();
 		printWriter.flush();
 		printWriter.close();
-		file.delete();
+		System.out.println(file.delete());
 
 		File rename = new File(filePath);
 		tempFile.renameTo(rename);
