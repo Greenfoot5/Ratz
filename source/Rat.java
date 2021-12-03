@@ -113,13 +113,13 @@ public abstract class Rat extends GameObject {
      */
     public Direction pickNewDirection() {
         ArrayList<Direction> validDirections = new ArrayList<>();
-        if (getForwardTile() instanceof Path || getForwardTile() instanceof Tunnel) {
+        if (getForwardTile().isPassable()) {
             validDirections.add(direction);
         }
-        if (getRightTile() instanceof Path || getRightTile() instanceof Tunnel) {
+        if (getRightTile().isPassable()) {
             validDirections.add(turnRight());
         }
-        if (getLeftTile() instanceof Path || getLeftTile() instanceof Tunnel) {
+        if (getLeftTile().isPassable()) {
             validDirections.add(turnLeft());
         }
 
@@ -127,7 +127,7 @@ public abstract class Rat extends GameObject {
 
         if (validDirections.size() == 0){
             // forward, right, and left aren't options. Try going back.
-            if (getRearTile() instanceof Path || getRearTile() instanceof Tunnel) {
+            if (getRearTile().isPassable()) {
                 chosenDirection = turnBack();
             } else {
                 // the only time we should get to the point is if the rat is stuck in a box.
