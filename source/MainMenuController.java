@@ -26,7 +26,6 @@ public class MainMenuController extends Application {
     private static final int WINDOW_HEIGHT = 500;
 
     private ProfileFileReader reader;
-    private Scene profileScene;
 
     /**
      * Launches the application
@@ -164,9 +163,8 @@ public class MainMenuController extends Application {
         profilePane.setTop(loggedLabel);
         profilePane.setRight(rightButtons);
         profilePane.setLeft(profileButtons);
-        profileScene = new Scene(profilePane, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-        return profileScene;
+        return new Scene(profilePane, WINDOW_WIDTH, WINDOW_HEIGHT);
     }
 
 
@@ -221,7 +219,8 @@ public class MainMenuController extends Application {
      */
 	public void loadLevel(Stage levelStage) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
-		LevelController levelController = new LevelController(new LevelFileReader(), this, new ProfileFileReader());
+		LevelController levelController = new LevelController(new LevelFileReader(),
+                this, new ProfileFileReader());
 
 		loader.setController(levelController);
 
