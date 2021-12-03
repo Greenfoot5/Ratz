@@ -137,7 +137,6 @@ public class LevelFileReader {
             parTime = Integer.parseInt(levelStats[3]);
         }
 
-
         // get tile data
         String currentTiles = "";
         for (int i = 0; i < height; i++) {
@@ -158,7 +157,7 @@ public class LevelFileReader {
         while (reader.nextLine().charAt(0) == '(') {
             String[] currentItem = reader.nextLine().replaceAll("[()]", "").split(",");
             // if current item is a female baby rat
-            if (currentItem[0] == "f") {
+            if (currentItem[0].equals("f")) {
                 int speed = Integer.parseInt(currentItem[1]);
                 int directionInt = Integer.parseInt(currentItem[2]);
                 Rat.Direction direction = directionIntToEnum(directionInt);
@@ -166,7 +165,7 @@ public class LevelFileReader {
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
                 boolean isFertile;
-                if (currentItem[6] == "1") {
+                if (currentItem[6].equals("1")) {
                     isFertile = true;
                 } else {
                     isFertile = false;
@@ -177,7 +176,7 @@ public class LevelFileReader {
             }
 
             // if current item is a male baby rat
-            if (currentItem[0] == "m") {
+            if (currentItem[0].equals("m")) {
                 int speed = Integer.parseInt(currentItem[1]);
                 int directionInt = Integer.parseInt(currentItem[2]);
                 Rat.Direction direction = directionIntToEnum(directionInt);
@@ -185,7 +184,7 @@ public class LevelFileReader {
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
                 boolean isFertile;
-                if (currentItem[6] == "1") {
+                if (currentItem[6].equals("1")) {
                     isFertile = true;
                 } else {
                     isFertile = false;
@@ -196,7 +195,7 @@ public class LevelFileReader {
             }
 
             // if current item is a female adult rat
-            if (currentItem[0] == "F") {
+            if (currentItem[0].equals("F")) {
                 int speed = Integer.parseInt(currentItem[1]);
                 int directionInt = Integer.parseInt(currentItem[2]);
                 Rat.Direction direction = directionIntToEnum(directionInt);
@@ -204,7 +203,7 @@ public class LevelFileReader {
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
                 boolean isFertile;
-                if (currentItem[6] == "1") {
+                if (currentItem[6].equals("1")) {
                     isFertile = true;
                 } else {
                     isFertile = false;
@@ -216,7 +215,7 @@ public class LevelFileReader {
             }
 
             // if current item is a male adult rat
-            if (currentItem[0] == "M") {
+            if (currentItem[0].equals("M")) {
                 int speed = Integer.parseInt(currentItem[1]);
                 int directionInt = Integer.parseInt(currentItem[2]);
                 Rat.Direction direction = directionIntToEnum(directionInt);
@@ -224,7 +223,7 @@ public class LevelFileReader {
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
                 boolean isFertile;
-                if (currentItem[6] == "1") {
+                if (currentItem[6].equals("1")) {
                     isFertile = true;
                 } else {
                     isFertile = false;
@@ -234,7 +233,7 @@ public class LevelFileReader {
             }
 
             // if current item is a death rat
-            if (currentItem[0] == "D") {
+            if (currentItem[0].equals("D")) {
                 int speed = Integer.parseInt(currentItem[1]);
                 int directionInt = Integer.parseInt(currentItem[2]);
                 Rat.Direction direction = directionIntToEnum(directionInt);
@@ -247,7 +246,7 @@ public class LevelFileReader {
             }
 
             // if currentItem item is a bomb
-            if (currentItem[0] == "B") {
+            if (currentItem[0].equals("B")) {
                 int xPos = Integer.parseInt(currentItem[1]);
                 int yPos = Integer.parseInt(currentItem[2]);
                 int ticksActive = Integer.parseInt(currentItem[3]);
@@ -257,11 +256,11 @@ public class LevelFileReader {
             }
 
             // if currentItem item is gas
-            if (currentItem[0] == "G") {
+            if (currentItem[0].equals("G")) {
                 int xPos = Integer.parseInt(currentItem[1]);
                 int yPos = Integer.parseInt(currentItem[2]);
                 boolean isOriginal;
-                if (currentItem[3] == "1") {
+                if (currentItem[3].equals("1")) {
                     isOriginal = true;
                 } else {
                     isOriginal = false;
@@ -273,7 +272,7 @@ public class LevelFileReader {
             }
 
             // if currentItem item is steriliser
-            if (currentItem[0] == "S") {
+            if (currentItem[0].equals("S")) {
                 int xPos = Integer.parseInt(currentItem[1]);
                 int yPos = Integer.parseInt(currentItem[2]);
                 int ticksActive = Integer.parseInt(currentItem[3]);
@@ -283,7 +282,7 @@ public class LevelFileReader {
             }
 
             // if currentItem item is poison
-            if (currentItem[0] == "P") {
+            if (currentItem[0].equals("P")) {
                 int xPos = Integer.parseInt(currentItem[1]);
                 int yPos = Integer.parseInt(currentItem[2]);
                 Poison newPoison = new Poison(xPos,yPos);
@@ -291,7 +290,7 @@ public class LevelFileReader {
             }
 
             // if currentItem item is a male sex change
-            if (currentItem[0] == "T") {
+            if (currentItem[0].equals("T")) {
                 int xPos = Integer.parseInt(currentItem[1]);
                 int yPos = Integer.parseInt(currentItem[2]);
                 MaleSwapper newMaleSwapper = new MaleSwapper(xPos, yPos);
@@ -299,7 +298,7 @@ public class LevelFileReader {
             }
 
             // if currentItem item is a female sex change
-            if (currentItem[0] == "E") {
+            if (currentItem[0].equals("E")) {
                 int xPos = Integer.parseInt(currentItem[1]);
                 int yPos = Integer.parseInt(currentItem[2]);
                 FemaleSwapper newFemaleSwapper = new FemaleSwapper(xPos, yPos);
@@ -307,7 +306,7 @@ public class LevelFileReader {
             }
 
             // if currentItem item is a no-entry sign (StopSign)
-            if (currentItem[0] == "N") {
+            if (currentItem[0].equals("N")) {
                 int xPos = Integer.parseInt(currentItem[1]);
                 int yPos = Integer.parseInt(currentItem[2]);
                 int HP = Integer.parseInt(currentItem[3]);
