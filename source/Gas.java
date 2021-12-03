@@ -10,13 +10,31 @@ import java.util.ArrayList;
 public class Gas extends Power {
 
     private int ticksActive = 0; //Tick counter since creation of this class.
+    private boolean isOriginal = false;
 
     /**
      * Gas constructor
      */
 
-    Gas(int xPos, int yPos) {
+    Gas(int xPos, int yPos, boolean isOriginal) {
         super(true, xPos, yPos);
+        this.isOriginal = isOriginal;
+    }
+
+    /**
+     * Getter for fileReader
+     */
+
+    public int getTicksActive() {
+        return ticksActive;
+    }
+
+    /**
+     * Getter for fileReader
+     */
+
+    public boolean isOriginal() {
+        return isOriginal;
     }
 
     /**
@@ -31,65 +49,59 @@ public class Gas extends Power {
     @Override
     void activate(ArrayList<Rat> rats, Tile currentTile) {
 
-        ArrayList<Tile> tilesToGas = findPathTiles();
-        tilesToGas.add(currentTile);
+        //Places a bunch of new Gas on Tiles with isOriginal = false;
+        if (isOriginal) {
+            gasSurroundingPathTiles();
+        }
 
         //Where the rats get gassed.
-        for (Tile tile : tilesToGas) {
-            for (Rat r : tile.getOccupantRats()) {
-                r.incGasTimer();
-            }
+        for(Rat r : currentTile.getOccupantRats()) {
+            r.incGasTimer();
         }
 
         if (ticksActive >= 5) {
             currentTile.removeActivePower(this);
-            //And this is where Drawing should be removed? But how ? :(
         }
     }
 
-    /** Method that finds all Tiles Gas can reach.
-     *  @return All Tiles that Gas can reach (not grass) in all 4 directions.
+    /** Method that finds all Tiles Gas can reach and puts a new Gas there
+     * with isOriginal = false.
      */
 
-    ArrayList<Tile> findPathTiles () {
-        ArrayList<Tile> tilesToGas = new ArrayList<>();
-
+    private void gasSurroundingPathTiles () {
         int counter = 1;
 
         while(LevelController.getTileAt(this.xPos, this.yPos+counter).isPassable()) {
-            tilesToGas.add(LevelController.getTileAt(this.xPos,
-                    this.yPos+counter));
-            //draw(this.xPos, this.yPos+counter, getImg("Gas"));
+            int x = this.xPos;
+            int y = this.yPos+counter;
+            LevelController.getTileAt(x, y).addActivePower(new Gas(x,
+                    y, false));
             counter++;
         }
 
         while(LevelController.getTileAt(this.xPos, this.yPos-counter).isPassable()) {
-            tilesToGas.add(LevelController.getTileAt(this.xPos,
-                    this.yPos-counter));
-            //draw(this.xPos, this.yPos-counter, getImg("Gas"));
+            int x = this.xPos;
+            int y = this.yPos-counter;
+            LevelController.getTileAt(x, y).addActivePower(new Gas(x,
+                    y, false));
             counter++;
         }
 
         while(LevelController.getTileAt(this.xPos+counter, this.yPos).isPassable()) {
-            tilesToGas.add(LevelController.getTileAt(this.xPos+counter,
-                    this.yPos));
-            //draw(this.xPos+counter, this.yPos, getImg("Gas"));
+            int x = this.xPos+counter;
+            int y = this.yPos;
+            LevelController.getTileAt(x, y).addActivePower(new Gas(x,
+                    y, false));
             counter++;
         }
 
         while(LevelController.getTileAt(this.xPos-counter, this.yPos).isPassable()) {
-            tilesToGas.add(LevelController.getTileAt(this.xPos-counter,
-                    this.yPos));
-            //draw(this.xPos-counter, this.yPos, getImg("Gas"));
+            int x = this.xPos-counter;
+            int y = this.yPos;
+            LevelController.getTileAt(x, y).addActivePower(new Gas(x,
+                    y, false));
             counter++;
         }
-
-        return tilesToGas;
-    }
-
-    @Override
-    public void draw(int x, int y, GraphicsContext g) {
-        super.draw(x, y, g);
     }
 
     /**
