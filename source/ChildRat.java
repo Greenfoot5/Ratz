@@ -40,7 +40,7 @@ public class ChildRat extends LivingRat {
         this.isFemale = isFemale;
     }
 
-    public boolean getIsFemale() {
+    public boolean isFemale() {
         return isFemale;
     }
 

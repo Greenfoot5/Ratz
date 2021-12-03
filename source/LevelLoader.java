@@ -114,7 +114,7 @@ public class LevelLoader {
                             ratString[j] = ratString[j] + rat.getSpeed() + "," + rat.getDirection() + "," + rat.getGasTimer() + "," + i + "," +
                                     j + "," + fertility + "," + ((AdultFemale) rat).getPregnancyTime() + "," + ((AdultFemale) rat).getRatFetusCount();
                         } else if (rat instanceof ChildRat) {
-                            if (((ChildRat) rat).getIsFemale()) {
+                            if (((ChildRat) rat).isFemale()) {
                                 ratString[j] += "f,";
                             } else {
                                 ratString[j] += "m,";
