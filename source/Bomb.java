@@ -123,4 +123,13 @@ public class Bomb extends Power {
     public void setTicksActive(int ticksActive) {
         this.ticksActive = ticksActive;
     }
+
+    /**
+     * Creates path to texture of a bomb.
+     * @return path.
+     */
+    @Override
+    public String createTexturePath() {
+        return "file:" + getTextureFolder() + "/bomb" + ticksActive + ".png";
+    }
 }

@@ -66,6 +66,14 @@ public class StopSign extends Power {
     }
 
     /**
+     * Creates path to texture of a stop sign.
+     * @return path.
+     */
+    public String createTexturePath() {
+        return "file:" + getTextureFolder() + "/power" + HP + ".png";
+    }
+
+    /**
      * Getter for fileReader
      */
 
