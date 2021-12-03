@@ -18,16 +18,20 @@ public class AdultFemale extends LivingRat {
      * @param gasTimer      how long the rat has spent inside poison gas.
      * @param xPos          where the rat is on the x axis.
      * @param yPos          where the rat is on the y axis.
-     * @param fertile       whether or not the rat can breed.
+     * @param isFertile       whether or not the rat can breed.
      * @param pregnancyTime how long the rat has left being pregnant.
      * @param ratFetusCount how many baby rats the mother rat is carrying
      */
     public AdultFemale(int speed, Direction direction,  int gasTimer, int xPos,
-                       int yPos, boolean fertile, int pregnancyTime, int ratFetusCount) {
-        super(speed, direction, gasTimer, xPos, yPos, fertile);
+                       int yPos, boolean isFertile, int pregnancyTime, int ratFetusCount) {
+        super(speed, direction, gasTimer, xPos, yPos, isFertile);
         this.pregnancyTime = pregnancyTime;
         this.pregnant = pregnancyTime > 0;
         this.ratFetusCount = ratFetusCount;
+    }
+
+    public int getRatFetusCount() {
+        return ratFetusCount;
     }
 
     /**
@@ -36,29 +40,31 @@ public class AdultFemale extends LivingRat {
     @Override
     protected void onTickSpecific() {
         pregnancyTime--;
-        if (pregnancyTime == 0 /*&& (LevelController.getTickCounter() % 4) == 0  */) {
+        if (pregnancyTime == 0) {
             pregnant = false;
             birth();
         }
     }
 
+    /**
+     * Makes the rat pregnant. Rats will have 2d4 babies.
+     */
     public void becomePregnant() {
         if (pregnant = false) {
             pregnant = true;
             pregnancyTime = 40;
-            // create 2d4 rats
             ratFetusCount = (int) (Math.ceil(Math.random() * 4) + Math.ceil(Math.random() * 4));
         }
     }
 
-    public int getRatFetusCount() {
-        return ratFetusCount;
-    }
 
     public int getPregnancyTime() {
         return pregnancyTime;
     }
 
+    /**
+     * Creates a new baby rat at the mother's position.
+     */
     public void birth() {
         if (ratFetusCount > 0) {
             ratFetusCount--;

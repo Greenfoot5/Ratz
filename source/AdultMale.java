@@ -14,11 +14,11 @@ public class AdultMale extends LivingRat {
      * @param gasTimer      how long the rat has spent inside poison gas.
      * @param xPos          where the rat is on the x axis.
      * @param yPos          where the rat is on the y axis.
-     * @param fertile       whether or not the rat can breed.
+     * @param isFertile       whether or not the rat can breed.
      */
     public AdultMale(int speed, Direction direction, int gasTimer, int xPos,
-                     int yPos, boolean fertile) {
-        super(speed, direction, gasTimer, xPos, yPos, fertile);
+                     int yPos, boolean isFertile) {
+        super(speed, direction, gasTimer, xPos, yPos, isFertile);
     }
 
     /**
@@ -29,6 +29,9 @@ public class AdultMale extends LivingRat {
         ratSexFunction();
     }
 
+    /**
+     * Makes every female rat on the tile pregnant.
+     */
     public void ratSexFunction() {
         if (this.isFertile) {
             Tile currentTile = LevelController.getTileAt(this.xPos, this.yPos);

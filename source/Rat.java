@@ -65,7 +65,7 @@ public abstract class Rat extends GameObject {
      * The rat will only go backwards if no other directions are valid.
      */
     public void walk() {
-        direction = setNewDirection();
+        direction = pickNewDirection();
         if (direction != null){
             getForwardTile().addOccupantRat(this);
             LevelController.getTileAt(xPos,yPos).removeOccupantRat(this);
@@ -80,22 +80,39 @@ public abstract class Rat extends GameObject {
         this.direction = direction;
     }
 
-
+    /**
+     * Returns a direction that the rat would be facing if it turned right.
+     * @return a direction that the rat would be facing if it turned right.
+     */
     public Direction turnRight() {
         return dirsList.get((dirsList.indexOf(direction) + 1) % 4);
     }
 
+    /**
+     * Returns a direction that the rat would be facing if it turned left.
+     * @return a direction that the rat would be facing if it turned left.
+     */
     public Direction turnLeft() {
         return dirsList.get((dirsList.indexOf(direction) - 1) % 4);
     }
 
+    /**
+     * Returns a direction that the rat would be facing if it turned around.
+     * @return a direction that the rat would be facing if it turned around.
+     */
     public Direction turnBack() {
         return dirsList.get((dirsList.indexOf(direction) + 2) % 4);
     }
 
-
-    public Direction setNewDirection() {
-        ArrayList<Direction> validDirections = new ArrayList<Direction>();
+    /**
+     * Chooses a direction for the rat to move in, such that it will not land on a grass tile. It will prioritize
+     * moving forward, left or right, only moving backwards when the other three options are not valid (i.e a dead end).
+     * IMPORTANT: This will return null if the rat is trapped by 4 grass squares. This shouldn't happen outside of
+     * levels created via level editing.
+     * @return a valid direction for the rat to move in.
+     */
+    public Direction pickNewDirection() {
+        ArrayList<Direction> validDirections = new ArrayList<>();
         if (getForwardTile() instanceof Path || getForwardTile() instanceof Tunnel) {
             validDirections.add(direction);
         }
@@ -126,7 +143,10 @@ public abstract class Rat extends GameObject {
     }
 
 
-
+    /**
+     * Gets the tile to the rat's front, given its current direction.
+     * @return The tile directly ahead of the rat.
+     */
     public Tile getForwardTile() {
         Tile forwardTile;
         switch(direction) {
@@ -147,6 +167,10 @@ public abstract class Rat extends GameObject {
         return forwardTile;
     }
 
+    /**
+     * Gets the tile to the rat's left, given its current direction.
+     * @return The tile to the rat's left
+     */
     public Tile getLeftTile() {
         Tile leftTile;
         switch(direction) {
@@ -166,6 +190,10 @@ public abstract class Rat extends GameObject {
         return leftTile;
     }
 
+    /**
+     * Gets the tile to the rat's right, given its current direction.
+     * @return The tile to the rat's right
+     */
     public Tile getRightTile() {
         Tile rightTile;
         switch(direction) {
@@ -186,6 +214,10 @@ public abstract class Rat extends GameObject {
         return rightTile;
     }
 
+    /**
+     * Gets the tile behind the rat, given its current direction.
+     * @return The tile behind the rat
+     */
     public Tile getRearTile() {
         Tile rearTile;
         switch(direction) {
@@ -224,9 +256,7 @@ public abstract class Rat extends GameObject {
      * Causes the rat to die.
      */
     public void die() {
-        // tell level controller that a rat has died
         LevelController.ratKilled(this);
-        // remove rat from current tile
         LevelController.getTileAt(this.xPos,this.yPos).removeOccupantRat(this);
     }
 
