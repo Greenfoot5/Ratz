@@ -339,7 +339,7 @@ public class LevelController {
                 power = new Bomb(x, y);
                 break;
             case 1:
-                power = new Gas(x, y);
+                power = new Gas(x, y, true);
                 break;
             case 2:
                 power = new Sterilisation(x, y);

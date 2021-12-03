@@ -7,8 +7,10 @@ import java.util.ArrayList;
 
 public class Poison extends Power {
 
-    /**
-     * Poison constructor
+    /** Poison constructor
+     *
+     * @param xPos x coordinate
+     * @param yPos y coordinate
      */
 
     Poison(int xPos, int yPos) {

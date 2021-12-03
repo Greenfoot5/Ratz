@@ -7,8 +7,10 @@ import java.util.ArrayList;
 
 public class FemaleSwapper extends Power {
 
-    /**
-     * FemaleSwapper constructor
+    /** FemaleSwapper constructor
+     *
+     * @param xPos x coordinate
+     * @param yPos y coordinate
      */
 
     FemaleSwapper(int xPos, int yPos) {
@@ -16,20 +18,22 @@ public class FemaleSwapper extends Power {
     }
 
 
-
+    /**
+     * @param rats        used to interact with all rats that stepped on the power.
+     * @param currentTile used to access Tile of the Power.
+     */
     @Override
     void activate(ArrayList<Rat> rats, Tile currentTile) {
         for (Rat r : rats) {
             if(r instanceof AdultMale) {
-                /* Will not work until AdultMale&AdultFemale getters are set up.
+                AdultFemale copyRat = new AdultFemale(r.getSpeed(), r.getDirection(), r.getGasTimer(),
+                        this.xPos, this.yPos, ((AdultMale) r).isFertile, 0
+                        , 0);
 
-                AdultFemale copyRat = new AdultFemale(true,false,
-                        r.getSpeed(), r.getDirection(), r.getGasTimer(),
-                        r.getX(), r.getY(), r.getFertile());
-
+                currentTile.removeActivePower(this);
                 currentTile.addOccupantRat(copyRat);
                 currentTile.removeOccupantRat(r);
-                */
+            } else {
                 currentTile.removeActivePower(this);
             }
         }

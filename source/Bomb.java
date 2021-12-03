@@ -49,7 +49,7 @@ public class Bomb extends Power {
     /** Method that finds all Tiles bomb can reach.
      *  @return All Tiles that bomb can reach (not grass) in all 4 directions.
      */
-    ArrayList<Tile> findPathTiles () {
+    private ArrayList<Tile> findPathTiles () {
         ArrayList<Tile> tilesToExplode = new ArrayList<>();
 
         int counter = 1;
@@ -107,6 +107,10 @@ public class Bomb extends Power {
 
         g.drawImage(new Image(path),x,y);
     }
+
+    /**
+     * Getter for fileReader
+     */
 
     public int getTicksActive() {
         return ticksActive;

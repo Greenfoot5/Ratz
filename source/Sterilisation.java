@@ -12,7 +12,8 @@ public class Sterilisation extends Power{
     /**
      * Sterilisation constructor
      *
-     * @param isPassable can rats walk through.
+     * @param xPos x coordinate
+     * @param yPos y coordinate
      */
 
     Sterilisation(int xPos, int yPos) {
@@ -48,4 +49,11 @@ public class Sterilisation extends Power{
         }
     }
 
+    /**
+     * Getter for fileReader
+     */
+
+    public int getTicksActive() {
+        return ticksActive;
+    }
 }

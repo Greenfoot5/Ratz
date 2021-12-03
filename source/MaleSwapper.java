@@ -9,7 +9,8 @@ public class MaleSwapper extends Power{
 
     /** MaleSwapper constructor
      *
-     * @param isPassable can rats walk through.
+     * @param xPos x coordinate
+     * @param yPos y coordinate
      */
 
     MaleSwapper(int xPos, int yPos) {
@@ -27,15 +28,13 @@ public class MaleSwapper extends Power{
     void activate(ArrayList<Rat> rats, Tile currentTile) {
         for (Rat r : rats) {
             if(r instanceof AdultFemale) {
-                /* Will not work until AdultMale&AdultFemale getters are set up.
+                AdultMale copyRat = new AdultMale(r.getSpeed(), r.getDirection(), r.getGasTimer(),
+                        this.xPos, this.yPos, ((AdultFemale) r).isFertile);
 
-                AdultMale copyRat = new AdultMale(true,false,
-                        r.getSpeed(), r.getDirection(), r.getGasTimer(),
-                        r.getX(), r.getY(), r.getFertile());
-
+                currentTile.removeActivePower(this);
                 currentTile.addOccupantRat(copyRat);
                 currentTile.removeOccupantRat(r);
-                */
+            } else {
                 currentTile.removeActivePower(this);
             }
         }

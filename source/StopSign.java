@@ -65,6 +65,10 @@ public class StopSign extends Power {
         g.drawImage(new Image(path),x,y);
     }
 
+    /**
+     * Getter for fileReader
+     */
+
     public int getHP() {
         return HP;
     }

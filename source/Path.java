@@ -48,7 +48,7 @@ public class Path extends Tile {
         }
 
         if (drawGas) {
-            (new Gas(x, y)).draw(x,y,g);
+            (new Gas(x, y, true)).draw(x,y,g);
         }
 
     }

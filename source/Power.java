@@ -13,6 +13,8 @@ public abstract class Power extends GameObject {
      * Power constructor
      *
      * @param isPassable can rats walk through.
+     * @param xPos x coordinate
+     * @param yPos y coordinate
      */
 
     Power(boolean isPassable, int xPos, int yPos) {
