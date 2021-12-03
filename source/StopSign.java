@@ -72,4 +72,8 @@ public class StopSign extends Power {
     public int getHP() {
         return HP;
     }
+
+    public void setHP(int HP) {
+        this.HP = HP;
+    }
 }
