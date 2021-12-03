@@ -84,6 +84,42 @@ public class LevelFileReader {
         // save shit to a file.
     }
 
+    /**
+     * Converts a direction stored as an int into a Direction enum.
+     * @param directionInt int from 0-3 representing north, east, south, west
+     * @return Direction
+     */
+    private static Rat.Direction directionIntToEnum(int directionInt){
+        switch(directionInt) {
+            case 0:
+                return Rat.Direction.NORTH;
+            case 1:
+                return Rat.Direction.EAST;
+            case 2:
+                return Rat.Direction.SOUTH;
+            default:
+                return Rat.Direction.WEST;
+        }
+    }
+
+    /**
+     * Converts a Direction enum to an int
+     * @param directionEnum Direction
+     * @return int from 0-3 representing north, east, south, west
+     */
+    private static int directionEnumToInt(Rat.Direction directionEnum){
+        switch(directionEnum) {
+            case NORTH:
+                return 0;
+            case EAST:
+                return 1;
+            case SOUTH:
+                return 2;
+            default:
+                return 3;
+        }
+    }
+
     public static void loadLevelFile(String filename) throws FileNotFoundException {
         File levelData = new File(filename);
 
@@ -122,21 +158,7 @@ public class LevelFileReader {
             if (currentItem[0] == "f") {
                 int speed = Integer.parseInt(currentItem[1]);
                 int directionInt = Integer.parseInt(currentItem[2]);
-                Rat.Direction direction;
-                switch(directionInt) {
-                    case 0:
-                        direction = Rat.Direction.NORTH;
-                        break;
-                    case 1:
-                        direction = Rat.Direction.EAST;
-                        break;
-                    case 2:
-                        direction = Rat.Direction.SOUTH;
-                        break;
-                    default:
-                        direction = Rat.Direction.WEST;
-                        break;
-                }
+                Rat.Direction direction = directionIntToEnum(directionInt);
                 int gasTimer = Integer.parseInt(currentItem[3]);
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
@@ -155,21 +177,7 @@ public class LevelFileReader {
             if (currentItem[0] == "m") {
                 int speed = Integer.parseInt(currentItem[1]);
                 int directionInt = Integer.parseInt(currentItem[2]);
-                Rat.Direction direction;
-                switch(directionInt) {
-                    case 0:
-                        direction = Rat.Direction.NORTH;
-                        break;
-                    case 1:
-                        direction = Rat.Direction.EAST;
-                        break;
-                    case 2:
-                        direction = Rat.Direction.SOUTH;
-                        break;
-                    default:
-                        direction = Rat.Direction.WEST;
-                        break;
-                }
+                Rat.Direction direction = directionIntToEnum(directionInt);
                 int gasTimer = Integer.parseInt(currentItem[3]);
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
@@ -188,21 +196,7 @@ public class LevelFileReader {
             if (currentItem[0] == "F") {
                 int speed = Integer.parseInt(currentItem[1]);
                 int directionInt = Integer.parseInt(currentItem[2]);
-                Rat.Direction direction;
-                switch(directionInt) {
-                    case 0:
-                        direction = Rat.Direction.NORTH;
-                        break;
-                    case 1:
-                        direction = Rat.Direction.EAST;
-                        break;
-                    case 2:
-                        direction = Rat.Direction.SOUTH;
-                        break;
-                    default:
-                        direction = Rat.Direction.WEST;
-                        break;
-                }
+                Rat.Direction direction = directionIntToEnum(directionInt);
                 int gasTimer = Integer.parseInt(currentItem[3]);
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
@@ -222,21 +216,7 @@ public class LevelFileReader {
             if (currentItem[0] == "M") {
                 int speed = Integer.parseInt(currentItem[1]);
                 int directionInt = Integer.parseInt(currentItem[2]);
-                Rat.Direction direction;
-                switch(directionInt) {
-                    case 0:
-                        direction = Rat.Direction.NORTH;
-                        break;
-                    case 1:
-                        direction = Rat.Direction.EAST;
-                        break;
-                    case 2:
-                        direction = Rat.Direction.SOUTH;
-                        break;
-                    default:
-                        direction = Rat.Direction.WEST;
-                        break;
-                }
+                Rat.Direction direction = directionIntToEnum(directionInt);
                 int gasTimer = Integer.parseInt(currentItem[3]);
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
@@ -254,21 +234,7 @@ public class LevelFileReader {
             if (currentItem[0] == "D") {
                 int speed = Integer.parseInt(currentItem[1]);
                 int directionInt = Integer.parseInt(currentItem[2]);
-                Rat.Direction direction;
-                switch(directionInt) {
-                    case 0:
-                        direction = Rat.Direction.NORTH;
-                        break;
-                    case 1:
-                        direction = Rat.Direction.EAST;
-                        break;
-                    case 2:
-                        direction = Rat.Direction.SOUTH;
-                        break;
-                    default:
-                        direction = Rat.Direction.WEST;
-                        break;
-                }
+                Rat.Direction direction = directionIntToEnum(directionInt);
                 int gasTimer = Integer.parseInt(currentItem[3]);
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
