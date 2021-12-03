@@ -303,4 +303,9 @@ public class MainMenuController extends Application {
 
 		levelStage.setScene(scene);
 	}
+
+    public void finishLevel(String levelName)
+    {
+
+    }
 }
