@@ -45,7 +45,16 @@ public class ChildRat extends LivingRat {
     }
 
     public void growUp() {
-        // call AdultMale or AdultFemale constructor as appropriate
+        if (isFemale) {
+            AdultFemale newAdult = new AdultFemale(20, direction, gasTimer,
+                    xPos, yPos, isFertile, 0, 0);
+            LevelController.getTileAt(xPos,yPos).addOccupantRat(newAdult);
+        } else {
+            AdultMale newAdult = new AdultMale(20, direction, gasTimer,
+                    xPos, yPos, isFertile);
+            LevelController.getTileAt(xPos,yPos).addOccupantRat(newAdult);
+        }
+        LevelController.getTileAt(xPos,yPos).removeOccupantRat(this);
     }
 
 
