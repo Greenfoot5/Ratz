@@ -47,12 +47,12 @@ public class Tile extends GameObject {
         this.occupantRats.remove(r);
     }
 
-    public void update() {
+    public void update(int frameTime) {
         for(Power p : activePowers) {
             p.onTick(occupantRats, this);
         }
         for(Rat r : occupantRats) {
-            r.walk();
+            r.onTick();
         }
     }
 
