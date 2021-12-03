@@ -21,24 +21,9 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Class that implements a playable level.
+ * @author Vilija Pundyte
+ * @version 1.0
  */
-
-//FOR OTHER CLASSES:
-
-    //NOT SURE WHO:
-        //ratKilled() and ratRemoved() are two different things:
-            //ratKilled() is for when a rat is killed by a power,
-            //ratRemoved() is for when one instance of a rat is changed for another (gender swap, growing up).
-
-    //RATS:
-        //Rats have to ask the government whether they are allowed to have babies! (.canReproduce()).
-
-    //FILE READER:
-        //How are multiple rats/powers on one tile and pregnant rats(+num of babies) represented?
-
-//TODO:
-    //Add powers to level creation from level file
-    //Implement game saving
 
 public class LevelController {
 
@@ -47,12 +32,11 @@ public class LevelController {
     //Game map
     private static Tile[][] tileMap = new Tile[0][0];
 
-    //TODO: Change to images from an actual class
     //Images for different game items
-    private final List<Image> itemImages = Arrays.asList(new Image("file:resources/bomb.png"),new Image("file:resources/gas.png"),
-            new Image("file:resources/sterilisation.png"), new Image("file:resources/poison.png"),
-            new Image("file:resources/maleswapper.png"),new Image("file:resources/femaleswapper.png"),
-            new Image("file:resources/stopsign.png"),new Image("file:resources/deathrat.png"));
+    private final List<Image> itemImages = Arrays.asList((new Bomb(0,0)).getImg(),(new Gas(0,0,true)).getImg(),
+            (new Sterilisation(0,0)).getImg(), (new Poison(0,0)).getImg(),
+            (new MaleSwapper(0,0)).getImg(),(new FemaleSwapper(0,0)).getImg(),
+            (new StopSign(0,0)).getImg(),(new DeathRat(0, Rat.Direction.WEST,0,0,0,0)).getImg());
     private final int[] counters = new int[ITEM_NUM];
 
     private final int WIDTH;
@@ -65,12 +49,11 @@ public class LevelController {
     private final int[] timeUntilDrop = new int [ITEM_NUM];
 
     //Current level reader
-    private final LevelFileReader LEVEL_READER;
     private final MainMenuController MAIN_MENU;
     private final ProfileFileReader PROFILE_READER;
 
     //Milliseconds between frames
-    private final int FRAME_TIME = 500;
+    private final int FRAME_TIME = 250;
 
     //Item toolbars
     private List<HBox> toolbars;
@@ -114,24 +97,23 @@ public class LevelController {
      * @param fileReader instance of LevelFileReader that the level will be loaded from.
      */
     public LevelController (LevelFileReader fileReader, MainMenuController mainMenuController, ProfileFileReader profileFileReader) {
-        LEVEL_READER = fileReader;
         MAIN_MENU = mainMenuController;
         PROFILE_READER = profileFileReader;
-        WIDTH = LEVEL_READER.getWidth();
-        HEIGHT = LEVEL_READER.getHeight();
+        WIDTH = LevelFileReader.getWidth();
+        HEIGHT = LevelFileReader.getHeight();
 
         buildNewLevel();
 
-        MAX_RATS = LEVEL_READER.getMaxRats();
-        PAR_TIME = LEVEL_READER.getParTime();
-        DROP_RATES = LEVEL_READER.getDropRates();
+        MAX_RATS = LevelFileReader.getMaxRats();
+        PAR_TIME = LevelFileReader.getParTime();
+        DROP_RATES = LevelFileReader.getDropRates();
     }
 
     /**
      * Initializes game.
      */
     public void initialize() {
-        //currentTimeLeft = PAR_TIME;
+        currentTimeLeft = PAR_TIME;
         timerLabel.setText(millisToString(currentTimeLeft));
 
         toolbars = Arrays.asList(bombToolbar,gasToolbar, sterilisationToolbar, poisonToolbar, maleSwapToolbar, femaleSwapToolbar, stopSignToolbar, deathRatToolbar);
@@ -213,7 +195,7 @@ public class LevelController {
     public void tick() {
         if ((femaleRatCounter + maleRatCounter + childRatCounter) == 0) {
             endGame(true);
-        } else if (currentTimeLeft <= 0){
+        } else if (currentTimeLeft <= 0 || (femaleRatCounter + maleRatCounter + childRatCounter) >= MAX_RATS){
             endGame(false);
         } else {
             addPowers();
@@ -357,8 +339,7 @@ public class LevelController {
                 power = new StopSign(x, y);
                 break;
             case 7:
-                //tileMap[x][y].addOccupantRat(new DeathRat);
-                addPower = false;
+                tileMap[x][y].addOccupantRat(new DeathRat(4,Rat.Direction.NORTH,0,x,y,0));
                 break;
             default: addPower = false;
         }
@@ -429,14 +410,6 @@ public class LevelController {
     }
 
     /**
-     * Decides whether rats can reproduce (the number of rats doesn't exceed maximum).
-     * @return can rats reproduce.
-     */
-    public boolean canReproduce() {
-        return (femaleRatCounter + maleRatCounter) < MAX_RATS;
-    }
-
-    /**
      * Removes rat from a rat counter.
      * @param rat the rat being removed.
      */
@@ -470,10 +443,12 @@ public class LevelController {
      */
     public static void ratKilled(Rat rat) {
         if(rat instanceof AdultFemale) {
-            //if (((AdultFemale) rat).isPregnant()) {
+            if (((AdultFemale) rat).getRatFetusCount() > 0) {
+                for(int i = 0; i < ((AdultFemale) rat).getRatFetusCount(); i++) {
+                    score += 10;
+                }
                 score += 10;
-                //TODO: Figure out how many babies a pregnant rat has and +10 for each baby (combo kill)
-            //}
+            }
             femaleRatCounter--;
         } else if(rat instanceof AdultMale) {
             score += 10;

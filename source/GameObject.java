@@ -1,13 +1,10 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-//TODO:
-    //@Override draw in Path (that draws the path + everything that is on it)
-    //@Override draw in Rat (that makes rat sprite face a certain direction)
-    //@Override draw in Bomb (that makes the countdown of a bomb visible to player)
-
 /**
  * Class that describes a game object.
+ * @author Vilija Pundyte
+ * @version 1.0
  */
 public abstract class GameObject {
     private static final int WIDTH = 64;

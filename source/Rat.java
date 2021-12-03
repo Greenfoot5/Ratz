@@ -1,3 +1,6 @@
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -284,5 +287,40 @@ public abstract class Rat extends GameObject {
         LevelController.getTileAt(this.xPos,this.yPos).removeOccupantRat(this);
     }
 
+    /**
+     * Draws rat to screen.
+     * @param x Horizontal position.
+     * @param y Vertical position.
+     * @param gc Graphics context.
+     */
+    @Override
+    public void draw(int x, int y, GraphicsContext gc){
+        x = getWIDTH() * x;
+        y = getWIDTH() * y;
 
+        String className = this.getClass().getSimpleName().toLowerCase();
+
+        String path;
+
+        if(direction == null) {
+            path = "file:" + getTextureFolder() + "/" + className + "NORTH" + ".png";
+        } else {
+            path = createTexturePath();
+        }
+
+        gc.drawImage(new Image(path),x,y);
+    }
+
+    /**
+     * Creates path to texture of a rat.
+     * @return path.
+     */
+    public String createTexturePath() {
+        String className = this.getClass().getSimpleName().toLowerCase();
+        if(direction == null) {
+            return "file:" + getTextureFolder() + "/" + className + "NORTH" + ".png";
+        } else {
+            return "file:" + getTextureFolder() + "/" + className + direction.name() + ".png";
+        }
+    }
 }
