@@ -75,7 +75,7 @@ public class AdultFemale extends LivingRat {
                 newIsFemale = false;
             }
 
-            ChildRat newBaby = new ChildRat(40, direction, 0,
+            ChildRat newBaby = new ChildRat(8, direction, 0,
                     xPos, yPos, true, 0, newIsFemale);
             LevelController.ratAdded(newBaby);
             LevelController.getTileAt(xPos,yPos).addOccupantRat(newBaby);
