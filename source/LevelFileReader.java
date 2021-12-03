@@ -13,7 +13,7 @@ public class LevelFileReader {
     private static int height;
     private static int width;
     private static String[] tiles;
-    private static String[] powers;
+    private static Power[] powers;
     private static Rat[] ratSpawns;
     private static int maxRats;
     private static int parTime;
@@ -55,7 +55,8 @@ public class LevelFileReader {
         return ratSpawns;
     }
 
-    public static String[] getPowers() {
+    public static Power[] getPowers() {
+        powers = powerArrayList.toArray(new Power[0]);
         return powers;
     }
 
