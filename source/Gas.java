@@ -1,3 +1,5 @@
+import javafx.scene.canvas.GraphicsContext;
+
 import java.util.ArrayList;
 
 /**
@@ -34,7 +36,6 @@ public class Gas extends Power {
 
         //Where the rats get gassed.
         for (Tile tile : tilesToGas) {
-
             for (Rat r : tile.getOccupantRats()) {
                 r.incGasTimer();
             }
@@ -42,6 +43,7 @@ public class Gas extends Power {
 
         if (ticksActive >= 5) {
             currentTile.removeActivePower(this);
+            //And this is where Drawing should be removed? But how ? :(
         }
     }
 
@@ -57,28 +59,37 @@ public class Gas extends Power {
         while(LevelController.getTileAt(this.xPos, this.yPos+counter).isPassable()) {
             tilesToGas.add(LevelController.getTileAt(this.xPos,
                     this.yPos+counter));
+            //draw(this.xPos, this.yPos+counter, getImg("Gas"));
             counter++;
         }
 
         while(LevelController.getTileAt(this.xPos, this.yPos-counter).isPassable()) {
             tilesToGas.add(LevelController.getTileAt(this.xPos,
                     this.yPos-counter));
+            //draw(this.xPos, this.yPos-counter, getImg("Gas"));
             counter++;
         }
 
         while(LevelController.getTileAt(this.xPos+counter, this.yPos).isPassable()) {
             tilesToGas.add(LevelController.getTileAt(this.xPos+counter,
                     this.yPos));
+            //draw(this.xPos+counter, this.yPos, getImg("Gas"));
             counter++;
         }
 
         while(LevelController.getTileAt(this.xPos-counter, this.yPos).isPassable()) {
             tilesToGas.add(LevelController.getTileAt(this.xPos-counter,
                     this.yPos));
+            //draw(this.xPos-counter, this.yPos, getImg("Gas"));
             counter++;
         }
 
         return tilesToGas;
+    }
+
+    @Override
+    public void draw(int x, int y, GraphicsContext g) {
+        super.draw(x, y, g);
     }
 
     /**
