@@ -28,12 +28,57 @@ public class Gas extends Power {
 
     @Override
     void activate(ArrayList<Rat> rats, Tile currentTile) {
-        for (Rat r : rats) {
-            r.incGasTimer();
+
+        ArrayList<Tile> tilesToGas = findPathTiles();
+        tilesToGas.add(currentTile);
+
+        //Where the rats get gassed.
+        for (Tile tile : tilesToGas) {
+
+            for (Rat r : tile.getOccupantRats()) {
+                r.incGasTimer();
+            }
         }
+
         if (ticksActive >= 5) {
             currentTile.removeActivePower(this);
         }
+    }
+
+    /** Method that finds all Tiles Gas can reach.
+     *  @return All Tiles that Gas can reach (not grass) in all 4 directions.
+     */
+
+    ArrayList<Tile> findPathTiles () {
+        ArrayList<Tile> tilesToGas = new ArrayList<>();
+
+        int counter = 1;
+
+        while(LevelController.getTileAt(this.xPos, this.yPos+counter).isPassable()) {
+            tilesToGas.add(LevelController.getTileAt(this.xPos,
+                    this.yPos+counter));
+            counter++;
+        }
+
+        while(LevelController.getTileAt(this.xPos, this.yPos-counter).isPassable()) {
+            tilesToGas.add(LevelController.getTileAt(this.xPos,
+                    this.yPos-counter));
+            counter++;
+        }
+
+        while(LevelController.getTileAt(this.xPos+counter, this.yPos).isPassable()) {
+            tilesToGas.add(LevelController.getTileAt(this.xPos+counter,
+                    this.yPos));
+            counter++;
+        }
+
+        while(LevelController.getTileAt(this.xPos-counter, this.yPos).isPassable()) {
+            tilesToGas.add(LevelController.getTileAt(this.xPos-counter,
+                    this.yPos));
+            counter++;
+        }
+
+        return tilesToGas;
     }
 
     /**
