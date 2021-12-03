@@ -249,8 +249,9 @@ public class LevelFileReader {
             if (currentItem[0] == "B") {
                 int xPos = Integer.parseInt(currentItem[1]);
                 int yPos = Integer.parseInt(currentItem[2]);
-                int ticksActive; // TODO: set when there's a getter for this
+                int ticksActive = Integer.parseInt(currentItem[3]);
                 Bomb newBomb = new Bomb(xPos,yPos);
+                newBomb.setTicksActive(ticksActive);
                 powerArrayList.add(newBomb);
             }
 
@@ -264,8 +265,9 @@ public class LevelFileReader {
                 } else {
                     isOriginal = false;
                 }
-                int ticksActive; // TODO: set when there's a getter for this
+                int ticksActive = Integer.parseInt(currentItem[4]);
                 Gas newGas = new Gas(xPos, yPos, isOriginal);
+                newGas.setTicksActive(ticksActive);
                 powerArrayList.add(newGas);
             }
 
@@ -273,8 +275,9 @@ public class LevelFileReader {
             if (currentItem[0] == "S") {
                 int xPos = Integer.parseInt(currentItem[1]);
                 int yPos = Integer.parseInt(currentItem[2]);
-                int ticksActive; // TODO: set when there's a getter for this
+                int ticksActive = Integer.parseInt(currentItem[3]);
                 Sterilisation newSterilisation = new Sterilisation(xPos, yPos);
+                newSterilisation.setTicksActive(ticksActive);
                 powerArrayList.add(newSterilisation);
             }
 
