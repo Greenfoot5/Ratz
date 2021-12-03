@@ -258,8 +258,14 @@ public class LevelFileReader {
             if (currentItem[0] == "G") {
                 int xPos = Integer.parseInt(currentItem[1]);
                 int yPos = Integer.parseInt(currentItem[2]);
+                boolean isOriginal;
+                if (currentItem[3] == "1") {
+                    isOriginal = true;
+                } else {
+                    isOriginal = false;
+                }
                 int ticksActive; // TODO: set when there's a getter for this
-                Gas newGas = new Gas(xPos, yPos);
+                Gas newGas = new Gas(xPos, yPos, isOriginal);
                 powerArrayList.add(newGas);
             }
 
