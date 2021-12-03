@@ -34,6 +34,8 @@ public class MaleSwapper extends Power{
                 currentTile.removeActivePower(this);
                 currentTile.addOccupantRat(copyRat);
                 currentTile.removeOccupantRat(r);
+            } else {
+                currentTile.removeActivePower(this);
             }
         }
     }
