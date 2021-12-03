@@ -11,8 +11,8 @@ public class FemaleSwapper extends Power {
      * FemaleSwapper constructor
      */
 
-    FemaleSwapper() {
-        super(true);
+    FemaleSwapper(int xPos, int yPos) {
+        super(true, xPos, yPos);
     }
 
 

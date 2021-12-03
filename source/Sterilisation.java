@@ -15,8 +15,8 @@ public class Sterilisation extends Power{
      * @param isPassable can rats walk through.
      */
 
-    Sterilisation() {
-        super(true);
+    Sterilisation(int xPos, int yPos) {
+        super(true, xPos, yPos);
     }
 
     /**

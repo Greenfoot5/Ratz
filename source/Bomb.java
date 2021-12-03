@@ -17,8 +17,8 @@ public class Bomb extends Power {
      * Bomb constructor
      */
 
-    Bomb() {
-        super(true);
+    Bomb(int xPos, int yPos) {
+        super(true, xPos, yPos);
     }
 
     /**
@@ -32,11 +32,53 @@ public class Bomb extends Power {
     @Override
     void activate(ArrayList<Rat> rats, Tile currentTile) {
         if (ticksActive >= 5) {
-            for (Rat r : rats) {
-                r.die();
+            ArrayList<Tile> tilesToExplode = findPathTiles();
+            tilesToExplode.add(currentTile);
+
+            //Explody bit
+            for (Tile tile : tilesToExplode) {
+                for (Rat r : tile.getOccupantRats()) {
+                    r.die();
+                }
             }
+
             currentTile.removeActivePower(this);
         }
+    }
+
+    /** Method that finds all Tiles bomb can reach.
+     *  @return All Tiles that bomb can reach (not grass) in all 4 directions.
+     */
+    ArrayList<Tile> findPathTiles () {
+        ArrayList<Tile> tilesToExplode = new ArrayList<>();
+
+        int counter = 1;
+
+        while(LevelController.getTileAt(this.xPos, this.yPos+counter).isPassable()) {
+            tilesToExplode.add(LevelController.getTileAt(this.xPos,
+                    this.yPos+counter));
+            counter++;
+        }
+
+        while(LevelController.getTileAt(this.xPos, this.yPos-counter).isPassable()) {
+            tilesToExplode.add(LevelController.getTileAt(this.xPos,
+                    this.yPos-counter));
+            counter++;
+        }
+
+        while(LevelController.getTileAt(this.xPos+counter, this.yPos).isPassable()) {
+            tilesToExplode.add(LevelController.getTileAt(this.xPos+counter,
+                    this.yPos));
+            counter++;
+        }
+
+        while(LevelController.getTileAt(this.xPos-counter, this.yPos).isPassable()) {
+            tilesToExplode.add(LevelController.getTileAt(this.xPos-counter,
+                    this.yPos));
+            counter++;
+        }
+
+        return tilesToExplode;
     }
 
     /**

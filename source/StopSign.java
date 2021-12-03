@@ -17,8 +17,8 @@ public class StopSign extends Power {
      * StopSign constructor
      */
 
-    StopSign() {
-        super(false);
+    StopSign(int xPos, int yPos) {
+        super(true, xPos, yPos);
     }
 
     /**

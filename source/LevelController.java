@@ -339,25 +339,25 @@ public class LevelController {
         boolean addPower = true;
         switch(index) {
             case 0:
-                power = new Bomb();
+                power = new Bomb(x, y);
                 break;
             case 1:
-                power = new Gas();
+                power = new Gas(x, y);
                 break;
             case 2:
-                power = new Sterilisation();
+                power = new Sterilisation(x, y);
                 break;
             case 3:
-                power = new Poison();
+                power = new Poison(x, y);
                 break;
             case 4:
-                power = new MaleSwapper();
+                power = new MaleSwapper(x, y);
                 break;
             case 5:
-                power = new FemaleSwapper();
+                power = new FemaleSwapper(x, y);
                 break;
             case 6:
-                power = new StopSign();
+                power = new StopSign(x, y);
                 break;
             case 7:
                 //tileMap[x][y].addOccupantRat(new DeathRat);

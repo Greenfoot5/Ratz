@@ -5,7 +5,9 @@ import java.util.ArrayList;
  * @author Daumantas Balakauskas
  */
 
-public abstract class Power extends GameObject{
+public abstract class Power extends GameObject {
+    protected int xPos;
+    protected int yPos;
 
     /**
      * Power constructor
@@ -13,8 +15,10 @@ public abstract class Power extends GameObject{
      * @param isPassable can rats walk through.
      */
 
-    Power(boolean isPassable) {
-        super(isPassable);
+    Power(boolean isPassable, int xPos, int yPos) {
+        super(true);
+        this.xPos = xPos;
+        this.yPos = yPos;
     }
 
     /**

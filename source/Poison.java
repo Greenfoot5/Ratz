@@ -11,8 +11,8 @@ public class Poison extends Power {
      * Poison constructor
      */
 
-    Poison() {
-        super(true);
+    Poison(int xPos, int yPos) {
+        super(true, xPos, yPos);
     }
 
     /**M
