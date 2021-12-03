@@ -17,7 +17,7 @@ public class LevelFileReader {
     private static Rat[] ratSpawns;
     private static int maxRats;
     private static int parTime;
-    private static int[] dropRates;
+    private static int[] dropRates = new int[8];
     private static ArrayList<Rat> ratArrayList = new ArrayList<>();
     private static ArrayList<Power> powerArrayList = new ArrayList<>();
 
@@ -129,9 +129,11 @@ public class LevelFileReader {
 
         // get level width and height
         if (reader.hasNextLine()) {
-            String[] levelSize = reader.nextLine().split(",");
-            width = Integer.parseInt(levelSize[0]);
-            height = Integer.parseInt(levelSize[1]);
+            String[] levelStats = reader.nextLine().split(",");
+            width = Integer.parseInt(levelStats[0]);
+            height = Integer.parseInt(levelStats[1]);
+            maxRats = Integer.parseInt(levelStats[2]);
+            parTime = Integer.parseInt(levelStats[3]);
         }
 
 
@@ -312,7 +314,11 @@ public class LevelFileReader {
                 newStopSign.setHP(HP);
                 powerArrayList.add(newStopSign);
             }
+        }
 
+        String[] dropRatesString = reader.nextLine().split(",");
+        for (int i=0; i < dropRates.length; i++) {
+            dropRates[i] = Integer.parseInt(dropRatesString[i]);
         }
 
     }
