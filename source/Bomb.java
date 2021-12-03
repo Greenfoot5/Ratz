@@ -107,4 +107,8 @@ public class Bomb extends Power {
 
         g.drawImage(new Image(path),x,y);
     }
+
+    public int getTicksActive() {
+        return ticksActive;
+    }
 }

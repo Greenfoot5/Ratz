@@ -61,42 +61,12 @@ public class LevelLoader {
         return tileMap;
     }
 
-    /**
-     * Turns string of rats into rats and adds them to tile map.
-     * @param rats string of rats.
-     * @param tileMap current tile map.
-     * @param levelController reference to the level controller that is using level loader.
-     * @return tile map.
-     */
-    private static Tile[][] addRatsToTileMap(String[] rats, Tile[][] tileMap, LevelController levelController) {
-        for(int i = 0; i < tileMap[i].length ; i++) {
-            int charPos = -1;
-            for (int j = 0; j < tileMap.length; j++) {
-                charPos ++;
-                switch (rats[i].charAt(charPos)) {
-                    case 'f':
-                        //Rat fRat = new AdultFemale();
-                        //tileMap[j][i].addRat(fRat);
-                        //levelController.ratAdded(fRat);
-                        break;
-                    case 'm':
-                        //Rat mRat = new AdultMale();
-                        //tileMap[j][i].addRat(mRat);
-                        //levelController.ratAdded(mRat);
-                        break;
-                    case 'c':
-                        //Rat cRat = new ChildRat();
-                        //tileMap[j][i].addRat(cRat);
-                        //levelController.ratAdded(cRat);
-                }
-            }
-        }
-        return tileMap;
-    }
-
-    public static void saveTileMap(Tile[][] tileMap, LevelFileReader levelFileReader) {
+    public static void saveTileMap(Tile[][] tileMap) {
         String[] tileString = tilesToString(tileMap);
         String[] ratString = ratsToString(tileMap);
+        String[] powerString = powersToString(tileMap);
+
+        //LevelFileReader.saveLevelState(tileMap[0].length,tileMap.length,tileString,ratString,powerString);
     }
 
     private static String[] tilesToString(Tile[][] tileMap) {
@@ -117,29 +87,107 @@ public class LevelLoader {
     }
 
     private static String[] ratsToString(Tile[][] tileMap) {
-        String[] ratString = new String[tileMap[0].length];
-        //for(int i = 0; i < tileMap.length ; i++) {
-        //    for (int j = 0; j < tileMap[i].length; j++) {
-        //        Rat[] rats = tileMap[i][j].getRats();
-        //        if (rats.length == 0) {
-        //            ratString[j] += "-";
-        //        } else {
-        //            for(int k = 0; k < rats.length; k++) {
-        //                Rat rat = rats[k];
-        //                if (rat instanceof AdultMale) {
-        //                    ratString[j] += "m";
-        //                } else if (rat instanceof AdultFemale) {
-        //                    ratString[j] += "f";
-        //                } else if (rat instanceof ChildRat) {
-        //if female "c"
-        //if male "k"
-        //                } else if (rat instanceof DeathRat) {
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
+        String[] ratString = new String[100];
+        for(int i = 0; i < tileMap.length ; i++) {
+            for (int j = 0; j < tileMap[i].length; j++) {
+                Rat[] rats = tileMap[i][j].getOccupantRats().toArray(new Rat[0]);
+                if (rats.length > 0) {
+                    for (Rat rat : rats) {
+                        if (rat instanceof AdultMale) {
+                            ratString[j] += "M,";
+                            int fertility;
+                            if (((AdultMale) rat).getFertile()) {
+                                fertility = 1;
+                            } else {
+                                fertility = 0;
+                            }
+                            ratString[j] = ratString[j] + rat.getSpeed() + "," + rat.getDirection() + "," + rat.getGasTimer() + "," + i + "," +
+                                    j + "," + fertility;
+                        } else if (rat instanceof AdultFemale) {
+                            ratString[j] += "F,";
+                            int fertility;
+                            if (((AdultFemale) rat).getFertile()) {
+                                fertility = 1;
+                            } else {
+                                fertility = 0;
+                            }
+                            ratString[j] = ratString[j] + rat.getSpeed() + "," + rat.getDirection() + "," + rat.getGasTimer() + "," + i + "," +
+                                    j + "," + fertility + "," + ((AdultFemale) rat).getPregnancyTime() + "," + ((AdultFemale) rat).getRatFetusCount();
+                        } else if (rat instanceof ChildRat) {
+                            if (((ChildRat) rat).getIsFemale()) {
+                                ratString[j] += "f,";
+                            } else {
+                                ratString[j] += "m,";
+                            }
+                            int fertility;
+                            if (((ChildRat) rat).getFertile()) {
+                                fertility = 1;
+                            } else {
+                                fertility = 0;
+                            }
+                            ratString[j] = ratString[j] + rat.getSpeed() + "," + rat.getDirection() + "," + rat.getGasTimer() + "," + i + "," +
+                                    j + "," + fertility + "," + ((ChildRat) rat).getAge();
+                        } else if (rat instanceof DeathRat) {
+                            ratString[j] += "D,";
+                            ratString[j] = ratString[j] + rat.getSpeed() + "," + rat.getDirection() + "," + rat.getGasTimer() + "," + i + "," +
+                                    j + "," + ((DeathRat) rat).getKillCounter();
+                        }
+                    }
+                }
+            }
+        }
         return ratString;
     }
 
+    private static String[] powersToString(Tile[][] tileMap) {
+        String[] powerString = new String[100];
+        for(int i = 0; i < tileMap.length ; i++) {
+            for (int j = 0; j < tileMap[i].length; j++) {
+                Power[] powers = tileMap[i][j].getActivePowers().toArray(new Power[0]);
+                if (powers.length > 0) {
+                    for (Power power : powers) {
+                        if (power instanceof Bomb){
+                            switch(((Bomb) power).getTicksActive()) {
+                                case 0:
+                                    break;
+                                case 1:
+                                    break;
+                                case 2:
+                                    break;
+                                case 3:
+                                    break;
+                                case 4:
+                                    break;
+                            }
+                        } else if (power instanceof Gas) {
+                            //do gas
+                        } else if (power instanceof Sterilisation) {
+                            //do sterilize
+                        } else if (power instanceof Poison) {
+                            //do poison
+                        } else if (power instanceof MaleSwapper) {
+                            //do male swap
+                        } else if (power instanceof FemaleSwapper) {
+                            //do female swap
+                        } else if (power instanceof StopSign) {
+                            //do the hustle do do do do dododo do do
+                            switch (((StopSign) power).getHP()) {
+                                case 1:
+                                    break;
+                                case 2:
+                                    break;
+                                case 3:
+                                    break;
+                                case 4:
+                                    break;
+                                case 5:
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return powerString;
+    }
 }

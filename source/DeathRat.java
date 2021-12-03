@@ -55,4 +55,8 @@ public class DeathRat extends Rat {
             }
         }
     }
+
+    public int getKillCounter() {
+        return killCounter;
+    }
 }

@@ -29,11 +29,8 @@ import java.util.concurrent.TimeUnit;
         //ratKilled() and ratRemoved() are two different things:
             //ratKilled() is for when a rat is killed by a power,
             //ratRemoved() is for when one instance of a rat is changed for another (gender swap, growing up).
-        //Rats, bombs, and gas need to periodically update (tick()), LevelController either has to call Tile so that it calls and updates everything
-            //or call everything (by accessing the rats and powers on a tile) itself.
 
     //RATS:
-        //AdultFemale method for amount of babies needed (only used when pregnant).
         //Rats have to ask the government whether they are allowed to have babies! (.canReproduce()).
 
     //FILE READER:
