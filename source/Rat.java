@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * An abstract class to model a rat. Scurries around and dies when appropriate.
@@ -15,6 +17,8 @@ public abstract class Rat extends GameObject {
     public enum Direction {
         NORTH, EAST, SOUTH, WEST
     }
+
+    List<Direction> dirsList = Arrays.asList(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
 
     /**
      * Rat constructor.
@@ -61,26 +65,12 @@ public abstract class Rat extends GameObject {
      * The rat will only go backwards if no other directions are valid.
      */
     public void walk() {
-
-        switch(direction) {
-            case NORTH:
-                LevelController.getTileAt(xPos,yPos--).addOccupantRat(this);
-                yPos--;
-                break;
-            case EAST:
-                LevelController.getTileAt(xPos++,yPos).addOccupantRat(this);
-                xPos++;
-                break;
-            case SOUTH:
-                LevelController.getTileAt(xPos,yPos++).addOccupantRat(this);
-                yPos++;
-                break;
-            case WEST:
-                LevelController.getTileAt(xPos--,yPos).addOccupantRat(this);
-                xPos--;
-                break;
+        direction = setNewDirection();
+        if (direction != null){
+            getForwardTile().addOccupantRat(this);
+            LevelController.getTileAt(xPos,yPos).removeOccupantRat(this);
         }
-        LevelController.getTileAt(xPos,yPos).removeOccupantRat(this);
+
     }
 
     /**
@@ -90,11 +80,49 @@ public abstract class Rat extends GameObject {
         this.direction = direction;
     }
 
-    public Direction findValidDirection() {
-        // add valid dirs to a list using getForwardTile() and co.
-        // pick one at random
-        // if the list is empty, go backwards because you've hit a dead end
-        return null;
+
+    public Direction turnRight() {
+        return dirsList.get((dirsList.indexOf(direction) + 1) % 4);
+    }
+
+    public Direction turnLeft() {
+        return dirsList.get((dirsList.indexOf(direction) - 1) % 4);
+    }
+
+    public Direction turnBack() {
+        return dirsList.get((dirsList.indexOf(direction) + 2) % 4);
+    }
+
+
+    public Direction setNewDirection() {
+        ArrayList<Direction> validDirections = new ArrayList<Direction>();
+        if (getForwardTile() instanceof Path || getForwardTile() instanceof Tunnel) {
+            validDirections.add(direction);
+        }
+        if (getRightTile() instanceof Path || getRightTile() instanceof Tunnel) {
+            validDirections.add(turnRight());
+        }
+        if (getLeftTile() instanceof Path || getLeftTile() instanceof Tunnel) {
+            validDirections.add(turnLeft());
+        }
+
+        Direction chosenDirection;
+
+        if (validDirections.size() == 0){
+            // forward, right, and left aren't options. Try going back.
+            if (getRearTile() instanceof Path || getRearTile() instanceof Tunnel) {
+                chosenDirection = turnBack();
+            } else {
+                // the only time we should get to the point is if the rat is stuck in a box.
+                // this is pretty cruel to the rat.
+                return null;
+            }
+        } else {
+            // select a random item from validDirections
+            chosenDirection = validDirections.get((int) Math.ceil(Math.random() * validDirections.size()));
+        }
+
+        return chosenDirection;
     }
 
 
@@ -158,24 +186,24 @@ public abstract class Rat extends GameObject {
         return rightTile;
     }
 
-    public Tile getBackwardsTile() {
-        Tile backwardsTile;
+    public Tile getRearTile() {
+        Tile rearTile;
         switch(direction) {
             case NORTH:
-                backwardsTile = LevelController.getTileAt(xPos,yPos++);
+                rearTile = LevelController.getTileAt(xPos,yPos++);
                 break;
             case EAST:
-                backwardsTile = LevelController.getTileAt(xPos--,yPos);
+                rearTile = LevelController.getTileAt(xPos--,yPos);
                 break;
             case SOUTH:
-                backwardsTile = LevelController.getTileAt(xPos,yPos--);
+                rearTile = LevelController.getTileAt(xPos,yPos--);
                 break;
             default:
-                backwardsTile = LevelController.getTileAt(xPos++,yPos);
+                rearTile = LevelController.getTileAt(xPos++,yPos);
                 break;
 
         }
-        return backwardsTile;
+        return rearTile;
     }
 
     /**
