@@ -49,12 +49,15 @@ public class ChildRat extends LivingRat {
             AdultFemale newAdult = new AdultFemale(20, direction, gasTimer,
                     xPos, yPos, isFertile, 0, 0);
             LevelController.getTileAt(xPos,yPos).addOccupantRat(newAdult);
+            LevelController.ratAdded(newAdult);
         } else {
             AdultMale newAdult = new AdultMale(20, direction, gasTimer,
                     xPos, yPos, isFertile);
             LevelController.getTileAt(xPos,yPos).addOccupantRat(newAdult);
+            LevelController.ratAdded(newAdult);
         }
         LevelController.getTileAt(xPos,yPos).removeOccupantRat(this);
+        LevelController.ratRemoved(this);
     }
 
     public int getAge() {
