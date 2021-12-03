@@ -38,6 +38,22 @@ public class Gas extends Power {
     }
 
     /**
+     * Setter for fileReader
+     */
+
+    public void setTicksActive(int ticksActive) {
+        this.ticksActive = ticksActive;
+    }
+
+    /**
+     * Setter for fileReader
+     */
+
+    public void setOriginal(boolean original) {
+        isOriginal = original;
+    }
+
+    /**
      * Abstract method to let any power know it's time to do something.
      * For Gas - Increase gasTimer of all rats that pass through this Power.
      *

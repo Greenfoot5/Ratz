@@ -89,4 +89,12 @@ public class Sterilisation extends Power{
     public int getTicksActive() {
         return ticksActive;
     }
+
+    /**
+     * Setter for fileReader
+     */
+
+    public void setTicksActive(int ticksActive) {
+        this.ticksActive = ticksActive;
+    }
 }

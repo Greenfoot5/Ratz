@@ -73,6 +73,10 @@ public class StopSign extends Power {
         return HP;
     }
 
+    /**
+     * Setter for fileReader
+     */
+
     public void setHP(int HP) {
         this.HP = HP;
     }
