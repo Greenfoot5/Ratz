@@ -29,6 +29,9 @@ public class AdultMale extends LivingRat {
         ratSexFunction();
     }
 
+    /**
+     * Makes every female rat on the tile pregnant.
+     */
     public void ratSexFunction() {
         if (this.isFertile) {
             Tile currentTile = LevelController.getTileAt(this.xPos, this.yPos);
