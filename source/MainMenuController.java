@@ -6,7 +6,9 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -81,6 +83,7 @@ public class MainMenuController extends Application {
         VBox profileButtons = new VBox();
         VBox profileScoreLabels = new VBox();
         VBox rightButtons = new VBox();
+		HBox bottomAddingProf = new HBox(); // adding profile stuff on bottom
 
         // Get the profiles
         String[] s = {""};
@@ -164,6 +167,49 @@ public class MainMenuController extends Application {
             } catch (IOException ignored) {
             }
         });
+        
+        
+        Label newProfLabel = new Label("Add new profile: ");
+		TextField newProfField = new TextField();
+		Button addProfButton = new Button("Add");
+		addProfButton.setOnAction(event -> {
+			try {
+				if (!newProfField.getText().equals("") && !reader.doesProfileExist(newProfField.getText())) {
+					System.out.println("aa" + newProfField.getText());
+
+					reader.createNewProfile(newProfField.getText());
+					System.out.println("aa2" + newProfField.getText());
+
+					Button newProfButton = new Button(newProfField.getText());
+					reader.loginProfile(newProfButton.getText());
+					
+//					newProfButton.setOnAction(event -> {
+//						//Logging in
+//						reader.loginProfile(newProfButton.getText());
+//						//Changing a labels
+//						loggedLabel.setText("You are looged as " + reader.getLoggedProfile());
+//						scoresHeading.setText("Best " + reader.getLoggedProfile() + "'s scores:");
+//
+//						//Putting buttons on the screen
+//						for (int j = 0; j < reader.getNumberOfLevels(); j++) {
+//							try {
+//								profileScore[j].setText("Lvl" + String.valueOf(j + 1) + " "
+//										+ reader.getBestScore(reader.getLoggedProfile(), j + 1));
+//							} catch (IOException e) {
+//								profileScore[j].setText("Lvl" + String.valueOf(j + 1) + " error");
+//
+//							}
+//						}
+//					});
+					profileButtons.getChildren().add(newProfButton);
+					
+				}
+			} catch (Exception e) {
+				System.out.println("Problemhere");
+			}
+		});
+		
+		bottomAddingProf.getChildren().addAll(newProfLabel, newProfField, addProfButton);
         rightButtons.getChildren().addAll(goBack, removeProfile);
 
         // Adds the elements to the layout
@@ -171,6 +217,7 @@ public class MainMenuController extends Application {
         profilePane.setTop(loggedLabel);
         profilePane.setRight(rightButtons);
         profilePane.setLeft(profileButtons);
+		profilePane.setBottom(bottomAddingProf);
 
         return new Scene(profilePane, WINDOW_WIDTH, WINDOW_HEIGHT);
     }
