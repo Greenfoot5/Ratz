@@ -99,18 +99,36 @@ public class MainMenuController extends Application {
         if (reader.getLoggedProfile() == null) {
             loggedLabel.setText("You are logged as...");
         } else {
-            loggedLabel.setText("You are logged as" + reader.getLoggedProfile());
+            loggedLabel.setText("You are logged as " + reader.getLoggedProfile());
         }
 
         // Display the best scores for a user
-        Label scoresHeading = new Label("Best ... scores:");
-        profileScoreLabels.getChildren().add(scoresHeading);
-
+        Label scoresHeading;
         Label[] profileScore = new Label[reader.getNumberOfLevels()];
-        for (int i = 0; i < profileScore.length; i++) {
-            profileScore[i] = new Label("Lvl" + (i + 1) + " 0");
-            profileScoreLabels.getChildren().add(profileScore[i]);
+
+        if (reader.getLoggedProfile() != null) {
+        	scoresHeading = new Label("Best " + reader.getLoggedProfile() + "'s scores:");
+            profileScoreLabels.getChildren().add(scoresHeading);
+
+        	for (int i = 0; i < profileScore.length; i++) {
+                try {
+					profileScore[i] = new Label("Lvl" + (i + 1) + " " + reader.getBestScore(reader.getLoggedProfile(), i + 1));
+				} catch (IOException e) {
+	                profileScore[i] = new Label("Lvl" + (i + 1) + " unknown error");
+				}
+                profileScoreLabels.getChildren().add(profileScore[i]);
+            }
+        } else {
+        	scoresHeading = new Label("Best ... scores:");
+            profileScoreLabels.getChildren().add(scoresHeading);
+
+        	for (int i = 0; i < profileScore.length; i++) {
+                profileScore[i] = new Label("Lvl" + (i + 1) + " 0");
+                profileScoreLabels.getChildren().add(profileScore[i]);
+            }
         }
+
+        
 
         // Display a button for each profile
         Button[] profButton = new Button[s.length];
