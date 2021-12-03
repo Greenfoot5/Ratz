@@ -6,6 +6,7 @@ import java.util.ArrayList;
  */
 
 public class DeathRat extends Rat {
+    private int ominousWaiting;
     private int killCounter;
 
     /**
@@ -22,6 +23,7 @@ public class DeathRat extends Rat {
                      int yPos, int killCounter) {
         super(speed, direction, gasTimer, xPos, yPos);
         this.killCounter = killCounter;
+        this.ominousWaiting = 8;
     }
 
     /**
@@ -33,7 +35,10 @@ public class DeathRat extends Rat {
             die();
         }
         killRats();
+    }
 
+    public int getOminousWaiting() {
+        return ominousWaiting;
     }
 
     /**
