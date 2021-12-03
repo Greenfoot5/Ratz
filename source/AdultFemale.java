@@ -30,31 +30,38 @@ public class AdultFemale extends LivingRat {
         this.ratFetusCount = ratFetusCount;
     }
 
+    public int getRatFetusCount() {
+        return ratFetusCount;
+    }
+
     /**
      * A list of things the rat needs to do every tick.
      */
     @Override
     protected void onTickSpecific() {
         pregnancyTime--;
-        if (pregnancyTime == 0 /*&& (LevelController.getTickCounter() % 4) == 0  */) {
+        if (pregnancyTime == 0) {
             pregnant = false;
             birth();
         }
     }
 
+    /**
+     * Makes the rat pregnant. Rats will have 2d4 babies.
+     */
     public void becomePregnant() {
         if (pregnant = false) {
             pregnant = true;
             pregnancyTime = 40;
-            // create 2d4 rats
             ratFetusCount = (int) (Math.ceil(Math.random() * 4) + Math.ceil(Math.random() * 4));
         }
     }
 
-    public int getRatFetusCount() {
-        return ratFetusCount;
-    }
 
+
+    /**
+     * Creates a new baby rat at the mother's position.
+     */
     public void birth() {
         if (ratFetusCount > 0) {
             ratFetusCount--;
