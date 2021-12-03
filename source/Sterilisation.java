@@ -26,10 +26,16 @@ public class Sterilisation extends Power{
      */
     @Override
     void activate(ArrayList<Rat> rats, Tile currentTile) {
-        for (Rat rat : rats) {
-            LivingRat lr = (LivingRat) rat;
-            lr.infertilize();
+        ArrayList<Tile> tilesToSterilise = findPathTiles();
+        tilesToSterilise.add(currentTile);
+
+        for (Tile tile : tilesToSterilise) {
+            for (Rat rat : tile.getOccupantRats()) {
+                LivingRat lr = (LivingRat) rat;
+                lr.infertilize();
+            }
         }
+        tilesToSterilise.clear();
     }
 
     /**
@@ -42,11 +48,38 @@ public class Sterilisation extends Power{
     @Override
     void onTick(ArrayList<Rat> rats, Tile currentTile) {
         ticksActive = ticksActive + 1;
-        if (ticksActive < 5) {
+        if (ticksActive < 4) {
             activate(rats, currentTile);
         } else {
             currentTile.removeActivePower(this);
         }
+    }
+
+    /** Method that finds all Tiles Sterilisation can reach.
+     *  @return All Tiles that Sterilisation can reach in all 4 directions.
+     *  (radius = 2)
+     */
+    private ArrayList<Tile> findPathTiles () {
+        ArrayList<Tile> tilesToSterilise = new ArrayList<>();
+
+        int counter = 1;
+
+        while(counter < 3) {
+            tilesToSterilise.add(LevelController.getTileAt(this.xPos,
+                    this.yPos+counter));
+
+            tilesToSterilise.add(LevelController.getTileAt(this.xPos,
+                    this.yPos-counter));
+
+            tilesToSterilise.add(LevelController.getTileAt(this.xPos+counter,
+                    this.yPos));
+
+            tilesToSterilise.add(LevelController.getTileAt(this.xPos-counter,
+                    this.yPos));
+
+            counter++;
+        }
+        return tilesToSterilise;
     }
 
     /**
