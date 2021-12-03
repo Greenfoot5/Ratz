@@ -38,6 +38,31 @@ public abstract class Rat extends GameObject {
         this.yPos = yPos;
     }
 
+    public int getSpeed() {
+        return speed;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public int getGasTimer() {
+        return gasTimer;
+    }
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public int getyPos() {
+        return yPos;
+    }
+
+
+    public void setDirection(Direction direction){
+        this.direction = direction;
+    }
+
     /**
      * A list of things the rat needs to do every tick.
      */
@@ -58,8 +83,6 @@ public abstract class Rat extends GameObject {
 
     }
 
-
-
     /**
      * Causes the rat to walk in a direction. If multiple directions are valid, it will choose a random one.
      * The rat will only go backwards if no other directions are valid.
@@ -73,12 +96,6 @@ public abstract class Rat extends GameObject {
 
     }
 
-    /**
-     * Swaps the rat's direction to the given value.
-     */
-    public void setDirection(Direction direction){
-        this.direction = direction;
-    }
 
     /**
      * Returns a direction that the rat would be facing if it turned right.
@@ -260,27 +277,5 @@ public abstract class Rat extends GameObject {
         LevelController.getTileAt(this.xPos,this.yPos).removeOccupantRat(this);
     }
 
-    /**
-     * Gives current speed.
-     * @return speed.
-     */
-    public int getSpeed() {
-        return speed;
-    }
 
-    /**
-     * Gives current direction rat is facing.
-     * @return direction.
-     */
-    public Direction getDirection() {
-        return direction;
-    }
-
-    /**
-     * Gives current gas timer of rat.
-     * @return gas timer.
-     */
-    public int getGasTimer() {
-        return gasTimer;
-    }
 }
