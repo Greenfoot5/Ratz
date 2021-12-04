@@ -21,7 +21,7 @@ public abstract class Rat extends GameObject {
         NORTH, EAST, SOUTH, WEST
     }
 
-    List<Direction> dirsList = Arrays.asList(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
+    private final List<Direction> dirsList = Arrays.asList(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
 
     /**
      * Rat constructor.
@@ -191,6 +191,9 @@ public abstract class Rat extends GameObject {
      * @return The tile directly ahead of the rat.
      */
     public Tile getForwardTile() {
+        String xString = String.valueOf(xPos);
+        String yString = String.valueOf(yPos);
+        System.out.println(xString + " " + yString);
         Tile forwardTile;
         switch(direction) {
             case NORTH:
