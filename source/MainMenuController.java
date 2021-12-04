@@ -161,19 +161,8 @@ public class MainMenuController extends Application {
 			profButton[i].setOnAction(event -> {
 				reader.loginProfile(profButton[ii].getText());
 				loggedProfile.setText("You are logged as " + reader.getLoggedProfile());
-				loggedLabel.setText("You are logged as " + reader.getLoggedProfile());
-				scoresHeading.setText("Best " + reader.getLoggedProfile() + "'s scores:");
-
-				for (int j = 0; j < reader.getNumberOfLevels(); j++) {
-					try {
-						profileScore[j]
-								.setText("Lvl" + (j + 1) + " " + reader.getBestScore(reader.getLoggedProfile(), j + 1));
-					} catch (IOException e) {
-						profileScore[j].setText("Lvl" + (j + 1) + " error");
-
-					}
-				}
-			});
+                displayProfileBests(loggedLabel, scoresHeading, profileScore);
+            });
 		}
 
 		// Return to the main menu
@@ -232,19 +221,8 @@ public class MainMenuController extends Application {
 						// Logging in
 						reader.loginProfile(newProfButton.getText());
 						// Changing a labels
-						loggedLabel.setText("You are logged as " + reader.getLoggedProfile());
-						scoresHeading.setText("Best " + reader.getLoggedProfile() + "'s scores:");
-
-						for (int j = 0; j < reader.getNumberOfLevels(); j++) {
-							try {
-								profileScore[j].setText("Lvl" + (j + 1) + " "
-										+ reader.getBestScore(reader.getLoggedProfile(), j + 1));
-							} catch (IOException e) {
-								profileScore[j].setText("Lvl" + (j + 1) + " error");
-
-							}
-						}
-					});
+                        displayProfileBests(loggedLabel, scoresHeading, profileScore);
+                    });
 					profileButtons.getChildren().add(newProfButton);
 
 				} else if (!newProfField.getText().equals("")) {
@@ -270,8 +248,23 @@ public class MainMenuController extends Application {
 
 		return new Scene(profilePane, WINDOW_WIDTH, WINDOW_HEIGHT);
 	}
-	
-	private void alert(String message) {
+
+    private void displayProfileBests(Label loggedLabel, Label scoresHeading, Label[] profileScore) {
+        loggedLabel.setText("You are logged as " + reader.getLoggedProfile());
+        scoresHeading.setText("Best " + reader.getLoggedProfile() + "'s scores:");
+
+        for (int j = 0; j < reader.getNumberOfLevels(); j++) {
+            try {
+                profileScore[j].setText("Lvl" + (j + 1) + " "
+                        + reader.getBestScore(reader.getLoggedProfile(), j + 1));
+            } catch (IOException e) {
+                profileScore[j].setText("Lvl" + (j + 1) + " error");
+
+            }
+        }
+    }
+
+    private void alert(String message) {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.setTitle("Alert");
@@ -394,7 +387,7 @@ public class MainMenuController extends Application {
 	 * @param levelStage The stage
 	 * @throws IOException If we cannot load a level
 	 */
-	public void loadLevel(Stage levelStage, int levelNumber) throws IOException {
+	private void loadLevel(Stage levelStage, int levelNumber) throws IOException {
 		LevelFileReader.loadLevelFile("./resources/level-" + levelNumber + ".txt");
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
