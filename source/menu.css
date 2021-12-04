@@ -1,3 +1,33 @@
 .root {
   -fx-background-color: #30544c;
+  -fx-font-size: 10pt;
+}
+.label {
+  -fx-text-fill: #04fce4;
+  
+  
+}
+.button {
+	-fx-text-fill: #04fce4;
+    -fx-background-radius: 9;
+    -fx-padding: 3 6 6 6;
+    -fx-background-color: #103450;
+}
+.title {
+	  -fx-font-size: 20pt;
+	  -fx-padding: 10px;
+	  -fx-background-radius: 9;
+	
+}
+.imageView {
+	fixPosition: 20 70;
+    -fx-padding: 20 20 20 20;
+}
+.loggingLabel {
+	-fx-font-size: 20pt;
+	-fx-label-padding: 10 0 10 0;
+	-fx-background-radius: 9;
+}
+.scoreHeading {
+	-fx-font-size: 14pt;
 }
