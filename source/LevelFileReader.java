@@ -137,6 +137,12 @@ public class LevelFileReader {
             parTime = Integer.parseInt(levelStats[3]);
         }
 
+        // get drop rate data
+        String[] dropRatesString = reader.nextLine().split(",");
+        for (int i=0; i < dropRates.length; i++) {
+            dropRates[i] = Integer.parseInt(dropRatesString[i]);
+        }
+
         // get tile data
         String currentTiles = "";
         for (int i = 0; i < height; i++) {
@@ -147,14 +153,14 @@ public class LevelFileReader {
 
         // this ugly regex splits currentTiles based on the level's width
         tiles = currentTiles.split("(?<=\\G.{" + width + "})");
-        reader.close();
+
 
         /*
          rat and power strings are divided by commas.
          each string between the commas is an argument for the constructor.
         */
 
-        while (reader.nextLine().charAt(0) == '(') {
+        while (reader.hasNextLine()) {
             String[] currentItem = reader.nextLine().replaceAll("[()]", "").split(",");
             // if current item is a female baby rat
             if (currentItem[0].equals("f")) {
@@ -315,12 +321,7 @@ public class LevelFileReader {
                 powerArrayList.add(newStopSign);
             }
         }
-
-        String[] dropRatesString = reader.nextLine().split(",");
-        for (int i=0; i < dropRates.length; i++) {
-            dropRates[i] = Integer.parseInt(dropRatesString[i]);
-        }
-
+        reader.close();
     }
 
 }
