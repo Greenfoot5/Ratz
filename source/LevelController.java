@@ -366,6 +366,7 @@ public class LevelController {
                 break;
             case 7:
                 tileMap[x][y].addOccupantRat(new DeathRat(4,Rat.Direction.NORTH,0,x,y,0));
+                addPower = false;
                 break;
             default: addPower = false;
         }
