@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -133,6 +134,9 @@ public class MainMenuController extends Application {
 		playButton.setOnAction(event -> {
 			if (reader.getLoggedProfile() == null) {
 				alert("You are not logged in.\nPlease log in before starting the game");
+				//TODO: remove these lines
+				primaryStage.setScene(loadLevelSelect(primaryStage, scene));
+				primaryStage.show();
 			} else {
 				primaryStage.setScene(loadLevelSelect(primaryStage, scene));
 				primaryStage.show();
@@ -391,19 +395,23 @@ public class MainMenuController extends Application {
 		// Create a new pane to hold our GUI
 		// TODO: use this variable to choose a level (when levels will work)
 		AtomicInteger selectedLevel = new AtomicInteger(1);
-		BorderPane root = new BorderPane();
-		// root.setAlignment(Pos.CENTER);
 		HighScores scoresReader = new HighScores();
-
-		HBox topBox = new HBox();
+		
+		BorderPane root = new BorderPane();
+	
+		VBox topBox = new VBox();
 		topBox.setAlignment(Pos.CENTER);
+		topBox.setPrefHeight(80);
 		Label title = new Label("Level Select");
-		topBox.getChildren().add(title);
+		Separator separator = new Separator();
+		title.getStyleClass().add("loggingLabel");
+		topBox.getChildren().addAll(title, separator);
 
-		VBox scores = new VBox();
-		scores.setAlignment(Pos.CENTER);
+		VBox middleBox = new VBox();
+		middleBox.setAlignment(Pos.CENTER);
+		
 		Label scoreHeading = new Label("Lvl " + selectedLevel + " best scores:");
-		scores.getChildren().add(scoreHeading);
+		middleBox.getChildren().add(scoreHeading);
 
 		Label[] scoresLabel = new Label[10];
 		String[] scoresString = null;
@@ -420,15 +428,20 @@ public class MainMenuController extends Application {
 			} catch (Exception e2) {
 				scoresLabel[i].setText((i + 1) + " ...");
 			}
-			scores.getChildren().add(scoresLabel[i]);
+			middleBox.getChildren().add(scoresLabel[i]);
 		}
-		VBox levels = new VBox();
-		levels.setAlignment(Pos.CENTER);
+		
+		
+		VBox leftBox = new VBox(10);
+		leftBox.setAlignment(Pos.CENTER_RIGHT);
+		leftBox.setPrefWidth(100);
 
 		Button[] lvl = new Button[5];
 		for (int i = 0; i < lvl.length; i++) {
 			int levelIndex = i + 1;
 			lvl[i] = new Button("Level " + (levelIndex));
+			lvl[i].setPrefWidth(70);
+
 
 			lvl[i].setOnAction(event -> {
 				scoreHeading.setText("Lvl " + (levelIndex) + " best scores:");
@@ -450,12 +463,15 @@ public class MainMenuController extends Application {
 				}
 			});
 
-			levels.getChildren().add(lvl[i]);
+			leftBox.getChildren().add(lvl[i]);
 		}
+		
 		VBox rightBox = new VBox();
-		rightBox.setAlignment(Pos.CENTER);
+		rightBox.setAlignment(Pos.CENTER_LEFT);
+		rightBox.setPrefWidth(100);
 
 		Button playButton = new Button("Play!");
+		playButton.setPrefWidth(70);
 		playButton.setOnAction(event -> {
 			try {
 				// TODO - Get the level number
@@ -466,11 +482,15 @@ public class MainMenuController extends Application {
 		});
 
 		rightBox.getChildren().add(playButton);
+		
+		HBox bottomBox = new HBox();
+		bottomBox.setPrefHeight(80);
 
-		root.setCenter(scores);
+		root.setCenter(middleBox);
 		root.setTop(topBox);
 		root.setRight(rightBox);
-		root.setLeft(levels);
+		root.setLeft(leftBox);
+		root.setBottom(bottomBox);
 
 		// Create a scene based on the pane.
 		Scene levelsScene = new Scene(root, 400, 400);
