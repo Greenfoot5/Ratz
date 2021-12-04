@@ -110,6 +110,9 @@ public class LevelController {
         MAX_RATS = LevelFileReader.getMaxRats();
         PAR_TIME = LevelFileReader.getParTime();
         DROP_RATES = LevelFileReader.getDropRates();
+        for(int d: DROP_RATES){
+            d = d * 1000;
+        }
     }
 
     /**
