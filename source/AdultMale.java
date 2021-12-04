@@ -39,7 +39,6 @@ public class AdultMale extends LivingRat {
             for (Rat currentRat : currentTile.getOccupantRats()) {
                 if (currentRat instanceof AdultFemale) {
                     ((AdultFemale) currentRat).becomePregnant();
-                    System.out.println("rat sex has occurred");
                 }
             }
         }

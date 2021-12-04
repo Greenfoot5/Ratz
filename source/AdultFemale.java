@@ -50,11 +50,10 @@ public class AdultFemale extends LivingRat {
      * Makes the rat pregnant. Rats will have 2d4 babies.
      */
     public void becomePregnant() {
-        if (pregnant = false) {
+        if (pregnant == false) {
             pregnant = true;
             pregnancyTime = 40;
             ratFetusCount = (int) (Math.ceil(Math.random() * 4) + Math.ceil(Math.random() * 4));
-            System.out.println("rat sex has concluded");
         }
     }
 
