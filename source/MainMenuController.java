@@ -58,12 +58,12 @@ public class MainMenuController extends Application {
 		}
 		// Create a new pane to hold our GUI
 		BorderPane root = new BorderPane();
-		
+
 		FileInputStream inputstream = null;
 		try {
 			inputstream = new FileInputStream("resources/adultfemaleNORTH.png");
 		} catch (FileNotFoundException e) {
-		} 
+		}
 		Image image = new Image(inputstream);
 		ImageView imageView = new ImageView(image);
 		ImageView imageView2 = new ImageView(image);
@@ -74,12 +74,12 @@ public class MainMenuController extends Application {
 		ImageView imageView7 = new ImageView(image);
 		HBox bottom = new HBox();
 		bottom.setSpacing(60);
-		bottom.getChildren().addAll(imageView,imageView2,imageView3,imageView4,imageView5,imageView6,imageView7);
-		
+		bottom.getChildren().addAll(imageView, imageView2, imageView3, imageView4, imageView5, imageView6, imageView7);
+
 		try {
 			inputstream = new FileInputStream("resources/adultmaleSOUTH.png");
 		} catch (FileNotFoundException e) {
-		} 
+		}
 		Image image2 = new Image(inputstream);
 		ImageView imageView_2 = new ImageView(image2);
 		ImageView imageView22 = new ImageView(image2);
@@ -91,11 +91,12 @@ public class MainMenuController extends Application {
 		HBox top = new HBox();
 		top.setAlignment(Pos.BASELINE_RIGHT);
 		top.setSpacing(60);
-		top.getChildren().addAll(imageView_2,imageView22,imageView32,imageView42,imageView52,imageView62,imageView72);
-		
+		top.getChildren().addAll(imageView_2, imageView22, imageView32, imageView42, imageView52, imageView62,
+				imageView72);
+
 		VBox middle = new VBox(5);
 		middle.setAlignment(Pos.CENTER);
-		
+
 		root.setTop(top);
 		root.setBottom(bottom);
 		root.setCenter(middle);
@@ -105,8 +106,11 @@ public class MainMenuController extends Application {
 		title.getStyleClass().add("title");
 		Label motd = new Label(MOTD.GETMotd());
 		Button playButton = new Button("Play!");
+		playButton.setPrefWidth(100);
 		Button selectProfile = new Button("Select Profile!");
-		
+		selectProfile.setPrefWidth(100);
+		selectProfile.setPadding(new Insets(10,0,0,0));
+
 		Label loggedProfileText = new Label("You are logged as ");
 		loggedProfile = new Label();
 		if (reader.getLoggedProfile() == null) {
@@ -123,7 +127,7 @@ public class MainMenuController extends Application {
 		File f = new File("source/menu.css");
 		scene.getStylesheets().clear();
 		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
-		
+
 		middle.getChildren().addAll(title, motd, playButton, selectProfile, loggedProfileBox);
 		// Handle a button event
 		playButton.setOnAction(event -> {
@@ -148,25 +152,24 @@ public class MainMenuController extends Application {
 		if (reader == null) {
 			reader = new ProfileFileReader();
 		}
-		
 
 		// Layout items
 		BorderPane profilePane = new BorderPane();
 		VBox left = new VBox(10);
 		left.setAlignment(Pos.TOP_CENTER);
 		left.setPadding(new Insets(10, 10, 10, 40));
-		
+
 		VBox middle = new VBox(10);
 		middle.setAlignment(Pos.TOP_CENTER);
 		middle.setPadding(new Insets(5, 0, 5, 0));
-		
+
 		VBox right = new VBox(10);
 		right.setAlignment(Pos.TOP_CENTER);
 		right.setPadding(new Insets(10, 100, 10, 0));
-		
-		HBox bottom = new HBox(20); 
+
+		HBox bottom = new HBox(20);
 		bottom.setAlignment(Pos.TOP_CENTER);
-		bottom.setPadding(new Insets(10, 120, 30, 0));
+		bottom.setPadding(new Insets(10, 80, 30, 0));
 		HBox top = new HBox();
 		// Get the profiles
 		String[] s = { "" };
@@ -177,7 +180,7 @@ public class MainMenuController extends Application {
 		}
 
 		// Display who's logged in
-		
+
 		Label loggedLabelText = new Label("You are logged as ");
 		loggedLabelText.getStyleClass().add("loggingLabel");
 		Label loggedLabel = new Label();
@@ -217,20 +220,21 @@ public class MainMenuController extends Application {
 				middle.getChildren().add(profileScore[i]);
 			}
 		}
+
 		FileInputStream inputstream = null;
 		try {
 			inputstream = new FileInputStream("resources/poison.png");
 		} catch (FileNotFoundException e) {
-		} 
+		}
 		Image image = new Image(inputstream);
 		ImageView imageView = new ImageView(image);
 		ImageView imageView2 = new ImageView(image);
-		
+
 		HBox selectMenuPics = new HBox();
 		selectMenuPics.setSpacing(100);
-		selectMenuPics.setPadding(new Insets(40, 130, 0, 160));;
-		selectMenuPics.getChildren().addAll(imageView,imageView2);
-		
+		selectMenuPics.setPadding(new Insets(40, 130, 0, 160));
+		;
+		selectMenuPics.getChildren().addAll(imageView, imageView2);
 		middle.getChildren().add(selectMenuPics);
 
 		// Display a button for each profile
@@ -244,12 +248,12 @@ public class MainMenuController extends Application {
 			profButton[i].setOnAction(event -> {
 				reader.loginProfile(profButton[ii].getText());
 				loggedProfile.setText(reader.getLoggedProfile());
-                displayProfileBests(loggedLabel, scoresHeading, profileScore);
-            });
+				displayProfileBests(loggedLabel, scoresHeading, profileScore);
+			});
 		}
 
 		// Return to the main menu
-		Button goBack = new Button("Go back to main menu");
+		Button goBack = new Button("Main menu");
 		goBack.setPrefWidth(100);
 		goBack.setOnAction(event -> {
 			profileStage.setScene(scene);
@@ -281,8 +285,7 @@ public class MainMenuController extends Application {
 				if (!isRemoved) {
 					alert("No profile is selected");
 				}
-				
-				
+
 				reader.logout();
 				loggedProfile.setText("NOBODY. Please log in before starting the game");
 			} catch (IOException ignored) {
@@ -293,21 +296,25 @@ public class MainMenuController extends Application {
 		Label newProfLabel = new Label("Add new profile: ");
 		TextField newProfField = new TextField();
 		Button addProfButton = new Button("Add");
+		addProfButton.setPrefWidth(70);
 		addProfButton.setOnAction(event -> {
 			try {
-				if (!newProfField.getText().equals("") && !reader.doesProfileExist(newProfField.getText())) {
+				if (left.getChildren().size() > 8) {
+					alert("Too much profiles");
+				} else if (!newProfField.getText().equals("") && !reader.doesProfileExist(newProfField.getText())) {
 
 					reader.createNewProfile(newProfField.getText());
 
 					Button newProfButton = new Button(newProfField.getText());
+					newProfButton.setPrefWidth(100);
 					reader.loginProfile(newProfButton.getText());
 
 					newProfButton.setOnAction(event2 -> {
 						// Logging in
 						reader.loginProfile(newProfButton.getText());
 						// Changing a labels
-                        displayProfileBests(loggedLabel, scoresHeading, profileScore);
-                    });
+						displayProfileBests(loggedLabel, scoresHeading, profileScore);
+					});
 					left.getChildren().add(newProfButton);
 
 				} else if (!newProfField.getText().equals("")) {
@@ -315,7 +322,7 @@ public class MainMenuController extends Application {
 				} else {
 					alert("Please, type a name");
 				}
-				
+
 			} catch (Exception e) {
 				System.out.println("Problem here/ Adding button action");
 			}
@@ -337,36 +344,35 @@ public class MainMenuController extends Application {
 		return profileScene;
 	}
 
-    private void displayProfileBests(Label loggedLabel, Label scoresHeading, Label[] profileScore) {
-        loggedLabel.setText(reader.getLoggedProfile());
-        scoresHeading.setText("Best " + reader.getLoggedProfile() + "'s scores:");
+	private void displayProfileBests(Label loggedLabel, Label scoresHeading, Label[] profileScore) {
+		loggedLabel.setText(reader.getLoggedProfile());
+		scoresHeading.setText("Best " + reader.getLoggedProfile() + "'s scores:");
 
-        for (int j = 0; j < reader.getNumberOfLevels(); j++) {
-            try {
-                profileScore[j].setText("Lvl" + (j + 1) + " "
-                        + reader.getBestScore(reader.getLoggedProfile(), j + 1));
-            } catch (IOException e) {
-                profileScore[j].setText("Lvl" + (j + 1) + " error");
+		for (int j = 0; j < reader.getNumberOfLevels(); j++) {
+			try {
+				profileScore[j].setText("Lvl" + (j + 1) + " " + reader.getBestScore(reader.getLoggedProfile(), j + 1));
+			} catch (IOException e) {
+				profileScore[j].setText("Lvl" + (j + 1) + " error");
 
-            }
-        }
-    }
+			}
+		}
+	}
 
-    private void alert(String message) {
+	private void alert(String message) {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.setTitle("Alert");
 		window.setWidth(240);
 		window.setHeight(120);
-		
+
 		Label label = new Label(message);
 		Button button = new Button("Ok");
 		button.setOnAction(event -> window.close());
-		
+
 		VBox layout = new VBox(10);
 		layout.getChildren().addAll(label, button);
 		layout.setAlignment(Pos.CENTER);
-		
+
 		Scene scene = new Scene(layout);
 		window.setScene(scene);
 		window.setResizable(false);
@@ -400,13 +406,14 @@ public class MainMenuController extends Application {
 		String[] scoresString = null;
 		try {
 			scoresString = scoresReader.getTopScores(selectedLevel.get());
-		} catch (FileNotFoundException ignored) { }
+		} catch (FileNotFoundException ignored) {
+		}
 
 		for (int i = 0; i < 10; i++) {
 			scoresLabel[i] = new Label();
 			try {
-                assert scoresString != null;
-                scoresLabel[i].setText((i + 1) + " " + scoresString[i]);
+				assert scoresString != null;
+				scoresLabel[i].setText((i + 1) + " " + scoresString[i]);
 			} catch (Exception e2) {
 				scoresLabel[i].setText((i + 1) + " ...");
 			}
@@ -417,22 +424,23 @@ public class MainMenuController extends Application {
 
 		Button[] lvl = new Button[5];
 		for (int i = 0; i < lvl.length; i++) {
-            int levelIndex = i + 1;
+			int levelIndex = i + 1;
 			lvl[i] = new Button("Level " + (levelIndex));
 
-            lvl[i].setOnAction(event -> {
+			lvl[i].setOnAction(event -> {
 				scoreHeading.setText("Lvl " + (levelIndex) + " best scores:");
-                selectedLevel.set(levelIndex);
+				selectedLevel.set(levelIndex);
 
 				String[] newScores = null;
 				try {
 					newScores = scoresReader.getTopScores(levelIndex);
-				} catch (FileNotFoundException ignored) { }
+				} catch (FileNotFoundException ignored) {
+				}
 
 				for (int j = 0; j < 10; j++) {
 					try {
-                        assert newScores != null;
-                        scoresLabel[j].setText((j + 1) + " " + newScores[j]);
+						assert newScores != null;
+						scoresLabel[j].setText((j + 1) + " " + newScores[j]);
 					} catch (Exception e2) {
 						scoresLabel[j].setText((j + 1) + " ...");
 					}
@@ -447,7 +455,7 @@ public class MainMenuController extends Application {
 		Button playButton = new Button("Play!");
 		playButton.setOnAction(event -> {
 			try {
-                // TODO - Get the level number
+				// TODO - Get the level number
 				loadLevel(selectStage, selectedLevel.get());
 			} catch (IOException e) {
 				e.printStackTrace();
