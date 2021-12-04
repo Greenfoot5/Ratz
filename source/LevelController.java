@@ -90,6 +90,7 @@ public class LevelController {
     public Label timerLabel;
     public Label femaleRatCounterLabel;
     public Label maleRatCounterLabel;
+    public Label ratCounterLabel;
 
     public Pane gameEndPane;
     public TextFlow gamePaneText;
@@ -111,7 +112,7 @@ public class LevelController {
         PAR_TIME = LevelFileReader.getParTime();
         DROP_RATES = LevelFileReader.getDropRates();
         for(int d: DROP_RATES){
-            d = d * 1000;
+            d *= 1000;
         }
     }
 
@@ -159,9 +160,11 @@ public class LevelController {
     public void renderCounters() {
         String mc = String.valueOf(maleRatCounter);
         String fc = String.valueOf(femaleRatCounter);
+        String rc = String.valueOf(femaleRatCounter + maleRatCounter + childRatCounter) + "/" + String.valueOf(MAX_RATS);
 
         maleRatCounterLabel.setText(mc);
         femaleRatCounterLabel.setText(fc);
+        ratCounterLabel.setText(rc);
     }
 
     /**
