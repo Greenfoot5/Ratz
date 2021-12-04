@@ -17,12 +17,12 @@ import java.util.Scanner;
 public class HighScores {
 	
 	// Attributes handling reading and changing files
-	private Scanner in = null;
+//	private Scanner in = null;
 	private String filePath = "resources/highScores.txt";
-	private File file = null;
-	BufferedWriter bufferWriter = null;
-	FileWriter fileWriter = null;
-	PrintWriter printWriter = null;
+//	private File file = null;
+//	BufferedWriter bufferWriter = null;
+//	FileWriter fileWriter = null;
+//	PrintWriter printWriter = null;
 
 	public HighScores() {
 	}
@@ -33,8 +33,8 @@ public class HighScores {
 	 * @throws FileNotFoundException if there is a problem with a file
 	 */
 	public String[] getTopScores(int level) throws FileNotFoundException {
-		file = new File(filePath);
-		in = new Scanner(file);
+		File file = new File(filePath);
+		Scanner in = new Scanner(file);
 
 		String[] topScores = new String[10];
 		while (in.hasNext()) {
@@ -48,6 +48,9 @@ public class HighScores {
 			}
 		}
 		
+		in.close();
+		System.gc();
+		
 		return topScores;
 	}
 
@@ -60,12 +63,12 @@ public class HighScores {
 	 */
 	public void safeScore(String profile, int score, int level) throws IOException {
 
-		file = new File(filePath);
+		File file = new File(filePath);
 		File tempFile = new File("resources/temp.txt");
-		in = new Scanner(file);
-		fileWriter = new FileWriter(tempFile, true);
-		bufferWriter = new BufferedWriter(fileWriter);
-		printWriter = new PrintWriter(bufferWriter);
+		Scanner in = new Scanner(file);
+		FileWriter fileWriter = new FileWriter(tempFile, true);
+		//bufferWriter = new BufferedWriter(fileWriter);
+		PrintWriter printWriter = new PrintWriter(fileWriter);
 		
 		boolean shouldBeAbove = false;
 		boolean isUsed = false;
@@ -130,12 +133,12 @@ public class HighScores {
 	 * @throws IOException - if there is a problem with a files
 	 */
 	private void fixPositions() throws IOException {
-		file = new File(filePath);
+		File file = new File(filePath);
 		File tempFile = new File("resources/temp.txt");
-		in = new Scanner(file);
-		fileWriter = new FileWriter(tempFile, true);
-		bufferWriter = new BufferedWriter(fileWriter);
-		printWriter = new PrintWriter(bufferWriter);
+		Scanner in = new Scanner(file);
+		FileWriter fileWriter = new FileWriter(tempFile, true);
+		//bufferWriter = new BufferedWriter(fileWriter);
+		PrintWriter printWriter = new PrintWriter(fileWriter);
 
 		int previousLevel = 0;
 		int previousPos = 0;

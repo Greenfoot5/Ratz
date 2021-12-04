@@ -242,23 +242,59 @@ public class MainMenuController extends Application {
 	 */
 	private void loadLevelSelect(Stage selectStage) {
 		// Create a new pane to hold our GUI
-		VBox root = new VBox();
-		root.setAlignment(Pos.CENTER);
+		BorderPane root = new BorderPane();
+		// root.setAlignment(Pos.CENTER);
+		HighScores scoresReader = new HighScores();
 
-		// Create a few GUI elements
+		HBox topBox = new HBox();
+		topBox.setAlignment(Pos.CENTER);
 		Label title = new Label("Level Select");
-		TilePane levels = new TilePane();
-		levels.setAlignment(Pos.TOP_LEFT);
+		topBox.getChildren().add(title);
+		
+		VBox scores = new VBox();
+		scores.setAlignment(Pos.CENTER);
+		Label scoreHeading = new Label("Lvl 1 best scores:");
+		scores.getChildren().add(scoreHeading);
+
+		Label[] scoresLabel = new Label[10];
+		String[] scoresString = null;
+		try {
+			scoresString = scoresReader.getTopScores(1);
+		} catch (FileNotFoundException e1) {
+		}
+		for (int i = 0; i < 10; i++) {
+			scoresLabel[i] = new Label();
+//			if (scoresString == null || scoresString[i] == null) {
+//				scoresLabel[i].setText((i + 1) + " ...");
+//			} else {
+//				scoresLabel[i].setText((i + 1) + " " + scoresString[i]);
+//			}
+			try {
+				scoresLabel[i].setText((i + 1) + " " + scoresString[i]);
+			} catch (Exception e2) {
+				scoresLabel[i].setText((i + 1) + " ...");
+			}
+			scores.getChildren().add(scoresLabel[i]);
+		}
+		VBox levels = new VBox();
+		levels.setAlignment(Pos.CENTER);
 
 		Button[] lvl = new Button[6];
 		for (int i = 1; i < 6; i++) {
 
 			lvl[i] = new Button("Level " + i);
+
+			final int ii = i;
+			lvl[i].setOnAction(event -> {
+
+			});
+
 			levels.getChildren().add(lvl[i]);
 		}
 		// Handle the levels
 		// TODO - Create one play button for every level
 		Button playButton = new Button("Play!");
+		playButton.setAlignment(Pos.CENTER);
 		playButton.setOnAction(event -> {
 			try {
 				loadLevel(selectStage);
@@ -266,9 +302,11 @@ public class MainMenuController extends Application {
 				e.printStackTrace();
 			}
 		});
-		levels.getChildren().add(playButton);
 
-		root.getChildren().addAll(title, levels);
+		root.setCenter(scores);
+		root.setTop(topBox);
+		root.setRight(playButton);
+		root.setLeft(levels);
 
 		// Create a scene based on the pane.
 		Scene scene = new Scene(root, 400, 400);

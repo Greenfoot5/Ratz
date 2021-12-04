@@ -6,19 +6,20 @@ import java.util.Scanner;
 public class TestHighScores {
 	public static void main(String[] args) throws IOException {
 		HighScores hs = new HighScores();
-		
-		//adding scores to the file
-		hs.safeScore("A", 17, 1);
-		hs.safeScore("A", 20, 1);
-		hs.safeScore("A", 18, 1);
-		hs.safeScore("A", 23, 1);
-		hs.safeScore("B", 34, 1);
-		hs.safeScore("B", 11, 2);
-		hs.safeScore("C", 18, 1);
-		hs.safeScore("D", 16, 1);
-		hs.safeScore("E", 34, 2);
-		hs.safeScore("F", 2, 2);
-		hs.safeScore("B", 15, 1);
+		ProfileFileReader pfr = new ProfileFileReader();
+
+		// adding scores to the file
+		// hs.safeScore("A", 17, 1);
+
+		String[] s = pfr.getProfiles();
+
+//		for (int i = 0; i < s.length; i++) {
+//			for (int j = 1; j <= pfr.getNumberOfLevels(); j++) {
+//				if (pfr.getBestScore(s[i], j) > 0) {
+//					hs.safeScore(s[i], pfr.getBestScore(s[i], j), j);
+//				}
+//			}
+//		}
 
 		String[] tp = hs.getTopScores(1);
 		// getting scores from the file
