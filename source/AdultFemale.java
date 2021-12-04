@@ -54,6 +54,7 @@ public class AdultFemale extends LivingRat {
             pregnant = true;
             pregnancyTime = 40;
             ratFetusCount = (int) (Math.ceil(Math.random() * 4) + Math.ceil(Math.random() * 4));
+            System.out.println("rat sex has concluded");
         }
     }
 

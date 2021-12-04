@@ -46,7 +46,7 @@ public class ChildRat extends LivingRat {
 
     public void growUp() {
         if (isFemale) {
-            AdultFemale newAdult = new AdultFemale(20, direction, gasTimer,
+            AdultFemale newAdult = new AdultFemale(4, direction, gasTimer,
                     xPos, yPos, isFertile, 0, 0);
             LevelController.getTileAt(xPos,yPos).addOccupantRat(newAdult);
             LevelController.ratAdded(newAdult);

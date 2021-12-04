@@ -16,6 +16,7 @@ public abstract class Rat extends GameObject {
     protected int gasTimer;
     protected int xPos;
     protected int yPos;
+    private int tickCounter;
 
     public enum Direction {
         NORTH, EAST, SOUTH, WEST
@@ -39,6 +40,7 @@ public abstract class Rat extends GameObject {
         this.gasTimer = gasTimer;
         this.xPos = xPos;
         this.yPos = yPos;
+        this.tickCounter = (int) Math.floor(Math.random() * 4);
     }
 
     public int getSpeed() {
@@ -70,11 +72,14 @@ public abstract class Rat extends GameObject {
      * A list of things the rat needs to do every tick.
      */
     public void onTick() {
+        tickCounter++;
         // 12 ticks in gas = 2.5 seconds. increase or decrease later as appropriate
         if (gasTimer >= 12) {
             die();
         }
-        walk();
+        if (tickCounter % speed == 0) {
+            walk();
+        }
         decGasTimer();
         onTickSpecific();
     }
