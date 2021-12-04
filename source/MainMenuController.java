@@ -338,10 +338,12 @@ public class MainMenuController extends Application {
 		profilePane.setRight(right);
 		profilePane.setLeft(left);
 		profilePane.setBottom(bottom);
+		
 		Scene profileScene = new Scene(profilePane, WINDOW_WIDTH, WINDOW_HEIGHT);
 		File f = new File("source/menu.css");
 		profileScene.getStylesheets().clear();
 		profileScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+		
 		return profileScene;
 	}
 
@@ -472,10 +474,12 @@ public class MainMenuController extends Application {
 
 		// Create a scene based on the pane.
 		Scene levelsScene = new Scene(root, 400, 400);
-
-		// Show the scene
-		selectStage.setScene(levelsScene);
-		selectStage.show();
+		
+		File f = new File("source/menu.css");
+		levelsScene.getStylesheets().clear();
+		levelsScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+		
+		
 		return levelsScene;
 	}
 
