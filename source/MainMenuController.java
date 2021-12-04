@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -15,6 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -53,29 +56,74 @@ public class MainMenuController extends Application {
 			reader = new ProfileFileReader();
 		}
 		// Create a new pane to hold our GUI
-		VBox root = new VBox(5);
-		root.setAlignment(Pos.CENTER);
+		BorderPane root = new BorderPane();
+		
+		FileInputStream inputstream = null;
+		try {
+			inputstream = new FileInputStream("resources/adultfemaleNORTH.png");
+		} catch (FileNotFoundException e) {
+		} 
+		Image image = new Image(inputstream);
+		ImageView imageView = new ImageView(image);
+		ImageView imageView2 = new ImageView(image);
+		ImageView imageView3 = new ImageView(image);
+		ImageView imageView4 = new ImageView(image);
+		ImageView imageView5 = new ImageView(image);
+		ImageView imageView6 = new ImageView(image);
+		ImageView imageView7 = new ImageView(image);
+		HBox bottom = new HBox();
+		bottom.setSpacing(60);
+		bottom.getChildren().addAll(imageView,imageView2,imageView3,imageView4,imageView5,imageView6,imageView7);
+		
+		try {
+			inputstream = new FileInputStream("resources/adultmaleSOUTH.png");
+		} catch (FileNotFoundException e) {
+		} 
+		Image image2 = new Image(inputstream);
+		ImageView imageView_2 = new ImageView(image2);
+		ImageView imageView22 = new ImageView(image2);
+		ImageView imageView32 = new ImageView(image2);
+		ImageView imageView42 = new ImageView(image2);
+		ImageView imageView52 = new ImageView(image2);
+		ImageView imageView62 = new ImageView(image2);
+		ImageView imageView72 = new ImageView(image2);
+		HBox top = new HBox();
+		top.setAlignment(Pos.BASELINE_RIGHT);
+		top.setSpacing(60);
+		top.getChildren().addAll(imageView_2,imageView22,imageView32,imageView42,imageView52,imageView62,imageView72);
+		
+		VBox middle = new VBox(5);
+		middle.setAlignment(Pos.CENTER);
+		
+		root.setTop(top);
+		root.setBottom(bottom);
+		root.setCenter(middle);
 
 		// Create a few GUI elements
 		Label title = new Label("RATZ");
+		title.getStyleClass().add("title");
 		Label motd = new Label(MOTD.GETMotd());
 		Button playButton = new Button("Play!");
 		Button selectProfile = new Button("Select Profile!");
+		
+		Label loggedProfileText = new Label("You are logged as ");
 		loggedProfile = new Label();
 		if (reader.getLoggedProfile() == null) {
-			loggedProfile.setText("You are not logged in. Please log in before starting the game");
+			loggedProfile.setText("NOBODY. Please log in before starting the game");
 		} else {
-			loggedProfile.setText("You are as " + reader.getLoggedProfile());
-
+			loggedProfile.setText(reader.getLoggedProfile());
 		}
+		HBox loggedProfileBox = new HBox();
+		loggedProfileBox.setAlignment(Pos.CENTER);
+		loggedProfileBox.setStyle("-fx-text-fill: #Fd062a");
+		loggedProfileBox.getChildren().addAll(loggedProfileText, loggedProfile);
 		// Create a scene based on the pane.
 		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 		File f = new File("source/menu.css");
-		//System.out.println(f.exists());
 		scene.getStylesheets().clear();
 		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 		
-		root.getChildren().addAll(title, motd, playButton, selectProfile, loggedProfile);
+		middle.getChildren().addAll(title, motd, playButton, selectProfile, loggedProfileBox);
 		// Handle a button event
 		playButton.setOnAction(event -> {
 			if (reader.getLoggedProfile() == null) {
@@ -99,14 +147,17 @@ public class MainMenuController extends Application {
 		if (reader == null) {
 			reader = new ProfileFileReader();
 		}
+		
 
 		// Layout items
 		BorderPane profilePane = new BorderPane();
-		VBox profileButtons = new VBox();
-		VBox profileScoreLabels = new VBox();
-		VBox rightButtons = new VBox();
-		HBox bottomAddingProf = new HBox(); // adding profile stuff on bottom
-
+		VBox left = new VBox(10);
+		left.setAlignment(Pos.TOP_CENTER);
+		VBox middle = new VBox(10);
+		middle.setAlignment(Pos.TOP_CENTER);
+		VBox right = new VBox();
+		HBox bottom = new HBox(); // adding profile stuff on bottom
+		HBox top = new HBox();
 		// Get the profiles
 		String[] s = { "" };
 		try {
@@ -116,13 +167,19 @@ public class MainMenuController extends Application {
 		}
 
 		// Display who's logged in
+		
+		Label loggedLabelText = new Label("You are logged as ");
+		loggedLabelText.getStyleClass().add("loggingLabel");
 		Label loggedLabel = new Label();
-		loggedLabel.setAlignment(Pos.CENTER);
+		loggedLabel.getStyleClass().add("loggingLabel");
+		loggedLabel.setStyle("-fx-text-fill: #Fd062a");
 		if (reader.getLoggedProfile() == null) {
-			loggedLabel.setText("You are logged as...");
+			loggedLabel.setText("...");
 		} else {
-			loggedLabel.setText("You are logged as " + reader.getLoggedProfile());
+			loggedLabel.setText(reader.getLoggedProfile());
 		}
+		top.getChildren().addAll(loggedLabelText, loggedLabel);
+		top.setAlignment(Pos.CENTER);
 
 		// Display the best scores for a user
 		Label scoresHeading;
@@ -130,7 +187,7 @@ public class MainMenuController extends Application {
 
 		if (reader.getLoggedProfile() != null) {
 			scoresHeading = new Label("Best " + reader.getLoggedProfile() + "'s scores:");
-			profileScoreLabels.getChildren().add(scoresHeading);
+			middle.getChildren().add(scoresHeading);
 
 			for (int i = 0; i < profileScore.length; i++) {
 				try {
@@ -139,15 +196,15 @@ public class MainMenuController extends Application {
 				} catch (IOException e) {
 					profileScore[i] = new Label("Lvl" + (i + 1) + " unknown error");
 				}
-				profileScoreLabels.getChildren().add(profileScore[i]);
+				middle.getChildren().add(profileScore[i]);
 			}
 		} else {
 			scoresHeading = new Label("Best ... scores:");
-			profileScoreLabels.getChildren().add(scoresHeading);
+			middle.getChildren().add(scoresHeading);
 
 			for (int i = 0; i < profileScore.length; i++) {
 				profileScore[i] = new Label("Lvl" + (i + 1) + " 0");
-				profileScoreLabels.getChildren().add(profileScore[i]);
+				middle.getChildren().add(profileScore[i]);
 			}
 		}
 
@@ -155,12 +212,13 @@ public class MainMenuController extends Application {
 		Button[] profButton = new Button[s.length];
 		for (int i = 0; i < profButton.length; i++) {
 			profButton[i] = new Button(s[i]);
-			profileButtons.getChildren().add(profButton[i]);
+			profButton[i].setPrefWidth(100);
+			left.getChildren().add(profButton[i]);
 
 			final int ii = i;
 			profButton[i].setOnAction(event -> {
 				reader.loginProfile(profButton[ii].getText());
-				loggedProfile.setText("You are logged as " + reader.getLoggedProfile());
+				loggedProfile.setText(reader.getLoggedProfile());
                 displayProfileBests(loggedLabel, scoresHeading, profileScore);
             });
 		}
@@ -177,7 +235,7 @@ public class MainMenuController extends Application {
 		removeProfile.setOnAction(event -> {
 			try {
 				reader.deleteProfile(reader.getLoggedProfile());
-				ObservableList<Node> obL = profileButtons.getChildren();
+				ObservableList<Node> obL = left.getChildren();
 
 				// remove profile button and change the labels
 				boolean isRemoved = false;
@@ -185,7 +243,7 @@ public class MainMenuController extends Application {
 					if (obL.get(i).toString().contains("'" + reader.getLoggedProfile() + "'")) {
 						isRemoved = true;
 						obL.remove(obL.get(i));
-						loggedLabel.setText("You are logged as ...");
+						loggedLabel.setText("...");
 						scoresHeading.setText("Best ...'s scores:");
 
 						for (int j = 0; j < reader.getNumberOfLevels(); j++) {
@@ -199,7 +257,7 @@ public class MainMenuController extends Application {
 				
 				
 				reader.logout();
-				loggedProfile.setText("You are not logged in. Please log in before starting the game");
+				loggedProfile.setText("NOBODY. Please log in before starting the game");
 			} catch (IOException ignored) {
 			}
 		});
@@ -223,7 +281,7 @@ public class MainMenuController extends Application {
 						// Changing a labels
                         displayProfileBests(loggedLabel, scoresHeading, profileScore);
                     });
-					profileButtons.getChildren().add(newProfButton);
+					left.getChildren().add(newProfButton);
 
 				} else if (!newProfField.getText().equals("")) {
 					alert("Profile already exists");
@@ -236,21 +294,24 @@ public class MainMenuController extends Application {
 			}
 		});
 
-		bottomAddingProf.getChildren().addAll(newProfLabel, newProfField, addProfButton);
-		rightButtons.getChildren().addAll(goBack, removeProfile);
+		bottom.getChildren().addAll(newProfLabel, newProfField, addProfButton);
+		right.getChildren().addAll(goBack, removeProfile);
 
 		// Adds the elements to the layout
-		profilePane.setCenter(profileScoreLabels);
-		profilePane.setTop(loggedLabel);
-		profilePane.setRight(rightButtons);
-		profilePane.setLeft(profileButtons);
-		profilePane.setBottom(bottomAddingProf);
-
-		return new Scene(profilePane, WINDOW_WIDTH, WINDOW_HEIGHT);
+		profilePane.setCenter(middle);
+		profilePane.setTop(top);
+		profilePane.setRight(right);
+		profilePane.setLeft(left);
+		profilePane.setBottom(bottom);
+		Scene profileScene = new Scene(profilePane, WINDOW_WIDTH, WINDOW_HEIGHT);
+		File f = new File("source/menu.css");
+		profileScene.getStylesheets().clear();
+		profileScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+		return profileScene;
 	}
 
     private void displayProfileBests(Label loggedLabel, Label scoresHeading, Label[] profileScore) {
-        loggedLabel.setText("You are logged as " + reader.getLoggedProfile());
+        loggedLabel.setText(reader.getLoggedProfile());
         scoresHeading.setText("Best " + reader.getLoggedProfile() + "'s scores:");
 
         for (int j = 0; j < reader.getNumberOfLevels(); j++) {
