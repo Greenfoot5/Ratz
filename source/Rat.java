@@ -128,7 +128,17 @@ public abstract class Rat extends GameObject {
      * @return a direction that the rat would be facing if it turned right.
      */
     public Direction turnRight() {
-        return dirsList.get((dirsList.indexOf(direction) + 1) % 4);
+        switch(direction) {
+            case NORTH:
+                return Direction.EAST;
+            case EAST:
+                return Direction.SOUTH;
+            case SOUTH:
+                return Direction.WEST;
+            default:
+                return Direction.NORTH;
+
+        }
     }
 
     /**
@@ -136,7 +146,17 @@ public abstract class Rat extends GameObject {
      * @return a direction that the rat would be facing if it turned left.
      */
     public Direction turnLeft() {
-        return dirsList.get((dirsList.indexOf(direction) - 1) % 4);
+        switch(direction) {
+            case NORTH:
+                return Direction.WEST;
+            case WEST:
+                return Direction.SOUTH;
+            case SOUTH:
+                return Direction.EAST;
+            default:
+                return Direction.NORTH;
+
+        }
     }
 
     /**
@@ -144,7 +164,17 @@ public abstract class Rat extends GameObject {
      * @return a direction that the rat would be facing if it turned around.
      */
     public Direction turnBack() {
-        return dirsList.get((dirsList.indexOf(direction) + 2) % 4);
+        switch(direction) {
+            case NORTH:
+                return Direction.SOUTH;
+            case EAST:
+                return Direction.WEST;
+            case SOUTH:
+                return Direction.NORTH;
+            default:
+                return Direction.EAST;
+
+        }
     }
 
     /**
@@ -179,7 +209,7 @@ public abstract class Rat extends GameObject {
             }
         } else {
             // select a random item from validDirections
-            chosenDirection = validDirections.get((int) Math.ceil(Math.random() * validDirections.size()));
+            chosenDirection = validDirections.get((int) Math.floor(Math.random() * validDirections.size()));
         }
 
         return chosenDirection;
@@ -191,9 +221,7 @@ public abstract class Rat extends GameObject {
      * @return The tile directly ahead of the rat.
      */
     public Tile getForwardTile() {
-        String xString = String.valueOf(xPos);
-        String yString = String.valueOf(yPos);
-        System.out.println(xString + " " + yString);
+        System.out.println("Rat position: " + xPos + " " + yPos);
         Tile forwardTile;
         switch(direction) {
             case NORTH:
