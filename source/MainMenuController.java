@@ -27,7 +27,7 @@ public class MainMenuController extends Application {
 	// The dimensions of the window
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 500;
-
+	private Label loggedProfile;
 	private ProfileFileReader reader;
 
 	/**
@@ -46,20 +46,30 @@ public class MainMenuController extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) {
+		// Create reader if we don't have one yet
+				if (reader == null) {
+					reader = new ProfileFileReader();
+				}
 		// Create a new pane to hold our GUI
-		VBox root = new VBox();
-		root.setAlignment(javafx.geometry.Pos.CENTER);
+		VBox root = new VBox(5);
+		root.setAlignment(Pos.CENTER);
 
 		// Create a few GUI elements
 		Label title = new Label("RATZ");
 		Label motd = new Label(MOTD.GETMotd());
 		Button playButton = new Button("Play!");
 		Button selectProfile = new Button("Select Profile!");
+		loggedProfile = new Label();
+		if(true) {
+			loggedProfile.setText("You are not logged in. Please log in before starting the game");
+		} else {
+			loggedProfile.setText("You are as " + reader.getLoggedProfile() );
 
+		}
 		// Create a scene based on the pane.
 		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-		root.getChildren().addAll(title, motd, playButton, selectProfile);
+		root.getChildren().addAll(title, motd, playButton, selectProfile, loggedProfile);
 		// Handle a button event
 		playButton.setOnAction(event -> loadLevelSelect(primaryStage));
 		selectProfile.setOnAction(event -> {
@@ -138,6 +148,7 @@ public class MainMenuController extends Application {
 			final int ii = i;
 			profButton[i].setOnAction(event -> {
 				reader.loginProfile(profButton[ii].getText());
+				loggedProfile.setText("You are logged as " + reader.getLoggedProfile());
 				loggedLabel.setText("You are logged as " + reader.getLoggedProfile());
 				scoresHeading.setText("Best " + reader.getLoggedProfile() + "'s scores:");
 
@@ -166,7 +177,7 @@ public class MainMenuController extends Application {
 			try {
 				reader.deleteProfile(reader.getLoggedProfile());
 				ObservableList<Node> obL = profileButtons.getChildren();
-
+				
 				// remove profile button and change the labels
 				for (int i = 0; i < obL.size(); i++) {
 					if (obL.get(i).toString().contains("'" + reader.getLoggedProfile() + "'")) {
@@ -180,6 +191,7 @@ public class MainMenuController extends Application {
 					}
 				}
 				reader.logout();
+				loggedProfile.setText("You are not logged in. Please log in before starting the game");
 			} catch (IOException ignored) {
 			}
 		});
