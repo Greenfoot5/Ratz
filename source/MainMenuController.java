@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -68,7 +69,11 @@ public class MainMenuController extends Application {
 		}
 		// Create a scene based on the pane.
 		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-
+		File f = new File("source/menu.css");
+		//System.out.println(f.exists());
+		scene.getStylesheets().clear();
+		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+		
 		root.getChildren().addAll(title, motd, playButton, selectProfile, loggedProfile);
 		// Handle a button event
 		playButton.setOnAction(event -> {
