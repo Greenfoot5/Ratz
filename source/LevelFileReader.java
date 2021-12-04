@@ -1,6 +1,4 @@
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,8 +16,10 @@ public class LevelFileReader {
     private static int maxRats;
     private static int parTime;
     private static int[] dropRates = new int[8];
-    private static ArrayList<Rat> ratArrayList = new ArrayList<>();
+    private static ArrayList<Tile> tileArrayList = new ArrayList<>();
     private static ArrayList<Power> powerArrayList = new ArrayList<>();
+    private static ArrayList<Rat> ratArrayList = new ArrayList<>();
+    
 
 
     public static int getHeight() {
@@ -78,13 +78,98 @@ public class LevelFileReader {
         return dropRates;
     }
 
-    public void saveLevel(int size, String[] tiles, String[] ratSpawns, String[] powers,
-                          int maxRats, int parTime, int[] dropRates){
-        // save shit to a file
+    public static void saveLevel(String levelName, int maxRats, int parTime, int[] dropRates,
+                          String[] tiles, Rat[] ratSpawns, Power[] powers) throws IOException {
+
+        // saving first two lines
+        FileWriter writer = new FileWriter(levelName + ".txt");
+        String dropRatesString = "";
+        for (int i = 0; i < dropRates.length; i++) {
+            dropRatesString += dropRates[i] + ",";
+        }
+
+        // saving tiles
+        String tileString = "";
+        for (int i = 0; i < tiles.length; i++) {
+            tileString += tiles[i] + "\n";
+        }
+
+        String fileString = String.format("%d,%d,%d,%d\n%s\n%s",height,width,maxRats,parTime,dropRatesString,tileString);
+
+
     }
 
-    public void saveLevelState(int size, String[] tiles, String[] ratSpawns, String[] powers) {
-        // save shit to a file.
+    public static String ratToStr(Rat rat) {
+        String type;
+        String speed;
+        String direction;
+        String gasTimer;
+        String xPos;
+        String yPos;
+        // the following items can't be named because they vary from rat to rat
+        String item6;
+        String item7;
+        String item8;
+
+        speed = Integer.toString(rat.getSpeed());
+        direction = Integer.toString(directionEnumToInt(rat.getDirection()));
+        gasTimer = Integer.toString(rat.getGasTimer());
+        xPos = Integer.toString(rat.getxPos());
+        yPos = Integer.toString(rat.getyPos());
+
+        if (rat instanceof ChildRat) {
+            if (((ChildRat) rat).isFemale()) {
+                type = "f";
+
+            } else {
+                type = "m";
+            }
+            if (((ChildRat) rat).getFertile()) {
+                item6 = "1";
+            } else {
+                item6 = "0";
+            }
+            item7 = Integer.toString(((ChildRat) rat).getAge());
+
+            return type + speed + direction + gasTimer + xPos + yPos + item6 + item7;
+        }
+
+        if (rat instanceof AdultFemale) {
+            type = "F";
+            if (((AdultFemale) rat).getFertile()) {
+                item6 = "1";
+            } else {
+                item6 = "0";
+            }
+            item7 = Integer.toString(((AdultFemale) rat).getPregnancyTime());
+            item8 = Integer.toString(((AdultFemale) rat).getRatFetusCount());
+
+            return type + speed + direction + gasTimer + xPos + yPos + item6 + item7 + item8;
+        }
+
+        if (rat instanceof AdultMale) {
+            type = "M";
+
+            if (((AdultMale) rat).getFertile()) {
+                item6 = "1";
+            } else {
+                item6 = "0";
+            }
+
+            return type + speed + direction + gasTimer + xPos + yPos + item6;
+
+        }
+
+        if (rat instanceof DeathRat) {
+            type = "D";
+
+            item6 = Integer.toString(((DeathRat) rat).getKillCounter());
+
+            return type + speed + direction + gasTimer + xPos + yPos + item6;
+        }
+
+        // if nothing has been returned yet, someone's added in some kind of new rat.
+        return null;
     }
 
     /**
@@ -319,6 +404,10 @@ public class LevelFileReader {
                 StopSign newStopSign = new StopSign(xPos, yPos);
                 newStopSign.setHP(HP);
                 powerArrayList.add(newStopSign);
+            }
+            
+            for (Rat rat : ratArrayList) {
+                //getTile(rat.getxPos(),rat.getyPos()).addOccupantRat(rat);
             }
         }
         reader.close();
