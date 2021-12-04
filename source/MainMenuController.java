@@ -47,9 +47,9 @@ public class MainMenuController extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		// Create reader if we don't have one yet
-				if (reader == null) {
-					reader = new ProfileFileReader();
-				}
+		if (reader == null) {
+			reader = new ProfileFileReader();
+		}
 		// Create a new pane to hold our GUI
 		VBox root = new VBox(5);
 		root.setAlignment(Pos.CENTER);
@@ -60,10 +60,10 @@ public class MainMenuController extends Application {
 		Button playButton = new Button("Play!");
 		Button selectProfile = new Button("Select Profile!");
 		loggedProfile = new Label();
-		if(reader.getLoggedProfile() == null) {
+		if (reader.getLoggedProfile() == null) {
 			loggedProfile.setText("You are not logged in. Please log in before starting the game");
 		} else {
-			loggedProfile.setText("You are as " + reader.getLoggedProfile() );
+			loggedProfile.setText("You are as " + reader.getLoggedProfile());
 
 		}
 		// Create a scene based on the pane.
@@ -71,7 +71,13 @@ public class MainMenuController extends Application {
 
 		root.getChildren().addAll(title, motd, playButton, selectProfile, loggedProfile);
 		// Handle a button event
-		playButton.setOnAction(event -> loadLevelSelect(primaryStage));
+		playButton.setOnAction(event -> {
+			if (reader.getLoggedProfile() == null) {
+				//TODO: pop out a window with a message to log in
+			} else {
+				loadLevelSelect(primaryStage);
+			}
+		});
 		selectProfile.setOnAction(event -> {
 			primaryStage.setScene(selectProfiles(primaryStage, scene));
 			primaryStage.show();
@@ -177,7 +183,7 @@ public class MainMenuController extends Application {
 			try {
 				reader.deleteProfile(reader.getLoggedProfile());
 				ObservableList<Node> obL = profileButtons.getChildren();
-				
+
 				// remove profile button and change the labels
 				for (int i = 0; i < obL.size(); i++) {
 					if (obL.get(i).toString().contains("'" + reader.getLoggedProfile() + "'")) {
@@ -263,7 +269,7 @@ public class MainMenuController extends Application {
 		topBox.setAlignment(Pos.CENTER);
 		Label title = new Label("Level Select");
 		topBox.getChildren().add(title);
-		
+
 		VBox scores = new VBox();
 		scores.setAlignment(Pos.CENTER);
 		Label scoreHeading = new Label("Lvl 1 best scores:");
@@ -294,7 +300,7 @@ public class MainMenuController extends Application {
 
 			final int ii = i;
 			lvl[i].setOnAction(event -> {
-				scoreHeading.setText("Lvl " + (ii + 1) + " best scores:" );
+				scoreHeading.setText("Lvl " + (ii + 1) + " best scores:");
 				String[] newScores = null;
 				try {
 					newScores = scoresReader.getTopScores(ii + 1);
@@ -313,7 +319,7 @@ public class MainMenuController extends Application {
 		}
 		VBox rightBox = new VBox();
 		rightBox.setAlignment(Pos.CENTER);
-		
+
 		Button playButton = new Button("Play!");
 		playButton.setOnAction(event -> {
 			try {
@@ -324,7 +330,6 @@ public class MainMenuController extends Application {
 		});
 
 		rightBox.getChildren().add(playButton);
-		
 
 		root.setCenter(scores);
 		root.setTop(topBox);
@@ -346,7 +351,7 @@ public class MainMenuController extends Application {
 	 * @throws IOException If we cannot load a level
 	 */
 	public void loadLevel(Stage levelStage) throws IOException {
-	    LevelFileReader.loadLevelFile("./resources/level.txt");
+		LevelFileReader.loadLevelFile("./resources/level.txt");
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
 		LevelController levelController = new LevelController(new LevelFileReader(), this, new ProfileFileReader());
