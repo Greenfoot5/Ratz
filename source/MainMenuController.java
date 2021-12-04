@@ -134,7 +134,8 @@ public class MainMenuController extends Application {
 			if (reader.getLoggedProfile() == null) {
 				alert("You are not logged in.\nPlease log in before starting the game");
 			} else {
-				loadLevelSelect(primaryStage);
+				primaryStage.setScene(loadLevelSelect(primaryStage, scene));
+				primaryStage.show();
 			}
 		});
 		selectProfile.setOnAction(event -> {
@@ -384,7 +385,7 @@ public class MainMenuController extends Application {
 	 *
 	 * @param selectStage the stage
 	 */
-	private void loadLevelSelect(Stage selectStage) {
+	public Scene loadLevelSelect(Stage selectStage, Scene scene) {
 		// Create a new pane to hold our GUI
 		// TODO: use this variable to choose a level (when levels will work)
 		AtomicInteger selectedLevel = new AtomicInteger(1);
@@ -470,11 +471,12 @@ public class MainMenuController extends Application {
 		root.setLeft(levels);
 
 		// Create a scene based on the pane.
-		Scene scene = new Scene(root, 400, 400);
+		Scene levelsScene = new Scene(root, 400, 400);
 
 		// Show the scene
-		selectStage.setScene(scene);
+		selectStage.setScene(levelsScene);
 		selectStage.show();
+		return levelsScene;
 	}
 
 	/**
