@@ -30,9 +30,11 @@ public class Sterilisation extends Power{
         tilesToSterilise.add(currentTile);
 
         for (Tile tile : tilesToSterilise) {
-            for (Rat rat : tile.getOccupantRats()) {
-                LivingRat lr = (LivingRat) rat;
-                lr.infertilize();
+            if(tile != null) {
+                for (Rat rat : tile.getOccupantRats()) {
+                    LivingRat lr = (LivingRat) rat;
+                    lr.infertilize();
+                }
             }
         }
         tilesToSterilise.clear();

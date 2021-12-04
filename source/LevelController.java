@@ -217,7 +217,7 @@ public class LevelController {
 
             for (Tile[] tiles : tileMap) {
                 for (Tile tile : tiles) {
-                    tile.update(FRAME_TIME);
+                    tile.update();
                 }
             }
 

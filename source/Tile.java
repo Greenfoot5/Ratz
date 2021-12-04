@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Abstract class that defines what a tile even is anyway
@@ -48,7 +47,7 @@ public class Tile extends GameObject {
         this.occupantRats.remove(r);
     }
 
-    public void update(int frameTime) {
+    public void update() {
         int numOfPowers = activePowers.size();
         for(int i = 0; i < numOfPowers; i++) {
             activePowers.get(i).onTick(occupantRats, this);
