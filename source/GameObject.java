@@ -69,7 +69,7 @@ public abstract class GameObject {
     }
 
     /**
-     * Sets the the folder where all textures are stored.
+     * Sets the folder where all textures are stored.
      * @param folder Name of texture folder.
      */
     public void setTextureFolder(String folder) {
