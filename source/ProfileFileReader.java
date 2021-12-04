@@ -19,12 +19,12 @@ public class ProfileFileReader {
 	static private String selectedProfile = null;
 	
 	private final static int NUMBER_OF_LEVELS = 5;
-	private Scanner in = null;
+	//private Scanner in = null;
 	private String filePath = "resources/profileFile.txt";
-	private File file = null;
-	BufferedWriter bufferWriter = null;
-	FileWriter fileWriter = null;
-	PrintWriter printWriter = null;
+	//private File file = null;
+	//BufferedWriter bufferWriter = null;
+	//FileWriter fileWriter = null;
+	//PrintWriter printWriter = null;
 
 	/**
 	 * Instance of the class is created, but has no selected profile;
@@ -53,12 +53,12 @@ public class ProfileFileReader {
 	 * @throws Exception - if there is a problem with a file or name is already used
 	 */
 	public void createNewProfile(String profileName) throws Exception {
-		file = new File(filePath);
+		File file = new File(filePath);
 		File tempFile = new File("resources/tempProf.txt");
-		in = new Scanner(file);
-		fileWriter = new FileWriter(tempFile, true);
-		bufferWriter = new BufferedWriter(fileWriter);
-		printWriter = new PrintWriter(bufferWriter);
+		Scanner in = new Scanner(file);
+		FileWriter fileWriter = new FileWriter(tempFile, true);
+		//BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
+		PrintWriter printWriter = new PrintWriter(fileWriter);
 
 		int lastProfNumber = 1;
 		boolean isAlreadyUsedName = false;
@@ -96,10 +96,12 @@ public class ProfileFileReader {
 		}
 
 		in.close();
+		System.gc();
+
 		printWriter.flush();
 		printWriter.close();
 		System.out.println(file.delete());
-
+		
 		File rename = new File(filePath);
 		tempFile.renameTo(rename);
 
@@ -111,24 +113,28 @@ public class ProfileFileReader {
 	 * @param profileName
 	 * @throws IOException - if there is a problem with a file
 	 */
+
 	public void deleteProfile(String profileName) throws IOException {
-		file = new File(filePath);
+		File file = new File(filePath);
 		File tempFile = new File("resources/tempProf.txt");
-		in = new Scanner(file);
-		fileWriter = new FileWriter(tempFile, true);
-		bufferWriter = new BufferedWriter(fileWriter);
-		printWriter = new PrintWriter(bufferWriter);
+		Scanner in = new Scanner(file);
+		FileWriter fileWriter = new FileWriter(tempFile, false);
+		PrintWriter printWriter = new PrintWriter(fileWriter);
+
 
 		boolean isRemoved = false;
 		while (in.hasNext()) {
 			int profNumber = in.nextInt();
 			String profName = in.next();
 
+
 			if (!profName.equals(profileName)) {
 				if (isRemoved) {
 					printWriter.println((profNumber - 1) + " " + profName);
+
 				} else {
 					printWriter.println(profNumber + " " + profName);
+
 				}
 
 				for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
@@ -139,6 +145,7 @@ public class ProfileFileReader {
 				}
 				printWriter.println();
 			} else {
+
 				for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
 					int lvl = in.nextInt();
 					int scr = in.nextInt();
@@ -148,12 +155,16 @@ public class ProfileFileReader {
 		}
 
 		in.close();
+		System.gc();
 		printWriter.flush();
 		printWriter.close();
+		fileWriter.close();
+
 		file.delete();
 
 		File rename = new File(filePath);
 		tempFile.renameTo(rename);
+
 	}
 
 	/**
@@ -165,8 +176,8 @@ public class ProfileFileReader {
 	 * @throws IOException - if there is a problem with a file
 	 */
 	public int getBestScore(String profileName, int level) throws IOException {
-		file = new File(filePath);
-		in = new Scanner(file);
+		File file = new File(filePath);
+		Scanner in = new Scanner(file);
 
 		int bestScore = 0;
 		while (in.hasNext()) {
@@ -181,6 +192,10 @@ public class ProfileFileReader {
 				}
 			}
 		}
+		
+		in.close();
+		System.gc();
+		
 		return bestScore;
 	}
 
@@ -193,12 +208,12 @@ public class ProfileFileReader {
 	 * @throws IOException - if there is a problem with a file
 	 */
 	public void saveBestScore(String profileName, int level, int score) throws IOException {
-		file = new File(filePath);
+		File file = new File(filePath);
 		File tempFile = new File("resources/tempProf.txt");
-		in = new Scanner(file);
-		fileWriter = new FileWriter(tempFile, true);
-		bufferWriter = new BufferedWriter(fileWriter);
-		printWriter = new PrintWriter(bufferWriter);
+		Scanner in = new Scanner(file);
+		FileWriter fileWriter = new FileWriter(tempFile, true);
+		//BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
+		PrintWriter printWriter = new PrintWriter(fileWriter);
 
 		while (in.hasNext()) {
 			int profNumber = in.nextInt();
@@ -220,8 +235,10 @@ public class ProfileFileReader {
 		}
 
 		in.close();
+		System.gc();
 		printWriter.flush();
 		printWriter.close();
+		
 		file.delete();
 
 		File rename = new File(filePath);
@@ -229,8 +246,8 @@ public class ProfileFileReader {
 	}
 
 	public boolean doesProfileExist(String profileName) throws FileNotFoundException {
-		file = new File(filePath);
-		in = new Scanner(file);
+		File file = new File(filePath);
+		Scanner in = new Scanner(file);
 
 		boolean exist = false;
 		while (in.hasNext()) {
@@ -246,6 +263,10 @@ public class ProfileFileReader {
 				int scr = in.nextInt();
 			}
 		}
+		
+		in.close();
+		System.gc();
+		
 		return exist;
 	}
 
@@ -263,8 +284,8 @@ public class ProfileFileReader {
 	}
 
 	public String[] getProfiles() throws FileNotFoundException {
-		file = new File(filePath);
-		in = new Scanner(file);
+		File file = new File(filePath);
+		Scanner in = new Scanner(file);
 
 		String[] profiles = new String[0];
 		int counter = 1;
@@ -284,6 +305,10 @@ public class ProfileFileReader {
 				int scr = in.nextInt();
 			}
 		}
+		
+		in.close();
+		System.gc();
+		
 		return profiles;
 	}
 
