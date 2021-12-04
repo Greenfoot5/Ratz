@@ -1,6 +1,7 @@
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -153,10 +154,19 @@ public class MainMenuController extends Application {
 		BorderPane profilePane = new BorderPane();
 		VBox left = new VBox(10);
 		left.setAlignment(Pos.TOP_CENTER);
+		left.setPadding(new Insets(10, 10, 10, 40));
+		
 		VBox middle = new VBox(10);
 		middle.setAlignment(Pos.TOP_CENTER);
-		VBox right = new VBox();
-		HBox bottom = new HBox(); // adding profile stuff on bottom
+		middle.setPadding(new Insets(5, 0, 5, 0));
+		
+		VBox right = new VBox(10);
+		right.setAlignment(Pos.TOP_CENTER);
+		right.setPadding(new Insets(10, 100, 10, 0));
+		
+		HBox bottom = new HBox(20); 
+		bottom.setAlignment(Pos.TOP_CENTER);
+		bottom.setPadding(new Insets(10, 120, 30, 0));
 		HBox top = new HBox();
 		// Get the profiles
 		String[] s = { "" };
@@ -207,6 +217,21 @@ public class MainMenuController extends Application {
 				middle.getChildren().add(profileScore[i]);
 			}
 		}
+		FileInputStream inputstream = null;
+		try {
+			inputstream = new FileInputStream("resources/poison.png");
+		} catch (FileNotFoundException e) {
+		} 
+		Image image = new Image(inputstream);
+		ImageView imageView = new ImageView(image);
+		ImageView imageView2 = new ImageView(image);
+		
+		HBox selectMenuPics = new HBox();
+		selectMenuPics.setSpacing(100);
+		selectMenuPics.setPadding(new Insets(40, 130, 0, 160));;
+		selectMenuPics.getChildren().addAll(imageView,imageView2);
+		
+		middle.getChildren().add(selectMenuPics);
 
 		// Display a button for each profile
 		Button[] profButton = new Button[s.length];
@@ -225,6 +250,7 @@ public class MainMenuController extends Application {
 
 		// Return to the main menu
 		Button goBack = new Button("Go back to main menu");
+		goBack.setPrefWidth(100);
 		goBack.setOnAction(event -> {
 			profileStage.setScene(scene);
 			profileStage.show();
@@ -232,6 +258,7 @@ public class MainMenuController extends Application {
 
 		// Removes a profile
 		Button removeProfile = new Button("Remove profile");
+		removeProfile.setMinWidth(100);
 		removeProfile.setOnAction(event -> {
 			try {
 				reader.deleteProfile(reader.getLoggedProfile());
