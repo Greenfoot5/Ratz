@@ -17,14 +17,14 @@ import java.util.Scanner;
 public class ProfileFileReader {
 
 	static private String selectedProfile = null;
-	
+
 	private final static int NUMBER_OF_LEVELS = 5;
-	//private Scanner in = null;
+	// private Scanner in = null;
 	private String filePath = "resources/profileFile.txt";
-	//private File file = null;
-	//BufferedWriter bufferWriter = null;
-	//FileWriter fileWriter = null;
-	//PrintWriter printWriter = null;
+	// private File file = null;
+	// BufferedWriter bufferWriter = null;
+	// FileWriter fileWriter = null;
+	// PrintWriter printWriter = null;
 
 	/**
 	 * Instance of the class is created, but has no selected profile;
@@ -57,7 +57,7 @@ public class ProfileFileReader {
 		File tempFile = new File("resources/tempProf.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
-		//BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
+		// BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
 
 		int lastProfNumber = 1;
@@ -100,8 +100,8 @@ public class ProfileFileReader {
 
 		printWriter.flush();
 		printWriter.close();
-		System.out.println(file.delete());
-		
+		file.delete();
+
 		File rename = new File(filePath);
 		tempFile.renameTo(rename);
 
@@ -121,12 +121,10 @@ public class ProfileFileReader {
 		FileWriter fileWriter = new FileWriter(tempFile, false);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
 
-
 		boolean isRemoved = false;
 		while (in.hasNext()) {
 			int profNumber = in.nextInt();
 			String profName = in.next();
-
 
 			if (!profName.equals(profileName)) {
 				if (isRemoved) {
@@ -192,10 +190,10 @@ public class ProfileFileReader {
 				}
 			}
 		}
-		
+
 		in.close();
 		System.gc();
-		
+
 		return bestScore;
 	}
 
@@ -212,7 +210,7 @@ public class ProfileFileReader {
 		File tempFile = new File("resources/tempProf.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
-		//BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
+		// BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
 
 		while (in.hasNext()) {
@@ -238,7 +236,7 @@ public class ProfileFileReader {
 		System.gc();
 		printWriter.flush();
 		printWriter.close();
-		
+
 		file.delete();
 
 		File rename = new File(filePath);
@@ -263,10 +261,10 @@ public class ProfileFileReader {
 				int scr = in.nextInt();
 			}
 		}
-		
+
 		in.close();
 		System.gc();
-		
+
 		return exist;
 	}
 
@@ -281,6 +279,10 @@ public class ProfileFileReader {
 		} catch (FileNotFoundException e) {
 			selectedProfile = "error";
 		}
+	}
+
+	public void logout() {
+		selectedProfile = null;
 	}
 
 	public String[] getProfiles() throws FileNotFoundException {
@@ -305,10 +307,10 @@ public class ProfileFileReader {
 				int scr = in.nextInt();
 			}
 		}
-		
+
 		in.close();
 		System.gc();
-		
+
 		return profiles;
 	}
 
@@ -318,7 +320,7 @@ public class ProfileFileReader {
 	public String getLoggedProfile() {
 		return selectedProfile;
 	}
-	
+
 	public int getNumberOfLevels() {
 		return this.NUMBER_OF_LEVELS;
 	}
