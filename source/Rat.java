@@ -295,7 +295,16 @@ public abstract class Rat extends GameObject {
      */
     public void die() {
         LevelController.ratKilled(this);
-        LevelController.getTileAt(this.xPos,this.yPos).removeOccupantRat(this);
+        try {
+            LevelController.getTileAt(this.xPos,this.yPos).removeOccupantRat(this);
+        } catch (NullPointerException e) {
+            // this should never happen because the exception is only thrown if you call
+            // getTileAt on a tile that doesn't exist (and a rat couldn't move to a tile
+            // that doesn't exist). Just in case, though...
+            System.out.println("Caught NullPointerException; called getTileAt with invalid coordinates.");
+            e.printStackTrace();
+        }
+
     }
 
     /**
