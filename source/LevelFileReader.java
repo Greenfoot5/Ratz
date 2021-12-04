@@ -78,6 +78,17 @@ public class LevelFileReader {
         return dropRates;
     }
 
+    /**
+     * Writes a level to a .txt file in a format that can be read back by the file reader.
+     * @param levelName The name for the level. Formatted as "level-X.txt" where X is a number.
+     * @param maxRats The number of rats that can exist before you lose.
+     * @param parTime The par time for the level - beating it faster than this gets you extra points.
+     * @param dropRates The likelihood of different items dropping.
+     * @param tiles The map of tiles to be shown on the game board.
+     * @param ratSpawns The rats to be shown on the game board.
+     * @param powers The powerups to be shown on the game board.
+     * @throws IOException if it can't find the file specified.
+     */
     public static void saveLevel(String levelName, int maxRats, int parTime, int[] dropRates,
                           String[] tiles, Rat[] ratSpawns, Power[] powers) throws IOException {
 
@@ -101,6 +112,11 @@ public class LevelFileReader {
 
     }
 
+    /**
+     * Turns a rat into a string that can be pasted into a level file to be loaded later.
+     * @param rat The rat to convert
+     * @return A string that can be read by the file reader
+     */
     public static String ratToStr(Rat rat) {
         String type;
         String speed;
@@ -193,9 +209,9 @@ public class LevelFileReader {
     }
 
     /**
-     * Converts a Direction enum to an int
+     * Converts a Direction enum to an int.
      * @param directionEnum Direction
-     * @return int from 0-3 representing north, east, south, west
+     * @return int from 0-3 representing north, east, south, west.
      */
     private static int directionEnumToInt(Rat.Direction directionEnum){
         switch(directionEnum) {
@@ -210,6 +226,11 @@ public class LevelFileReader {
         }
     }
 
+    /**
+     * Loads game objects from the text in level files.
+     * @param filename The file to open.
+     * @throws FileNotFoundException if the file can't be found.
+     */
     public static void loadLevelFile(String filename) throws FileNotFoundException {
         File levelData = new File(filename);
 
@@ -429,6 +450,11 @@ public class LevelFileReader {
         reader.close();
     }
 
+    /**
+     * Converts the strings that store the tiles into a 2d array that can be used by other classes.
+     * @param tiles The
+     * @return
+     */
     private static Tile[][] tilesToTileMap(String[] tiles) {
         Tile[][] tileMap = new Tile[width][height];
         for(int i = 0; i < tileMap[0].length; i++) {

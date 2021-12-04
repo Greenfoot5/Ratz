@@ -44,6 +44,9 @@ public class ChildRat extends LivingRat {
         return isFemale;
     }
 
+    /**
+     * Replaces this rat with an equivalent adult rat.
+     */
     public void growUp() {
         if (isFemale) {
             AdultFemale newAdult = new AdultFemale(4, direction, gasTimer,
