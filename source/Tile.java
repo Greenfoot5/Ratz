@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Abstract class that defines what a tile even is anyway
@@ -48,11 +49,15 @@ public class Tile extends GameObject {
     }
 
     public void update(int frameTime) {
-        for(Power p : activePowers) {
-            p.onTick(occupantRats, this);
+        int numOfPowers = activePowers.size();
+        for(int i = 0; i < numOfPowers; i++) {
+            activePowers.get(i).onTick(occupantRats, this);
+            numOfPowers = activePowers.size();
         }
-        for(Rat r : occupantRats) {
-            r.onTick();
+        int numOfRats = occupantRats.size();
+        for(int i = 0; i < numOfRats; i++) {
+            occupantRats.get(i).onTick();
+            numOfRats = occupantRats.size();
         }
     }
 

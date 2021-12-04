@@ -113,7 +113,7 @@ public class LevelController {
      * Initializes game.
      */
     public void initialize() {
-        currentTimeLeft = PAR_TIME;
+        currentTimeLeft = PAR_TIME * 1000;
         timerLabel.setText(millisToString(currentTimeLeft));
 
         toolbars = Arrays.asList(bombToolbar,gasToolbar, sterilisationToolbar, poisonToolbar, maleSwapToolbar, femaleSwapToolbar, stopSignToolbar, deathRatToolbar);
@@ -124,7 +124,7 @@ public class LevelController {
 
         renderGame();
 
-        //System.arraycopy(DROP_RATES, 0, timeUntilDrop, 0, timeUntilDrop.length);
+        System.arraycopy(DROP_RATES, 0, timeUntilDrop, 0, timeUntilDrop.length);
 
         tickTimeline = new Timeline(new KeyFrame(Duration.millis(FRAME_TIME), event -> tick()));
         tickTimeline.setCycleCount(Animation.INDEFINITE);
@@ -135,14 +135,18 @@ public class LevelController {
      * Builds new level from level file.
      */
     private void buildNewLevel() {
-
+        childRatCounter = 0;
         femaleRatCounter = 0;
         maleRatCounter = 0;
-        childRatCounter = 0;
         score = 0;
 
-        //tileMap = new Tile[WIDTH][HEIGHT];
-        //tileMap = LevelLoader.loadTileMap(LEVEL_READER,this);
+        tileMap = LevelFileReader.getTileMap();
+
+        for(Rat rat: LevelFileReader.getRatSpawns()) {
+            ratAdded(rat);
+        }
+
+        System.out.println(childRatCounter);
     }
 
     /**
@@ -157,7 +161,11 @@ public class LevelController {
     }
 
     public static Tile getTileAt(int x, int y) {
-        return tileMap[x][y];
+        try {
+            return tileMap[x][y];
+        } catch (Exception ArrayIndexOutOfBoundsException) {
+            return null;
+        }
     }
 
     /**
@@ -167,14 +175,14 @@ public class LevelController {
      * @return interactivity.
      */
     private boolean tileInteractivityAt(double x, double y) {
-        //if (x >= (WIDTH*64) || y >= (HEIGHT*64)){
-        //    return false;
-        //} else {
+        if (x >= (WIDTH*64) || y >= (HEIGHT*64)){
+            return false;
+        } else {
             int xPos = (int) (Math.floor(x) / 64);
             int yPos = (int) (Math.floor(y) / 64);
 
             return tileMap[xPos][yPos].isInteractive();
-        //}
+        }
     }
 
     /**
@@ -220,7 +228,7 @@ public class LevelController {
             timeUntilDrop[i] -= FRAME_TIME;
             if(timeUntilDrop[i] <= 0 && counters[i] < 4) {
                 counters[i]++;
-                //timeUntilDrop[i] = DROP_RATES[i];
+                timeUntilDrop[i] = DROP_RATES[i];
             }
         }
     }
@@ -413,7 +421,7 @@ public class LevelController {
      * Removes rat from a rat counter.
      * @param rat the rat being removed.
      */
-    public static void ratRemoved(LivingRat rat) {
+    public static void ratRemoved(Rat rat) {
         if (rat instanceof AdultMale) {
             maleRatCounter--;
         } else if (rat instanceof AdultFemale) {
@@ -427,7 +435,7 @@ public class LevelController {
      * Adds rat to rat counter.
      * @param rat the rat being added.
      */
-    public static void ratAdded(LivingRat rat) {
+    public static void ratAdded(Rat rat) {
         if (rat instanceof ChildRat) {
             childRatCounter++;
         } else if (rat instanceof AdultMale) {
