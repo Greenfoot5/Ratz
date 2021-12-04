@@ -71,7 +71,7 @@ public abstract class Rat extends GameObject {
      */
     public void onTick() {
         // 12 ticks in gas = 2.5 seconds. increase or decrease later as appropriate
-        if (gasTimer > 12) {
+        if (gasTimer >= 12) {
             die();
         }
         walk();
@@ -96,27 +96,32 @@ public abstract class Rat extends GameObject {
         for (Power powerAhead : getForwardTile().getActivePowers()) {
             if (powerAhead instanceof StopSign) {
                 stopSignAhead = true;
-                // TODO: figure out a better, less ugly way to do this
-                ArrayList<Rat> uselessArrayList = new ArrayList<>();
-                powerAhead.activate(uselessArrayList, getForwardTile());
+                powerAhead.activate(new ArrayList<>(), getForwardTile());
             }
         }
 
-        if (!stopSignAhead) {
-            if (direction != null && !(this instanceof DeathRat)) {
+        if (!stopSignAhead && direction != null) {
+            if (!(this instanceof DeathRat)) {
                 getForwardTile().addOccupantRat(this);
-                if (LevelController.getTileAt(xPos, yPos) != null) {
+                LevelController.getTileAt(xPos, yPos).removeOccupantRat(this);
+
+            } else {
+                if (((DeathRat) this).getOminousWaiting() == 0) {
+                    getForwardTile().addOccupantRat(this);
                     LevelController.getTileAt(xPos, yPos).removeOccupantRat(this);
                 }
             }
-
-            if (direction != null && (this instanceof DeathRat)) {
-                if (((DeathRat) this).getOminousWaiting() == 0) {
-                    getForwardTile().addOccupantRat(this);
-                    if (LevelController.getTileAt(xPos, yPos) != null) {
-                        LevelController.getTileAt(xPos, yPos).removeOccupantRat(this);
-                    }
-                }
+            if (direction == Direction.NORTH) {
+                yPos--;
+            }
+            if (direction == Direction.EAST) {
+                xPos++;
+            }
+            if (direction == Direction.SOUTH) {
+                yPos++;
+            }
+            if (direction == Direction.WEST) {
+                xPos--;
             }
         }
 
@@ -186,21 +191,21 @@ public abstract class Rat extends GameObject {
      */
     public Direction pickNewDirection() {
         ArrayList<Direction> validDirections = new ArrayList<>();
-        if (getForwardTile().isPassable()) {
+        if (getForwardTile() != null && getForwardTile().isPassable()) {
             validDirections.add(direction);
         }
-        if (getRightTile().isPassable()) {
+        if (getRightTile() != null && getRightTile().isPassable()) {
             validDirections.add(turnRight());
         }
-        if (getLeftTile().isPassable()) {
+        if (getLeftTile() != null && getLeftTile().isPassable()) {
             validDirections.add(turnLeft());
         }
 
         Direction chosenDirection;
-
+        System.out.println("validDirections.size(); " + validDirections.size());
         if (validDirections.size() == 0){
             // forward, right, and left aren't options. Try going back.
-            if (getRearTile().isPassable()) {
+            if (getRearTile() != null && getRearTile().isPassable()) {
                 chosenDirection = turnBack();
             } else {
                 // the only time we should get to the point is if the rat is stuck in a box.
@@ -225,16 +230,16 @@ public abstract class Rat extends GameObject {
         Tile forwardTile;
         switch(direction) {
             case NORTH:
-                forwardTile = LevelController.getTileAt(xPos,yPos--);
+                forwardTile = LevelController.getTileAt(xPos,yPos-1);
                 break;
             case EAST:
-                forwardTile = LevelController.getTileAt(xPos++,yPos);
+                forwardTile = LevelController.getTileAt(xPos+1,yPos);
                 break;
             case SOUTH:
-                forwardTile = LevelController.getTileAt(xPos,yPos++);
+                forwardTile = LevelController.getTileAt(xPos,yPos+1);
                 break;
             default:
-                forwardTile = LevelController.getTileAt(xPos--,yPos);
+                forwardTile = LevelController.getTileAt(xPos-1,yPos);
                 break;
 
         }
@@ -249,16 +254,16 @@ public abstract class Rat extends GameObject {
         Tile leftTile;
         switch(direction) {
             case NORTH:
-                leftTile = LevelController.getTileAt(xPos--,yPos);
+                leftTile = LevelController.getTileAt(xPos-1,yPos);
                 break;
             case EAST:
-                leftTile = LevelController.getTileAt(xPos,yPos--);
+                leftTile = LevelController.getTileAt(xPos,yPos-1);
                 break;
             case SOUTH:
-                leftTile = LevelController.getTileAt(xPos++,yPos);
+                leftTile = LevelController.getTileAt(xPos+1,yPos);
                 break;
             default:
-                leftTile = LevelController.getTileAt(xPos,yPos++);
+                leftTile = LevelController.getTileAt(xPos,yPos+1);
                 break;
         }
         return leftTile;
@@ -272,16 +277,16 @@ public abstract class Rat extends GameObject {
         Tile rightTile;
         switch(direction) {
             case NORTH:
-                rightTile = LevelController.getTileAt(xPos++,yPos);
+                rightTile = LevelController.getTileAt(xPos+1,yPos);
                 break;
             case EAST:
-                rightTile = LevelController.getTileAt(xPos,yPos++);
+                rightTile = LevelController.getTileAt(xPos,yPos+1);
                 break;
             case SOUTH:
-                rightTile = LevelController.getTileAt(xPos--,yPos);
+                rightTile = LevelController.getTileAt(xPos-1,yPos);
                 break;
             default:
-                rightTile = LevelController.getTileAt(xPos,yPos--);
+                rightTile = LevelController.getTileAt(xPos,yPos-1);
                 break;
 
         }
@@ -296,16 +301,16 @@ public abstract class Rat extends GameObject {
         Tile rearTile;
         switch(direction) {
             case NORTH:
-                rearTile = LevelController.getTileAt(xPos,yPos++);
+                rearTile = LevelController.getTileAt(xPos,yPos+1);
                 break;
             case EAST:
-                rearTile = LevelController.getTileAt(xPos--,yPos);
+                rearTile = LevelController.getTileAt(xPos-1,yPos);
                 break;
             case SOUTH:
-                rearTile = LevelController.getTileAt(xPos,yPos--);
+                rearTile = LevelController.getTileAt(xPos,yPos-1);
                 break;
             default:
-                rearTile = LevelController.getTileAt(xPos++,yPos);
+                rearTile = LevelController.getTileAt(xPos+1,yPos);
                 break;
 
         }
