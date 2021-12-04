@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The main class to begin, and the one that handles the main menu
@@ -253,7 +254,7 @@ public class MainMenuController extends Application {
 				}
 				
 			} catch (Exception e) {
-				System.out.println("Problemhere/ Adding button action");
+				System.out.println("Problem here/ Adding button action");
 			}
 		});
 
@@ -299,7 +300,7 @@ public class MainMenuController extends Application {
 	private void loadLevelSelect(Stage selectStage) {
 		// Create a new pane to hold our GUI
 		// TODO: use this variable to choose a level (when levels will work)
-		int selectedLevel = 1;
+		AtomicInteger selectedLevel = new AtomicInteger(1);
 		BorderPane root = new BorderPane();
 		// root.setAlignment(Pos.CENTER);
 		HighScores scoresReader = new HighScores();
@@ -311,15 +312,15 @@ public class MainMenuController extends Application {
 
 		VBox scores = new VBox();
 		scores.setAlignment(Pos.CENTER);
-		Label scoreHeading = new Label("Lvl 1 best scores:");
+		Label scoreHeading = new Label("Lvl " + selectedLevel + " best scores:");
 		scores.getChildren().add(scoreHeading);
 
 		Label[] scoresLabel = new Label[10];
 		String[] scoresString = null;
 		try {
-			scoresString = scoresReader.getTopScores(1);
-		} catch (FileNotFoundException ignored) {
-		}
+			scoresString = scoresReader.getTopScores(selectedLevel.get());
+		} catch (FileNotFoundException ignored) { }
+
 		for (int i = 0; i < 10; i++) {
 			scoresLabel[i] = new Label();
 			try {
@@ -334,18 +335,19 @@ public class MainMenuController extends Application {
 		levels.setAlignment(Pos.CENTER);
 
 		Button[] lvl = new Button[5];
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < lvl.length; i++) {
+            int levelIndex = i + 1;
+			lvl[i] = new Button("Level " + (levelIndex));
 
-			lvl[i] = new Button("Level " + (i + 1));
+            lvl[i].setOnAction(event -> {
+				scoreHeading.setText("Lvl " + (levelIndex) + " best scores:");
+                selectedLevel.set(levelIndex);
 
-			final int ii = i;
-			lvl[i].setOnAction(event -> {
-				scoreHeading.setText("Lvl " + (ii + 1) + " best scores:");
 				String[] newScores = null;
 				try {
-					newScores = scoresReader.getTopScores(ii + 1);
-				} catch (FileNotFoundException ignored) {
-				}
+					newScores = scoresReader.getTopScores(levelIndex);
+				} catch (FileNotFoundException ignored) { }
+
 				for (int j = 0; j < 10; j++) {
 					try {
                         assert newScores != null;
@@ -365,7 +367,7 @@ public class MainMenuController extends Application {
 		playButton.setOnAction(event -> {
 			try {
                 // TODO - Get the level number
-				loadLevel(selectStage, 1);
+				loadLevel(selectStage, selectedLevel.get());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -407,7 +409,7 @@ public class MainMenuController extends Application {
 		levelStage.setScene(scene);
 	}
 
-	public void finishLevel(String levelName) {
+	public void finishLevel() {
 
 	}
 }
