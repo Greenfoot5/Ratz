@@ -92,15 +92,26 @@ public abstract class Rat extends GameObject {
      */
     public void walk() {
         direction = pickNewDirection();
-        if (direction != null && !(this instanceof DeathRat)){
-            getForwardTile().addOccupantRat(this);
-            LevelController.getTileAt(xPos,yPos).removeOccupantRat(this);
+        boolean stopSignAhead = false;
+        for (Power powerAhead : getForwardTile().getActivePowers()) {
+            if (powerAhead instanceof StopSign) {
+                stopSignAhead = true;
+                // TODO: Uncomment below when I find out what's going on with StopSign's activate() function
+                //powerAhead.activate(getForwardTile());
+            }
         }
 
-        if (direction != null && (this instanceof DeathRat)){
-            if (((DeathRat) this).getOminousWaiting() == 0) {
+        if (!stopSignAhead) {
+            if (direction != null && !(this instanceof DeathRat)) {
                 getForwardTile().addOccupantRat(this);
-                LevelController.getTileAt(xPos,yPos).removeOccupantRat(this);
+                LevelController.getTileAt(xPos, yPos).removeOccupantRat(this);
+            }
+
+            if (direction != null && (this instanceof DeathRat)) {
+                if (((DeathRat) this).getOminousWaiting() == 0) {
+                    getForwardTile().addOccupantRat(this);
+                    LevelController.getTileAt(xPos, yPos).removeOccupantRat(this);
+                }
             }
         }
 
