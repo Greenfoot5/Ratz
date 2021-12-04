@@ -104,13 +104,17 @@ public abstract class Rat extends GameObject {
         if (!stopSignAhead) {
             if (direction != null && !(this instanceof DeathRat)) {
                 getForwardTile().addOccupantRat(this);
-                LevelController.getTileAt(xPos, yPos).removeOccupantRat(this);
+                if (LevelController.getTileAt(xPos, yPos) != null) {
+                    LevelController.getTileAt(xPos, yPos).removeOccupantRat(this);
+                }
             }
 
             if (direction != null && (this instanceof DeathRat)) {
                 if (((DeathRat) this).getOminousWaiting() == 0) {
                     getForwardTile().addOccupantRat(this);
-                    LevelController.getTileAt(xPos, yPos).removeOccupantRat(this);
+                    if (LevelController.getTileAt(xPos, yPos) != null) {
+                        LevelController.getTileAt(xPos, yPos).removeOccupantRat(this);
+                    }
                 }
             }
         }
@@ -295,15 +299,10 @@ public abstract class Rat extends GameObject {
      */
     public void die() {
         LevelController.ratKilled(this);
-        try {
+        if (LevelController.getTileAt(this.xPos,this.yPos) != null) {
             LevelController.getTileAt(this.xPos,this.yPos).removeOccupantRat(this);
-        } catch (NullPointerException e) {
-            // this should never happen because the exception is only thrown if you call
-            // getTileAt on a tile that doesn't exist (and a rat couldn't move to a tile
-            // that doesn't exist). Just in case, though...
-            System.out.println("Caught NullPointerException; called getTileAt with invalid coordinates.");
-            e.printStackTrace();
         }
+
 
     }
 
