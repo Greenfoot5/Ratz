@@ -397,7 +397,7 @@ public class LevelController {
             for (int j=0; j < counters[i]; j++) {
                 ImageView item = new ImageView(itemImages.get(i));
                 items[j] = item;
-                toolbars.get(i).getChildren().add(items[i]);
+                toolbars.get(i).getChildren().add(items[j]);
             }
         }
     }
