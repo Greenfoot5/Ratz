@@ -79,7 +79,7 @@ public class MainMenuController extends Application {
 		// Handle a button event
 		playButton.setOnAction(event -> {
 			if (reader.getLoggedProfile() == null) {
-				this.alert("You are not logged in.\nPlease log in before starting the game");
+				alert("You are not logged in.\nPlease log in before starting the game");
 			} else {
 				loadLevelSelect(primaryStage);
 			}
@@ -226,9 +226,9 @@ public class MainMenuController extends Application {
 					profileButtons.getChildren().add(newProfButton);
 
 				} else if (!newProfField.getText().equals("")) {
-					this.alert("Profile already exists");
+					alert("Profile already exists");
 				} else {
-					this.alert("Please, type a name");
+					alert("Please, type a name");
 				}
 				
 			} catch (Exception e) {
