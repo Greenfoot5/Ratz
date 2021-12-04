@@ -87,36 +87,44 @@ public class Gas extends Power {
     private void gasSurroundingPathTiles () {
         int counter = 1;
 
-        while(LevelController.getTileAt(this.xPos, this.yPos+counter).isPassable()) {
-            int x = this.xPos;
-            int y = this.yPos+counter;
-            LevelController.getTileAt(x, y).addActivePower(new Gas(x,
-                    y, false));
-            counter++;
+        if (LevelController.getTileAt(this.xPos, this.yPos + counter) != null) {
+            while (LevelController.getTileAt(this.xPos, this.yPos + counter).isPassable()) {
+                int x = this.xPos;
+                int y = this.yPos + counter;
+                LevelController.getTileAt(x, y).addActivePower(new Gas(x,
+                        y, false));
+                counter++;
+            }
         }
 
-        while(LevelController.getTileAt(this.xPos, this.yPos-counter).isPassable()) {
-            int x = this.xPos;
-            int y = this.yPos-counter;
-            LevelController.getTileAt(x, y).addActivePower(new Gas(x,
-                    y, false));
-            counter++;
+        if (LevelController.getTileAt(this.xPos, this.yPos - counter) != null) {
+            while (LevelController.getTileAt(this.xPos, this.yPos - counter).isPassable()) {
+                int x = this.xPos;
+                int y = this.yPos - counter;
+                LevelController.getTileAt(x, y).addActivePower(new Gas(x,
+                        y, false));
+                counter++;
+            }
         }
 
-        while(LevelController.getTileAt(this.xPos+counter, this.yPos).isPassable()) {
-            int x = this.xPos+counter;
-            int y = this.yPos;
-            LevelController.getTileAt(x, y).addActivePower(new Gas(x,
-                    y, false));
-            counter++;
+        if (LevelController.getTileAt(this.xPos + counter, this.yPos) != null) {
+            while (LevelController.getTileAt(this.xPos + counter, this.yPos).isPassable()) {
+                int x = this.xPos + counter;
+                int y = this.yPos;
+                LevelController.getTileAt(x, y).addActivePower(new Gas(x,
+                        y, false));
+                counter++;
+            }
         }
 
-        while(LevelController.getTileAt(this.xPos-counter, this.yPos).isPassable()) {
-            int x = this.xPos-counter;
-            int y = this.yPos;
-            LevelController.getTileAt(x, y).addActivePower(new Gas(x,
-                    y, false));
-            counter++;
+        if (LevelController.getTileAt(this.xPos-counter, this.yPos) != null) {
+            while (LevelController.getTileAt(this.xPos - counter, this.yPos).isPassable()) {
+                int x = this.xPos - counter;
+                int y = this.yPos;
+                LevelController.getTileAt(x, y).addActivePower(new Gas(x,
+                        y, false));
+                counter++;
+            }
         }
     }
 

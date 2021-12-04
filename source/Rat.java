@@ -98,11 +98,14 @@ public abstract class Rat extends GameObject {
     public void walk() {
         direction = pickNewDirection();
         boolean stopSignAhead = false;
-        for (Power powerAhead : getForwardTile().getActivePowers()) {
+        int numOfPowers = getForwardTile().getActivePowers().size();
+        for (int i = 0; i < numOfPowers; i++) {
+            Power powerAhead = getForwardTile().getActivePowers().get(i);
             if (powerAhead instanceof StopSign) {
                 stopSignAhead = true;
                 powerAhead.activate(new ArrayList<>(), getForwardTile());
             }
+            numOfPowers = getForwardTile().getActivePowers().size();
         }
 
         if (!stopSignAhead && direction != null) {
