@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -294,6 +293,7 @@ public class MainMenuController extends Application {
 	 */
 	private void loadLevelSelect(Stage selectStage) {
 		// Create a new pane to hold our GUI
+		// TODO: use this variable to choose a level (when levels will work)
 		int selectedLevel = 1;
 		BorderPane root = new BorderPane();
 		// root.setAlignment(Pos.CENTER);

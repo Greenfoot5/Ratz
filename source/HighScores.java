@@ -1,11 +1,8 @@
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 /**
@@ -144,7 +141,7 @@ public class HighScores {
 		int previousPos = 0;
 		while (in.hasNext()) {
 			int lvl = in.nextInt();
-			int pos = in.nextInt();
+			in.nextInt();
 			String profName = in.next();
 			int scr = in.nextInt();
 			if (lvl > previousLevel) {

@@ -1,4 +1,3 @@
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -30,7 +29,7 @@ public class ProfileFileReader {
 	 * Instance of the class is created, but has no selected profile;
 	 */
 	public ProfileFileReader() {
-		this.selectedProfile = null;
+		ProfileFileReader.selectedProfile = null;
 	}
 
 	/**
@@ -43,7 +42,7 @@ public class ProfileFileReader {
 		if (!doesProfileExist(profileName)) {
 			createNewProfile(profileName);
 		}
-		this.selectedProfile = profileName;
+		ProfileFileReader.selectedProfile = profileName;
 	}
 
 	/**
@@ -52,6 +51,7 @@ public class ProfileFileReader {
 	 * @param profileName
 	 * @throws Exception - if there is a problem with a file or name is already used
 	 */
+	@SuppressWarnings("resource")
 	public void createNewProfile(String profileName) throws Exception {
 		File file = new File(filePath);
 		File tempFile = new File("resources/tempProf.txt");
@@ -145,8 +145,8 @@ public class ProfileFileReader {
 			} else {
 
 				for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
-					int lvl = in.nextInt();
-					int scr = in.nextInt();
+					in.nextInt();
+					in.nextInt();
 				}
 				isRemoved = true;
 			}
@@ -179,7 +179,7 @@ public class ProfileFileReader {
 
 		int bestScore = 0;
 		while (in.hasNext()) {
-			int profNumber = in.nextInt();
+			in.nextInt();
 			String profName = in.next();
 
 			for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
@@ -249,7 +249,7 @@ public class ProfileFileReader {
 
 		boolean exist = false;
 		while (in.hasNext()) {
-			int profNumber = in.nextInt();
+			in.nextInt();
 			String profName = in.next();
 
 			if (profName.equals(profileName)) {
@@ -257,8 +257,8 @@ public class ProfileFileReader {
 			}
 
 			for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
-				int lvl = in.nextInt();
-				int scr = in.nextInt();
+				in.nextInt();
+				in.nextInt();
 			}
 		}
 
@@ -292,7 +292,7 @@ public class ProfileFileReader {
 		String[] profiles = new String[0];
 		int counter = 1;
 		while (in.hasNext()) {
-			int profNumber = in.nextInt();
+			in.nextInt();
 			String profName = in.next();
 
 			String[] newWords = new String[counter++];
@@ -303,8 +303,8 @@ public class ProfileFileReader {
 			profiles[counter - 2] = profName;
 
 			for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
-				int lvl = in.nextInt();
-				int scr = in.nextInt();
+				in.nextInt();
+				in.nextInt();
 			}
 		}
 
@@ -318,10 +318,10 @@ public class ProfileFileReader {
 	 * @return name of a profile which is logged in
 	 */
 	public String getLoggedProfile() {
-		return selectedProfile;
+		return ProfileFileReader.selectedProfile;
 	}
 
 	public int getNumberOfLevels() {
-		return this.NUMBER_OF_LEVELS;
+		return ProfileFileReader.NUMBER_OF_LEVELS;
 	}
 }
