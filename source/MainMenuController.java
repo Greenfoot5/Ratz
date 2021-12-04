@@ -186,8 +186,10 @@ public class MainMenuController extends Application {
 				ObservableList<Node> obL = profileButtons.getChildren();
 
 				// remove profile button and change the labels
+				boolean isRemoved = false;
 				for (int i = 0; i < obL.size(); i++) {
 					if (obL.get(i).toString().contains("'" + reader.getLoggedProfile() + "'")) {
+						isRemoved = true;
 						obL.remove(obL.get(i));
 						loggedLabel.setText("You are logged as ...");
 						scoresHeading.setText("Best ...'s scores:");
@@ -197,6 +199,11 @@ public class MainMenuController extends Application {
 						}
 					}
 				}
+				if (!isRemoved) {
+					alert("Alert", "No profile is selected");
+				}
+				
+				
 				reader.logout();
 				loggedProfile.setText("You are not logged in. Please log in before starting the game");
 			} catch (IOException ignored) {
@@ -235,9 +242,14 @@ public class MainMenuController extends Application {
 					});
 					profileButtons.getChildren().add(newProfButton);
 
+				} else if (!newProfField.getText().equals("")) {
+					this.alert("Alert", "Profile already exists");
+				} else {
+					this.alert("Alert", "Please, type a name");
 				}
+				
 			} catch (Exception e) {
-				System.out.println("Problemhere");
+				System.out.println("Problemhere/ Adding button action");
 			}
 		});
 
