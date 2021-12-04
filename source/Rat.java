@@ -202,7 +202,6 @@ public abstract class Rat extends GameObject {
         }
 
         Direction chosenDirection;
-        System.out.println("validDirections.size(); " + validDirections.size());
         if (validDirections.size() == 0){
             // forward, right, and left aren't options. Try going back.
             if (getRearTile() != null && getRearTile().isPassable()) {
@@ -226,7 +225,6 @@ public abstract class Rat extends GameObject {
      * @return The tile directly ahead of the rat.
      */
     public Tile getForwardTile() {
-        System.out.println("Rat position: " + xPos + " " + yPos);
         Tile forwardTile;
         switch(direction) {
             case NORTH:
