@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
@@ -73,7 +74,7 @@ public class MainMenuController extends Application {
 		// Handle a button event
 		playButton.setOnAction(event -> {
 			if (reader.getLoggedProfile() == null) {
-				//TODO: pop out a window with a message to log in
+				this.alert("Alert", "You are not logged in.\nPlease log in before starting the game");
 			} else {
 				loadLevelSelect(primaryStage);
 			}
@@ -251,6 +252,27 @@ public class MainMenuController extends Application {
 		profilePane.setBottom(bottomAddingProf);
 
 		return new Scene(profilePane, WINDOW_WIDTH, WINDOW_HEIGHT);
+	}
+	
+	private void alert(String title, String message) {
+		Stage window = new Stage();
+		window.initModality(Modality.APPLICATION_MODAL);
+		window.setTitle(title);
+		window.setWidth(240);
+		window.setHeight(120);
+		
+		Label label = new Label(message);
+		Button button = new Button("Ok");
+		button.setOnAction(event -> window.close());
+		
+		VBox layout = new VBox(10);
+		layout.getChildren().addAll(label, button);
+		layout.setAlignment(Pos.CENTER);
+		
+		Scene scene = new Scene(layout);
+		window.setScene(scene);
+		window.setResizable(false);
+		window.showAndWait();
 	}
 
 	/**
