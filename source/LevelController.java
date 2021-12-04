@@ -210,7 +210,7 @@ public class LevelController {
     public void tick() {
         if ((femaleRatCounter + maleRatCounter + childRatCounter) == 0) {
             endGame(true);
-        } else if (currentTimeLeft <= 0 || (femaleRatCounter + maleRatCounter + childRatCounter) >= MAX_RATS){
+        } else if ((femaleRatCounter + maleRatCounter + childRatCounter) >= MAX_RATS){
             endGame(false);
         } else {
             addPowers();
@@ -225,8 +225,10 @@ public class LevelController {
             renderCounters();
             renderAllItems();
 
-            currentTimeLeft = currentTimeLeft - FRAME_TIME;
-            timerLabel.setText(millisToString(currentTimeLeft));
+            if(currentTimeLeft > 0) {
+                currentTimeLeft = currentTimeLeft - FRAME_TIME;
+                timerLabel.setText(millisToString(currentTimeLeft));
+            }
         }
     }
 
@@ -274,7 +276,6 @@ public class LevelController {
     @FXML
     private void exitGame() {
         MAIN_MENU.finishLevel();
-        levelCanvas.getGraphicsContext2D().drawImage(itemImages.get(4),0,0);
     }
 
     /**
@@ -379,11 +380,8 @@ public class LevelController {
     @FXML
     public void saveAndExit() {
         tickTimeline.stop();
-        GraphicsContext gc = levelCanvas.getGraphicsContext2D();
 
-        gc.drawImage(itemImages.get(2),0,0);
-
-        //SAVE GAME HERE
+        //TODO: SAVE GAME HERE
 
         exitGame();
     }
