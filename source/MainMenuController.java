@@ -323,6 +323,8 @@ public class MainMenuController extends Application {
 	 * @throws IOException If we cannot load a level
 	 */
 	public void loadLevel(Stage levelStage) throws IOException {
+	    LevelFileReader.loadLevelFile("./resources/level.txt");
+
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
 		LevelController levelController = new LevelController(new LevelFileReader(), this, new ProfileFileReader());
 

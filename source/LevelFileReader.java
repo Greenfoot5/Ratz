@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * A class which reads levels from files, and saves levels to files.
@@ -19,6 +18,7 @@ public class LevelFileReader {
     private static ArrayList<Tile> tileArrayList = new ArrayList<>();
     private static ArrayList<Power> powerArrayList = new ArrayList<>();
     private static ArrayList<Rat> ratArrayList = new ArrayList<>();
+    private static Tile[][] tileMap;
     
 
 
@@ -241,6 +241,8 @@ public class LevelFileReader {
         // this ugly regex splits currentTiles based on the level's width
         tiles = currentTiles.split("(?<=\\G.{" + width + "})");
 
+        tileMap = tilesToTileMap(tiles);
+
 
         /*
          rat and power strings are divided by commas.
@@ -266,6 +268,7 @@ public class LevelFileReader {
                 int age = Integer.parseInt(currentItem[7]);
                 ChildRat newRat = new ChildRat(speed, direction, gasTimer, xPos, yPos, isFertile, age, true);
                 ratArrayList.add(newRat);
+                tileMap[xPos][yPos].addOccupantRat(newRat);
             }
 
             // if current item is a male baby rat
@@ -285,6 +288,7 @@ public class LevelFileReader {
                 int age = Integer.parseInt(currentItem[7]);
                 ChildRat newRat = new ChildRat(speed, direction, gasTimer, xPos, yPos, isFertile, age, false);
                 ratArrayList.add(newRat);
+                tileMap[xPos][yPos].addOccupantRat(newRat);
             }
 
             // if current item is a female adult rat
@@ -305,6 +309,7 @@ public class LevelFileReader {
                 int ratFetusCount = Integer.parseInt(currentItem[8]);
                 AdultFemale newRat = new AdultFemale(speed, direction, gasTimer, xPos, yPos, isFertile, pregnancyTimer, ratFetusCount);
                 ratArrayList.add(newRat);
+                tileMap[xPos][yPos].addOccupantRat(newRat);
             }
 
             // if current item is a male adult rat
@@ -323,6 +328,7 @@ public class LevelFileReader {
                 }
                 AdultMale newRat = new AdultMale(speed, direction, gasTimer, xPos, yPos, isFertile);
                 ratArrayList.add(newRat);
+                tileMap[xPos][yPos].addOccupantRat(newRat);
             }
 
             // if current item is a death rat
@@ -336,6 +342,7 @@ public class LevelFileReader {
                 int killCounter = Integer.parseInt(currentItem[6]);
                 DeathRat newRat = new DeathRat(speed, direction, gasTimer, xPos, yPos, killCounter);
                 ratArrayList.add(newRat);
+                tileMap[xPos][yPos].addOccupantRat(newRat);
             }
 
             // if currentItem item is a bomb
@@ -346,6 +353,7 @@ public class LevelFileReader {
                 Bomb newBomb = new Bomb(xPos,yPos);
                 newBomb.setTicksActive(ticksActive);
                 powerArrayList.add(newBomb);
+                tileMap[xPos][yPos].addActivePower(newBomb);
             }
 
             // if currentItem item is gas
@@ -362,6 +370,7 @@ public class LevelFileReader {
                 Gas newGas = new Gas(xPos, yPos, isOriginal);
                 newGas.setTicksActive(ticksActive);
                 powerArrayList.add(newGas);
+                tileMap[xPos][yPos].addActivePower(newGas);
             }
 
             // if currentItem item is steriliser
@@ -372,6 +381,7 @@ public class LevelFileReader {
                 Sterilisation newSterilisation = new Sterilisation(xPos, yPos);
                 newSterilisation.setTicksActive(ticksActive);
                 powerArrayList.add(newSterilisation);
+                tileMap[xPos][yPos].addActivePower(newSterilisation);
             }
 
             // if currentItem item is poison
@@ -380,6 +390,7 @@ public class LevelFileReader {
                 int yPos = Integer.parseInt(currentItem[2]);
                 Poison newPoison = new Poison(xPos,yPos);
                 powerArrayList.add(newPoison);
+                tileMap[xPos][yPos].addActivePower(newPoison);
             }
 
             // if currentItem item is a male sex change
@@ -388,6 +399,7 @@ public class LevelFileReader {
                 int yPos = Integer.parseInt(currentItem[2]);
                 MaleSwapper newMaleSwapper = new MaleSwapper(xPos, yPos);
                 powerArrayList.add(newMaleSwapper);
+                tileMap[xPos][yPos].addActivePower(newMaleSwapper);
             }
 
             // if currentItem item is a female sex change
@@ -396,6 +408,7 @@ public class LevelFileReader {
                 int yPos = Integer.parseInt(currentItem[2]);
                 FemaleSwapper newFemaleSwapper = new FemaleSwapper(xPos, yPos);
                 powerArrayList.add(newFemaleSwapper);
+                tileMap[xPos][yPos].addActivePower(newFemaleSwapper);
             }
 
             // if currentItem item is a no-entry sign (StopSign)
@@ -406,6 +419,7 @@ public class LevelFileReader {
                 StopSign newStopSign = new StopSign(xPos, yPos);
                 newStopSign.setHP(HP);
                 powerArrayList.add(newStopSign);
+                tileMap[xPos][yPos].addActivePower(newStopSign);
             }
             
             for (Rat rat : ratArrayList) {
@@ -415,4 +429,30 @@ public class LevelFileReader {
         reader.close();
     }
 
+    private static Tile[][] tilesToTileMap(String[] tiles) {
+        Tile[][] tileMap = new Tile[width][height];
+        for(int i = 0; i < tileMap[0].length; i++) {
+            int charPos = -1;
+            for (int j = 0; j < tileMap.length; j++) {
+                charPos ++;
+                switch (tiles[i].charAt(charPos)) {
+                    case 'G':
+                        tileMap[j][i] = new Grass();
+                        break;
+                    case 'P':
+                        tileMap[j][i] = new Path();
+                        break;
+                    case 'T':
+                        tileMap[j][i] = new Tunnel();
+                        break;
+                }
+            }
+        }
+        return tileMap;
+    }
+
+    public static Tile[][] getTileMap() {
+        return tileMap;
+    }
 }
+
