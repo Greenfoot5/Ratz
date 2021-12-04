@@ -96,8 +96,9 @@ public abstract class Rat extends GameObject {
         for (Power powerAhead : getForwardTile().getActivePowers()) {
             if (powerAhead instanceof StopSign) {
                 stopSignAhead = true;
-                // TODO: Uncomment below when I find out what's going on with StopSign's activate() function
-                //powerAhead.activate(getForwardTile());
+                // TODO: figure out a better, less ugly way to do this
+                ArrayList<Rat> uselessArrayList = new ArrayList<>();
+                powerAhead.activate(uselessArrayList, getForwardTile());
             }
         }
 
