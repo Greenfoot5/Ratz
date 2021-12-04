@@ -78,7 +78,7 @@ public class MainMenuController extends Application {
 		// Handle a button event
 		playButton.setOnAction(event -> {
 			if (reader.getLoggedProfile() == null) {
-				this.alert("Alert", "You are not logged in.\nPlease log in before starting the game");
+				this.alert("You are not logged in.\nPlease log in before starting the game");
 			} else {
 				loadLevelSelect(primaryStage);
 			}
@@ -204,7 +204,7 @@ public class MainMenuController extends Application {
 					}
 				}
 				if (!isRemoved) {
-					alert("Alert", "No profile is selected");
+					alert("No profile is selected");
 				}
 				
 				
@@ -236,10 +236,10 @@ public class MainMenuController extends Application {
 
 						for (int j = 0; j < reader.getNumberOfLevels(); j++) {
 							try {
-								profileScore[j].setText("Lvl" + String.valueOf(j + 1) + " "
+								profileScore[j].setText("Lvl" + (j + 1) + " "
 										+ reader.getBestScore(reader.getLoggedProfile(), j + 1));
 							} catch (IOException e) {
-								profileScore[j].setText("Lvl" + String.valueOf(j + 1) + " error");
+								profileScore[j].setText("Lvl" + (j + 1) + " error");
 
 							}
 						}
@@ -247,9 +247,9 @@ public class MainMenuController extends Application {
 					profileButtons.getChildren().add(newProfButton);
 
 				} else if (!newProfField.getText().equals("")) {
-					this.alert("Alert", "Profile already exists");
+					this.alert("Profile already exists");
 				} else {
-					this.alert("Alert", "Please, type a name");
+					this.alert("Please, type a name");
 				}
 				
 			} catch (Exception e) {
@@ -270,10 +270,10 @@ public class MainMenuController extends Application {
 		return new Scene(profilePane, WINDOW_WIDTH, WINDOW_HEIGHT);
 	}
 	
-	private void alert(String title, String message) {
+	private void alert(String message) {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL);
-		window.setTitle(title);
+		window.setTitle("Alert");
 		window.setWidth(240);
 		window.setHeight(120);
 		
@@ -318,12 +318,13 @@ public class MainMenuController extends Application {
 		String[] scoresString = null;
 		try {
 			scoresString = scoresReader.getTopScores(1);
-		} catch (FileNotFoundException e1) {
+		} catch (FileNotFoundException ignored) {
 		}
 		for (int i = 0; i < 10; i++) {
 			scoresLabel[i] = new Label();
 			try {
-				scoresLabel[i].setText((i + 1) + " " + scoresString[i]);
+                assert scoresString != null;
+                scoresLabel[i].setText((i + 1) + " " + scoresString[i]);
 			} catch (Exception e2) {
 				scoresLabel[i].setText((i + 1) + " ...");
 			}
@@ -343,11 +344,12 @@ public class MainMenuController extends Application {
 				String[] newScores = null;
 				try {
 					newScores = scoresReader.getTopScores(ii + 1);
-				} catch (FileNotFoundException e) {
+				} catch (FileNotFoundException ignored) {
 				}
 				for (int j = 0; j < 10; j++) {
 					try {
-						scoresLabel[j].setText((j + 1) + " " + newScores[j]);
+                        assert newScores != null;
+                        scoresLabel[j].setText((j + 1) + " " + newScores[j]);
 					} catch (Exception e2) {
 						scoresLabel[j].setText((j + 1) + " ...");
 					}
@@ -362,7 +364,8 @@ public class MainMenuController extends Application {
 		Button playButton = new Button("Play!");
 		playButton.setOnAction(event -> {
 			try {
-				loadLevel(selectStage);
+                // TODO - Get the level number
+				loadLevel(selectStage, 1);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -389,8 +392,8 @@ public class MainMenuController extends Application {
 	 * @param levelStage The stage
 	 * @throws IOException If we cannot load a level
 	 */
-	public void loadLevel(Stage levelStage) throws IOException {
-		LevelFileReader.loadLevelFile("./resources/level.txt");
+	public void loadLevel(Stage levelStage, int levelNumber) throws IOException {
+		LevelFileReader.loadLevelFile("./resources/level-" + levelNumber + ".txt");
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
 		LevelController levelController = new LevelController(new LevelFileReader(), this, new ProfileFileReader());
