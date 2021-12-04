@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -32,6 +33,13 @@ public class LevelController {
     //Game map
     private static Tile[][] tileMap = new Tile[0][0];
 
+    private static int score;
+
+    //Rat counters
+    private static int femaleRatCounter;
+    private static int maleRatCounter;
+    private static int childRatCounter;
+
     //Images for different game items
     private final List<Image> itemImages = Arrays.asList((new Bomb(0,0)).getImg(),(new Gas(0,0,true)).getImg(),
             (new Sterilisation(0,0)).getImg(), (new Poison(0,0)).getImg(),
@@ -39,16 +47,17 @@ public class LevelController {
             (new StopSign(0,0)).getImg(),(new DeathRat(0, Rat.Direction.WEST,0,0,0,0)).getImg());
     private final int[] counters = new int[ITEM_NUM];
 
+    //Size of game map
     private final int WIDTH;
     private final int HEIGHT;
 
+    //Game losing conditions (maximum number of rats, time taken for a level)
     private final int MAX_RATS;
     private final int PAR_TIME;
 
     private final int[] DROP_RATES;
     private final int[] timeUntilDrop = new int [ITEM_NUM];
 
-    //Current level reader
     private final MainMenuController MAIN_MENU;
     private final ProfileFileReader PROFILE_READER;
     private final int LEVEL_NUMBER;
@@ -62,13 +71,6 @@ public class LevelController {
     //Game timeline
     private Timeline tickTimeline;
     private int currentTimeLeft;
-
-    private static int score;
-
-    //Rat counters
-    private static int femaleRatCounter;
-    private static int maleRatCounter;
-    private static int childRatCounter;
 
     @FXML
     public Canvas levelCanvas; //Game map canvas
@@ -159,6 +161,12 @@ public class LevelController {
         femaleRatCounterLabel.setText(fc);
     }
 
+    /**
+     * Returns tile at position (x,y).
+     * @param x Horizontal position.
+     * @param y Vertical position.
+     * @return Tile at position.
+     */
     public static Tile getTileAt(int x, int y) {
         try {
             return tileMap[x][y];
@@ -222,6 +230,9 @@ public class LevelController {
         }
     }
 
+    /**
+     * Grants player items periodically.
+     */
     private void addPowers() {
         for (int i = 0; i < counters.length; i++) {
             timeUntilDrop[i] -= FRAME_TIME;
@@ -247,7 +258,11 @@ public class LevelController {
             gamePaneText.getChildren().add(new Text("You've won! :)"));
             score += currentTimeLeft/1000;
             gamePaneScore.getChildren().add(new Text("Score: " + score));
-            //TODO: PROFILE_READER.saveBestScore(LEVEL_NUM,score);
+            try {
+                PROFILE_READER.saveBestScore(PROFILE_READER.getLoggedProfile(),LEVEL_NUMBER,score);
+            } catch (IOException e) {
+                System.out.println("Couldn't save score :(");
+            }
         } else {
             gamePaneText.getChildren().add(new Text("You've lost! :("));
         }
@@ -314,7 +329,7 @@ public class LevelController {
     }
 
     /**
-     * Draws dropped item to screen.
+     * Adds item dropped by the player onto a Tile.
      * @param event Drag and drop event.
      */
     private void itemDropped(DragEvent event, int index) {
@@ -388,6 +403,9 @@ public class LevelController {
         }
     }
 
+    /**
+     * Disables side menu items (makes them non-draggable)
+     */
     private void disableToolbars(){
         for(int i=0; i < toolbars.size(); i++) {
             toolbars.get(i).getChildren().clear();
