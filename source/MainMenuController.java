@@ -60,7 +60,7 @@ public class MainMenuController extends Application {
 		Button playButton = new Button("Play!");
 		Button selectProfile = new Button("Select Profile!");
 		loggedProfile = new Label();
-		if(true) {
+		if(reader.getLoggedProfile() == null) {
 			loggedProfile.setText("You are not logged in. Please log in before starting the game");
 		} else {
 			loggedProfile.setText("You are as " + reader.getLoggedProfile() );
