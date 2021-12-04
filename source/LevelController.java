@@ -51,6 +51,7 @@ public class LevelController {
     //Current level reader
     private final MainMenuController MAIN_MENU;
     private final ProfileFileReader PROFILE_READER;
+    private final int LEVEL_NUMBER;
 
     //Milliseconds between frames
     private final int FRAME_TIME = 250;
@@ -94,9 +95,9 @@ public class LevelController {
 
     /**
      * Constructor for LevelController class.
-     * @param fileReader instance of LevelFileReader that the level will be loaded from.
      */
-    public LevelController (LevelFileReader fileReader, MainMenuController mainMenuController, ProfileFileReader profileFileReader) {
+    public LevelController (int levelNum, MainMenuController mainMenuController, ProfileFileReader profileFileReader) {
+        LEVEL_NUMBER = levelNum;
         MAIN_MENU = mainMenuController;
         PROFILE_READER = profileFileReader;
         WIDTH = LevelFileReader.getWidth();
@@ -145,8 +146,6 @@ public class LevelController {
         for(Rat rat: LevelFileReader.getRatSpawns()) {
             ratAdded(rat);
         }
-
-        System.out.println(childRatCounter);
     }
 
     /**
@@ -248,7 +247,7 @@ public class LevelController {
             gamePaneText.getChildren().add(new Text("You've won! :)"));
             score += currentTimeLeft/1000;
             gamePaneScore.getChildren().add(new Text("Score: " + score));
-            //TODO: PROFILE_READER.saveBestScore(score);
+            //TODO: PROFILE_READER.saveBestScore(LEVEL_NUM,score);
         } else {
             gamePaneText.getChildren().add(new Text("You've lost! :("));
         }
@@ -259,7 +258,7 @@ public class LevelController {
      */
     @FXML
     private void exitGame() {
-        //TODO: MAIN_MENU.finishedLevel();
+        MAIN_MENU.finishLevel();
         levelCanvas.getGraphicsContext2D().drawImage(itemImages.get(4),0,0);
     }
 

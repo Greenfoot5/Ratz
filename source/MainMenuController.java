@@ -391,7 +391,7 @@ public class MainMenuController extends Application {
 		LevelFileReader.loadLevelFile("./resources/level-" + levelNumber + ".txt");
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
-		LevelController levelController = new LevelController(new LevelFileReader(), this, new ProfileFileReader());
+		LevelController levelController = new LevelController(levelNumber, this, new ProfileFileReader());
 
 		loader.setController(levelController);
 
