@@ -107,22 +107,35 @@ public class LevelFileReader {
     public static void saveLevel(String levelName, int maxRats, int parTime, int[] dropRates,
                                  String[] tiles, Rat[] ratSpawns, Power[] powers) throws IOException {
 
-        // saving first two lines
-        FileWriter writer = new FileWriter(levelName + "-inProgress.txt");
-        String dropRatesString = "";
-        for (int i = 0; i < dropRates.length; i++) {
-            dropRatesString += dropRates[i] + ",";
+        File saveFile = new File(levelName + "-inProgress-" + ProfileFileReader.getLoggedProfile() + ".txt");
+        // if an in progress file doesn't exist yet
+        if (!new File(levelName + "-inProgress-" + ProfileFileReader.getLoggedProfile() + ".txt").isFile()) {
+            try {
+                saveFile.createNewFile();
+            } catch(IOException e) {
+                System.out.println("Error occurred creating save file.");
+                e.printStackTrace();
+            }
         }
 
-        // saving tiles
-        String tileString = "";
-        for (int i = 0; i < tiles.length; i++) {
-            tileString += tiles[i] + "\n";
-        }
+
+
+        // saving first two lines
+        //FileWriter writer = new FileWriter(levelName + "-inProgress" + ProfileFileReader.getLoggedProfile() + ".txt");
+        //String dropRatesString = "";
+        //for (int i = 0; i < dropRates.length; i++) {
+        //    dropRatesString += dropRates[i] + ",";
+        //}
+        //
+        //// saving tiles
+        //String tileString = "";
+        //for (int i = 0; i < tiles.length; i++) {
+        //    tileString += tiles[i] + "\n";
+        //}
 
         // more shit goes here
 
-        String fileString = String.format("%d,%d,%d,%d\n%s\n%s", height, width, maxRats, parTime, dropRatesString, tileString);
+        //String fileString = String.format("%d,%d,%d,%d\n%s\n%s", height, width, maxRats, parTime, dropRatesString, tileString);
 
 
     }
@@ -251,24 +264,10 @@ public class LevelFileReader {
      * @throws FileNotFoundException if the file can't be found.
      */
     public static void loadLevelFile(String filename) throws FileNotFoundException {
-        Scanner reader;
-        File levelDataInProgress = new File(filename + "-inProgress.txt");
-        File levelData = new File(filename + ".txt");
 
-        // check if a saved level exists. if it does, grab the timer and stored inventory from it from it
-        if (levelDataInProgress.isFile()) {
-            reader = new Scanner(levelDataInProgress);
-            if (reader.hasNextLine()) {
-                String[] savedInfo = reader.nextLine().split(",");
-                inProgTimer = Integer.parseInt(savedInfo[0]);
-                String[] inProgInvString = reader.nextLine().split(",");
-                for (int i = 0; i < inProgInvString.length; i++) {
-                    inProgInv[i] = Integer.parseInt(inProgInvString[i]);
-                }
-            }
-        } else {
-            reader = new Scanner(levelData);
-        }
+        File levelDataInProgress = new File(filename + "-inProgress-" + ProfileFileReader.getLoggedProfile() + ".txt");
+        File levelData = new File(filename + ".txt");
+        Scanner reader = new Scanner(levelData);
 
         ratArrayList.clear();
 
@@ -300,12 +299,32 @@ public class LevelFileReader {
 
         tileMap = tilesToTileMap(tiles);
 
+        // check if a saved level exists. if it does, grab the timer and stored inventory from it from it
+        if (levelDataInProgress.isFile()) {
+            reader = new Scanner(levelDataInProgress);
+            System.out.println("Loaded saved level");
+            if (reader.hasNextLine()) {
+                String[] savedInfo = reader.nextLine().split(",");
+                inProgTimer = Integer.parseInt(savedInfo[0]);
+                String[] inProgInvString = reader.nextLine().split(",");
+                for (int i = 0; i < inProgInvString.length; i++) {
+                    inProgInv[i] = Integer.parseInt(inProgInvString[i]);
+                }
+                readObjects(reader);
+            }
+        } else {
+            // if no saved data exists, just read the objects from the default file.
+            reader = new Scanner(levelData);
+            readObjects(reader);
+        }
+        reader.close();
+    }
 
-        /*
-         rat and power strings are divided by commas.
-         each string between the commas is an argument for the constructor.
-        */
-
+    /**
+     * Reads rats and powers from the level file.
+     * @param reader The scanner to read data from
+     */
+    private static void readObjects(Scanner reader) {
         while (reader.hasNextLine()) {
             String[] currentItem = reader.nextLine().replaceAll("[()]", "").split(",");
             // if current item is a female baby rat
@@ -483,8 +502,8 @@ public class LevelFileReader {
                 //getTile(rat.getxPos(),rat.getyPos()).addOccupantRat(rat);
             }
         }
-        reader.close();
     }
+
 
     /**
      * Converts the strings that store the tiles into a 2d array that can be used by other classes.
