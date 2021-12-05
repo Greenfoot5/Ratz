@@ -20,7 +20,7 @@ public abstract class Rat extends GameObject {
     private int tickCounter;
     private static final int DEFAULT_SPEED = 4;
     private static final int RANDOM_START_DELAY = 6;
-    private static final int GAS_DEATH_TIME = 12;
+    private static final int GAS_DEATH_TIME = 6;
 
     /**
      * Directions the rat can face.
