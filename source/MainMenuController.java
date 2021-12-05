@@ -501,9 +501,38 @@ public class MainMenuController extends Application {
 		backToMenu.setPrefWidth(70);
 
 		rightBox.getChildren().addAll(imageView1, playButton, imageView2, backToMenu, imageView3);
+		
+		FileInputStream inputs1 = null;
+		FileInputStream inputs2 = null;
+		FileInputStream inputs3 = null;
+		FileInputStream inputs4 = null;
+		FileInputStream inputs5 = null;
+		FileInputStream inputs6 = null;
+		try {
+			inputs1 = new FileInputStream("resources/childratEAST.png");
+			inputs2 = new FileInputStream("resources/deathratEAST.png");
+			inputs3 = new FileInputStream("resources/childratEAST.png");
+			inputs4 = new FileInputStream("resources/deathratEAST.png");
+			inputs5 = new FileInputStream("resources/childratEAST.png");
+			inputs6 = new FileInputStream("resources/deathratEAST.png");
+		} catch (FileNotFoundException e) {
+		}
+		Image imageB1 = new Image(inputs1);
+		ImageView imageViewB1 = new ImageView(imageB1);
+		Image imageB2 = new Image(inputs2);
+		ImageView imageViewB2 = new ImageView(imageB2);
+		Image imageB3 = new Image(inputs3);
+		ImageView imageViewB3 = new ImageView(imageB3);
+		Image imageB4 = new Image(inputs4);
+		ImageView imageViewB4 = new ImageView(imageB4);
+		Image imageB5 = new Image(inputs5);
+		ImageView imageViewB5 = new ImageView(imageB5);
+		Image imageB6 = new Image(inputs6);
+		ImageView imageViewB6 = new ImageView(imageB6);
 
-		HBox bottomBox = new HBox();
+		HBox bottomBox = new HBox(30);
 		bottomBox.setPrefHeight(80);
+		bottomBox.getChildren().addAll(imageViewB1, imageViewB2, imageViewB3, imageViewB4, imageViewB5, imageViewB6);
 
 		root.setCenter(middleBox);
 		root.setTop(topBox);
@@ -512,7 +541,7 @@ public class MainMenuController extends Application {
 		root.setBottom(bottomBox);
 
 		// Create a scene based on the pane.
-		Scene levelsScene = new Scene(root, 450, 450);
+		Scene levelsScene = new Scene(root, 550, 450);
 
 		File f = new File("source/menu.css");
 		levelsScene.getStylesheets().clear();
