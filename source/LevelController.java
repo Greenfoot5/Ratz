@@ -231,7 +231,6 @@ public class LevelController {
 
             renderGame();
             renderCounters();
-            renderAllItems();
 
             if(currentTimeLeft > 0) {
                 currentTimeLeft = currentTimeLeft - FRAME_TIME;
@@ -249,6 +248,7 @@ public class LevelController {
             if(timeUntilDrop[i] <= 0 && counters[i] < 4) {
                 counters[i]++;
                 timeUntilDrop[i] = DROP_RATES[i];
+                renderItem(i);
             }
         }
     }
