@@ -135,8 +135,8 @@ public class MainMenuController extends Application {
 			if (reader.getLoggedProfile() == null) {
 				alert("You are not logged in.\nPlease log in before starting the game");
 				// TODO: remove these lines
-				primaryStage.setScene(loadLevelSelect(primaryStage, scene));
-				primaryStage.show();
+//				primaryStage.setScene(loadLevelSelect(primaryStage, scene));
+//				primaryStage.show();
 			} else {
 				primaryStage.setScene(loadLevelSelect(primaryStage, scene));
 				primaryStage.show();
@@ -410,6 +410,7 @@ public class MainMenuController extends Application {
 		middleBox.setAlignment(Pos.CENTER);
 
 		Label scoreHeading = new Label("Lvl " + selectedLevel + " best scores:");
+		scoreHeading.setStyle("-fx-font-size: 14pt; -fx-font-weight: bold");
 		middleBox.getChildren().add(scoreHeading);
 
 		Label[] scoresLabel = new Label[10];
@@ -433,7 +434,7 @@ public class MainMenuController extends Application {
 
 		VBox leftBox = new VBox(10);
 		leftBox.setAlignment(Pos.CENTER_RIGHT);
-		leftBox.setPrefWidth(100);
+		leftBox.setPrefWidth(180);
 
 		Button[] lvl = new Button[5];
 		for (int i = 0; i < lvl.length; i++) {
@@ -465,9 +466,9 @@ public class MainMenuController extends Application {
 			leftBox.getChildren().add(lvl[i]);
 		}
 
-		VBox rightBox = new VBox();
+		VBox rightBox = new VBox(5);
 		rightBox.setAlignment(Pos.CENTER_LEFT);
-		rightBox.setPrefWidth(100);
+		rightBox.setPrefWidth(180);
 		rightBox.setPadding(new Insets(5,0,5,0));
 
 		FileInputStream inputstream1 = null;
@@ -487,7 +488,7 @@ public class MainMenuController extends Application {
 		ImageView imageView3 = new ImageView(image3);
 
 		Button playButton = new Button("Play!");
-		playButton.setPrefWidth(70);
+		playButton.setPrefWidth(80);
 		playButton.setOnAction(event -> {
 			try {
 				// TODO - Get the level number
@@ -498,7 +499,11 @@ public class MainMenuController extends Application {
 		});
 		
 		Button backToMenu = new Button("Main Menu");
-		backToMenu.setPrefWidth(70);
+		backToMenu.setOnAction(event -> {
+			selectStage.setScene(scene);
+			selectStage.show();
+		});
+		backToMenu.setPrefWidth(85);
 
 		rightBox.getChildren().addAll(imageView1, playButton, imageView2, backToMenu, imageView3);
 		
@@ -530,7 +535,7 @@ public class MainMenuController extends Application {
 		Image imageB6 = new Image(inputs6);
 		ImageView imageViewB6 = new ImageView(imageB6);
 
-		HBox bottomBox = new HBox(30);
+		HBox bottomBox = new HBox(82);
 		bottomBox.setPrefHeight(80);
 		bottomBox.getChildren().addAll(imageViewB1, imageViewB2, imageViewB3, imageViewB4, imageViewB5, imageViewB6);
 
@@ -541,7 +546,7 @@ public class MainMenuController extends Application {
 		root.setBottom(bottomBox);
 
 		// Create a scene based on the pane.
-		Scene levelsScene = new Scene(root, 550, 450);
+		Scene levelsScene = new Scene(root, 800, 500);
 
 		File f = new File("source/menu.css");
 		levelsScene.getStylesheets().clear();
