@@ -57,6 +57,10 @@ public class MainMenuController extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) {
+		
+		SeaShantySimulator seaShantySimulator = new SeaShantySimulator();
+        seaShantySimulator.initialize();
+        seaShantySimulator.play();
 		// Create reader if we don't have one yet
 		mainStage = primaryStage;
 		primaryStage.setResizable(false);
@@ -455,11 +459,12 @@ public class MainMenuController extends Application {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.setTitle("Alert");
-		window.setWidth(240);
-		window.setHeight(120);
+		window.setWidth(300);
+		window.setHeight(150);
 
 		Label label = new Label(message);
 		Button button = new Button("Ok");
+		button.setPrefWidth(100);
 		button.setOnAction(event -> window.close());
 
 		VBox layout = new VBox(10);
@@ -467,6 +472,9 @@ public class MainMenuController extends Application {
 		layout.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(layout);
+		File f = new File("source/menu.css");
+		scene.getStylesheets().clear();
+		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 		window.setScene(scene);
 		window.setResizable(false);
 		window.showAndWait();
@@ -479,10 +487,9 @@ public class MainMenuController extends Application {
 	 */
 	public Scene loadLevelSelect(Stage selectStage, Scene scene) {
 		// Create a new pane to hold our GUI
-		// TODO: use this variable to choose a level (when levels will work)
-		AtomicInteger selectedLevel = new AtomicInteger(1);
-
 		BorderPane root = new BorderPane();
+		
+		AtomicInteger selectedLevel = new AtomicInteger(1);
 
 		VBox topBox = new VBox();
 		topBox.setAlignment(Pos.CENTER);
