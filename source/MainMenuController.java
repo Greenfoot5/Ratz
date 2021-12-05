@@ -83,17 +83,11 @@ public class MainMenuController extends Application {
 	}
 
 	private VBox getMiddleMain(Scene scene, Stage primaryStage) {
-		// Create a few GUI elements
-		// Label title = new Label("RATZ");
-		// title.getStyleClass().add("title");
 		VBox middle = new VBox(5);
-		Label motd = new Label(MOTD.GETMotd());
-		Button playButton = new Button("Play!");
-		playButton.setPrefWidth(100);
-		Button selectProfile = new Button("Select Profile!");
-		selectProfile.setPrefWidth(100);
-		selectProfile.setPadding(new Insets(10, 0, 0, 0));
+		ImageView ratzImageView = getRatzImageViewMain();
 
+		Label motd = new Label(MOTD.GETMotd());
+		
 		Label loggedProfileText = new Label("You are logged as ");
 		loggedProfile = new Label();
 		if (ProfileFileReader.getLoggedProfile() == null) {
@@ -101,30 +95,51 @@ public class MainMenuController extends Application {
 		} else {
 			loggedProfile.setText(ProfileFileReader.getLoggedProfile());
 		}
+		
 		HBox loggedProfileBox = new HBox();
 		loggedProfileBox.setAlignment(Pos.CENTER);
 		loggedProfileBox.setStyle("-fx-text-fill: #Fd062a");
 		loggedProfileBox.getChildren().addAll(loggedProfileText, loggedProfile);
-
-		ImageView ratzImageView = getRatzImageViewMain();
-
-		middle.getChildren().addAll(ratzImageView, motd, playButton, selectProfile, loggedProfileBox);
-		// Handle a button event
+		
+		Button playButton = new Button("Play!");
+		playButton.setPrefWidth(100);
 		playButton.setOnAction(event -> {
 			if (ProfileFileReader.getLoggedProfile() == null) {
 				alert("You are not logged in.\nPlease log in before starting the game");
-				// TODO: remove these lines
-//						primaryStage.setScene(loadLevelSelect(primaryStage, scene));
-//						primaryStage.show();
 			} else {
 				primaryStage.setScene(loadLevelSelect(primaryStage, scene));
 				primaryStage.show();
 			}
 		});
+		
+		Button selectProfile = new Button("Select Profile!");
+		selectProfile.setPrefWidth(100);
+		selectProfile.setPadding(new Insets(10, 0, 0, 0));
 		selectProfile.setOnAction(event -> {
 			primaryStage.setScene(selectProfiles(primaryStage, scene));
 			primaryStage.show();
 		});
+		
+		Button loadLevel = new Button("Load a level!");
+		loadLevel.setPrefWidth(100);
+		loadLevel.setPadding(new Insets(10, 0, 0, 0));
+		loadLevel.setOnAction(event -> {
+//			primaryStage.setScene(selectProfiles(primaryStage, scene));
+//			primaryStage.show();
+			this.alert("Here goes loading level menu");
+		});
+		
+		Button exitButton = new Button("Exit!");
+		exitButton.setPrefWidth(100);
+		exitButton.setPadding(new Insets(10, 0, 0, 0));
+		exitButton.setOnAction(event -> {
+			primaryStage.close();
+		});
+
+		middle.getChildren().addAll(ratzImageView, motd, loggedProfileBox, playButton, loadLevel, selectProfile, exitButton);
+
+		
+		
 		return middle;
 	}
 
