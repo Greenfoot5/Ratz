@@ -27,6 +27,7 @@
 	-fx-font-size: 20pt;
 	-fx-label-padding: 10 0 10 0;
 	-fx-background-radius: 9;
+	-fx-font-weight: bold;
 }
 .scoreHeading {
 	-fx-font-size: 14pt;
