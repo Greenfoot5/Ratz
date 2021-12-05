@@ -168,4 +168,36 @@ public class HighScores {
 		tempFile.renameTo(rename);
 
 	}
+	
+	public void deleteProfile(String profilName) throws IOException {
+
+		File file = new File(filePath);
+		File tempFile = new File("resources/temp.txt");
+		Scanner in = new Scanner(file);
+		FileWriter fileWriter = new FileWriter(tempFile, true);
+		//bufferWriter = new BufferedWriter(fileWriter);
+		PrintWriter printWriter = new PrintWriter(fileWriter);
+		
+		final int posToFix = 0;
+
+		while (in.hasNext()) {
+			int lvl = in.nextInt();
+			in.nextInt();
+			String profName = in.next();
+			int scr = in.nextInt();
+			
+			if (!profName.equals(profilName)) {
+				printWriter.println(lvl + " " + posToFix + " " + profName + " " + scr);
+			}
+		}
+
+		in.close();
+		printWriter.flush();
+		printWriter.close();
+		file.delete();
+
+		File rename = new File(filePath);
+		tempFile.renameTo(rename);
+		fixPositions();
+	}
 }

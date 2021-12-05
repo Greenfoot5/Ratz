@@ -58,6 +58,7 @@ public class MainMenuController extends Application {
 	public void start(Stage primaryStage) {
 		// Create reader if we don't have one yet
 		mainStage = primaryStage;
+		primaryStage.setResizable(false);
 		if (reader == null) {
 			reader = new ProfileFileReader();
 		}
@@ -295,6 +296,7 @@ public class MainMenuController extends Application {
 		removeProfile.setOnAction(event -> {
 			try {
 				reader.deleteProfile(reader.getLoggedProfile());
+				scoresReader.deleteProfile(reader.getLoggedProfile());
 				ObservableList<Node> obL = left.getChildren();
 
 				// remove profile button and change the labels
