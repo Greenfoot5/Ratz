@@ -35,8 +35,6 @@ public class MainMenuController extends Application {
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 500;
 	private Label loggedProfile;
-	private ProfileFileReader reader;
-	private HighScores scoresReader;
 	private Stage mainStage;
 	private Scene mainScene;
 
@@ -59,12 +57,6 @@ public class MainMenuController extends Application {
 		// Create reader if we don't have one yet
 		mainStage = primaryStage;
 		primaryStage.setResizable(false);
-		if (reader == null) {
-			reader = new ProfileFileReader();
-		}
-		if (scoresReader == null) {
-			scoresReader = new HighScores();
-		}
 		// Create a new pane to hold our GUI
 		BorderPane root = new BorderPane();
 
@@ -171,12 +163,6 @@ public class MainMenuController extends Application {
 
 	public Scene selectProfiles(Stage profileStage, Scene scene) {
 		// Create reader if we don't have one yet
-		if (reader == null) {
-			reader = new ProfileFileReader();
-		}
-		if (scoresReader == null) {
-			scoresReader = new HighScores();
-		}
 
 		// Layout items
 		BorderPane profilePane = new BorderPane();
@@ -317,7 +303,7 @@ public class MainMenuController extends Application {
 					alert("No profile is selected");
 				}
 
-				reader.logout();
+				ProfileFileReader.logout();
 				loggedProfile.setText("NOBODY. Please log in before starting the game");
 			} catch (IOException ignored) {
 			}
@@ -430,12 +416,6 @@ public class MainMenuController extends Application {
 		// Create a new pane to hold our GUI
 		// TODO: use this variable to choose a level (when levels will work)
 		AtomicInteger selectedLevel = new AtomicInteger(1);
-		if (reader == null) {
-			reader = new ProfileFileReader();
-		}
-		if (scoresReader == null) {
-			scoresReader = new HighScores();
-		}
 
 		BorderPane root = new BorderPane();
 
@@ -630,7 +610,7 @@ public class MainMenuController extends Application {
 		LevelFileReader.loadLevelFile("./resources/level-" + levelNumber);
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
-		LevelController levelController = new LevelController(levelNumber, this, this.reader, this.scoresReader);
+		LevelController levelController = new LevelController(levelNumber, this);
 
 		loader.setController(levelController);
 

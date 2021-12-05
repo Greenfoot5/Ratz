@@ -60,8 +60,6 @@ public class LevelController {
     private final int[] timeUntilDrop = new int [ITEM_NUM];
 
     private final MainMenuController MAIN_MENU;
-    private final ProfileFileReader PROFILE_READER;
-    private final HighScores HIGH_SCORES_READER;
     private final int LEVEL_NUMBER;
 
     //Milliseconds between frames
@@ -102,12 +100,9 @@ public class LevelController {
     /**
      * Constructor for LevelController class.
      */
-    public LevelController (int levelNum, MainMenuController mainMenuController,
-    		ProfileFileReader profileFileReader, HighScores highScoresReader) {
+    public LevelController (int levelNum, MainMenuController mainMenuController) {
         LEVEL_NUMBER = levelNum;
         MAIN_MENU = mainMenuController;
-        PROFILE_READER = profileFileReader;
-        HIGH_SCORES_READER = highScoresReader;
         WIDTH = LevelFileReader.getWidth();
         HEIGHT = LevelFileReader.getHeight();
 

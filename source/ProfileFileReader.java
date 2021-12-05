@@ -281,7 +281,7 @@ public class ProfileFileReader {
 		}
 	}
 
-	public void logout() {
+	public static void logout() {
 		selectedProfile = null;
 	}
 
