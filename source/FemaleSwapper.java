@@ -33,6 +33,9 @@ public class FemaleSwapper extends Power {
                 currentTile.removeActivePower(this);
                 currentTile.addOccupantRat(copyRat);
                 currentTile.removeOccupantRat(r);
+
+                LevelController.ratAdded(copyRat);
+                LevelController.ratRemoved(r);
             } else {
                 currentTile.removeActivePower(this);
             }
