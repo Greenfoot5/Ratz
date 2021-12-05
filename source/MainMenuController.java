@@ -495,9 +495,106 @@ public class MainMenuController extends Application {
 		AtomicInteger selectedLevel = new AtomicInteger(1);
 
 		VBox topBox = getTopLevel();
-
 		VBox middleBox = getMiddleLevel(selectedLevel);
+		VBox leftBox = getLeftLevel(selectedLevel);
+		VBox rightBox = getRightLevel(selectStage, scene, selectedLevel);
+		HBox bottomBox = getBottomLevel();
+		
+		root.setCenter(middleBox);
+		root.setTop(topBox);
+		root.setRight(rightBox);
+		root.setLeft(leftBox);
+		root.setBottom(bottomBox);
+		// Create a scene based on the pane.
+		Scene levelsScene = new Scene(root, 800, 500);
 
+		File f = new File("source/menu.css");
+		levelsScene.getStylesheets().clear();
+		levelsScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+
+		return levelsScene;
+	}
+
+	private HBox getBottomLevel() {
+		HBox bottomBox = new HBox(82);
+		bottomBox.setPrefHeight(80);
+		FileInputStream inputs1 = null;
+		FileInputStream inputs2 = null;
+		FileInputStream inputs3 = null;
+		FileInputStream inputs4 = null;
+		FileInputStream inputs5 = null;
+		FileInputStream inputs6 = null;
+		try {
+			inputs1 = new FileInputStream("resources/childratEAST.png");
+			inputs2 = new FileInputStream("resources/deathratEAST.png");
+			inputs3 = new FileInputStream("resources/childratEAST.png");
+			inputs4 = new FileInputStream("resources/deathratEAST.png");
+			inputs5 = new FileInputStream("resources/childratEAST.png");
+			inputs6 = new FileInputStream("resources/deathratEAST.png");
+		} catch (FileNotFoundException e) {
+		}
+		Image imageB1 = new Image(inputs1);
+		ImageView imageViewB1 = new ImageView(imageB1);
+		Image imageB2 = new Image(inputs2);
+		ImageView imageViewB2 = new ImageView(imageB2);
+		Image imageB3 = new Image(inputs3);
+		ImageView imageViewB3 = new ImageView(imageB3);
+		Image imageB4 = new Image(inputs4);
+		ImageView imageViewB4 = new ImageView(imageB4);
+		Image imageB5 = new Image(inputs5);
+		ImageView imageViewB5 = new ImageView(imageB5);
+		Image imageB6 = new Image(inputs6);
+		ImageView imageViewB6 = new ImageView(imageB6);
+
+		bottomBox.getChildren().addAll(imageViewB1, imageViewB2, imageViewB3, imageViewB4, imageViewB5, imageViewB6);
+		return bottomBox;
+	}
+
+	private VBox getRightLevel(Stage selectStage, Scene scene, AtomicInteger selectedLevel) {
+		VBox rightBox = new VBox(5);
+		rightBox.setAlignment(Pos.CENTER_LEFT);
+		rightBox.setPrefWidth(180);
+		rightBox.setPadding(new Insets(5, 0, 5, 0));
+
+		FileInputStream inputstream1 = null;
+		FileInputStream inputstream2 = null;
+		FileInputStream inputstream3 = null;
+		try {
+			inputstream1 = new FileInputStream("resources/bomb1.png");
+			inputstream2 = new FileInputStream("resources/bomb3.png");
+			inputstream3 = new FileInputStream("resources/bomb4.png");
+		} catch (FileNotFoundException e) {
+		}
+		Image image1 = new Image(inputstream1);
+		ImageView imageView1 = new ImageView(image1);
+		Image image2 = new Image(inputstream2);
+		ImageView imageView2 = new ImageView(image2);
+		Image image3 = new Image(inputstream3);
+		ImageView imageView3 = new ImageView(image3);
+
+		Button playButton = new Button("Play!");
+		playButton.setPrefWidth(80);
+		playButton.setOnAction(event -> {
+			try {
+				// TODO - Get the level number
+				loadLevel(selectStage, selectedLevel.get());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+
+		Button backToMenu = new Button("Main Menu");
+		backToMenu.setOnAction(event -> {
+			selectStage.setScene(scene);
+			selectStage.show();
+		});
+		backToMenu.setPrefWidth(85);
+
+		rightBox.getChildren().addAll(imageView1, playButton, imageView2, backToMenu, imageView3);
+		return rightBox;
+	}
+
+	private VBox getLeftLevel(AtomicInteger selectedLevel) {
 		VBox leftBox = new VBox(10);
 		leftBox.setAlignment(Pos.CENTER_RIGHT);
 		leftBox.setPrefWidth(180);
@@ -555,94 +652,7 @@ public class MainMenuController extends Application {
 
 			leftBox.getChildren().add(lvl[i]);
 		}
-
-		VBox rightBox = new VBox(5);
-		rightBox.setAlignment(Pos.CENTER_LEFT);
-		rightBox.setPrefWidth(180);
-		rightBox.setPadding(new Insets(5, 0, 5, 0));
-
-		FileInputStream inputstream1 = null;
-		FileInputStream inputstream2 = null;
-		FileInputStream inputstream3 = null;
-		try {
-			inputstream1 = new FileInputStream("resources/bomb1.png");
-			inputstream2 = new FileInputStream("resources/bomb3.png");
-			inputstream3 = new FileInputStream("resources/bomb4.png");
-		} catch (FileNotFoundException e) {
-		}
-		Image image1 = new Image(inputstream1);
-		ImageView imageView1 = new ImageView(image1);
-		Image image2 = new Image(inputstream2);
-		ImageView imageView2 = new ImageView(image2);
-		Image image3 = new Image(inputstream3);
-		ImageView imageView3 = new ImageView(image3);
-
-		Button playButton = new Button("Play!");
-		playButton.setPrefWidth(80);
-		playButton.setOnAction(event -> {
-			try {
-				// TODO - Get the level number
-				loadLevel(selectStage, selectedLevel.get());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-
-		Button backToMenu = new Button("Main Menu");
-		backToMenu.setOnAction(event -> {
-			selectStage.setScene(scene);
-			selectStage.show();
-		});
-		backToMenu.setPrefWidth(85);
-
-		rightBox.getChildren().addAll(imageView1, playButton, imageView2, backToMenu, imageView3);
-
-		FileInputStream inputs1 = null;
-		FileInputStream inputs2 = null;
-		FileInputStream inputs3 = null;
-		FileInputStream inputs4 = null;
-		FileInputStream inputs5 = null;
-		FileInputStream inputs6 = null;
-		try {
-			inputs1 = new FileInputStream("resources/childratEAST.png");
-			inputs2 = new FileInputStream("resources/deathratEAST.png");
-			inputs3 = new FileInputStream("resources/childratEAST.png");
-			inputs4 = new FileInputStream("resources/deathratEAST.png");
-			inputs5 = new FileInputStream("resources/childratEAST.png");
-			inputs6 = new FileInputStream("resources/deathratEAST.png");
-		} catch (FileNotFoundException e) {
-		}
-		Image imageB1 = new Image(inputs1);
-		ImageView imageViewB1 = new ImageView(imageB1);
-		Image imageB2 = new Image(inputs2);
-		ImageView imageViewB2 = new ImageView(imageB2);
-		Image imageB3 = new Image(inputs3);
-		ImageView imageViewB3 = new ImageView(imageB3);
-		Image imageB4 = new Image(inputs4);
-		ImageView imageViewB4 = new ImageView(imageB4);
-		Image imageB5 = new Image(inputs5);
-		ImageView imageViewB5 = new ImageView(imageB5);
-		Image imageB6 = new Image(inputs6);
-		ImageView imageViewB6 = new ImageView(imageB6);
-
-		HBox bottomBox = new HBox(82);
-		bottomBox.setPrefHeight(80);
-		bottomBox.getChildren().addAll(imageViewB1, imageViewB2, imageViewB3, imageViewB4, imageViewB5, imageViewB6);
-
-		root.setCenter(middleBox);
-		root.setTop(topBox);
-		root.setRight(rightBox);
-		root.setLeft(leftBox);
-		root.setBottom(bottomBox);
-
-		// Create a scene based on the pane.
-		Scene levelsScene = new Scene(root, 800, 500);
-
-		File f = new File("source/menu.css");
-		levelsScene.getStylesheets().clear();
-		levelsScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
-
-		return levelsScene;
+		return leftBox;
 	}
 
 	private VBox getMiddleLevel(AtomicInteger selectedLevel) {
