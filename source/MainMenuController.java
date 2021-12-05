@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -109,7 +110,7 @@ public class MainMenuController extends Application {
 		playButton.setPrefWidth(100);
 		Button selectProfile = new Button("Select Profile!");
 		selectProfile.setPrefWidth(100);
-		selectProfile.setPadding(new Insets(10,0,0,0));
+		selectProfile.setPadding(new Insets(10, 0, 0, 0));
 
 		Label loggedProfileText = new Label("You are logged as ");
 		loggedProfile = new Label();
@@ -133,6 +134,9 @@ public class MainMenuController extends Application {
 		playButton.setOnAction(event -> {
 			if (reader.getLoggedProfile() == null) {
 				alert("You are not logged in.\nPlease log in before starting the game");
+				// TODO: remove these lines
+				primaryStage.setScene(loadLevelSelect(primaryStage, scene));
+				primaryStage.show();
 			} else {
 				primaryStage.setScene(loadLevelSelect(primaryStage, scene));
 				primaryStage.show();
@@ -234,7 +238,6 @@ public class MainMenuController extends Application {
 		HBox selectMenuPics = new HBox();
 		selectMenuPics.setSpacing(100);
 		selectMenuPics.setPadding(new Insets(40, 130, 0, 160));
-		;
 		selectMenuPics.getChildren().addAll(imageView, imageView2);
 		middle.getChildren().add(selectMenuPics);
 
@@ -338,12 +341,12 @@ public class MainMenuController extends Application {
 		profilePane.setRight(right);
 		profilePane.setLeft(left);
 		profilePane.setBottom(bottom);
-		
+
 		Scene profileScene = new Scene(profilePane, WINDOW_WIDTH, WINDOW_HEIGHT);
 		File f = new File("source/menu.css");
 		profileScene.getStylesheets().clear();
 		profileScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
-		
+
 		return profileScene;
 	}
 
@@ -391,19 +394,23 @@ public class MainMenuController extends Application {
 		// Create a new pane to hold our GUI
 		// TODO: use this variable to choose a level (when levels will work)
 		AtomicInteger selectedLevel = new AtomicInteger(1);
-		BorderPane root = new BorderPane();
-		// root.setAlignment(Pos.CENTER);
 		HighScores scoresReader = new HighScores();
 
-		HBox topBox = new HBox();
-		topBox.setAlignment(Pos.CENTER);
-		Label title = new Label("Level Select");
-		topBox.getChildren().add(title);
+		BorderPane root = new BorderPane();
 
-		VBox scores = new VBox();
-		scores.setAlignment(Pos.CENTER);
+		VBox topBox = new VBox();
+		topBox.setAlignment(Pos.CENTER);
+		topBox.setPrefHeight(80);
+		Label title = new Label("Level Select");
+		Separator separator = new Separator();
+		title.getStyleClass().add("loggingLabel");
+		topBox.getChildren().addAll(title, separator);
+
+		VBox middleBox = new VBox();
+		middleBox.setAlignment(Pos.CENTER);
+
 		Label scoreHeading = new Label("Lvl " + selectedLevel + " best scores:");
-		scores.getChildren().add(scoreHeading);
+		middleBox.getChildren().add(scoreHeading);
 
 		Label[] scoresLabel = new Label[10];
 		String[] scoresString = null;
@@ -414,21 +421,26 @@ public class MainMenuController extends Application {
 
 		for (int i = 0; i < 10; i++) {
 			scoresLabel[i] = new Label();
+			scoresLabel[i].setPadding(new Insets(3,0,3,0));;
 			try {
 				assert scoresString != null;
 				scoresLabel[i].setText((i + 1) + " " + scoresString[i]);
 			} catch (Exception e2) {
 				scoresLabel[i].setText((i + 1) + " ...");
 			}
-			scores.getChildren().add(scoresLabel[i]);
+			middleBox.getChildren().add(scoresLabel[i]);
 		}
-		VBox levels = new VBox();
-		levels.setAlignment(Pos.CENTER);
+
+		VBox leftBox = new VBox(10);
+		leftBox.setAlignment(Pos.CENTER_RIGHT);
+		leftBox.setPrefWidth(100);
 
 		Button[] lvl = new Button[5];
 		for (int i = 0; i < lvl.length; i++) {
 			int levelIndex = i + 1;
 			lvl[i] = new Button("Level " + (levelIndex));
+			lvl[i].setPrefWidth(70);
+			
 
 			lvl[i].setOnAction(event -> {
 				scoreHeading.setText("Lvl " + (levelIndex) + " best scores:");
@@ -450,12 +462,32 @@ public class MainMenuController extends Application {
 				}
 			});
 
-			levels.getChildren().add(lvl[i]);
+			leftBox.getChildren().add(lvl[i]);
 		}
+
 		VBox rightBox = new VBox();
-		rightBox.setAlignment(Pos.CENTER);
+		rightBox.setAlignment(Pos.CENTER_LEFT);
+		rightBox.setPrefWidth(100);
+		rightBox.setPadding(new Insets(5,0,5,0));
+
+		FileInputStream inputstream1 = null;
+		FileInputStream inputstream2 = null;
+		FileInputStream inputstream3 = null;
+		try {
+			inputstream1 = new FileInputStream("resources/bomb1.png");
+			inputstream2 = new FileInputStream("resources/bomb3.png");
+			inputstream3 = new FileInputStream("resources/bomb4.png");
+		} catch (FileNotFoundException e) {
+		}
+		Image image1 = new Image(inputstream1);
+		ImageView imageView1 = new ImageView(image1);
+		Image image2 = new Image(inputstream2);
+		ImageView imageView2 = new ImageView(image2);
+		Image image3 = new Image(inputstream3);
+		ImageView imageView3 = new ImageView(image3);
 
 		Button playButton = new Button("Play!");
+		playButton.setPrefWidth(70);
 		playButton.setOnAction(event -> {
 			try {
 				// TODO - Get the level number
@@ -464,22 +496,28 @@ public class MainMenuController extends Application {
 				e.printStackTrace();
 			}
 		});
+		
+		Button backToMenu = new Button("Main Menu");
+		backToMenu.setPrefWidth(70);
 
-		rightBox.getChildren().add(playButton);
+		rightBox.getChildren().addAll(imageView1, playButton, imageView2, backToMenu, imageView3);
 
-		root.setCenter(scores);
+		HBox bottomBox = new HBox();
+		bottomBox.setPrefHeight(80);
+
+		root.setCenter(middleBox);
 		root.setTop(topBox);
 		root.setRight(rightBox);
-		root.setLeft(levels);
+		root.setLeft(leftBox);
+		root.setBottom(bottomBox);
 
 		// Create a scene based on the pane.
-		Scene levelsScene = new Scene(root, 400, 400);
-		
+		Scene levelsScene = new Scene(root, 450, 450);
+
 		File f = new File("source/menu.css");
 		levelsScene.getStylesheets().clear();
 		levelsScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
-		
-		
+
 		return levelsScene;
 	}
 
