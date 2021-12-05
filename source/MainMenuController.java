@@ -139,9 +139,7 @@ public class MainMenuController extends Application {
 		Button exitButton = new Button("Exit!");
 		exitButton.setPrefWidth(100);
 		exitButton.setPadding(new Insets(10, 0, 0, 0));
-		exitButton.setOnAction(event -> {
-			primaryStage.close();
-		});
+		exitButton.setOnAction(event -> primaryStage.close());
 
 		middle.getChildren().addAll(ratzImageView, motd, loggedProfileBox, playButton, loadLevel, selectProfile,
 				exitButton);
@@ -155,11 +153,10 @@ public class MainMenuController extends Application {
 		FileInputStream inputstream = null;
 		try {
 			inputstream = new FileInputStream("resources/ratzLabel.png");
-		} catch (FileNotFoundException e) {
-		}
-		Image ratzImage = new Image(inputstream);
-		ImageView imgView = new ImageView(ratzImage);
-		return imgView;
+		} catch (FileNotFoundException ignored) { }
+        assert inputstream != null;
+        Image ratzImage = new Image(inputstream);
+        return new ImageView(ratzImage);
 	}
 
 	private HBox getTopRatsMain() {
@@ -167,9 +164,10 @@ public class MainMenuController extends Application {
 		FileInputStream inputstream = null;
 		try {
 			inputstream = new FileInputStream("resources/adultmaleSOUTH.png");
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException ignored) {
 		}
-		Image image2 = new Image(inputstream);
+        assert inputstream != null;
+        Image image2 = new Image(inputstream);
 		ImageView imageView_2 = new ImageView(image2);
 		ImageView imageView22 = new ImageView(image2);
 		ImageView imageView32 = new ImageView(image2);
@@ -190,9 +188,9 @@ public class MainMenuController extends Application {
 		FileInputStream inputstream = null;
 		try {
 			inputstream = new FileInputStream("resources/adultfemaleNORTH.png");
-		} catch (FileNotFoundException e) {
-		}
-		Image image = new Image(inputstream);
+		} catch (FileNotFoundException ignored) { }
+        assert inputstream != null;
+        Image image = new Image(inputstream);
 		ImageView imageView = new ImageView(image);
 		ImageView imageView2 = new ImageView(image);
 		ImageView imageView3 = new ImageView(image);
@@ -362,9 +360,9 @@ public class MainMenuController extends Application {
 		FileInputStream inputstream = null;
 		try {
 			inputstream = new FileInputStream("resources/poison.png");
-		} catch (FileNotFoundException e) {
-		}
-		Image image = new Image(inputstream);
+		} catch (FileNotFoundException ignored) { }
+        assert inputstream != null;
+        Image image = new Image(inputstream);
 		ImageView imageView = new ImageView(image);
 		ImageView imageView2 = new ImageView(image);
 		HBox selectMenuPics = new HBox();
@@ -531,19 +529,24 @@ public class MainMenuController extends Application {
 			inputs4 = new FileInputStream("resources/deathratEAST.png");
 			inputs5 = new FileInputStream("resources/childratEAST.png");
 			inputs6 = new FileInputStream("resources/deathratEAST.png");
-		} catch (FileNotFoundException e) {
-		}
-		Image imageB1 = new Image(inputs1);
+		} catch (FileNotFoundException ignored) { }
+        assert inputs1 != null;
+        Image imageB1 = new Image(inputs1);
 		ImageView imageViewB1 = new ImageView(imageB1);
-		Image imageB2 = new Image(inputs2);
+        assert inputs2 != null;
+        Image imageB2 = new Image(inputs2);
 		ImageView imageViewB2 = new ImageView(imageB2);
-		Image imageB3 = new Image(inputs3);
+        assert inputs3 != null;
+        Image imageB3 = new Image(inputs3);
 		ImageView imageViewB3 = new ImageView(imageB3);
-		Image imageB4 = new Image(inputs4);
+        assert inputs4 != null;
+        Image imageB4 = new Image(inputs4);
 		ImageView imageViewB4 = new ImageView(imageB4);
-		Image imageB5 = new Image(inputs5);
+        assert inputs5 != null;
+        Image imageB5 = new Image(inputs5);
 		ImageView imageViewB5 = new ImageView(imageB5);
-		Image imageB6 = new Image(inputs6);
+        assert inputs6 != null;
+        Image imageB6 = new Image(inputs6);
 		ImageView imageViewB6 = new ImageView(imageB6);
 
 		bottomBox.getChildren().addAll(imageViewB1, imageViewB2, imageViewB3, imageViewB4, imageViewB5, imageViewB6);
@@ -563,13 +566,15 @@ public class MainMenuController extends Application {
 			inputstream1 = new FileInputStream("resources/bomb1.png");
 			inputstream2 = new FileInputStream("resources/bomb3.png");
 			inputstream3 = new FileInputStream("resources/bomb4.png");
-		} catch (FileNotFoundException e) {
-		}
-		Image image1 = new Image(inputstream1);
+		} catch (FileNotFoundException ignored) { }
+        assert inputstream1 != null;
+        Image image1 = new Image(inputstream1);
 		ImageView imageView1 = new ImageView(image1);
-		Image image2 = new Image(inputstream2);
+        assert inputstream2 != null;
+        Image image2 = new Image(inputstream2);
 		ImageView imageView2 = new ImageView(image2);
-		Image image3 = new Image(inputstream3);
+        assert inputstream3 != null;
+        Image image3 = new Image(inputstream3);
 		ImageView imageView3 = new ImageView(image3);
 
 		Button playButton = new Button("Play!");
@@ -644,9 +649,7 @@ public class MainMenuController extends Application {
 					}
 				});
 			} else {
-				lvl[i].setOnAction(event -> {
-					alert("You haven'y unlocked this level");
-				});
+				lvl[i].setOnAction(event -> alert("You haven't unlocked this level"));
 				lvl[i].getStyleClass().add("buttonBlocked");
 			}
 
@@ -673,7 +676,6 @@ public class MainMenuController extends Application {
 		for (int i = 0; i < 10; i++) {
 			scoresLabel[i] = new Label();
 			scoresLabel[i].setPadding(new Insets(3, 0, 3, 0));
-			;
 			try {
 				assert scoresString != null;
 				scoresLabel[i].setText((i + 1) + " " + scoresString[i]);
