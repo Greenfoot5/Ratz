@@ -11,10 +11,15 @@ public class Gas extends Power {
 
     private int ticksActive = 0; //Tick counter since creation of this class.
     private boolean isOriginal = false;
-    private int gasCounterN = 1;
-    private int gasCounterS = 1;
-    private int gasCounterE = 1;
-    private int gasCounterW = 1;
+    private int gasCounterN = 1; // Counts how many gas was placed North
+    private int gasCounterS = 1; // Counts how many gas was placed South
+    private int gasCounterE = 1; // Counts how many gas was placed East
+    private int gasCounterW = 1; // Counts how many gas was placed West
+
+    private int gasCounterNW = 1; // Counts how many gas was placed West
+    private int gasCounterSW = 1; // Counts how many gas was placed West
+    private int gasCounterNE = 1; // Counts how many gas was placed West
+    private int gasCounterSE = 1; // Counts how many gas was placed West
 
     /**
      * Gas constructor
@@ -72,7 +77,6 @@ public class Gas extends Power {
 
         //Places a bunch of new Gas on Tiles with isOriginal = false;
         if (isOriginal) {
-            System.out.println("L: " + ticksActive);
             if (ticksActive == 1 || ticksActive % 4 == 0) {
                 gasSurroundingPathTiles();
             }
@@ -132,6 +136,57 @@ public class Gas extends Power {
                     gasCounterW++;
             }
         }
+
+
+        //Diagonal spread
+        if (LevelController.getTileAt(this.xPos+gasCounterNE,
+                this.yPos+gasCounterNE) != null) {
+            if (LevelController.getTileAt(this.xPos + gasCounterNE,
+                    this.yPos + gasCounterNE).isPassable()) {
+                int x = this.xPos + gasCounterNE;
+                int y = this.yPos + gasCounterNE;
+                LevelController.getTileAt(x, y).addActivePower(new Gas(x,
+                        y, false));
+                gasCounterNE++;
+            }
+        }
+
+        if (LevelController.getTileAt(this.xPos+gasCounterSE,
+                this.yPos-gasCounterSE) != null) {
+            if (LevelController.getTileAt(this.xPos + gasCounterSE,
+                    this.yPos - gasCounterSE).isPassable()) {
+                int x = this.xPos + gasCounterSE;
+                int y = this.yPos - gasCounterSE;
+                LevelController.getTileAt(x, y).addActivePower(new Gas(x,
+                        y, false));
+                gasCounterSE++;
+            }
+        }
+
+        if (LevelController.getTileAt(this.xPos - gasCounterNW,
+                this.yPos + gasCounterNW) != null) {
+            if (LevelController.getTileAt(this.xPos - gasCounterNW,
+                    this.yPos + gasCounterNW).isPassable()) {
+                int x = this.xPos - gasCounterNW;
+                int y = this.yPos + gasCounterNW;
+                LevelController.getTileAt(x, y).addActivePower(new Gas(x,
+                        y, false));
+                gasCounterNW++;
+            }
+        }
+
+        if (LevelController.getTileAt(this.xPos - gasCounterSW,
+                this.yPos - gasCounterSW) != null) {
+            if (LevelController.getTileAt(this.xPos - gasCounterSW,
+                    this.yPos - gasCounterSW).isPassable()) {
+                int x = this.xPos - gasCounterSW;
+                int y = this.yPos - gasCounterSW;
+                LevelController.getTileAt(x, y).addActivePower(new Gas(x,
+                        y, false));
+                gasCounterSW++;
+            }
+        }
+
     }
 
     /**
