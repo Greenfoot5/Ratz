@@ -60,59 +60,33 @@ public class MainMenuController extends Application {
 		// Create a new pane to hold our GUI
 		BorderPane root = new BorderPane();
 
-		FileInputStream inputstream = null;
-		try {
-			inputstream = new FileInputStream("resources/adultfemaleNORTH.png");
-		} catch (FileNotFoundException e) {
-		}
-		Image image = new Image(inputstream);
-		ImageView imageView = new ImageView(image);
-		ImageView imageView2 = new ImageView(image);
-		ImageView imageView3 = new ImageView(image);
-		ImageView imageView4 = new ImageView(image);
-		ImageView imageView5 = new ImageView(image);
-		ImageView imageView6 = new ImageView(image);
-		ImageView imageView7 = new ImageView(image);
-		HBox bottom = new HBox();
-		bottom.setSpacing(60);
-		bottom.getChildren().addAll(imageView, imageView2, imageView3, imageView4, imageView5, imageView6, imageView7);
+		HBox bottom = getBottomRatsMain();
+		HBox top = getTopRatsMain();
 
-		try {
-			inputstream = new FileInputStream("resources/adultmaleSOUTH.png");
-		} catch (FileNotFoundException e) {
-		}
-		Image image2 = new Image(inputstream);
-		ImageView imageView_2 = new ImageView(image2);
-		ImageView imageView22 = new ImageView(image2);
-		ImageView imageView32 = new ImageView(image2);
-		ImageView imageView42 = new ImageView(image2);
-		ImageView imageView52 = new ImageView(image2);
-		ImageView imageView62 = new ImageView(image2);
-		ImageView imageView72 = new ImageView(image2);
-		
-		HBox top = new HBox();
-		top.setAlignment(Pos.BASELINE_RIGHT);
-		top.setSpacing(60);
-		top.getChildren().addAll(imageView_2, imageView22, imageView32, imageView42, imageView52, imageView62,
-				imageView72);
-		
-		try {
-			inputstream = new FileInputStream("resources/ratzLabel.png");
-		} catch (FileNotFoundException e) {
-		}
-		Image ratzImage = new Image(inputstream);
-		ImageView ratzImageView = new ImageView(ratzImage);
+		// Create a scene based on the pane.
+		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+		mainScene = scene;
+		File f = new File("source/menu.css");
+		scene.getStylesheets().clear();
+		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
-		VBox middle = new VBox(5);
+		// VBox middle = new VBox(5);
+		VBox middle = getMiddleMain(scene, primaryStage);
 		middle.setAlignment(Pos.CENTER);
 
 		root.setTop(top);
 		root.setBottom(bottom);
 		root.setCenter(middle);
+		// Show the scene
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
 
+	private VBox getMiddleMain(Scene scene, Stage primaryStage) {
 		// Create a few GUI elements
-		//Label title = new Label("RATZ");
-		//title.getStyleClass().add("title");
+		// Label title = new Label("RATZ");
+		// title.getStyleClass().add("title");
+		VBox middle = new VBox(5);
 		Label motd = new Label(MOTD.GETMotd());
 		Button playButton = new Button("Play!");
 		playButton.setPrefWidth(100);
@@ -131,12 +105,8 @@ public class MainMenuController extends Application {
 		loggedProfileBox.setAlignment(Pos.CENTER);
 		loggedProfileBox.setStyle("-fx-text-fill: #Fd062a");
 		loggedProfileBox.getChildren().addAll(loggedProfileText, loggedProfile);
-		// Create a scene based on the pane.
-		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-		mainScene = scene;
-		File f = new File("source/menu.css");
-		scene.getStylesheets().clear();
-		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+
+		ImageView ratzImageView = getRatzImageViewMain();
 
 		middle.getChildren().addAll(ratzImageView, motd, playButton, selectProfile, loggedProfileBox);
 		// Handle a button event
@@ -144,8 +114,8 @@ public class MainMenuController extends Application {
 			if (ProfileFileReader.getLoggedProfile() == null) {
 				alert("You are not logged in.\nPlease log in before starting the game");
 				// TODO: remove these lines
-//				primaryStage.setScene(loadLevelSelect(primaryStage, scene));
-//				primaryStage.show();
+//						primaryStage.setScene(loadLevelSelect(primaryStage, scene));
+//						primaryStage.show();
 			} else {
 				primaryStage.setScene(loadLevelSelect(primaryStage, scene));
 				primaryStage.show();
@@ -155,10 +125,63 @@ public class MainMenuController extends Application {
 			primaryStage.setScene(selectProfiles(primaryStage, scene));
 			primaryStage.show();
 		});
+		return middle;
+	}
 
-		// Show the scene
-		primaryStage.setScene(scene);
-		primaryStage.show();
+	private ImageView getRatzImageViewMain() {
+
+		FileInputStream inputstream = null;
+		try {
+			inputstream = new FileInputStream("resources/ratzLabel.png");
+		} catch (FileNotFoundException e) {
+		}
+		Image ratzImage = new Image(inputstream);
+		ImageView imgView = new ImageView(ratzImage);
+		return imgView;
+	}
+
+	private HBox getTopRatsMain() {
+		HBox top = new HBox();
+		FileInputStream inputstream = null;
+		try {
+			inputstream = new FileInputStream("resources/adultmaleSOUTH.png");
+		} catch (FileNotFoundException e) {
+		}
+		Image image2 = new Image(inputstream);
+		ImageView imageView_2 = new ImageView(image2);
+		ImageView imageView22 = new ImageView(image2);
+		ImageView imageView32 = new ImageView(image2);
+		ImageView imageView42 = new ImageView(image2);
+		ImageView imageView52 = new ImageView(image2);
+		ImageView imageView62 = new ImageView(image2);
+		ImageView imageView72 = new ImageView(image2);
+
+		top.setAlignment(Pos.BASELINE_RIGHT);
+		top.setSpacing(60);
+		top.getChildren().addAll(imageView_2, imageView22, imageView32, imageView42, imageView52, imageView62,
+				imageView72);
+		return top;
+	}
+
+	private HBox getBottomRatsMain() {
+		HBox bottom = new HBox();
+		FileInputStream inputstream = null;
+		try {
+			inputstream = new FileInputStream("resources/adultfemaleNORTH.png");
+		} catch (FileNotFoundException e) {
+		}
+		Image image = new Image(inputstream);
+		ImageView imageView = new ImageView(image);
+		ImageView imageView2 = new ImageView(image);
+		ImageView imageView3 = new ImageView(image);
+		ImageView imageView4 = new ImageView(image);
+		ImageView imageView5 = new ImageView(image);
+		ImageView imageView6 = new ImageView(image);
+		ImageView imageView7 = new ImageView(image);
+
+		bottom.setSpacing(60);
+		bottom.getChildren().addAll(imageView, imageView2, imageView3, imageView4, imageView5, imageView6, imageView7);
+		return bottom;
 	}
 
 	public Scene selectProfiles(Stage profileStage, Scene scene) {
@@ -217,8 +240,8 @@ public class MainMenuController extends Application {
 			for (int i = 0; i < profileScore.length; i++) {
 				try {
 					if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0 && unlocked) {
-						profileScore[i] = new Label(
-								"Lvl" + (i + 1) + " " + ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
+						profileScore[i] = new Label("Lvl" + (i + 1) + " "
+								+ ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
 						unlocked = false;
 					} else {
 						profileScore[i] = new Label("Lvl" + (i + 1) + " is locked");
@@ -318,7 +341,8 @@ public class MainMenuController extends Application {
 			try {
 				if (left.getChildren().size() > 8) {
 					alert("Too much profiles");
-				} else if (!newProfField.getText().equals("") && !ProfileFileReader.doesProfileExist(newProfField.getText())) {
+				} else if (!newProfField.getText().equals("")
+						&& !ProfileFileReader.doesProfileExist(newProfField.getText())) {
 
 					ProfileFileReader.createNewProfile(newProfField.getText());
 
@@ -371,11 +395,12 @@ public class MainMenuController extends Application {
 		for (int i = 0; i < profileScore.length; i++) {
 			try {
 				if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) > 0) {
-					profileScore[i]
-							.setText("Lvl" + (i + 1) + " " + ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
-				} else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0 && unlocked) {
-					profileScore[i]
-							.setText("Lvl" + (i + 1) + " " + ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
+					profileScore[i].setText("Lvl" + (i + 1) + " "
+							+ ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
+				} else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0
+						&& unlocked) {
+					profileScore[i].setText("Lvl" + (i + 1) + " "
+							+ ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
 					unlocked = false;
 				} else {
 					profileScore[i].setText("Lvl" + (i + 1) + " is locked");
@@ -464,7 +489,8 @@ public class MainMenuController extends Application {
 			try {
 				if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) > 0) {
 					isUnlocked[i] = true;
-				} else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0 && unlocked) {
+				} else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0
+						&& unlocked) {
 					isUnlocked[i] = true;
 					unlocked = false;
 				} else {
