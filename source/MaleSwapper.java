@@ -1,3 +1,6 @@
+import javafx.scene.media.AudioClip;
+
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -6,6 +9,8 @@ import java.util.ArrayList;
  */
 
 public class MaleSwapper extends Power{
+
+    private static final String MALE_PATH = "resources/maleSwapperSound.mp3";
 
     /** MaleSwapper constructor
      *
@@ -26,6 +31,10 @@ public class MaleSwapper extends Power{
 
     @Override
     void activate(ArrayList<Rat> rats, Tile currentTile) {
+        AudioClip deathSound = new AudioClip(
+                new File(MALE_PATH).toURI().toString());
+        deathSound.play();
+
         for (Rat r : rats) {
             if(r instanceof AdultFemale) {
                 AdultMale copyRat = new AdultMale(r.getSpeed(), r.getDirection(), r.getGasTimer(),

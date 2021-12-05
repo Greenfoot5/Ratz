@@ -15,7 +15,6 @@ public class Bomb extends Power {
 
     private int ticksActive = 0; //Tick counter since creation of this class.
     private static final String BOMB_SOUND_PATH = "resources/bombSound.mp3";
-
     /**
      * Bomb constructor
      */
