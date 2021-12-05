@@ -35,7 +35,9 @@ public class DeathRat extends Rat {
         if (killCounter >= 5) {
             die();
         }
-        ominousWaiting--;
+        if(ominousWaiting > 0) {
+            ominousWaiting--;
+        }
         killRats();
     }
 
@@ -51,10 +53,14 @@ public class DeathRat extends Rat {
         Tile currentTile = LevelController.getTileAt(xPos, yPos);
         // kill every rat on the tile unless your kill counter is 5 or greater
 
-        while (currentTile.getOccupantRats().size() > 0 && killCounter < 5) {
-            currentTile.getOccupantRats().get(0).die();
+        int i = 0;
+        while (currentTile.getOccupantRats().size() > 1 && killCounter < 5) {
+            if(currentTile.getOccupantRats().get(i) != this) {
+                currentTile.getOccupantRats().get(i).die();
+            } else {
+                i++;
+            }
             killCounter++;
-
         }
     }
 

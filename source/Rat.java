@@ -119,27 +119,32 @@ public abstract class Rat extends GameObject {
         }
 
         if (!stopSignAhead && direction != null) {
+            boolean move = true;
             if (!(this instanceof DeathRat)) {
                 getForwardTile().addOccupantRat(this);
                 LevelController.getTileAt(xPos, yPos).removeOccupantRat(this);
 
             } else {
                 if (((DeathRat) this).getOminousWaiting() == 0) {
-                    getForwardTile().addOccupantRat(this);
                     LevelController.getTileAt(xPos, yPos).removeOccupantRat(this);
+                    getForwardTile().addOccupantRat(this);
+                } else {
+                    move = false;
                 }
             }
-            if (direction == Direction.NORTH) {
-                yPos--;
-            }
-            if (direction == Direction.EAST) {
-                xPos++;
-            }
-            if (direction == Direction.SOUTH) {
-                yPos++;
-            }
-            if (direction == Direction.WEST) {
-                xPos--;
+            if (move){
+                if (direction == Direction.NORTH) {
+                    yPos--;
+                }
+                if (direction == Direction.EAST) {
+                    xPos++;
+                }
+                if (direction == Direction.SOUTH) {
+                    yPos++;
+                }
+                if (direction == Direction.WEST) {
+                    xPos--;
+                }
             }
         }
 
