@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 public class LevelController {
 
     private static final int ITEM_NUM = 8;
+    private static final int[] counters = new int[ITEM_NUM];
 
     //Game map
     private static Tile[][] tileMap = new Tile[0][0];
@@ -46,7 +47,6 @@ public class LevelController {
             (new Sterilisation(0,0)).getImg(), (new Poison(0,0)).getImg(),
             (new MaleSwapper(0,0)).getImg(),(new FemaleSwapper(0,0)).getImg(),
             (new StopSign(0,0)).getImg(),(new DeathRat(0, Rat.Direction.WEST,0,0,0,0)).getImg());
-    private final int[] counters = new int[ITEM_NUM];
 
     //Size of game map
     private final int WIDTH;
@@ -70,7 +70,7 @@ public class LevelController {
 
     //Game timeline
     private Timeline tickTimeline;
-    private int currentTimeLeft;
+    private static int currentTimeLeft;
 
     @FXML
     public Canvas levelCanvas; //Game map canvas
@@ -115,6 +115,14 @@ public class LevelController {
             PAR_TIME = LevelFileReader.getParTime();
         }
         DROP_RATES = LevelFileReader.getDropRates();
+    }
+
+    public static int getCurrentTimeLeft() {
+        return currentTimeLeft;
+    }
+
+    public static int[] getCounters() {
+        return counters;
     }
 
     /**
@@ -165,7 +173,7 @@ public class LevelController {
     public void renderCounters() {
         String mc = String.valueOf(maleRatCounter);
         String fc = String.valueOf(femaleRatCounter);
-        String rc = String.valueOf(femaleRatCounter + maleRatCounter + childRatCounter) + "/" + String.valueOf(MAX_RATS);
+        String rc = (femaleRatCounter + maleRatCounter + childRatCounter) + "/" + (MAX_RATS);
 
         maleRatCounterLabel.setText(mc);
         femaleRatCounterLabel.setText(fc);
