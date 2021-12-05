@@ -109,7 +109,11 @@ public class LevelController {
         buildNewLevel();
 
         MAX_RATS = LevelFileReader.getMaxRats();
-        PAR_TIME = LevelFileReader.getParTime();
+        if(LevelFileReader.getInProgTimer() != 0) {
+            PAR_TIME = LevelFileReader.getInProgTimer();
+        } else {
+            PAR_TIME = LevelFileReader.getParTime();
+        }
         DROP_RATES = LevelFileReader.getDropRates();
     }
 
@@ -128,7 +132,11 @@ public class LevelController {
 
         renderGame();
 
-        System.arraycopy(DROP_RATES, 0, timeUntilDrop, 0, timeUntilDrop.length);
+        if(LevelFileReader.getInProgInv() != null){
+            System.arraycopy(LevelFileReader.getInProgInv(), 0, timeUntilDrop, 0, timeUntilDrop.length);
+        } else {
+            System.arraycopy(DROP_RATES, 0, timeUntilDrop, 0, timeUntilDrop.length);
+        }
 
         tickTimeline = new Timeline(new KeyFrame(Duration.millis(FRAME_TIME), event -> tick()));
         tickTimeline.setCycleCount(Animation.INDEFINITE);

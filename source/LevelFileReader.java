@@ -259,7 +259,7 @@ public class LevelFileReader {
 
         ratArrayList.clear();
         inProgInv = null;
-        inProgTimer = Integer.parseInt(null);
+        inProgTimer = 0;
 
         // get level width, height, max rats, par time
         if (reader.hasNextLine()) {
