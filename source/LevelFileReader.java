@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 /**
  * A class which reads levels from files, and saves levels to files.
+ *
  * @author James McWilliams
  */
 public class LevelFileReader {
@@ -19,7 +20,6 @@ public class LevelFileReader {
     private static ArrayList<Power> powerArrayList = new ArrayList<>();
     private static ArrayList<Rat> ratArrayList = new ArrayList<>();
     private static Tile[][] tileMap;
-    
 
 
     public static int getHeight() {
@@ -34,6 +34,7 @@ public class LevelFileReader {
      * `tiles` is a 2d array of strings with a length equal to the height of the level.
      * Each item in the array is a new row of tiles. They can be:
      * G for grass, P for path, and T for tunnel.
+     *
      * @return tiles
      */
     public static String[] getTiles() {
@@ -42,6 +43,7 @@ public class LevelFileReader {
 
     /**
      * Returns a tile at the specified location. G for grass, P for path, T for tunnel.
+     *
      * @param x X coordinate of the tile.
      * @param y Y coordinate of the tile.
      * @return A char representing the type of tile in the given location.
@@ -72,6 +74,7 @@ public class LevelFileReader {
      * `dropRates` will contain exactly 8 ints, each representing the odds of a certain power being given to the player.
      * These powers are, in order:
      * Bombs, Gas, Sterilisation items, Poison, Male sex changes, Female sex changes, No-entry signs, and Death rats.
+     *
      * @return dropRates the chances that each power will drop.
      */
     public static int[] getDropRates() {
@@ -80,17 +83,18 @@ public class LevelFileReader {
 
     /**
      * Writes a level to a .txt file in a format that can be read back by the file reader.
+     *
      * @param levelName The name for the level. Formatted as "level-X.txt" where X is a number.
-     * @param maxRats The number of rats that can exist before you lose.
-     * @param parTime The par time for the level - beating it faster than this gets you extra points.
+     * @param maxRats   The number of rats that can exist before you lose.
+     * @param parTime   The par time for the level - beating it faster than this gets you extra points.
      * @param dropRates The likelihood of different items dropping.
-     * @param tiles The map of tiles to be shown on the game board.
+     * @param tiles     The map of tiles to be shown on the game board.
      * @param ratSpawns The rats to be shown on the game board.
-     * @param powers The powerups to be shown on the game board.
+     * @param powers    The powerups to be shown on the game board.
      * @throws IOException if it can't find the file specified.
      */
     public static void saveLevel(String levelName, int maxRats, int parTime, int[] dropRates,
-                          String[] tiles, Rat[] ratSpawns, Power[] powers) throws IOException {
+                                 String[] tiles, Rat[] ratSpawns, Power[] powers) throws IOException {
 
         // saving first two lines
         FileWriter writer = new FileWriter(levelName + "-inProgress.txt");
@@ -107,13 +111,14 @@ public class LevelFileReader {
 
         // more shit goes here
 
-        String fileString = String.format("%d,%d,%d,%d\n%s\n%s",height,width,maxRats,parTime,dropRatesString,tileString);
+        String fileString = String.format("%d,%d,%d,%d\n%s\n%s", height, width, maxRats, parTime, dropRatesString, tileString);
 
 
     }
 
     /**
      * Turns a rat into a string that can be pasted into a level file to be loaded later.
+     *
      * @param rat The rat to convert
      * @return A string that can be read by the file reader
      */
@@ -192,11 +197,12 @@ public class LevelFileReader {
 
     /**
      * Converts a direction stored as an int into a Direction enum.
+     *
      * @param directionInt int from 0-3 representing north, east, south, west
      * @return Direction
      */
-    private static Rat.Direction directionIntToEnum(int directionInt){
-        switch(directionInt) {
+    private static Rat.Direction directionIntToEnum(int directionInt) {
+        switch (directionInt) {
             case 0:
                 return Rat.Direction.NORTH;
             case 1:
@@ -210,11 +216,12 @@ public class LevelFileReader {
 
     /**
      * Converts a Direction enum to an int.
+     *
      * @param directionEnum Direction
      * @return int from 0-3 representing north, east, south, west.
      */
-    private static int directionEnumToInt(Rat.Direction directionEnum){
-        switch(directionEnum) {
+    private static int directionEnumToInt(Rat.Direction directionEnum) {
+        switch (directionEnum) {
             case NORTH:
                 return 0;
             case EAST:
@@ -228,6 +235,7 @@ public class LevelFileReader {
 
     /**
      * Loads game objects from the text in level files.
+     *
      * @param filename The file to open.
      * @throws FileNotFoundException if the file can't be found.
      */
@@ -249,7 +257,7 @@ public class LevelFileReader {
 
         // get drop rate data
         String[] dropRatesString = reader.nextLine().split(",");
-        for (int i=0; i < dropRates.length; i++) {
+        for (int i = 0; i < dropRates.length; i++) {
             dropRates[i] = Integer.parseInt(dropRatesString[i]);
         }
 
@@ -373,7 +381,7 @@ public class LevelFileReader {
                 int xPos = Integer.parseInt(currentItem[1]);
                 int yPos = Integer.parseInt(currentItem[2]);
                 int ticksActive = Integer.parseInt(currentItem[3]);
-                Bomb newBomb = new Bomb(xPos,yPos);
+                Bomb newBomb = new Bomb(xPos, yPos);
                 newBomb.setTicksActive(ticksActive);
                 powerArrayList.add(newBomb);
                 tileMap[xPos][yPos].addActivePower(newBomb);
@@ -411,7 +419,7 @@ public class LevelFileReader {
             if (currentItem[0].equals("P")) {
                 int xPos = Integer.parseInt(currentItem[1]);
                 int yPos = Integer.parseInt(currentItem[2]);
-                Poison newPoison = new Poison(xPos,yPos);
+                Poison newPoison = new Poison(xPos, yPos);
                 powerArrayList.add(newPoison);
                 tileMap[xPos][yPos].addActivePower(newPoison);
             }
@@ -444,7 +452,7 @@ public class LevelFileReader {
                 powerArrayList.add(newStopSign);
                 tileMap[xPos][yPos].addActivePower(newStopSign);
             }
-            
+
             for (Rat rat : ratArrayList) {
                 //getTile(rat.getxPos(),rat.getyPos()).addOccupantRat(rat);
             }
@@ -454,15 +462,16 @@ public class LevelFileReader {
 
     /**
      * Converts the strings that store the tiles into a 2d array that can be used by other classes.
+     *
      * @param tiles The
      * @return
      */
     private static Tile[][] tilesToTileMap(String[] tiles) {
         Tile[][] tileMap = new Tile[width][height];
-        for(int i = 0; i < tileMap[0].length; i++) {
+        for (int i = 0; i < tileMap[0].length; i++) {
             int charPos = -1;
             for (int j = 0; j < tileMap.length; j++) {
-                charPos ++;
+                charPos++;
                 switch (tiles[i].charAt(charPos)) {
                     case 'G':
                         tileMap[j][i] = new Grass();
