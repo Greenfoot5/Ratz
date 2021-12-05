@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="896.0" prefWidth="1324.0" styleClass="root" stylesheets="@level.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
@@ -16,11 +15,10 @@
 		<Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
 			<Canvas fx:id="levelCanvas" height="896.0" width="1024.0" />
 			<Pane fx:id="gameEndPane" layoutX="312.0" layoutY="248.0" prefHeight="400.0" prefWidth="400.0" styleClass="dialogueBox" visible="false">
-				<children>
-					<TextFlow fx:id="gamePaneText" layoutX="15.0" layoutY="59.0" prefHeight="124.0" prefWidth="370.0" styleClass="gamePaneText" />
-					<Button layoutX="107.0" layoutY="322.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Back to Main Menu" />
-					<TextFlow fx:id="gamePaneScore" layoutX="16.0" layoutY="200.0" prefHeight="47.0" prefWidth="370.0" styleClass="gamePaneScore" />
-				</children>
+				<TextFlow fx:id="gamePaneText" layoutX="15.0" layoutY="20.0" prefHeight="124.0" prefWidth="370.0" styleClass="gamePaneText" />
+				<Button layoutX="107.0" layoutY="330.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Back to Main Menu" />
+				<TextFlow fx:id="gamePaneScore" layoutX="16.0" layoutY="50.0" prefHeight="47.0" prefWidth="370.0" styleClass="gamePaneScore" />
+				<TextFlow fx:id="gamePaneLeaderboard" layoutX="7.0" layoutY="80.0" prefHeight="262.0" prefWidth="387.0" styleClass="gamePaneScore" />
 			</Pane>
 		</Pane>
 	</center>
@@ -108,7 +106,7 @@
 				</Button>
 			</bottom>
 			<top>
-				<HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" styleClass="ratCounters">
+				<HBox prefHeight="100.0" prefWidth="200.0" styleClass="ratCounters" BorderPane.alignment="CENTER">
                <Label fx:id="ratCounterLabel" prefHeight="45.0" prefWidth="77.0" text=" 0 / 0">
                   <HBox.margin>
                      <Insets left="22.0" top="30.0" />
