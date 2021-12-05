@@ -126,25 +126,6 @@ public class LevelFileReader {
         }
 
 
-
-        // saving first two lines
-        //FileWriter writer = new FileWriter(levelName + "-inProgress" + ProfileFileReader.getLoggedProfile() + ".txt");
-        //String dropRatesString = "";
-        //for (int i = 0; i < dropRates.length; i++) {
-        //    dropRatesString += dropRates[i] + ",";
-        //}
-        //
-        //// saving tiles
-        //String tileString = "";
-        //for (int i = 0; i < tiles.length; i++) {
-        //    tileString += tiles[i] + "\n";
-        //}
-
-        // more shit goes here
-
-        //String fileString = String.format("%d,%d,%d,%d\n%s\n%s", height, width, maxRats, parTime, dropRatesString, tileString);
-
-
     }
 
     /**
