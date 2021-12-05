@@ -38,6 +38,8 @@ public class MainMenuController extends Application {
 	private Label loggedLabel;
 	private Label scoresHeading;
 	private Label[] profileScore;
+	Label[] scoresLabel;
+	Label scoreHeading;
 	private Stage mainStage;
 	private Scene mainScene;
 
@@ -57,10 +59,10 @@ public class MainMenuController extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) {
-		
+
 		SeaShantySimulator seaShantySimulator = new SeaShantySimulator();
-        seaShantySimulator.initialize();
-        seaShantySimulator.play();
+		seaShantySimulator.initialize();
+		seaShantySimulator.play();
 		// Create reader if we don't have one yet
 		mainStage = primaryStage;
 		primaryStage.setResizable(false);
@@ -217,7 +219,7 @@ public class MainMenuController extends Application {
 		VBox left = getLeftLogin();
 		VBox right = getRightLogin(profileStage, scene, left);
 		HBox bottom = getBottomLogin(left);
-		
+
 		// Adds the elements to the layout
 		profilePane.setCenter(middle);
 		profilePane.setTop(top);
@@ -390,7 +392,8 @@ public class MainMenuController extends Application {
 					if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) > 0 && unlocked) {
 						profileScore[i] = new Label("Lvl" + (i + 1) + " "
 								+ ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
-					} else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0 && unlocked) {
+					} else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0
+							&& unlocked) {
 						profileScore[i] = new Label("Lvl" + (i + 1) + " "
 								+ ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
 						unlocked = false;
@@ -488,43 +491,12 @@ public class MainMenuController extends Application {
 	public Scene loadLevelSelect(Stage selectStage, Scene scene) {
 		// Create a new pane to hold our GUI
 		BorderPane root = new BorderPane();
-		
+
 		AtomicInteger selectedLevel = new AtomicInteger(1);
 
-		VBox topBox = new VBox();
-		topBox.setAlignment(Pos.CENTER);
-		topBox.setPrefHeight(80);
-		Label title = new Label("Level Select");
-		Separator separator = new Separator();
-		title.getStyleClass().add("loggingLabel");
-		topBox.getChildren().addAll(title, separator);
+		VBox topBox = getTopLevel();
 
-		VBox middleBox = new VBox();
-		middleBox.setAlignment(Pos.CENTER);
-
-		Label scoreHeading = new Label("Lvl " + selectedLevel + " best scores:");
-		scoreHeading.setStyle("-fx-font-size: 14pt; -fx-font-weight: bold");
-		middleBox.getChildren().add(scoreHeading);
-
-		Label[] scoresLabel = new Label[10];
-		String[] scoresString = null;
-		try {
-			scoresString = HighScores.getTopScores(selectedLevel.get());
-		} catch (FileNotFoundException ignored) {
-		}
-
-		for (int i = 0; i < 10; i++) {
-			scoresLabel[i] = new Label();
-			scoresLabel[i].setPadding(new Insets(3, 0, 3, 0));
-			;
-			try {
-				assert scoresString != null;
-				scoresLabel[i].setText((i + 1) + " " + scoresString[i]);
-			} catch (Exception e2) {
-				scoresLabel[i].setText((i + 1) + " ...");
-			}
-			middleBox.getChildren().add(scoresLabel[i]);
-		}
+		VBox middleBox = getMiddleLevel(selectedLevel);
 
 		VBox leftBox = new VBox(10);
 		leftBox.setAlignment(Pos.CENTER_RIGHT);
@@ -671,6 +643,47 @@ public class MainMenuController extends Application {
 		levelsScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
 		return levelsScene;
+	}
+
+	private VBox getMiddleLevel(AtomicInteger selectedLevel) {
+		VBox middleBox = new VBox();
+		middleBox.setAlignment(Pos.CENTER);
+
+		scoreHeading = new Label("Lvl " + selectedLevel + " best scores:");
+		scoreHeading.setStyle("-fx-font-size: 14pt; -fx-font-weight: bold");
+		middleBox.getChildren().add(scoreHeading);
+
+		scoresLabel = new Label[10];
+		String[] scoresString = null;
+		try {
+			scoresString = HighScores.getTopScores(selectedLevel.get());
+		} catch (FileNotFoundException ignored) {
+		}
+
+		for (int i = 0; i < 10; i++) {
+			scoresLabel[i] = new Label();
+			scoresLabel[i].setPadding(new Insets(3, 0, 3, 0));
+			;
+			try {
+				assert scoresString != null;
+				scoresLabel[i].setText((i + 1) + " " + scoresString[i]);
+			} catch (Exception e2) {
+				scoresLabel[i].setText((i + 1) + " ...");
+			}
+			middleBox.getChildren().add(scoresLabel[i]);
+		}
+		return middleBox;
+	}
+
+	private VBox getTopLevel() {
+		VBox topBox = new VBox();
+		topBox.setAlignment(Pos.CENTER);
+		topBox.setPrefHeight(80);
+		Label title = new Label("Level Select");
+		Separator separator = new Separator();
+		title.getStyleClass().add("loggingLabel");
+		topBox.getChildren().addAll(title, separator);
+		return topBox;
 	}
 
 	/**
