@@ -35,6 +35,9 @@ public class MainMenuController extends Application {
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 500;
 	private Label loggedProfile;
+	private Label loggedLabel;
+	private Label scoresHeading;
+	private Label[] profileScore;
 	private Stage mainStage;
 	private Scene mainScene;
 
@@ -70,9 +73,7 @@ public class MainMenuController extends Application {
 		scene.getStylesheets().clear();
 		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
-		// VBox middle = new VBox(5);
 		VBox middle = getMiddleMain(scene, primaryStage);
-		middle.setAlignment(Pos.CENTER);
 
 		root.setTop(top);
 		root.setBottom(bottom);
@@ -83,16 +84,10 @@ public class MainMenuController extends Application {
 	}
 
 	private VBox getMiddleMain(Scene scene, Stage primaryStage) {
-		// Create a few GUI elements
-		// Label title = new Label("RATZ");
-		// title.getStyleClass().add("title");
 		VBox middle = new VBox(5);
+		ImageView ratzImageView = getRatzImageViewMain();
+
 		Label motd = new Label(MOTD.GETMotd());
-		Button playButton = new Button("Play!");
-		playButton.setPrefWidth(100);
-		Button selectProfile = new Button("Select Profile!");
-		selectProfile.setPrefWidth(100);
-		selectProfile.setPadding(new Insets(10, 0, 0, 0));
 
 		Label loggedProfileText = new Label("You are logged as ");
 		loggedProfile = new Label();
@@ -101,30 +96,51 @@ public class MainMenuController extends Application {
 		} else {
 			loggedProfile.setText(ProfileFileReader.getLoggedProfile());
 		}
+
 		HBox loggedProfileBox = new HBox();
 		loggedProfileBox.setAlignment(Pos.CENTER);
 		loggedProfileBox.setStyle("-fx-text-fill: #Fd062a");
 		loggedProfileBox.getChildren().addAll(loggedProfileText, loggedProfile);
 
-		ImageView ratzImageView = getRatzImageViewMain();
-
-		middle.getChildren().addAll(ratzImageView, motd, playButton, selectProfile, loggedProfileBox);
-		// Handle a button event
+		Button playButton = new Button("Play!");
+		playButton.setPrefWidth(100);
 		playButton.setOnAction(event -> {
 			if (ProfileFileReader.getLoggedProfile() == null) {
 				alert("You are not logged in.\nPlease log in before starting the game");
-				// TODO: remove these lines
-//						primaryStage.setScene(loadLevelSelect(primaryStage, scene));
-//						primaryStage.show();
 			} else {
 				primaryStage.setScene(loadLevelSelect(primaryStage, scene));
 				primaryStage.show();
 			}
 		});
+
+		Button selectProfile = new Button("Select Profile!");
+		selectProfile.setPrefWidth(100);
+		selectProfile.setPadding(new Insets(10, 0, 0, 0));
 		selectProfile.setOnAction(event -> {
 			primaryStage.setScene(selectProfiles(primaryStage, scene));
 			primaryStage.show();
 		});
+
+		Button loadLevel = new Button("Load a level!");
+		loadLevel.setPrefWidth(100);
+		loadLevel.setPadding(new Insets(10, 0, 0, 0));
+		loadLevel.setOnAction(event -> {
+//			primaryStage.setScene(selectProfiles(primaryStage, scene));
+//			primaryStage.show();
+			this.alert("Here goes loading level menu");
+		});
+
+		Button exitButton = new Button("Exit!");
+		exitButton.setPrefWidth(100);
+		exitButton.setPadding(new Insets(10, 0, 0, 0));
+		exitButton.setOnAction(event -> {
+			primaryStage.close();
+		});
+
+		middle.getChildren().addAll(ratzImageView, motd, loggedProfileBox, playButton, loadLevel, selectProfile,
+				exitButton);
+		middle.setAlignment(Pos.CENTER);
+
 		return middle;
 	}
 
@@ -189,108 +205,79 @@ public class MainMenuController extends Application {
 
 		// Layout items
 		BorderPane profilePane = new BorderPane();
-		VBox left = new VBox(10);
-		left.setAlignment(Pos.TOP_CENTER);
-		left.setPadding(new Insets(10, 10, 10, 40));
 
-		VBox middle = new VBox(10);
-		middle.setAlignment(Pos.TOP_CENTER);
-		middle.setPadding(new Insets(5, 0, 5, 0));
+		HBox top = getTopLogin();
+		HBox selectMenuPics = getSelectMenuPicsLogin();
+		VBox middle = getMiddleLogin();
+		middle.getChildren().add(selectMenuPics);
+		VBox left = getLeftLogin();
+		VBox right = getRightLogin(profileStage, scene, left);
+		HBox bottom = getBottomLogin(left);
+		
+		// Adds the elements to the layout
+		profilePane.setCenter(middle);
+		profilePane.setTop(top);
+		profilePane.setRight(right);
+		profilePane.setLeft(left);
+		profilePane.setBottom(bottom);
 
-		VBox right = new VBox(10);
-		right.setAlignment(Pos.TOP_CENTER);
-		right.setPadding(new Insets(10, 100, 10, 0));
+		Scene profileScene = new Scene(profilePane, WINDOW_WIDTH, WINDOW_HEIGHT);
+		File f = new File("source/menu.css");
+		profileScene.getStylesheets().clear();
+		profileScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
+		return profileScene;
+	}
+
+	private HBox getBottomLogin(VBox left) {
 		HBox bottom = new HBox(20);
 		bottom.setAlignment(Pos.TOP_CENTER);
 		bottom.setPadding(new Insets(10, 80, 30, 0));
-		HBox top = new HBox();
-		// Get the profiles
-		String[] s = { "" };
-		try {
-			s = ProfileFileReader.getProfiles();
-		} catch (FileNotFoundException e) {
-			s[0] = "No profiles. Please Create a profile";
-		}
+		// Adding profile stuff
+		Label newProfLabel = new Label("Add new profile: ");
+		TextField newProfField = new TextField();
+		Button addProfButton = new Button("Add");
+		addProfButton.setPrefWidth(70);
+		addProfButton.setOnAction(event -> {
+			try {
+				if (left.getChildren().size() > 8) {
+					alert("Too much profiles");
+				} else if (!newProfField.getText().equals("")
+						&& !ProfileFileReader.doesProfileExist(newProfField.getText())) {
 
-		// Display who's logged in
+					ProfileFileReader.createNewProfile(newProfField.getText());
 
-		Label loggedLabelText = new Label("You are logged as ");
-		loggedLabelText.getStyleClass().add("loggingLabel");
-		Label loggedLabel = new Label();
-		loggedLabel.getStyleClass().add("loggingLabel");
-		loggedLabel.setStyle("-fx-text-fill: #Fd062a");
-		if (ProfileFileReader.getLoggedProfile() == null) {
-			loggedLabel.setText("...");
-		} else {
-			loggedLabel.setText(ProfileFileReader.getLoggedProfile());
-		}
-		top.getChildren().addAll(loggedLabelText, loggedLabel);
-		top.setAlignment(Pos.CENTER);
+					Button newProfButton = new Button(newProfField.getText());
+					newProfButton.setPrefWidth(100);
+					ProfileFileReader.loginProfile(newProfButton.getText());
 
-		// Display the best scores for a user
-		Label scoresHeading;
-		Label[] profileScore = new Label[ProfileFileReader.getNumberOfLevels()];
+					newProfButton.setOnAction(event2 -> {
+						// Logging in
+						ProfileFileReader.loginProfile(newProfButton.getText());
+						// Changing a labels
+						displayProfileBests(loggedLabel, scoresHeading, profileScore);
+					});
+					left.getChildren().add(newProfButton);
 
-		if (ProfileFileReader.getLoggedProfile() != null) {
-			scoresHeading = new Label("Best " + ProfileFileReader.getLoggedProfile() + "'s scores:");
-			middle.getChildren().add(scoresHeading);
-
-			boolean unlocked = true;
-			for (int i = 0; i < profileScore.length; i++) {
-				try {
-					if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0 && unlocked) {
-						profileScore[i] = new Label("Lvl" + (i + 1) + " "
-								+ ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
-						unlocked = false;
-					} else {
-						profileScore[i] = new Label("Lvl" + (i + 1) + " is locked");
-					}
-				} catch (IOException e) {
-					profileScore[i] = new Label("Lvl" + (i + 1) + " unknown error");
+				} else if (!newProfField.getText().equals("")) {
+					alert("Profile already exists");
+				} else {
+					alert("Please, type a name");
 				}
-				middle.getChildren().add(profileScore[i]);
+
+			} catch (Exception e) {
+				System.out.println("Problem here/ Adding button action");
 			}
-		} else {
-			scoresHeading = new Label("Best ... scores:");
-			middle.getChildren().add(scoresHeading);
+		});
 
-			for (int i = 0; i < profileScore.length; i++) {
-				profileScore[i] = new Label("Lvl" + (i + 1) + " 0");
-				middle.getChildren().add(profileScore[i]);
-			}
-		}
+		bottom.getChildren().addAll(newProfLabel, newProfField, addProfButton);
+		return bottom;
+	}
 
-		FileInputStream inputstream = null;
-		try {
-			inputstream = new FileInputStream("resources/poison.png");
-		} catch (FileNotFoundException e) {
-		}
-		Image image = new Image(inputstream);
-		ImageView imageView = new ImageView(image);
-		ImageView imageView2 = new ImageView(image);
-
-		HBox selectMenuPics = new HBox();
-		selectMenuPics.setSpacing(100);
-		selectMenuPics.setPadding(new Insets(40, 130, 0, 160));
-		selectMenuPics.getChildren().addAll(imageView, imageView2);
-		middle.getChildren().add(selectMenuPics);
-
-		// Display a button for each profile
-		Button[] profButton = new Button[s.length];
-		for (int i = 0; i < profButton.length; i++) {
-			profButton[i] = new Button(s[i]);
-			profButton[i].setPrefWidth(100);
-			left.getChildren().add(profButton[i]);
-
-			final int ii = i;
-			profButton[i].setOnAction(event -> {
-				ProfileFileReader.loginProfile(profButton[ii].getText());
-				loggedProfile.setText(ProfileFileReader.getLoggedProfile());
-				displayProfileBests(loggedLabel, scoresHeading, profileScore);
-			});
-		}
-
+	private VBox getRightLogin(Stage profileStage, Scene scene, VBox left) {
+		VBox right = new VBox(10);
+		right.setAlignment(Pos.TOP_CENTER);
+		right.setPadding(new Insets(10, 100, 10, 0));
 		// Return to the main menu
 		Button goBack = new Button("Main menu");
 		goBack.setPrefWidth(100);
@@ -331,60 +318,113 @@ public class MainMenuController extends Application {
 			} catch (IOException ignored) {
 			}
 		});
-
-		// Adding profile stuff
-		Label newProfLabel = new Label("Add new profile: ");
-		TextField newProfField = new TextField();
-		Button addProfButton = new Button("Add");
-		addProfButton.setPrefWidth(70);
-		addProfButton.setOnAction(event -> {
-			try {
-				if (left.getChildren().size() > 8) {
-					alert("Too much profiles");
-				} else if (!newProfField.getText().equals("")
-						&& !ProfileFileReader.doesProfileExist(newProfField.getText())) {
-
-					ProfileFileReader.createNewProfile(newProfField.getText());
-
-					Button newProfButton = new Button(newProfField.getText());
-					newProfButton.setPrefWidth(100);
-					ProfileFileReader.loginProfile(newProfButton.getText());
-
-					newProfButton.setOnAction(event2 -> {
-						// Logging in
-						ProfileFileReader.loginProfile(newProfButton.getText());
-						// Changing a labels
-						displayProfileBests(loggedLabel, scoresHeading, profileScore);
-					});
-					left.getChildren().add(newProfButton);
-
-				} else if (!newProfField.getText().equals("")) {
-					alert("Profile already exists");
-				} else {
-					alert("Please, type a name");
-				}
-
-			} catch (Exception e) {
-				System.out.println("Problem here/ Adding button action");
-			}
-		});
-
-		bottom.getChildren().addAll(newProfLabel, newProfField, addProfButton);
 		right.getChildren().addAll(goBack, removeProfile);
 
-		// Adds the elements to the layout
-		profilePane.setCenter(middle);
-		profilePane.setTop(top);
-		profilePane.setRight(right);
-		profilePane.setLeft(left);
-		profilePane.setBottom(bottom);
+		return right;
+	}
 
-		Scene profileScene = new Scene(profilePane, WINDOW_WIDTH, WINDOW_HEIGHT);
-		File f = new File("source/menu.css");
-		profileScene.getStylesheets().clear();
-		profileScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+	private VBox getLeftLogin() {
+		VBox left = new VBox(10);
+		left.setAlignment(Pos.TOP_CENTER);
+		left.setPadding(new Insets(10, 10, 10, 40));
+		// Get the profiles
+		String[] s = { "" };
+		try {
+			s = ProfileFileReader.getProfiles();
+		} catch (FileNotFoundException e) {
+			s[0] = "No profiles. Please Create a profile";
+		}
 
-		return profileScene;
+		// Display a button for each profile
+		Button[] profButton = new Button[s.length];
+		for (int i = 0; i < profButton.length; i++) {
+			profButton[i] = new Button(s[i]);
+			profButton[i].setPrefWidth(100);
+			left.getChildren().add(profButton[i]);
+
+			final int ii = i;
+			profButton[i].setOnAction(event -> {
+				ProfileFileReader.loginProfile(profButton[ii].getText());
+				loggedProfile.setText(ProfileFileReader.getLoggedProfile());
+				displayProfileBests(loggedLabel, scoresHeading, profileScore);
+			});
+		}
+		return left;
+	}
+
+	private HBox getSelectMenuPicsLogin() {
+		FileInputStream inputstream = null;
+		try {
+			inputstream = new FileInputStream("resources/poison.png");
+		} catch (FileNotFoundException e) {
+		}
+		Image image = new Image(inputstream);
+		ImageView imageView = new ImageView(image);
+		ImageView imageView2 = new ImageView(image);
+		HBox selectMenuPics = new HBox();
+		selectMenuPics.setSpacing(100);
+		selectMenuPics.setPadding(new Insets(40, 130, 0, 160));
+		selectMenuPics.getChildren().addAll(imageView, imageView2);
+		return selectMenuPics;
+	}
+
+	private VBox getMiddleLogin() {
+		VBox middle = new VBox(10);
+		middle.setAlignment(Pos.TOP_CENTER);
+		middle.setPadding(new Insets(5, 0, 5, 0));
+		// Display the best scores for a user
+
+		profileScore = new Label[ProfileFileReader.getNumberOfLevels()];
+
+		if (ProfileFileReader.getLoggedProfile() != null) {
+			scoresHeading = new Label("Best " + ProfileFileReader.getLoggedProfile() + "'s scores:");
+			middle.getChildren().add(scoresHeading);
+
+			boolean unlocked = true;
+			for (int i = 0; i < profileScore.length; i++) {
+				try {
+					if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) > 0 && unlocked) {
+						profileScore[i] = new Label("Lvl" + (i + 1) + " "
+								+ ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
+					} else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0 && unlocked) {
+						profileScore[i] = new Label("Lvl" + (i + 1) + " "
+								+ ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
+						unlocked = false;
+					} else {
+						profileScore[i] = new Label("Lvl" + (i + 1) + " is locked");
+					}
+				} catch (IOException e) {
+					profileScore[i] = new Label("Lvl" + (i + 1) + " unknown error");
+				}
+				middle.getChildren().add(profileScore[i]);
+			}
+		} else {
+			scoresHeading = new Label("Best ... scores:");
+			middle.getChildren().add(scoresHeading);
+
+			for (int i = 0; i < profileScore.length; i++) {
+				profileScore[i] = new Label("Lvl" + (i + 1) + " 0");
+				middle.getChildren().add(profileScore[i]);
+			}
+		}
+		return middle;
+	}
+
+	private HBox getTopLogin() {
+		HBox top = new HBox();
+		Label loggedLabelText = new Label("You are logged as ");
+		loggedLabelText.getStyleClass().add("loggingLabel");
+		loggedLabel = new Label();
+		loggedLabel.getStyleClass().add("loggingLabel");
+		loggedLabel.setStyle("-fx-text-fill: #Fd062a");
+		if (ProfileFileReader.getLoggedProfile() == null) {
+			loggedLabel.setText("...");
+		} else {
+			loggedLabel.setText(ProfileFileReader.getLoggedProfile());
+		}
+		top.getChildren().addAll(loggedLabelText, loggedLabel);
+		top.setAlignment(Pos.CENTER);
+		return top;
 	}
 
 	private void displayProfileBests(Label loggedLabel, Label scoresHeading, Label[] profileScore) {
