@@ -92,11 +92,19 @@ public class MainMenuController extends Application {
 		ImageView imageView52 = new ImageView(image2);
 		ImageView imageView62 = new ImageView(image2);
 		ImageView imageView72 = new ImageView(image2);
+		
 		HBox top = new HBox();
 		top.setAlignment(Pos.BASELINE_RIGHT);
 		top.setSpacing(60);
 		top.getChildren().addAll(imageView_2, imageView22, imageView32, imageView42, imageView52, imageView62,
 				imageView72);
+		
+		try {
+			inputstream = new FileInputStream("resources/ratzLabel.png");
+		} catch (FileNotFoundException e) {
+		}
+		Image ratzImage = new Image(inputstream);
+		ImageView ratzImageView = new ImageView(ratzImage);
 
 		VBox middle = new VBox(5);
 		middle.setAlignment(Pos.CENTER);
@@ -106,8 +114,8 @@ public class MainMenuController extends Application {
 		root.setCenter(middle);
 
 		// Create a few GUI elements
-		Label title = new Label("RATZ");
-		title.getStyleClass().add("title");
+		//Label title = new Label("RATZ");
+		//title.getStyleClass().add("title");
 		Label motd = new Label(MOTD.GETMotd());
 		Button playButton = new Button("Play!");
 		playButton.setPrefWidth(100);
@@ -133,7 +141,7 @@ public class MainMenuController extends Application {
 		scene.getStylesheets().clear();
 		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
-		middle.getChildren().addAll(title, motd, playButton, selectProfile, loggedProfileBox);
+		middle.getChildren().addAll(ratzImageView, motd, playButton, selectProfile, loggedProfileBox);
 		// Handle a button event
 		playButton.setOnAction(event -> {
 			if (reader.getLoggedProfile() == null) {
