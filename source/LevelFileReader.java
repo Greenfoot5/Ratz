@@ -93,7 +93,7 @@ public class LevelFileReader {
                           String[] tiles, Rat[] ratSpawns, Power[] powers) throws IOException {
 
         // saving first two lines
-        FileWriter writer = new FileWriter(levelName + ".txt");
+        FileWriter writer = new FileWriter(levelName + "-inProgress.txt");
         String dropRatesString = "";
         for (int i = 0; i < dropRates.length; i++) {
             dropRatesString += dropRates[i] + ",";
@@ -232,7 +232,7 @@ public class LevelFileReader {
      * @throws FileNotFoundException if the file can't be found.
      */
     public static void loadLevelFile(String filename) throws FileNotFoundException {
-        File levelData = new File(filename);
+        File levelData = new File(filename + ".txt");
 
         Scanner reader = new Scanner(levelData);
 
