@@ -490,7 +490,7 @@ public class MainMenuController extends Application {
 	 * @throws IOException If we cannot load a level
 	 */
 	private void loadLevel(Stage levelStage, int levelNumber) throws IOException {
-		LevelFileReader.loadLevelFile("./resources/level-" + levelNumber + ".txt");
+		LevelFileReader.loadLevelFile("./resources/level-" + levelNumber);
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
 		LevelController levelController = new LevelController(levelNumber, this, new ProfileFileReader());
