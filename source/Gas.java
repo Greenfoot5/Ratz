@@ -1,5 +1,7 @@
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.media.AudioClip;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -11,6 +13,8 @@ public class Gas extends Power {
 
     private int ticksActive = 0; //Tick counter since creation of this class.
     private boolean isOriginal = false;
+    private static final String GAS_SOUND_PATH = "resources/gasSound.mp3";
+
     private int gasCounterN = 1; // Counts how many gas was placed North
     private int gasCounterS = 1; // Counts how many gas was placed South
     private int gasCounterE = 1; // Counts how many gas was placed East
@@ -78,6 +82,10 @@ public class Gas extends Power {
         //Places a bunch of new Gas on Tiles with isOriginal = false;
         if (isOriginal) {
             if (ticksActive == 1 || ticksActive % 4 == 0) {
+                AudioClip deathSound = new AudioClip(
+                        new File(GAS_SOUND_PATH).toURI().toString());
+                deathSound.setVolume(0.1);
+                deathSound.play();
                 gasSurroundingPathTiles();
             }
         }
