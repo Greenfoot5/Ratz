@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -95,6 +96,7 @@ public class LevelController {
     public Pane gameEndPane;
     public TextFlow gamePaneText;
     public TextFlow gamePaneScore;
+    public TextFlow gamePaneLeaderboard;
 
     /**
      * Constructor for LevelController class.
@@ -111,9 +113,6 @@ public class LevelController {
         MAX_RATS = LevelFileReader.getMaxRats();
         PAR_TIME = LevelFileReader.getParTime();
         DROP_RATES = LevelFileReader.getDropRates();
-        for(int d: DROP_RATES){
-            d *= 1000;
-        }
     }
 
     /**
@@ -263,8 +262,8 @@ public class LevelController {
         saveAndExitButton.setVisible(false);
 
         if(wonGame) {
-            gamePaneText.getChildren().add(new Text("You've won! :)"));
             score += currentTimeLeft/1000;
+            gamePaneText.getChildren().add(new Text("You've won! :)"));
             gamePaneScore.getChildren().add(new Text("Score: " + score));
             try {
                 PROFILE_READER.saveBestScore(PROFILE_READER.getLoggedProfile(),LEVEL_NUMBER,score);
@@ -277,6 +276,15 @@ public class LevelController {
             }
         } else {
             gamePaneText.getChildren().add(new Text("You've lost! :("));
+        }
+
+        try {
+            String[] highScores = (new HighScores()).getTopScores(LEVEL_NUMBER);
+            for(String text: highScores){
+                gamePaneLeaderboard.getChildren().add(new Text(text + "\n"));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 

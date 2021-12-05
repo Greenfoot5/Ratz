@@ -66,6 +66,7 @@ public class Bomb extends Power {
             }
         }
 
+        counter = 1;
         if (LevelController.getTileAt(this.xPos, this.yPos - counter) != null) {
             while (LevelController.getTileAt(this.xPos, this.yPos - counter).isPassable()) {
                 tilesToExplode.add(LevelController.getTileAt(this.xPos,
@@ -74,6 +75,7 @@ public class Bomb extends Power {
             }
         }
 
+        counter = 1;
         if (LevelController.getTileAt(this.xPos + counter, this.yPos) != null) {
             while (LevelController.getTileAt(this.xPos + counter, this.yPos).isPassable()) {
                 tilesToExplode.add(LevelController.getTileAt(this.xPos + counter,
@@ -82,6 +84,7 @@ public class Bomb extends Power {
             }
         }
 
+        counter = 1;
         if (LevelController.getTileAt(this.xPos - counter, this.yPos) != null) {
             while(LevelController.getTileAt(this.xPos - counter, this.yPos).isPassable()) {
                 tilesToExplode.add(LevelController.getTileAt(this.xPos-counter,

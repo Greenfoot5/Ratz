@@ -97,6 +97,7 @@ public class Gas extends Power {
             }
         }
 
+        counter = 1;
         if (LevelController.getTileAt(this.xPos, this.yPos - counter) != null) {
             while (LevelController.getTileAt(this.xPos, this.yPos - counter).isPassable()) {
                 int x = this.xPos;
@@ -107,6 +108,7 @@ public class Gas extends Power {
             }
         }
 
+        counter = 1;
         if (LevelController.getTileAt(this.xPos + counter, this.yPos) != null) {
             while (LevelController.getTileAt(this.xPos + counter, this.yPos).isPassable()) {
                 int x = this.xPos + counter;
@@ -117,6 +119,7 @@ public class Gas extends Power {
             }
         }
 
+        counter = 1;
         if (LevelController.getTileAt(this.xPos-counter, this.yPos) != null) {
             while (LevelController.getTileAt(this.xPos - counter, this.yPos).isPassable()) {
                 int x = this.xPos - counter;
