@@ -24,8 +24,10 @@ public class Poison extends Power {
      */
     @Override
     void activate(ArrayList<Rat> rats, Tile currentTile) {
-        for (Rat rat : rats) {
-            rat.die();
+        int numOfRats = rats.size();
+        for (int i = 0; i < numOfRats; i++) {
+            rats.get(i).die();
+            numOfRats = rats.size();
         }
         currentTile.removeActivePower(this);
     }

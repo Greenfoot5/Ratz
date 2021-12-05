@@ -49,11 +49,23 @@ public class Tile extends GameObject {
 
     public void update() {
         int numOfPowers = activePowers.size();
+        int numOfRats = occupantRats.size();
+
         for(int i = 0; i < numOfPowers; i++) {
             activePowers.get(i).onTick(occupantRats, this);
+            if(activePowers.size() == numOfPowers) {
+                Power power = activePowers.get(i);
+                if(power instanceof MaleSwapper || power instanceof FemaleSwapper || power instanceof Poison) {
+                    if (numOfRats > 0){
+                        activePowers.get(i).activate(occupantRats,this);
+                    }
+                }
+            }
+            numOfRats = occupantRats.size();
             numOfPowers = activePowers.size();
         }
-        int numOfRats = occupantRats.size();
+
+        numOfRats = occupantRats.size();
         for(int i = 0; i < numOfRats; i++) {
             occupantRats.get(i).onTick();
             numOfRats = occupantRats.size();
