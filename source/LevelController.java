@@ -268,6 +268,9 @@ public class LevelController {
             gamePaneScore.getChildren().add(new Text("Score: " + score));
             try {
                 PROFILE_READER.saveBestScore(PROFILE_READER.getLoggedProfile(),LEVEL_NUMBER,score);
+                System.out.println(PROFILE_READER.getLoggedProfile());
+                System.out.println(PROFILE_READER.getBestScore(PROFILE_READER.getLoggedProfile(), LEVEL_NUMBER));
+
             } catch (IOException e) {
                 System.out.println("Couldn't save score :(");
             }
