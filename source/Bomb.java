@@ -1,6 +1,8 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 public class Bomb extends Power {
 
     private int ticksActive = 0; //Tick counter since creation of this class.
+    private static final String BOMB_SOUND_PATH = "resources/bombSound.mp3";
 
     /**
      * Bomb constructor
@@ -31,23 +34,21 @@ public class Bomb extends Power {
 
     @Override
     void activate(ArrayList<Rat> rats, Tile currentTile) {
-        if (ticksActive >= 5) {
-            ArrayList<Tile> tilesToExplode = findPathTiles();
-            tilesToExplode.add(currentTile);
+        ArrayList<Tile> tilesToExplode = findPathTiles();
+        tilesToExplode.add(currentTile);
 
-            //Explody bit
-            for (Tile tile : tilesToExplode) {
-                if (tile != null) {
-                    int numOfRats = tile.getOccupantRats().size();
-                    for (int i = 0; i < numOfRats; i++) {
-                        tile.getOccupantRats().get(i).die();
-                        numOfRats = tile.getOccupantRats().size();
-                    }
+        //Explody bit
+        for (Tile tile : tilesToExplode) {
+            if (tile != null) {
+                int numOfRats = tile.getOccupantRats().size();
+                for (int i = 0; i < numOfRats; i++) {
+                    tile.getOccupantRats().get(i).die();
+                    numOfRats = tile.getOccupantRats().size();
                 }
             }
-
-            currentTile.removeActivePower(this);
         }
+
+        currentTile.removeActivePower(this);
     }
 
     /** Method that finds all Tiles bomb can reach.
@@ -105,7 +106,15 @@ public class Bomb extends Power {
 
     @Override
     void onTick(ArrayList<Rat> rats, Tile currentTile) {
+        if (ticksActive == 0) {
+            AudioClip deathSound = new AudioClip(
+                    new File(BOMB_SOUND_PATH).toURI().toString());
+            deathSound.setVolume(0.1);
+            deathSound.play();
+        }
+
         ticksActive = ticksActive + 1;
+
         if (ticksActive >= 5) {
             activate(rats, currentTile);
         }
