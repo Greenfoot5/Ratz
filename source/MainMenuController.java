@@ -35,8 +35,6 @@ public class MainMenuController extends Application {
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 500;
 	private Label loggedProfile;
-	private ProfileFileReader reader;
-	private HighScores scoresReader;
 	private Stage mainStage;
 	private Scene mainScene;
 
@@ -58,12 +56,7 @@ public class MainMenuController extends Application {
 	public void start(Stage primaryStage) {
 		// Create reader if we don't have one yet
 		mainStage = primaryStage;
-		if (reader == null) {
-			reader = new ProfileFileReader();
-		}
-		if (scoresReader == null) {
-			scoresReader = new HighScores();
-		}
+		primaryStage.setResizable(false);
 		// Create a new pane to hold our GUI
 		BorderPane root = new BorderPane();
 
@@ -129,10 +122,10 @@ public class MainMenuController extends Application {
 
 		Label loggedProfileText = new Label("You are logged as ");
 		loggedProfile = new Label();
-		if (reader.getLoggedProfile() == null) {
+		if (ProfileFileReader.getLoggedProfile() == null) {
 			loggedProfile.setText("NOBODY. Please log in before starting the game");
 		} else {
-			loggedProfile.setText(reader.getLoggedProfile());
+			loggedProfile.setText(ProfileFileReader.getLoggedProfile());
 		}
 		HBox loggedProfileBox = new HBox();
 		loggedProfileBox.setAlignment(Pos.CENTER);
@@ -148,7 +141,7 @@ public class MainMenuController extends Application {
 		middle.getChildren().addAll(ratzImageView, motd, playButton, selectProfile, loggedProfileBox);
 		// Handle a button event
 		playButton.setOnAction(event -> {
-			if (reader.getLoggedProfile() == null) {
+			if (ProfileFileReader.getLoggedProfile() == null) {
 				alert("You are not logged in.\nPlease log in before starting the game");
 				// TODO: remove these lines
 //				primaryStage.setScene(loadLevelSelect(primaryStage, scene));
@@ -170,12 +163,6 @@ public class MainMenuController extends Application {
 
 	public Scene selectProfiles(Stage profileStage, Scene scene) {
 		// Create reader if we don't have one yet
-		if (reader == null) {
-			reader = new ProfileFileReader();
-		}
-		if (scoresReader == null) {
-			scoresReader = new HighScores();
-		}
 
 		// Layout items
 		BorderPane profilePane = new BorderPane();
@@ -198,7 +185,7 @@ public class MainMenuController extends Application {
 		// Get the profiles
 		String[] s = { "" };
 		try {
-			s = reader.getProfiles();
+			s = ProfileFileReader.getProfiles();
 		} catch (FileNotFoundException e) {
 			s[0] = "No profiles. Please Create a profile";
 		}
@@ -210,28 +197,28 @@ public class MainMenuController extends Application {
 		Label loggedLabel = new Label();
 		loggedLabel.getStyleClass().add("loggingLabel");
 		loggedLabel.setStyle("-fx-text-fill: #Fd062a");
-		if (reader.getLoggedProfile() == null) {
+		if (ProfileFileReader.getLoggedProfile() == null) {
 			loggedLabel.setText("...");
 		} else {
-			loggedLabel.setText(reader.getLoggedProfile());
+			loggedLabel.setText(ProfileFileReader.getLoggedProfile());
 		}
 		top.getChildren().addAll(loggedLabelText, loggedLabel);
 		top.setAlignment(Pos.CENTER);
 
 		// Display the best scores for a user
 		Label scoresHeading;
-		Label[] profileScore = new Label[reader.getNumberOfLevels()];
+		Label[] profileScore = new Label[ProfileFileReader.getNumberOfLevels()];
 
-		if (reader.getLoggedProfile() != null) {
-			scoresHeading = new Label("Best " + reader.getLoggedProfile() + "'s scores:");
+		if (ProfileFileReader.getLoggedProfile() != null) {
+			scoresHeading = new Label("Best " + ProfileFileReader.getLoggedProfile() + "'s scores:");
 			middle.getChildren().add(scoresHeading);
 
 			boolean unlocked = true;
 			for (int i = 0; i < profileScore.length; i++) {
 				try {
-					if (reader.getBestScore(reader.getLoggedProfile(), i + 1) == 0 && unlocked) {
+					if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0 && unlocked) {
 						profileScore[i] = new Label(
-								"Lvl" + (i + 1) + " " + reader.getBestScore(reader.getLoggedProfile(), i + 1));
+								"Lvl" + (i + 1) + " " + ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
 						unlocked = false;
 					} else {
 						profileScore[i] = new Label("Lvl" + (i + 1) + " is locked");
@@ -275,8 +262,8 @@ public class MainMenuController extends Application {
 
 			final int ii = i;
 			profButton[i].setOnAction(event -> {
-				reader.loginProfile(profButton[ii].getText());
-				loggedProfile.setText(reader.getLoggedProfile());
+				ProfileFileReader.loginProfile(profButton[ii].getText());
+				loggedProfile.setText(ProfileFileReader.getLoggedProfile());
 				displayProfileBests(loggedLabel, scoresHeading, profileScore);
 			});
 		}
@@ -294,19 +281,20 @@ public class MainMenuController extends Application {
 		removeProfile.setMinWidth(100);
 		removeProfile.setOnAction(event -> {
 			try {
-				reader.deleteProfile(reader.getLoggedProfile());
+				ProfileFileReader.deleteProfile(ProfileFileReader.getLoggedProfile());
+				HighScores.deleteProfile(ProfileFileReader.getLoggedProfile());
 				ObservableList<Node> obL = left.getChildren();
 
 				// remove profile button and change the labels
 				boolean isRemoved = false;
 				for (int i = 0; i < obL.size(); i++) {
-					if (obL.get(i).toString().contains("'" + reader.getLoggedProfile() + "'")) {
+					if (obL.get(i).toString().contains("'" + ProfileFileReader.getLoggedProfile() + "'")) {
 						isRemoved = true;
 						obL.remove(obL.get(i));
 						loggedLabel.setText("...");
 						scoresHeading.setText("Best ...'s scores:");
 
-						for (int j = 0; j < reader.getNumberOfLevels(); j++) {
+						for (int j = 0; j < ProfileFileReader.getNumberOfLevels(); j++) {
 							profileScore[j].setText("Lvl" + (j + 1) + " 0");
 						}
 					}
@@ -315,7 +303,7 @@ public class MainMenuController extends Application {
 					alert("No profile is selected");
 				}
 
-				reader.logout();
+				ProfileFileReader.logout();
 				loggedProfile.setText("NOBODY. Please log in before starting the game");
 			} catch (IOException ignored) {
 			}
@@ -330,17 +318,17 @@ public class MainMenuController extends Application {
 			try {
 				if (left.getChildren().size() > 8) {
 					alert("Too much profiles");
-				} else if (!newProfField.getText().equals("") && !reader.doesProfileExist(newProfField.getText())) {
+				} else if (!newProfField.getText().equals("") && !ProfileFileReader.doesProfileExist(newProfField.getText())) {
 
-					reader.createNewProfile(newProfField.getText());
+					ProfileFileReader.createNewProfile(newProfField.getText());
 
 					Button newProfButton = new Button(newProfField.getText());
 					newProfButton.setPrefWidth(100);
-					reader.loginProfile(newProfButton.getText());
+					ProfileFileReader.loginProfile(newProfButton.getText());
 
 					newProfButton.setOnAction(event2 -> {
 						// Logging in
-						reader.loginProfile(newProfButton.getText());
+						ProfileFileReader.loginProfile(newProfButton.getText());
 						// Changing a labels
 						displayProfileBests(loggedLabel, scoresHeading, profileScore);
 					});
@@ -376,18 +364,18 @@ public class MainMenuController extends Application {
 	}
 
 	private void displayProfileBests(Label loggedLabel, Label scoresHeading, Label[] profileScore) {
-		loggedLabel.setText(reader.getLoggedProfile());
-		scoresHeading.setText("Best " + reader.getLoggedProfile() + "'s scores:");
+		loggedLabel.setText(ProfileFileReader.getLoggedProfile());
+		scoresHeading.setText("Best " + ProfileFileReader.getLoggedProfile() + "'s scores:");
 
 		boolean unlocked = true;
 		for (int i = 0; i < profileScore.length; i++) {
 			try {
-				if (reader.getBestScore(reader.getLoggedProfile(), i + 1) > 0) {
+				if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) > 0) {
 					profileScore[i]
-							.setText("Lvl" + (i + 1) + " " + reader.getBestScore(reader.getLoggedProfile(), i + 1));
-				} else if (reader.getBestScore(reader.getLoggedProfile(), i + 1) == 0 && unlocked) {
+							.setText("Lvl" + (i + 1) + " " + ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
+				} else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0 && unlocked) {
 					profileScore[i]
-							.setText("Lvl" + (i + 1) + " " + reader.getBestScore(reader.getLoggedProfile(), i + 1));
+							.setText("Lvl" + (i + 1) + " " + ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
 					unlocked = false;
 				} else {
 					profileScore[i].setText("Lvl" + (i + 1) + " is locked");
@@ -428,12 +416,6 @@ public class MainMenuController extends Application {
 		// Create a new pane to hold our GUI
 		// TODO: use this variable to choose a level (when levels will work)
 		AtomicInteger selectedLevel = new AtomicInteger(1);
-		if (reader == null) {
-			reader = new ProfileFileReader();
-		}
-		if (scoresReader == null) {
-			scoresReader = new HighScores();
-		}
 
 		BorderPane root = new BorderPane();
 
@@ -455,7 +437,7 @@ public class MainMenuController extends Application {
 		Label[] scoresLabel = new Label[10];
 		String[] scoresString = null;
 		try {
-			scoresString = scoresReader.getTopScores(selectedLevel.get());
+			scoresString = HighScores.getTopScores(selectedLevel.get());
 		} catch (FileNotFoundException ignored) {
 		}
 
@@ -478,11 +460,11 @@ public class MainMenuController extends Application {
 
 		boolean[] isUnlocked = new boolean[5];
 		boolean unlocked = true;
-		for (int i = 0; i < reader.getNumberOfLevels(); i++) {
+		for (int i = 0; i < ProfileFileReader.getNumberOfLevels(); i++) {
 			try {
-				if (reader.getBestScore(reader.getLoggedProfile(), i + 1) > 0) {
+				if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) > 0) {
 					isUnlocked[i] = true;
-				} else if (reader.getBestScore(reader.getLoggedProfile(), i + 1) == 0 && unlocked) {
+				} else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0 && unlocked) {
 					isUnlocked[i] = true;
 					unlocked = false;
 				} else {
@@ -506,7 +488,7 @@ public class MainMenuController extends Application {
 
 					String[] newScores = null;
 					try {
-						newScores = scoresReader.getTopScores(levelIndex);
+						newScores = HighScores.getTopScores(levelIndex);
 					} catch (FileNotFoundException ignored) {
 					}
 
@@ -628,7 +610,7 @@ public class MainMenuController extends Application {
 		LevelFileReader.loadLevelFile("./resources/level-" + levelNumber);
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
-		LevelController levelController = new LevelController(levelNumber, this, this.reader, this.scoresReader);
+		LevelController levelController = new LevelController(levelNumber, this);
 
 		loader.setController(levelController);
 

@@ -19,7 +19,7 @@ public class ProfileFileReader {
 
 	private final static int NUMBER_OF_LEVELS = 5;
 	// private Scanner in = null;
-	private String filePath = "resources/profileFile.txt";
+	private final static String FILE_PATH = "resources/profileFile.txt";
 	// private File file = null;
 	// BufferedWriter bufferWriter = null;
 	// FileWriter fileWriter = null;
@@ -52,8 +52,8 @@ public class ProfileFileReader {
 	 * @throws Exception - if there is a problem with a file or name is already used
 	 */
 	@SuppressWarnings("resource")
-	public void createNewProfile(String profileName) throws Exception {
-		File file = new File(filePath);
+	public static void createNewProfile(String profileName) throws Exception {
+		File file = new File(FILE_PATH);
 		File tempFile = new File("resources/tempProf.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
@@ -102,7 +102,7 @@ public class ProfileFileReader {
 		printWriter.close();
 		file.delete();
 
-		File rename = new File(filePath);
+		File rename = new File(FILE_PATH);
 		tempFile.renameTo(rename);
 
 	}
@@ -114,8 +114,8 @@ public class ProfileFileReader {
 	 * @throws IOException - if there is a problem with a file
 	 */
 
-	public void deleteProfile(String profileName) throws IOException {
-		File file = new File(filePath);
+	public static void deleteProfile(String profileName) throws IOException {
+		File file = new File(FILE_PATH);
 		File tempFile = new File("resources/tempProf.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, false);
@@ -160,7 +160,7 @@ public class ProfileFileReader {
 
 		file.delete();
 
-		File rename = new File(filePath);
+		File rename = new File(FILE_PATH);
 		tempFile.renameTo(rename);
 
 	}
@@ -173,8 +173,8 @@ public class ProfileFileReader {
 	 * @return - best player score
 	 * @throws IOException - if there is a problem with a file
 	 */
-	public int getBestScore(String profileName, int level) throws IOException {
-		File file = new File(filePath);
+	public static int getBestScore(String profileName, int level) throws IOException {
+		File file = new File(FILE_PATH);
 		Scanner in = new Scanner(file);
 
 		int bestScore = 0;
@@ -205,8 +205,8 @@ public class ProfileFileReader {
 	 * @param score       - score you want to safe
 	 * @throws IOException - if there is a problem with a file
 	 */
-	public void saveBestScore(String profileName, int level, int score) throws IOException {
-		File file = new File(filePath);
+	public static void saveBestScore(String profileName, int level, int score) throws IOException {
+		File file = new File(FILE_PATH);
 		File tempFile = new File("resources/tempProf.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
@@ -239,12 +239,12 @@ public class ProfileFileReader {
 
 		file.delete();
 
-		File rename = new File(filePath);
+		File rename = new File(FILE_PATH);
 		tempFile.renameTo(rename);
 	}
 
-	public boolean doesProfileExist(String profileName) throws FileNotFoundException {
-		File file = new File(filePath);
+	public static boolean doesProfileExist(String profileName) throws FileNotFoundException {
+		File file = new File(FILE_PATH);
 		Scanner in = new Scanner(file);
 
 		boolean exist = false;
@@ -269,7 +269,7 @@ public class ProfileFileReader {
 	}
 
 	// i'am not sure what it is going to do, probably should be moved to manager
-	public void loginProfile(String profileName) {
+	public static void loginProfile(String profileName) {
 		try {
 			if (doesProfileExist(profileName)) {
 				selectedProfile = profileName;
@@ -281,12 +281,12 @@ public class ProfileFileReader {
 		}
 	}
 
-	public void logout() {
+	public static void logout() {
 		selectedProfile = null;
 	}
 
-	public String[] getProfiles() throws FileNotFoundException {
-		File file = new File(filePath);
+	public static String[] getProfiles() throws FileNotFoundException {
+		File file = new File(FILE_PATH);
 		Scanner in = new Scanner(file);
 
 		String[] profiles = new String[0];
@@ -317,11 +317,11 @@ public class ProfileFileReader {
 	/**
 	 * @return name of a profile which is logged in
 	 */
-	public String getLoggedProfile() {
+	public static String getLoggedProfile() {
 		return ProfileFileReader.selectedProfile;
 	}
 
-	public int getNumberOfLevels() {
+	public static int getNumberOfLevels() {
 		return ProfileFileReader.NUMBER_OF_LEVELS;
 	}
 }

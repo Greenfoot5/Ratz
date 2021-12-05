@@ -60,8 +60,6 @@ public class LevelController {
     private final int[] timeUntilDrop = new int [ITEM_NUM];
 
     private final MainMenuController MAIN_MENU;
-    private final ProfileFileReader PROFILE_READER;
-    private final HighScores HIGH_SCORES_READER;
     private final int LEVEL_NUMBER;
 
     //Milliseconds between frames
@@ -102,12 +100,9 @@ public class LevelController {
     /**
      * Constructor for LevelController class.
      */
-    public LevelController (int levelNum, MainMenuController mainMenuController,
-    		ProfileFileReader profileFileReader, HighScores highScoresReader) {
+    public LevelController (int levelNum, MainMenuController mainMenuController) {
         LEVEL_NUMBER = levelNum;
         MAIN_MENU = mainMenuController;
-        PROFILE_READER = profileFileReader;
-        HIGH_SCORES_READER = highScoresReader;
         WIDTH = LevelFileReader.getWidth();
         HEIGHT = LevelFileReader.getHeight();
 
@@ -231,7 +226,6 @@ public class LevelController {
 
             renderGame();
             renderCounters();
-            renderAllItems();
 
             if(currentTimeLeft > 0) {
                 currentTimeLeft = currentTimeLeft - FRAME_TIME;
@@ -249,6 +243,7 @@ public class LevelController {
             if(timeUntilDrop[i] <= 0 && counters[i] < 4) {
                 counters[i]++;
                 timeUntilDrop[i] = DROP_RATES[i];
+                renderItem(i);
             }
         }
     }
@@ -269,8 +264,8 @@ public class LevelController {
             gamePaneText.getChildren().add(new Text("You've won! :)"));
             gamePaneScore.getChildren().add(new Text("Score: " + score));
             try {
-                PROFILE_READER.saveBestScore(PROFILE_READER.getLoggedProfile(),LEVEL_NUMBER,score);
-                HIGH_SCORES_READER.safeScore(PROFILE_READER.getLoggedProfile(), score, LEVEL_NUMBER);
+                ProfileFileReader.saveBestScore(ProfileFileReader.getLoggedProfile(),LEVEL_NUMBER,score);
+                HighScores.safeScore(ProfileFileReader.getLoggedProfile(), score, LEVEL_NUMBER);
             } catch (IOException e) {
                 System.out.println("Couldn't save score :(");
             }
@@ -279,7 +274,7 @@ public class LevelController {
         }
 
         try {
-            String[] highScores = (new HighScores()).getTopScores(LEVEL_NUMBER);
+            String[] highScores = HighScores.getTopScores(LEVEL_NUMBER);
             for(String text: highScores){
                 gamePaneLeaderboard.getChildren().add(new Text(text + "\n"));
             }
@@ -380,7 +375,7 @@ public class LevelController {
                 power = new StopSign(x, y);
                 break;
             case 7:
-                tileMap[x][y].addOccupantRat(new DeathRat(4,Rat.Direction.NORTH,0,x,y,0));
+                tileMap[x][y].addOccupantRat(new DeathRat(Rat.getDEFAULT_SPEED(),Rat.Direction.NORTH,0,x,y,0));
                 addPower = false;
                 break;
             default: addPower = false;

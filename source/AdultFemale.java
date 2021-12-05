@@ -1,5 +1,6 @@
 /**
  * A class to model a female rat. Gives birth to baby rats.
+ *
  * @author James McWilliams
  */
 
@@ -8,6 +9,8 @@ public class AdultFemale extends LivingRat {
     private int pregnancyTime;
     private boolean pregnant;
     private int ratFetusCount;
+    private static final int DEFAULT_PREGNANCY_TIME = 40;
+    private static final int RAT_BABY_MULTIPLIER = 4;
 
 
     /**
@@ -18,11 +21,11 @@ public class AdultFemale extends LivingRat {
      * @param gasTimer      how long the rat has spent inside poison gas.
      * @param xPos          where the rat is on the x axis.
      * @param yPos          where the rat is on the y axis.
-     * @param isFertile       whether or not the rat can breed.
+     * @param isFertile     whether or not the rat can breed.
      * @param pregnancyTime how long the rat has left being pregnant.
      * @param ratFetusCount how many baby rats the mother rat is carrying
      */
-    public AdultFemale(int speed, Direction direction,  int gasTimer, int xPos,
+    public AdultFemale(int speed, Direction direction, int gasTimer, int xPos,
                        int yPos, boolean isFertile, int pregnancyTime, int ratFetusCount) {
         super(speed, direction, gasTimer, xPos, yPos, isFertile);
         this.pregnancyTime = pregnancyTime;
@@ -50,10 +53,10 @@ public class AdultFemale extends LivingRat {
      * Makes the rat pregnant. Rats will have 2d4 babies.
      */
     public void becomePregnant() {
-        if (pregnant == false) {
+        if (!pregnant) {
             pregnant = true;
-            pregnancyTime = 40;
-            ratFetusCount = (int) (Math.ceil(Math.random() * 4) + Math.ceil(Math.random() * 4));
+            pregnancyTime = DEFAULT_PREGNANCY_TIME;
+            ratFetusCount = (int) (Math.ceil(Math.random() * RAT_BABY_MULTIPLIER) + Math.ceil(Math.random() * RAT_BABY_MULTIPLIER));
         }
     }
 
@@ -75,10 +78,10 @@ public class AdultFemale extends LivingRat {
                 newIsFemale = false;
             }
 
-            ChildRat newBaby = new ChildRat(8, direction, 0,
+            ChildRat newBaby = new ChildRat(Rat.getDEFAULT_SPEED() * 2, direction, 0,
                     xPos, yPos, true, 0, newIsFemale);
             LevelController.ratAdded(newBaby);
-            LevelController.getTileAt(xPos,yPos).addOccupantRat(newBaby);
+            LevelController.getTileAt(xPos, yPos).addOccupantRat(newBaby);
 
         }
     }

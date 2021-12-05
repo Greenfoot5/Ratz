@@ -15,7 +15,7 @@ public class HighScores {
 	
 	// Attributes handling reading and changing files
 //	private Scanner in = null;
-	private String filePath = "resources/highScores.txt";
+	private static String FILE_PATH = "resources/highScores.txt";
 //	private File file = null;
 //	BufferedWriter bufferWriter = null;
 //	FileWriter fileWriter = null;
@@ -29,8 +29,8 @@ public class HighScores {
 	 * @return array of string containing up to ten pairs - (profileName, score)
 	 * @throws FileNotFoundException if there is a problem with a file
 	 */
-	public String[] getTopScores(int level) throws FileNotFoundException {
-		File file = new File(filePath);
+	public static String[] getTopScores(int level) throws FileNotFoundException {
+		File file = new File(FILE_PATH);
 		Scanner in = new Scanner(file);
 
 		String[] topScores = new String[10];
@@ -58,9 +58,9 @@ public class HighScores {
 	 * @param level - level of the game
 	 * @throws IOException - if there is a problem with a file
 	 */
-	public void safeScore(String profile, int score, int level) throws IOException {
+	public static void safeScore(String profile, int score, int level) throws IOException {
 
-		File file = new File(filePath);
+		File file = new File(FILE_PATH);
 		File tempFile = new File("resources/temp.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
@@ -120,7 +120,7 @@ public class HighScores {
 		printWriter.close();
 		file.delete();
 
-		File rename = new File(filePath);
+		File rename = new File(FILE_PATH);
 		tempFile.renameTo(rename);
 		fixPositions();
 	}
@@ -129,8 +129,8 @@ public class HighScores {
 	 * Method fixing an order of positions.
 	 * @throws IOException - if there is a problem with a files
 	 */
-	private void fixPositions() throws IOException {
-		File file = new File(filePath);
+	private static void fixPositions() throws IOException {
+		File file = new File(FILE_PATH);
 		File tempFile = new File("resources/temp.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
@@ -163,9 +163,41 @@ public class HighScores {
 		file.delete();
 		// file = tempFile;
 
-		File rename = new File(filePath);
+		File rename = new File(FILE_PATH);
 		// rename.createNewFile();
 		tempFile.renameTo(rename);
 
+	}
+	
+	public static void deleteProfile(String profilName) throws IOException {
+
+		File file = new File(FILE_PATH);
+		File tempFile = new File("resources/temp.txt");
+		Scanner in = new Scanner(file);
+		FileWriter fileWriter = new FileWriter(tempFile, true);
+		//bufferWriter = new BufferedWriter(fileWriter);
+		PrintWriter printWriter = new PrintWriter(fileWriter);
+		
+		final int posToFix = 0;
+
+		while (in.hasNext()) {
+			int lvl = in.nextInt();
+			in.nextInt();
+			String profName = in.next();
+			int scr = in.nextInt();
+			
+			if (!profName.equals(profilName)) {
+				printWriter.println(lvl + " " + posToFix + " " + profName + " " + scr);
+			}
+		}
+
+		in.close();
+		printWriter.flush();
+		printWriter.close();
+		file.delete();
+
+		File rename = new File(FILE_PATH);
+		tempFile.renameTo(rename);
+		fixPositions();
 	}
 }
