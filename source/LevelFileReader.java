@@ -21,6 +21,9 @@ public class LevelFileReader {
     private static ArrayList<Rat> ratArrayList = new ArrayList<>();
     private static Tile[][] tileMap;
 
+    private static int inProgTimer;
+    private static int[] inProgInv = new int[8];
+
 
     public static int getHeight() {
         return height;
@@ -71,7 +74,7 @@ public class LevelFileReader {
     }
 
     /**
-     * `dropRates` will contain exactly 8 ints, each representing the odds of a certain power being given to the player.
+     * dropRates will contain exactly 8 ints, each representing the odds of a certain power being given to the player.
      * These powers are, in order:
      * Bombs, Gas, Sterilisation items, Poison, Male sex changes, Female sex changes, No-entry signs, and Death rats.
      *
@@ -79,6 +82,14 @@ public class LevelFileReader {
      */
     public static int[] getDropRates() {
         return dropRates;
+    }
+
+    public static int getInProgTimer() {
+        return inProgTimer;
+    }
+
+    public static int[] getInProgInv() {
+        return inProgInv;
     }
 
     /**
@@ -240,13 +251,28 @@ public class LevelFileReader {
      * @throws FileNotFoundException if the file can't be found.
      */
     public static void loadLevelFile(String filename) throws FileNotFoundException {
+        Scanner reader;
+        File levelDataInProgress = new File(filename + "-inProgress.txt");
         File levelData = new File(filename + ".txt");
 
-        Scanner reader = new Scanner(levelData);
+        // check if a saved level exists. if it does, grab the timer and stored inventory from it from it
+        if (levelDataInProgress.isFile()) {
+            reader = new Scanner(levelDataInProgress);
+            if (reader.hasNextLine()) {
+                String[] savedInfo = reader.nextLine().split(",");
+                inProgTimer = Integer.parseInt(savedInfo[0]);
+                String[] inProgInvString = reader.nextLine().split(",");
+                for (int i = 0; i < inProgInvString.length; i++) {
+                    inProgInv[i] = Integer.parseInt(inProgInvString[i]);
+                }
+            }
+        } else {
+            reader = new Scanner(levelData);
+        }
 
         ratArrayList.clear();
 
-        // get level width and height
+        // get level width, height, max rats, par time
         if (reader.hasNextLine()) {
             String[] levelStats = reader.nextLine().split(",");
             width = Integer.parseInt(levelStats[0]);
