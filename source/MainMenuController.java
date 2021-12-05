@@ -36,6 +36,7 @@ public class MainMenuController extends Application {
 	private static final int WINDOW_HEIGHT = 500;
 	private Label loggedProfile;
 	private ProfileFileReader reader;
+	private HighScores scoresReader;
 	private Stage mainStage;
 	private Scene mainScene;
 
@@ -59,6 +60,9 @@ public class MainMenuController extends Application {
 		mainStage = primaryStage;
 		if (reader == null) {
 			reader = new ProfileFileReader();
+		}
+		if (scoresReader == null) {
+			scoresReader = new HighScores();
 		}
 		// Create a new pane to hold our GUI
 		BorderPane root = new BorderPane();
@@ -168,6 +172,9 @@ public class MainMenuController extends Application {
 		// Create reader if we don't have one yet
 		if (reader == null) {
 			reader = new ProfileFileReader();
+		}
+		if (scoresReader == null) {
+			scoresReader = new HighScores();
 		}
 
 		// Layout items
@@ -421,7 +428,12 @@ public class MainMenuController extends Application {
 		// Create a new pane to hold our GUI
 		// TODO: use this variable to choose a level (when levels will work)
 		AtomicInteger selectedLevel = new AtomicInteger(1);
-		HighScores scoresReader = new HighScores();
+		if (reader == null) {
+			reader = new ProfileFileReader();
+		}
+		if (scoresReader == null) {
+			scoresReader = new HighScores();
+		}
 
 		BorderPane root = new BorderPane();
 
@@ -616,7 +628,7 @@ public class MainMenuController extends Application {
 		LevelFileReader.loadLevelFile("./resources/level-" + levelNumber);
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
-		LevelController levelController = new LevelController(levelNumber, this, this.reader);
+		LevelController levelController = new LevelController(levelNumber, this, this.reader, this.scoresReader);
 
 		loader.setController(levelController);
 

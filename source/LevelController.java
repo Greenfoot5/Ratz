@@ -61,6 +61,7 @@ public class LevelController {
 
     private final MainMenuController MAIN_MENU;
     private final ProfileFileReader PROFILE_READER;
+    private final HighScores HIGH_SCORES_READER;
     private final int LEVEL_NUMBER;
 
     //Milliseconds between frames
@@ -101,10 +102,12 @@ public class LevelController {
     /**
      * Constructor for LevelController class.
      */
-    public LevelController (int levelNum, MainMenuController mainMenuController, ProfileFileReader profileFileReader) {
+    public LevelController (int levelNum, MainMenuController mainMenuController,
+    		ProfileFileReader profileFileReader, HighScores highScoresReader) {
         LEVEL_NUMBER = levelNum;
         MAIN_MENU = mainMenuController;
         PROFILE_READER = profileFileReader;
+        HIGH_SCORES_READER = highScoresReader;
         WIDTH = LevelFileReader.getWidth();
         HEIGHT = LevelFileReader.getHeight();
 
@@ -267,6 +270,7 @@ public class LevelController {
             gamePaneScore.getChildren().add(new Text("Score: " + score));
             try {
                 PROFILE_READER.saveBestScore(PROFILE_READER.getLoggedProfile(),LEVEL_NUMBER,score);
+                HIGH_SCORES_READER.safeScore(PROFILE_READER.getLoggedProfile(), score, LEVEL_NUMBER);
             } catch (IOException e) {
                 System.out.println("Couldn't save score :(");
             }
