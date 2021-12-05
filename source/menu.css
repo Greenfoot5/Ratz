@@ -13,6 +13,24 @@
     -fx-padding: 3 6 6 6;
     -fx-background-color: #103450;
 }
+.button:hover {
+	-fx-text-fill: #04fce4;
+    -fx-background-radius: 9;
+    -fx-padding: 3 6 6 6;
+    -fx-background-color: #002340;
+}
+.buttonBlocked {
+	-fx-text-fill: #04fce4;
+    -fx-background-radius: 9;
+    -fx-padding: 3 6 6 6;
+    -fx-background-color: #DB494F;
+}
+.buttonBlocked:hover {
+	-fx-text-fill: #04fce4;
+    -fx-background-radius: 9;
+    -fx-padding: 3 6 6 6;
+    -fx-background-color: #CA383E;
+}
 .title {
 	  -fx-font-size: 20pt;
 	  -fx-padding: 10px;

@@ -36,6 +36,8 @@ public class MainMenuController extends Application {
 	private static final int WINDOW_HEIGHT = 500;
 	private Label loggedProfile;
 	private ProfileFileReader reader;
+	private Stage mainStage;
+	private Scene mainScene;
 
 	/**
 	 * Launches the application
@@ -54,6 +56,7 @@ public class MainMenuController extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		// Create reader if we don't have one yet
+		mainStage = primaryStage;
 		if (reader == null) {
 			reader = new ProfileFileReader();
 		}
@@ -125,6 +128,7 @@ public class MainMenuController extends Application {
 		loggedProfileBox.getChildren().addAll(loggedProfileText, loggedProfile);
 		// Create a scene based on the pane.
 		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+		mainScene = scene;
 		File f = new File("source/menu.css");
 		scene.getStylesheets().clear();
 		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
@@ -207,10 +211,16 @@ public class MainMenuController extends Application {
 			scoresHeading = new Label("Best " + reader.getLoggedProfile() + "'s scores:");
 			middle.getChildren().add(scoresHeading);
 
+			boolean unlocked = true;
 			for (int i = 0; i < profileScore.length; i++) {
 				try {
-					profileScore[i] = new Label(
-							"Lvl" + (i + 1) + " " + reader.getBestScore(reader.getLoggedProfile(), i + 1));
+					if (reader.getBestScore(reader.getLoggedProfile(), i + 1) == 0 && unlocked) {
+						profileScore[i] = new Label(
+								"Lvl" + (i + 1) + " " + reader.getBestScore(reader.getLoggedProfile(), i + 1));
+						unlocked = false;
+					} else {
+						profileScore[i] = new Label("Lvl" + (i + 1) + " is locked");
+					}
 				} catch (IOException e) {
 					profileScore[i] = new Label("Lvl" + (i + 1) + " unknown error");
 				}
@@ -354,12 +364,21 @@ public class MainMenuController extends Application {
 		loggedLabel.setText(reader.getLoggedProfile());
 		scoresHeading.setText("Best " + reader.getLoggedProfile() + "'s scores:");
 
-		for (int j = 0; j < reader.getNumberOfLevels(); j++) {
+		boolean unlocked = true;
+		for (int i = 0; i < profileScore.length; i++) {
 			try {
-				profileScore[j].setText("Lvl" + (j + 1) + " " + reader.getBestScore(reader.getLoggedProfile(), j + 1));
+				if (reader.getBestScore(reader.getLoggedProfile(), i + 1) > 0) {
+					profileScore[i]
+							.setText("Lvl" + (i + 1) + " " + reader.getBestScore(reader.getLoggedProfile(), i + 1));
+				} else if (reader.getBestScore(reader.getLoggedProfile(), i + 1) == 0 && unlocked) {
+					profileScore[i]
+							.setText("Lvl" + (i + 1) + " " + reader.getBestScore(reader.getLoggedProfile(), i + 1));
+					unlocked = false;
+				} else {
+					profileScore[i].setText("Lvl" + (i + 1) + " is locked");
+				}
 			} catch (IOException e) {
-				profileScore[j].setText("Lvl" + (j + 1) + " error");
-
+				profileScore[i].setText("Lvl" + (i + 1) + " unknown error");
 			}
 		}
 	}
@@ -422,7 +441,8 @@ public class MainMenuController extends Application {
 
 		for (int i = 0; i < 10; i++) {
 			scoresLabel[i] = new Label();
-			scoresLabel[i].setPadding(new Insets(3,0,3,0));;
+			scoresLabel[i].setPadding(new Insets(3, 0, 3, 0));
+			;
 			try {
 				assert scoresString != null;
 				scoresLabel[i].setText((i + 1) + " " + scoresString[i]);
@@ -436,32 +456,55 @@ public class MainMenuController extends Application {
 		leftBox.setAlignment(Pos.CENTER_RIGHT);
 		leftBox.setPrefWidth(180);
 
+		boolean[] isUnlocked = new boolean[5];
+		boolean unlocked = true;
+		for (int i = 0; i < reader.getNumberOfLevels(); i++) {
+			try {
+				if (reader.getBestScore(reader.getLoggedProfile(), i + 1) > 0) {
+					isUnlocked[i] = true;
+				} else if (reader.getBestScore(reader.getLoggedProfile(), i + 1) == 0 && unlocked) {
+					isUnlocked[i] = true;
+					unlocked = false;
+				} else {
+					isUnlocked[i] = false;
+				}
+			} catch (Exception e) {
+				isUnlocked[i] = false;
+			}
+		}
+
 		Button[] lvl = new Button[5];
 		for (int i = 0; i < lvl.length; i++) {
 			int levelIndex = i + 1;
 			lvl[i] = new Button("Level " + (levelIndex));
 			lvl[i].setPrefWidth(70);
-			
 
-			lvl[i].setOnAction(event -> {
-				scoreHeading.setText("Lvl " + (levelIndex) + " best scores:");
-				selectedLevel.set(levelIndex);
+			if (isUnlocked[i]) {
+				lvl[i].setOnAction(event -> {
+					scoreHeading.setText("Lvl " + (levelIndex) + " best scores:");
+					selectedLevel.set(levelIndex);
 
-				String[] newScores = null;
-				try {
-					newScores = scoresReader.getTopScores(levelIndex);
-				} catch (FileNotFoundException ignored) {
-				}
-
-				for (int j = 0; j < 10; j++) {
+					String[] newScores = null;
 					try {
-						assert newScores != null;
-						scoresLabel[j].setText((j + 1) + " " + newScores[j]);
-					} catch (Exception e2) {
-						scoresLabel[j].setText((j + 1) + " ...");
+						newScores = scoresReader.getTopScores(levelIndex);
+					} catch (FileNotFoundException ignored) {
 					}
-				}
-			});
+
+					for (int j = 0; j < 10; j++) {
+						try {
+							assert newScores != null;
+							scoresLabel[j].setText((j + 1) + " " + newScores[j]);
+						} catch (Exception e2) {
+							scoresLabel[j].setText((j + 1) + " ...");
+						}
+					}
+				});
+			} else {
+				lvl[i].setOnAction(event -> {
+					alert("You haven'y unlocked this level");
+				});
+				lvl[i].getStyleClass().add("buttonBlocked");
+			}
 
 			leftBox.getChildren().add(lvl[i]);
 		}
@@ -469,7 +512,7 @@ public class MainMenuController extends Application {
 		VBox rightBox = new VBox(5);
 		rightBox.setAlignment(Pos.CENTER_LEFT);
 		rightBox.setPrefWidth(180);
-		rightBox.setPadding(new Insets(5,0,5,0));
+		rightBox.setPadding(new Insets(5, 0, 5, 0));
 
 		FileInputStream inputstream1 = null;
 		FileInputStream inputstream2 = null;
@@ -497,7 +540,7 @@ public class MainMenuController extends Application {
 				e.printStackTrace();
 			}
 		});
-		
+
 		Button backToMenu = new Button("Main Menu");
 		backToMenu.setOnAction(event -> {
 			selectStage.setScene(scene);
@@ -506,7 +549,7 @@ public class MainMenuController extends Application {
 		backToMenu.setPrefWidth(85);
 
 		rightBox.getChildren().addAll(imageView1, playButton, imageView2, backToMenu, imageView3);
-		
+
 		FileInputStream inputs1 = null;
 		FileInputStream inputs2 = null;
 		FileInputStream inputs3 = null;
@@ -577,6 +620,7 @@ public class MainMenuController extends Application {
 	}
 
 	public void finishLevel() {
-
+		mainStage.setScene(mainScene);
+		mainStage.show();
 	}
 }

@@ -270,6 +270,7 @@ public class LevelController {
                 PROFILE_READER.saveBestScore(PROFILE_READER.getLoggedProfile(),LEVEL_NUMBER,score);
                 System.out.println(PROFILE_READER.getLoggedProfile());
                 System.out.println(PROFILE_READER.getBestScore(PROFILE_READER.getLoggedProfile(), LEVEL_NUMBER));
+                exitGame();
 
             } catch (IOException e) {
                 System.out.println("Couldn't save score :(");
