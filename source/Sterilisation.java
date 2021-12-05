@@ -50,7 +50,7 @@ public class Sterilisation extends Power{
     @Override
     void onTick(ArrayList<Rat> rats, Tile currentTile) {
         ticksActive = ticksActive + 1;
-        if (ticksActive < 4) {
+        if (ticksActive < 24) {
             activate(rats, currentTile);
         } else {
             currentTile.removeActivePower(this);
