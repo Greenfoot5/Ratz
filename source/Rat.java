@@ -342,8 +342,8 @@ public abstract class Rat extends GameObject {
      */
     public void die() {
         LevelController.ratKilled(this);
-        if (LevelController.getTileAt(this.xPos,this.yPos) != null) {
-            LevelController.getTileAt(this.xPos,this.yPos).removeOccupantRat(this);
+        if (LevelController.getTileAt(xPos,yPos) != null) {
+            LevelController.getTileAt(xPos,yPos).removeOccupantRat(this);
         }
 
 
