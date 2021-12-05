@@ -236,6 +236,8 @@ public class LevelFileReader {
 
         Scanner reader = new Scanner(levelData);
 
+        ratArrayList.clear();
+
         // get level width and height
         if (reader.hasNextLine()) {
             String[] levelStats = reader.nextLine().split(",");
