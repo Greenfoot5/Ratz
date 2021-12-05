@@ -120,6 +120,15 @@ public class MainMenuController extends Application {
 			primaryStage.show();
 		});
 		
+		Button loadLevel = new Button("Load a level!");
+		loadLevel.setPrefWidth(100);
+		loadLevel.setPadding(new Insets(10, 0, 0, 0));
+		loadLevel.setOnAction(event -> {
+//			primaryStage.setScene(selectProfiles(primaryStage, scene));
+//			primaryStage.show();
+			this.alert("Here goes loading level menu");
+		});
+		
 		Button exitButton = new Button("Exit!");
 		exitButton.setPrefWidth(100);
 		exitButton.setPadding(new Insets(10, 0, 0, 0));
@@ -127,7 +136,7 @@ public class MainMenuController extends Application {
 			primaryStage.close();
 		});
 
-		middle.getChildren().addAll(ratzImageView, motd, loggedProfileBox, playButton, selectProfile, exitButton);
+		middle.getChildren().addAll(ratzImageView, motd, loggedProfileBox, playButton, loadLevel, selectProfile, exitButton);
 
 		
 		
