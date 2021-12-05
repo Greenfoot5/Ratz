@@ -269,8 +269,8 @@ public class LevelController {
             gamePaneText.getChildren().add(new Text("You've won! :)"));
             gamePaneScore.getChildren().add(new Text("Score: " + score));
             try {
-                PROFILE_READER.saveBestScore(PROFILE_READER.getLoggedProfile(),LEVEL_NUMBER,score);
-                HIGH_SCORES_READER.safeScore(PROFILE_READER.getLoggedProfile(), score, LEVEL_NUMBER);
+                ProfileFileReader.saveBestScore(ProfileFileReader.getLoggedProfile(),LEVEL_NUMBER,score);
+                HighScores.safeScore(ProfileFileReader.getLoggedProfile(), score, LEVEL_NUMBER);
             } catch (IOException e) {
                 System.out.println("Couldn't save score :(");
             }
@@ -279,7 +279,7 @@ public class LevelController {
         }
 
         try {
-            String[] highScores = (new HighScores()).getTopScores(LEVEL_NUMBER);
+            String[] highScores = HighScores.getTopScores(LEVEL_NUMBER);
             for(String text: highScores){
                 gamePaneLeaderboard.getChildren().add(new Text(text + "\n"));
             }
