@@ -108,7 +108,7 @@ public class MainMenuController extends Application {
 		loggedProfileBox.setStyle("-fx-text-fill: #Fd062a");
 		loggedProfileBox.getChildren().addAll(loggedProfileText, loggedProfile);
 
-		Button playButton = new Button("Play!");
+		Button playButton = new Button("Select level!");
 		playButton.setPrefWidth(100);
 		playButton.setOnAction(event -> {
 			if (ProfileFileReader.getLoggedProfile() == null) {
@@ -488,7 +488,7 @@ public class MainMenuController extends Application {
 	 *
 	 * @param selectStage the stage
 	 */
-	public Scene loadLevelSelect(Stage selectStage, Scene scene) {
+	private Scene loadLevelSelect(Stage selectStage, Scene scene) {
 		// Create a new pane to hold our GUI
 		BorderPane root = new BorderPane();
 
