@@ -40,7 +40,7 @@ public class AdultFemale extends LivingRat {
     @Override
     protected void onTickSpecific() {
         pregnancyTime--;
-        if (pregnancyTime == 0) {
+        if (pregnancyTime <= 0) {
             pregnant = false;
             birth();
         }
