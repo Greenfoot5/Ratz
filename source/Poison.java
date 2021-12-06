@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 /**
  * A class that kills rats that step on this Power.
+ *
  * @author Daumantas Balakauskas
  * @version 1.0
  */
@@ -21,7 +22,7 @@ public class Poison extends Power {
         super(true, xPos, yPos);
     }
 
-    /** Kills rats standing on this Powers's Tile.
+    /** Kills rats standing on this Power Tile.
      *
      * @param rats used to interact with all rats that stepped on the power.
      * @param currentTile used to remove this Power from Tile.
@@ -40,10 +41,10 @@ public class Poison extends Power {
     /**
      * Abstract method for certain powers that need to do something after a
      * certain amount of game ticks.
+     * onTick only used for playing a sound right after it's placed here.
+     *
      * @param currentTile used for calling removeActivePower(this).
      * @param rats used for updating the rat arraylist every game tick.
-     *
-     * onTick only used for playing a sound right after it's placed.
      */
 
     @Override
