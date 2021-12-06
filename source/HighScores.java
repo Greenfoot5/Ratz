@@ -23,10 +23,10 @@ public class HighScores {
 	private final static int NUMBER_OF_TOP_SCORES = 10;
 
 	/** 
-	 * @param level - level of the game.
+	 * @param level	level of the game.
 	 *
-	 * @return array of string containing up to ten pairs 
-	 * 			- (profileName, score)
+	 * @return array of string containing up to 
+	 * 		   ten pairs - (profileName, score)
 	 * @throws FileNotFoundException if there is a problem with a file
 	 */
 	public static String[] getTopScores(int level) throws FileNotFoundException {
@@ -52,9 +52,9 @@ public class HighScores {
 
 	/**
 	 * Method will try to safe a score, if it is in top 10.
-	 * @param profile - profile name
-	 * @param score - achieved score
-	 * @param level - level of the game
+	 * @param profile	name of a profile
+	 * @param score		achieved score you want to safe
+	 * @param level		level of the game
 	 * @throws IOException - if there is a problem with a file
 	 */
 	public static void safeScore(String profile, int score, int level) throws IOException {
@@ -138,7 +138,7 @@ public class HighScores {
 
 	/**
 	 * Method fixing an order of positions.
-	 * @throws IOException - if there is a problem with a files
+	 * @throws IOException	if there is a problem with a files
 	 */
 	private static void fixPositions() throws IOException {
 		File file = new File(FILE_PATH);
@@ -181,8 +181,8 @@ public class HighScores {
 
 	/**
 	 * Delete every profile score from a file
-	 * @param profilName
-	 * @throws IOException
+	 * @param profilName	name of a profile
+	 * @throws IOException	if there is a problem with a file
 	 */
 	public static void deleteProfile(String profilName) throws IOException {
 
