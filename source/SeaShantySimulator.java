@@ -1,3 +1,4 @@
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.io.File;
@@ -19,6 +20,13 @@ public class SeaShantySimulator {
 
     public void pause() {
         mediaPlayer.pause();
+    }
+
+    public void playAudioClip(String path, double volume) {
+        AudioClip soundToPlay = new AudioClip(
+                new File(path).toURI().toString());
+        soundToPlay.setVolume(volume);
+        soundToPlay.play();
     }
 
 }

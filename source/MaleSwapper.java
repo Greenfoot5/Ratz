@@ -31,9 +31,8 @@ public class MaleSwapper extends Power{
 
     @Override
     void activate(ArrayList<Rat> rats, Tile currentTile) {
-        AudioClip deathSound = new AudioClip(
-                new File(MALE_PATH).toURI().toString());
-        deathSound.play();
+        SeaShantySimulator seaSim = new SeaShantySimulator();
+        seaSim.playAudioClip(MALE_PATH, 1.0);
 
         for (Rat r : rats) {
             if(r instanceof AdultFemale) {

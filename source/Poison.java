@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 public class Poison extends Power {
 
+    private int ticksActive = 0;
+
+    private static final String POISON_SOUND_PATH = "resources/poisonSound.mp3";
+
     /** Poison constructor
      *
      * @param xPos x coordinate
@@ -24,6 +28,7 @@ public class Poison extends Power {
      */
     @Override
     void activate(ArrayList<Rat> rats, Tile currentTile) {
+
         int numOfRats = rats.size();
         for (int i = 0; i < numOfRats; i++) {
             rats.get(i).die();
@@ -43,6 +48,11 @@ public class Poison extends Power {
 
     @Override
     void onTick(ArrayList<Rat> rats, Tile currentTile) {
+        ticksActive = ticksActive + 1;
 
+        if (ticksActive == 1) {
+            SeaShantySimulator seaSim = new SeaShantySimulator();
+            seaSim.playAudioClip(POISON_SOUND_PATH, 0.1);
+        }
     }
 }

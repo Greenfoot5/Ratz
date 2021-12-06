@@ -106,10 +106,8 @@ public class Bomb extends Power {
     @Override
     void onTick(ArrayList<Rat> rats, Tile currentTile) {
         if (ticksActive == 0) {
-            AudioClip deathSound = new AudioClip(
-                    new File(BOMB_SOUND_PATH).toURI().toString());
-            deathSound.setVolume(0.1);
-            deathSound.play();
+            SeaShantySimulator seaSim = new SeaShantySimulator();
+            seaSim.playAudioClip(BOMB_SOUND_PATH, 0.2);
         }
 
         ticksActive = ticksActive + 1;

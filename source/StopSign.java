@@ -11,6 +11,11 @@ import java.util.ArrayList;
 
 public class StopSign extends Power {
 
+    private int ticksActive = 0;
+
+    private static final String STOP_SIGN_SOUND_PATH
+            = "resources/stopSignSound.mp3";
+
     private int HP = 5;
 
     /**
@@ -45,7 +50,12 @@ public class StopSign extends Power {
 
     @Override
     void onTick(ArrayList<Rat> rats, Tile currentTile) {
+        ticksActive = ticksActive + 1;
 
+        if (ticksActive == 1) {
+            SeaShantySimulator seaSim = new SeaShantySimulator();
+            seaSim.playAudioClip(STOP_SIGN_SOUND_PATH, 0.2);
+        }
     }
 
     /**
