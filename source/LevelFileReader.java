@@ -74,9 +74,11 @@ public class LevelFileReader {
     }
 
     /**
-     * dropRates will contain exactly 8 ints, each representing the odds of a certain power being given to the player.
+     * dropRates will contain exactly 8 ints, each representing the
+     * odds of a certain power being given to the player.
      * These powers are, in order:
-     * Bombs, Gas, Sterilisation items, Poison, Male sex changes, Female sex changes, No-entry signs, and Death rats.
+     * Bombs, Gas, Sterilisation items, Poison, Male sex changes,
+     * Female sex changes, No-entry signs, and Death rats.
      *
      * @return dropRates the chances that each power will drop.
      */
@@ -91,7 +93,8 @@ public class LevelFileReader {
     /**
      * Gets the items in a player's saved inventory.
      * The powers are in the following order:
-     * Bombs, Gas, Sterilisation items, Poison, Male sex changes, Female sex changes, No-entry signs, and Death rats.
+     * Bombs, Gas, Sterilisation items, Poison, Male sex changes,
+     * Female sex changes, No-entry signs, and Death rats.
      *
      * @return
      */
@@ -102,15 +105,17 @@ public class LevelFileReader {
     /**
      * Writes a level to a .txt file in a format that can be read back by the file reader.
      *
-     * @param levelName The name for the level. Formatted as "level-X-USER.txt" where X is a number and USER
-     *                  is the profile's name.
+     * @param levelName The name for the level. Formatted as "level-X-USER.txt"
+     *                  where X is a number and USER is the profile's name.
      * @throws IOException if it can't find the file specified.
      */
     public static void saveLevel(String levelName) throws IOException {
 
-        File saveFile = new File(levelName + "-inProgress-" + ProfileFileReader.getLoggedProfile() + ".txt");
+        File saveFile = new File(levelName + "-inProgress-"
+                + ProfileFileReader.getLoggedProfile() + ".txt");
         // if an in progress file doesn't exist yet
-        if (!new File(levelName + "-inProgress-" + ProfileFileReader.getLoggedProfile() + ".txt").isFile()) {
+        if (!new File(levelName + "-inProgress-"
+                + ProfileFileReader.getLoggedProfile() + ".txt").isFile()) {
             try {
                 saveFile.createNewFile();
             } catch (IOException e) {
@@ -197,7 +202,8 @@ public class LevelFileReader {
             }
             item7 = Integer.toString(((ChildRat) rat).getAge());
 
-            return type + "," + speed + "," + direction + "," + gasTimer + "," + xPos + "," + yPos + "," + item6 + "," + item7;
+            return type + "," + speed + "," + direction + "," + gasTimer
+                    + "," + xPos + "," + yPos + "," + item6 + "," + item7;
         }
 
         if (rat instanceof AdultFemale) {
@@ -210,7 +216,8 @@ public class LevelFileReader {
             item7 = Integer.toString(((AdultFemale) rat).getPregnancyTime());
             item8 = Integer.toString(((AdultFemale) rat).getRatFetusCount());
 
-            return type + "," + speed + "," + direction + "," + gasTimer + "," + xPos + "," + yPos + "," + item6 + "," + item7 + "," + item8;
+            return type + "," + speed + "," + direction + "," + gasTimer + ","
+                    + xPos + "," + yPos + "," + item6 + "," + item7 + "," + item8;
         }
 
         if (rat instanceof AdultMale) {
@@ -222,7 +229,8 @@ public class LevelFileReader {
                 item6 = "0";
             }
 
-            return type + "," + speed + "," + direction + "," + gasTimer + "," + xPos + "," + yPos + "," + item6;
+            return type + "," + speed + "," + direction + "," + gasTimer + ","
+                    + xPos + "," + yPos + "," + item6;
 
         }
 
@@ -231,7 +239,8 @@ public class LevelFileReader {
 
             item6 = Integer.toString(((DeathRat) rat).getKillCounter());
 
-            return type + "," + speed + "," + direction + "," + gasTimer + "," + xPos + "," + yPos + "," + item6;
+            return type + "," + speed + "," + direction + "," + gasTimer + ","
+                    + xPos + "," + yPos + "," + item6;
         }
 
         // if nothing has been returned yet, someone's added in some kind of new rat.
@@ -338,7 +347,8 @@ public class LevelFileReader {
      */
     public static void loadLevelFile(String filename) throws FileNotFoundException {
 
-        File levelDataInProgress = new File(filename + "-inProgress-" + ProfileFileReader.getLoggedProfile() + ".txt");
+        File levelDataInProgress = new File(filename + "-inProgress-"
+                + ProfileFileReader.getLoggedProfile() + ".txt");
         File levelData = new File(filename + ".txt");
         Scanner reader = new Scanner(levelData);
 
@@ -374,7 +384,8 @@ public class LevelFileReader {
 
         tileMap = tilesToTileMap(tiles);
 
-        // check if a saved level exists. if it does, grab the rats, timer, and stored inventory from it from it
+        // check if a saved level exists.
+        // if it does, grab the rats, timer, and stored inventory from it from it
         if (levelDataInProgress.isFile()) {
             reader = new Scanner(levelDataInProgress);
             inProgInv = new int[8];
@@ -404,7 +415,8 @@ public class LevelFileReader {
      */
     private static void readObjects(Scanner reader) {
         while (reader.hasNextLine()) {
-            String[] currentItem = reader.nextLine().replaceAll("[()]", "").split(",");
+            String[] currentItem = reader.nextLine()
+                    .replaceAll("[()]", "").split(",");
             // if current item is a female baby rat
             if (currentItem[0].equals("f")) {
                 int speed = Integer.parseInt(currentItem[1]);
@@ -420,7 +432,8 @@ public class LevelFileReader {
                     isFertile = false;
                 }
                 int age = Integer.parseInt(currentItem[7]);
-                ChildRat newRat = new ChildRat(speed, direction, gasTimer, xPos, yPos, isFertile, age, true);
+                ChildRat newRat = new ChildRat(speed, direction, gasTimer,
+                        xPos, yPos, isFertile, age, true);
                 ratArrayList.add(newRat);
                 tileMap[xPos][yPos].addOccupantRat(newRat);
             }
@@ -440,7 +453,8 @@ public class LevelFileReader {
                     isFertile = false;
                 }
                 int age = Integer.parseInt(currentItem[7]);
-                ChildRat newRat = new ChildRat(speed, direction, gasTimer, xPos, yPos, isFertile, age, false);
+                ChildRat newRat = new ChildRat(speed, direction, gasTimer,
+                        xPos, yPos, isFertile, age, false);
                 ratArrayList.add(newRat);
                 tileMap[xPos][yPos].addOccupantRat(newRat);
             }
@@ -461,7 +475,8 @@ public class LevelFileReader {
                 }
                 int pregnancyTimer = Integer.parseInt(currentItem[7]);
                 int ratFetusCount = Integer.parseInt(currentItem[8]);
-                AdultFemale newRat = new AdultFemale(speed, direction, gasTimer, xPos, yPos, isFertile, pregnancyTimer, ratFetusCount);
+                AdultFemale newRat = new AdultFemale(speed, direction, gasTimer,
+                        xPos, yPos, isFertile, pregnancyTimer, ratFetusCount);
                 ratArrayList.add(newRat);
                 tileMap[xPos][yPos].addOccupantRat(newRat);
             }
@@ -480,7 +495,8 @@ public class LevelFileReader {
                 } else {
                     isFertile = false;
                 }
-                AdultMale newRat = new AdultMale(speed, direction, gasTimer, xPos, yPos, isFertile);
+                AdultMale newRat = new AdultMale(speed, direction, gasTimer,
+                        xPos, yPos, isFertile);
                 ratArrayList.add(newRat);
                 tileMap[xPos][yPos].addOccupantRat(newRat);
             }
@@ -494,7 +510,8 @@ public class LevelFileReader {
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
                 int killCounter = Integer.parseInt(currentItem[6]);
-                DeathRat newRat = new DeathRat(speed, direction, gasTimer, xPos, yPos, killCounter);
+                DeathRat newRat = new DeathRat(speed, direction, gasTimer,
+                        xPos, yPos, killCounter);
                 ratArrayList.add(newRat);
                 tileMap[xPos][yPos].addOccupantRat(newRat);
             }
@@ -583,8 +600,8 @@ public class LevelFileReader {
     /**
      * Converts the strings that store the tiles into a 2d array that can be used by other classes.
      *
-     * @param tiles The
-     * @return
+     * @param tiles The strings to be converted
+     * @return a tile map
      */
     private static Tile[][] tilesToTileMap(String[] tiles) {
         Tile[][] tileMap = new Tile[width][height];
