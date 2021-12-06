@@ -19,7 +19,7 @@ public class Bomb extends Power {
 
 
     /**
-     * Constructs a bom
+     * Constructs a bomb
      * @param xPos The x position to create the bomb
      * @param yPos The y position to create the bomb
      */
