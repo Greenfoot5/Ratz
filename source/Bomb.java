@@ -34,7 +34,7 @@ public class Bomb extends Power {
         ArrayList<Tile> tilesToExplode = findPathTiles();
         tilesToExplode.add(currentTile);
 
-        //Explody bit
+        // Explody bit
         for (Tile tile : tilesToExplode) {
             if (tile != null) {
                 int numOfRats = tile.getOccupantRats().size();
@@ -48,14 +48,16 @@ public class Bomb extends Power {
         currentTile.removeActivePower(this);
     }
 
-    /** Method that finds all Tiles bomb can reach.
-     *  @return All Tiles that bomb can reach (not grass) in all 4 directions.
+    /**
+     * Method that finds all Tiles bomb can reach.
+     * @return All Tiles that bomb can reach (not grass) in all 4 directions.
      */
     private ArrayList<Tile> findPathTiles () {
         ArrayList<Tile> tilesToExplode = new ArrayList<>();
 
         int counter = 1;
 
+        // North
         if (LevelController.getTileAt(this.xPos, this.yPos + counter) != null) {
             while (Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos + counter)).isPassable()) {
                 tilesToExplode.add(LevelController.getTileAt(this.xPos,
@@ -64,6 +66,7 @@ public class Bomb extends Power {
             }
         }
 
+        // South
         counter = 1;
         if (LevelController.getTileAt(this.xPos, this.yPos - counter) != null) {
             while (Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos - counter)).isPassable()) {
@@ -73,6 +76,7 @@ public class Bomb extends Power {
             }
         }
 
+        // East
         counter = 1;
         if (LevelController.getTileAt(this.xPos + counter, this.yPos) != null) {
             while (Objects.requireNonNull(LevelController.getTileAt(this.xPos + counter, this.yPos)).isPassable()) {
@@ -82,6 +86,7 @@ public class Bomb extends Power {
             }
         }
 
+        // West
         counter = 1;
         if (LevelController.getTileAt(this.xPos - counter, this.yPos) != null) {
             while(Objects.requireNonNull(LevelController.getTileAt(this.xPos - counter, this.yPos)).isPassable()) {
@@ -100,7 +105,6 @@ public class Bomb extends Power {
      * @param currentTile used for calling removeActivePower(this).
      * @param rats used for updating the rat arraylist every game tick.
      */
-
     @Override
     void onTick(ArrayList<Rat> rats, Tile currentTile) {
         if (ticksActive == 0) {
@@ -126,17 +130,17 @@ public class Bomb extends Power {
     }
 
     /**
-     * Getter for fileReader
+     * How many ticks since the creation of the class
+     * @return ticksActive
      */
-
     public int getTicksActive() {
         return ticksActive;
     }
 
     /**
-     * Setter for fileReader
+     * Sets how many ticks have passed since the creation of the class
+     * @param ticksActive ticks since class creation
      */
-
     public void setTicksActive(int ticksActive) {
         this.ticksActive = ticksActive;
     }
