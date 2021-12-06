@@ -13,7 +13,9 @@ import java.util.Objects;
 public class Bomb extends Power {
 
     private static final String BOMB_SOUND_PATH = "resources/bombSound.mp3";
-    private static final int EXPLODE_TICK = 5; // How many ticks to reach to explode
+    private static final int EXPLODE_TICK = 16; // How many ticks to reach to explode
+    private static final int ANIMATION_SLOWDOWN = 4;
+    private static final int SOUND_DELAY = 11;
 
     private int ticksActive = 0; //Tick counter since creation of this class.
 
@@ -113,7 +115,7 @@ public class Bomb extends Power {
      */
     @Override
     void onTick(ArrayList<Rat> rats, Tile currentTile) {
-        if (ticksActive == 0) {
+        if (ticksActive == SOUND_DELAY) {
             SeaShantySimulator seaSim = new SeaShantySimulator();
             seaSim.playAudioClip(BOMB_SOUND_PATH, 0.2);
         }
@@ -130,7 +132,7 @@ public class Bomb extends Power {
         x = GameObject.getWIDTH()* x;
         y = GameObject.getWIDTH() * y;
 
-        String path = "file:" + getTextureFolder() + "/bomb" + ticksActive + ".png";
+        String path = "file:" + getTextureFolder() + "/bomb" + ticksActive / ANIMATION_SLOWDOWN + ".png";
 
         g.drawImage(new Image(path),x,y);
     }

@@ -168,6 +168,11 @@ public class LevelController {
         tickTimeline = new Timeline(new KeyFrame(Duration.millis(FRAME_TIME), event -> tick()));
         tickTimeline.setCycleCount(Animation.INDEFINITE);
         tickTimeline.play();
+
+        // Start the SeaShantySimulator (music player)
+        SeaShantySimulator seaShantySimulator = new SeaShantySimulator();
+        seaShantySimulator.initialize();
+        seaShantySimulator.play();
     }
 
     /**
