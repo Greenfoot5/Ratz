@@ -7,49 +7,26 @@ import java.util.Scanner;
 
 /**
  * Class to manage profiles and their best scores.
- * 
+
  * @author Tomasz Fijalkowski
  * 
- *         Please update number of levels!!!! Need file :
- *         "resources/profileFile.txt" to work properly
  */
 public class ProfileFileReader {
 
 	static private String selectedProfile = null;
 
-	private final static int NUMBER_OF_LEVELS = 5;
-	// private Scanner in = null;
-	private final static String FILE_PATH = "resources/profileFile.txt";
-	// private File file = null;
-	// BufferedWriter bufferWriter = null;
-	// FileWriter fileWriter = null;
-	// PrintWriter printWriter = null;
-
 	/**
-	 * Instance of the class is created, but has no selected profile;
-	 */
-	public ProfileFileReader() {
-		ProfileFileReader.selectedProfile = null;
-	}
-
-	/**
-	 * Instance of the class is created and profileName is logged profile
 	 * 
-	 * @param profileName
-	 * @throws Exception
 	 */
-	public ProfileFileReader(String profileName) throws Exception {
-		if (!doesProfileExist(profileName)) {
-			createNewProfile(profileName);
-		}
-		ProfileFileReader.selectedProfile = profileName;
-	}
+	private final static int NUMBER_OF_LEVELS = 5;
+	private final static String FILE_PATH = "resources/profileFile.txt";
 
 	/**
 	 * Create new profile in text file with chosen name.
 	 * 
 	 * @param profileName
-	 * @throws Exception - if there is a problem with a file or name is already used
+	 * @throws Exception - if there is a problem with 
+	 * 					   a file or name is already used
 	 */
 	@SuppressWarnings("resource")
 	public static void createNewProfile(String profileName) throws Exception {
@@ -57,7 +34,6 @@ public class ProfileFileReader {
 		File tempFile = new File("resources/tempProf.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
-		// BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
 
 		int lastProfNumber = 1;
@@ -72,13 +48,11 @@ public class ProfileFileReader {
 			}
 
 			lastProfNumber = profNumber + 1;
-
 			printWriter.println(profNumber + " " + profName);
 
 			for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
 				int lvl = in.nextInt();
 				int scr = in.nextInt();
-
 				printWriter.print(lvl + " " + scr + " ");
 			}
 			printWriter.println();
@@ -87,7 +61,6 @@ public class ProfileFileReader {
 
 		if (!isAlreadyUsedName) {
 			printWriter.println(lastProfNumber + " " + profileName);
-
 			for (int i = 1; i <= NUMBER_OF_LEVELS; i++) {
 				printWriter.print(i + " " + "0 ");
 			}
@@ -97,7 +70,6 @@ public class ProfileFileReader {
 
 		in.close();
 		System.gc();
-
 		printWriter.flush();
 		printWriter.close();
 		file.delete();
@@ -129,21 +101,16 @@ public class ProfileFileReader {
 			if (!profName.equals(profileName)) {
 				if (isRemoved) {
 					printWriter.println((profNumber - 1) + " " + profName);
-
 				} else {
 					printWriter.println(profNumber + " " + profName);
-
 				}
-
 				for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
 					int lvl = in.nextInt();
 					int scr = in.nextInt();
-
 					printWriter.print(lvl + " " + scr + " ");
 				}
 				printWriter.println();
 			} else {
-
 				for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
 					in.nextInt();
 					in.nextInt();
@@ -157,7 +124,6 @@ public class ProfileFileReader {
 		printWriter.flush();
 		printWriter.close();
 		fileWriter.close();
-
 		file.delete();
 
 		File rename = new File(FILE_PATH);
@@ -243,6 +209,13 @@ public class ProfileFileReader {
 		tempFile.renameTo(rename);
 	}
 
+	/**
+	 * Check if a profile exist in database
+	 * 
+	 * @param profileName
+	 * @return true if profile exist, false otherwise
+	 * @throws FileNotFoundException
+	 */
 	public static boolean doesProfileExist(String profileName) throws FileNotFoundException {
 		File file = new File(FILE_PATH);
 		Scanner in = new Scanner(file);
@@ -268,7 +241,11 @@ public class ProfileFileReader {
 		return exist;
 	}
 
-	// i'am not sure what it is going to do, probably should be moved to manager
+	/**
+	 * Login to a profile. Change "selectedProfile"
+	 * 
+	 * @param profileName
+	 */
 	public static void loginProfile(String profileName) {
 		try {
 			if (doesProfileExist(profileName)) {
@@ -281,10 +258,19 @@ public class ProfileFileReader {
 		}
 	}
 
+	/**
+	 * Logout the user
+	 */
 	public static void logout() {
 		selectedProfile = null;
 	}
 
+	/**
+	 * Get all registered profiles
+	 * 
+	 * @return Sting array containing every profile name
+	 * @throws FileNotFoundException - if there is a problem with a file
+	 */
 	public static String[] getProfiles() throws FileNotFoundException {
 		File file = new File(FILE_PATH);
 		Scanner in = new Scanner(file);
@@ -321,6 +307,9 @@ public class ProfileFileReader {
 		return ProfileFileReader.selectedProfile;
 	}
 
+	/**
+	 * @return number of levels in the game
+	 */
 	public static int getNumberOfLevels() {
 		return ProfileFileReader.NUMBER_OF_LEVELS;
 	}
