@@ -1,6 +1,6 @@
 @font-face {
     font-family: Linerama;
-    src: url('../resources/gui/LineramaBold-d9VnE.ttf');
+    src: url('../../../resources/gui/LineramaBold-d9VnE.ttf');
 }
 .root{
     -fx-background-color: #2d4945;
@@ -8,7 +8,7 @@
 .sidebar{
     -fx-background-position: center;
     -fx-background-repeat: stretch;
-    -fx-background-image: url('../resources/gui/sidebar-bg.png');
+    -fx-background-image: url('../../../resources/gui/sidebar-bg.png');
 }
 .maleRatCounter{
     -fx-font-size: 30px;
@@ -21,20 +21,20 @@
     -fx-font-family: 'Linerama';
 }
 .timer{
-    -fx-background-image: url('../resources/gui/timer.png');
+    -fx-background-image: url('../../../resources/gui/timer.png');
     -fx-font-size: 30px;
     -fx-font-family: 'Linerama';
 }
 .toolbar{
-    -fx-background-image: url('../resources/gui/toolbar-bg.png');
+    -fx-background-image: url('../../../resources/gui/toolbar-bg.png');
 }
 .sideBarButton{
-    -fx-background-image: url('../resources/gui/level-button.png');
+    -fx-background-image: url('../../../resources/gui/level-button.png');
     -fx-font-size: 18px;
     -fx-font-family: 'Linerama';
 }
 .dialogueBox{
-    -fx-background-image: url('../resources/gui/level-dialogue-bg.png');
+    -fx-background-image: url('../../../resources/gui/level-dialogue-bg.png');
     -fx-font-family: 'Linerama';
 }
 .gamePaneText{
@@ -46,7 +46,7 @@
     -fx-text-alignment: center;
 }
 .ratCounters{
-    -fx-background-image: url('../resources/gui/rat-counters.png');
+    -fx-background-image: url('../../../resources/gui/rat-counters.png');
     -fx-background-repeat: no-repeat;
     -fx-font-size: 18px;
     -fx-font-family: 'Linerama';
