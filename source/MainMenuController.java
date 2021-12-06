@@ -33,6 +33,7 @@ public class MainMenuController extends Application {
 	// The dimensions of the window
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 500;
+	private final int NUMBER_OF_RATS_IMAGES = 7;
 
     // The various labels we'll use
 	private Label loggedProfile;
@@ -118,6 +119,7 @@ public class MainMenuController extends Application {
 		} else {
 			loggedProfile.setText(ProfileFileReader.getLoggedProfile());
 		}
+		loggedProfile.setStyle("-fx-text-fill: #Fd062a");
 
         // Login css
 		HBox loggedProfileBox = new HBox();
@@ -225,7 +227,7 @@ public class MainMenuController extends Application {
      * @return The ImageViews for the rats
      */
     private ImageView[] newImageViews(Image image) {
-        ImageView[] result = new ImageView[7];
+        ImageView[] result = new ImageView[NUMBER_OF_RATS_IMAGES];
 
         for(int i = 0; i < result.length; i++)
         {
@@ -404,7 +406,7 @@ public class MainMenuController extends Application {
 		left.setPadding(new Insets(10, 10, 10, 40));
 
 		// Get the profiles
-		String[] s = { "" };
+		String[] s = {""};
 		try {
 			s = ProfileFileReader.getProfiles();
 		} catch (FileNotFoundException e) {
@@ -632,7 +634,7 @@ public class MainMenuController extends Application {
 		root.setLeft(leftBox);
 		root.setBottom(bottomBox);
 
-		Scene levelsScene = new Scene(root, 800, 500);
+		Scene levelsScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		File f = new File("source/menu.css");
 		levelsScene.getStylesheets().clear();
@@ -734,7 +736,8 @@ public class MainMenuController extends Application {
 		});
 		backToMenu.setPrefWidth(85);
 
-		rightBox.getChildren().addAll(imageViews[0], playButton, imageViewPreviev, backToMenu, imageViews[1]);
+		rightBox.getChildren().addAll(
+				imageViews[0], playButton, imageViewPreviev, backToMenu, imageViews[1]);
 		return rightBox;
 	}
 
@@ -769,7 +772,7 @@ public class MainMenuController extends Application {
 			}
 		}
 
-		Button[] lvl = new Button[5];
+		Button[] lvl = new Button[ProfileFileReader.getNumberOfLevels()];
 		for (int i = 0; i < lvl.length; i++) {
 			int levelIndex = i + 1;
 			lvl[i] = new Button("Level " + (levelIndex));

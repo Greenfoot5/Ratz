@@ -54,7 +54,7 @@ public class StopSign extends Power {
 
         if (ticksActive == 1) {
             SeaShantySimulator seaSim = new SeaShantySimulator();
-            seaSim.playAudioClip(STOP_SIGN_SOUND_PATH, 0.2);
+            seaSim.playAudioClip(STOP_SIGN_SOUND_PATH, 0.1);
         }
     }
 

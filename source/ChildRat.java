@@ -43,12 +43,18 @@ public class ChildRat extends LivingRat {
 
     /**
      * Sets the rat's gender
+     *
      * @param isFemale If the rat is female or not
      */
     public void setIsFemale(boolean isFemale) {
         this.isFemale = isFemale;
     }
 
+    /**
+     * Gets if the rat is female
+     *
+     * @return the current value of isFemale
+     */
     public boolean isFemale() {
         return isFemale;
     }
@@ -58,17 +64,20 @@ public class ChildRat extends LivingRat {
      */
     public void growUp() {
         if (isFemale) {
-            AdultFemale newAdult = new AdultFemale(Rat.getDEFAULT_SPEED(), direction, gasTimer,
-                    xPos, yPos, isFertile, 0, 0);
-            Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).addOccupantRat(newAdult);
+            AdultFemale newAdult = new AdultFemale(Rat.getDEFAULT_SPEED(),
+                    direction, gasTimer, xPos, yPos, isFertile, 0, 0);
+            Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).
+                    addOccupantRat(newAdult);
             LevelController.ratAdded(newAdult);
         } else {
-            AdultMale newAdult = new AdultMale(Rat.getDEFAULT_SPEED(), direction, gasTimer,
-                    xPos, yPos, isFertile);
-            Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).addOccupantRat(newAdult);
+            AdultMale newAdult = new AdultMale(Rat.getDEFAULT_SPEED(),
+                    direction, gasTimer, xPos, yPos, isFertile);
+            Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).
+                    addOccupantRat(newAdult);
             LevelController.ratAdded(newAdult);
         }
-        Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).removeOccupantRat(this);
+        Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).
+                removeOccupantRat(this);
         LevelController.ratRemoved(this);
     }
 
