@@ -84,6 +84,7 @@ public class ChildRat extends LivingRat {
 
     /**
      * Gets the age of the rat
+     *
      * @return The age of the child
      */
     public int getAge() {
