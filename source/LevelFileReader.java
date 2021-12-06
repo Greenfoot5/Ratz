@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
  * @author James McWilliams
  */
 public class LevelFileReader {
+    private static final float milli = 1000f;
     private static int height;
     private static int width;
     private static int maxRats;
@@ -22,30 +24,64 @@ public class LevelFileReader {
     private static boolean hasLoadedSavedLevel;
 
 
+    /**
+     * Gets the height of the level
+     *
+     * @return the height of the level
+     */
     public static int getHeight() {
         return height;
     }
 
+    /**
+     * Gets the width of the level
+     *
+     * @return the width of the level
+     */
     public static int getWidth() {
         return width;
     }
 
+    /**
+     * Gets the rats that are currently in play
+     *
+     * @return An array of rats on the map
+     */
     public static Rat[] getRatSpawns() {
         return RAT_ARRAY_LIST.toArray(new Rat[0]);
     }
 
+    /**
+     * Returns current powers on the map
+     *
+     * @return An array of powers on the map
+     */
     public static Power[] getPowers() {
         return POWER_ARRAY_LIST.toArray(new Power[0]);
     }
 
+    /**
+     * Gets the maximum amount of rats that can appear in the level
+     *
+     * @return the maximum amount of rats before the level ends
+     */
     public static int getMaxRats() {
         return maxRats;
     }
 
+    /**
+     * The time in seconds, the level has been active
+     * @return time in seconds since level start
+     */
     public static int getParTime() {
         return parTime;
     }
 
+    /**
+     * Gets if the level has been saved previously
+     *
+     * @return if the level has been saved previously
+     */
     public static boolean getHasLoadedSavedLevel() {
         return hasLoadedSavedLevel;
     }
@@ -73,7 +109,7 @@ public class LevelFileReader {
      * Bombs, Gas, Sterilisation items, Poison, Male sex changes,
      * Female sex changes, No-entry signs, and Death rats.
      *
-     * @return
+     * @return powers in the player's inventory
      */
     public static int[] getInProgInv() {
         return inProgInv;
@@ -102,20 +138,23 @@ public class LevelFileReader {
         }
         FileWriter writer = new FileWriter(saveFile);
 
-        String inventory = "";
+        StringBuilder inventory = new StringBuilder();
 
         for (int i = 0; i < LevelController.getCounters().length; i++) {
-            inventory += LevelController.getCounters()[i] + ",";
+            inventory.append(LevelController.getCounters()[i]).append(",");
         }
 
-        String allObjects = "";
+        StringBuilder allObjects = new StringBuilder();
 
         // add rats to file
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (LevelController.getTileAt(x, y).getOccupantRats().size() > 0) {
-                    for (Rat rat : LevelController.getTileAt(x, y).getOccupantRats()) {
-                        allObjects += "(" + ratToStr(rat) + ")\n";
+                if (Objects.requireNonNull(LevelController.getTileAt(x, y)).
+                        getOccupantRats().size() > 0) {
+                    for (Rat rat : Objects.requireNonNull(LevelController.
+                            getTileAt(x, y)).getOccupantRats()) {
+                        allObjects.append("(").append(ratToStr(rat)).
+                                append(")\n");
                     }
                 }
             }
@@ -124,15 +163,18 @@ public class LevelFileReader {
         // add powers to file
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (LevelController.getTileAt(x, y).getActivePowers().size() > 0) {
-                    for (Power power : LevelController.getTileAt(x, y).getActivePowers()) {
-                        allObjects += "(" + powerToStr(power) + ")\n";
+                if (Objects.requireNonNull(LevelController.getTileAt(x, y)).
+                        getActivePowers().size() > 0) {
+                    for (Power power : Objects.requireNonNull(LevelController.
+                            getTileAt(x, y)).getActivePowers()) {
+                        allObjects.append("(").append(powerToStr(power)).
+                                append(")\n");
                     }
                 }
             }
         }
 
-        int timeInSeconds = (int) Math.floor(LevelController.getCurrentTimeLeft() / 1000.0);
+        int timeInSeconds = (int) Math.floor(LevelController.getCurrentTimeLeft() / milli);
 
         String fileString = String.format("%d\n%s\n%s\n", timeInSeconds, inventory, allObjects);
         System.out.println(fileString);
@@ -376,7 +418,7 @@ public class LevelFileReader {
         tileMap = tilesToTileMap(tiles);
 
         // check if a saved level exists.
-        // if it does, grab the rats, timer, and stored inventory from it from it
+        // if it does, grab the rats, timer, and stored inventory from it
         if (levelDataInProgress.isFile()) {
             hasLoadedSavedLevel = true;
             reader = new Scanner(levelDataInProgress);
