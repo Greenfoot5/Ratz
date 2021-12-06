@@ -4,6 +4,7 @@ import java.util.ArrayList;
  * Class that defines green stuff.
  *
  * @author Alexander Douglas Lloyd-Ward
+ * @version 1.0
  */
 public class Grass extends Tile {
     /**
