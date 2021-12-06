@@ -10,7 +10,7 @@ public class Sterilisation extends Power{
 
     private int ticksActive = 0; //Tick counter since creation of this class.
     private static final String STERILISATION_SOUND_PATH
-            = "resources/sterilisationSound.mp3";
+            = "sterilisationSound.mp3";
     private static final float STERILISATION_SOUND_VOLUME = 0.1f;
     private static final int LIFETIME = 24;
 
