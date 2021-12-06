@@ -261,7 +261,8 @@ public class LevelFileReader {
         if (power instanceof Gas) {
             type = "G";
             special = String.valueOf(((Gas) power).getTicksActive());
-            return type + "," + xPos + "," + yPos + "," + special;
+            boolean isOriginal = ((Gas) power).isOriginal();
+            return type + "," + xPos + "," + yPos + "," + isOriginal + "," + special;
         }
         if (power instanceof Sterilisation) {
             type = "S";

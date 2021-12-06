@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 /**
  * A class that swaps male rat to female if it steps on this Power.
+ *
  * @author Daumantas Balakauskas
  */
 
@@ -9,7 +10,9 @@ public class FemaleSwapper extends Power {
 
     private static final String FEMALE_SWAP_SOUND_PATH
             = "resources/femaleSwapperSound.mp3";
-    /** FemaleSwapper constructor
+
+    /**
+     * FemaleSwapper constructor
      *
      * @param xPos x coordinate
      * @param yPos y coordinate
@@ -31,7 +34,7 @@ public class FemaleSwapper extends Power {
         seaSim.playAudioClip(FEMALE_SWAP_SOUND_PATH, 0.1);
 
         for (Rat r : rats) {
-            if(r instanceof AdultMale) {
+            if (r instanceof AdultMale) {
                 AdultFemale copyRat = new AdultFemale(r.getSpeed(), r.getDirection(), r.getGasTimer(),
                         this.xPos, this.yPos, ((AdultMale) r).isFertile, 0
                         , 0);
@@ -45,16 +48,20 @@ public class FemaleSwapper extends Power {
             } else {
                 currentTile.removeActivePower(this);
             }
+            if (r instanceof ChildRat) {
+                ((ChildRat) r).setIsFemale(true);
+            }
         }
     }
 
     /**
      * Abstract method for certain powers that need to activate after a
      * certain amount of time.
-     * @param currentTile used for calling removeActivePower(this).
-     * @param rats used for updating the rat arraylist every game tick.
      *
-     * onTick not used for this Power.
+     * @param currentTile used for calling removeActivePower(this).
+     * @param rats        used for updating the rat arraylist every game tick.
+     *                    <p>
+     *                    onTick not used for this Power.
      */
 
     @Override
