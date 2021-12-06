@@ -260,8 +260,8 @@ public abstract class Rat extends GameObject {
             if (getRearTile() != null && getRearTile().isPassable()) {
                 chosenDirection = turnBack();
             } else {
-                // the only time we should get to the point is if the rat is stuck in a box.
-                // this is pretty cruel to the rat.
+                // the only time we should get to the point is if the rat is
+                // stuck in a box. this is pretty cruel to the rat.
                 return null;
             }
         } else {
