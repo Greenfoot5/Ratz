@@ -6,20 +6,25 @@ import java.util.ArrayList;
 /**
  * A class that acts as an unpassable tile for Rat, activating 5 times before
  * disappearing.
+ *
  * @author Daumantas Balakauskas
+ * @version 1.0
  */
 
 public class StopSign extends Power {
 
     private int ticksActive = 0;
 
-    private static final String STOP_SIGN_SOUND_PATH
-            = "resources/stopSignSound.mp3";
+    private static final String STOP_SIGN_SOUND_PATH = "resources/stopSignSound.mp3";
+    private static final double SOUND_VOLUME = 0.1;
 
     private int HP = 5;
 
     /**
      * StopSign constructor
+     *
+     * @param xPos x coordinate.
+     * @param yPos y coordinate.
      */
 
     StopSign(int xPos, int yPos) {
@@ -27,11 +32,12 @@ public class StopSign extends Power {
     }
 
     /**
-     * For StopSign - Means reducing HP if rat tried to pass it, which will
-     * change the texture of this Power. Removes itself when HP hits 0.
-     * @param rats used to interact with all rats that stepped on the power.
-     * rats are not being used for this power.
+     * Reduces the HP of the sign, removes itself from Tile when HP hits 0.
+     *
+     * @param rats not used for this power specifically.
+     * @param currentTile used for removing this Power from its Tile.
      */
+
     @Override
     void activate(ArrayList<Rat> rats, Tile currentTile) {
         HP = HP - 1;
@@ -43,9 +49,12 @@ public class StopSign extends Power {
     }
 
     /**
-     * Abstract method for certain powers that need to activate after a
-     * certain amount of time.
-     * StopSign doesn't need to track game ticks.
+     * Abstract method for certain powers that need to do something after a
+     * certain amount of game ticks.
+     * onTick only used for playing a sound right after it's placed here.
+     *
+     * @param currentTile not used for this power specifically.
+     * @param rats not used for this power specifically.
      */
 
     @Override
@@ -54,12 +63,13 @@ public class StopSign extends Power {
 
         if (ticksActive == 1) {
             SeaShantySimulator seaSim = new SeaShantySimulator();
-            seaSim.playAudioClip(STOP_SIGN_SOUND_PATH, 0.1);
+            seaSim.playAudioClip(STOP_SIGN_SOUND_PATH, SOUND_VOLUME);
         }
     }
 
     /**
      * Uses current HP of StopSign to draw the needed texture.
+     *
      * @param x Horizontal position.
      * @param y Vertical position.
      * @param g Graphics context being drawn on.
@@ -77,8 +87,10 @@ public class StopSign extends Power {
 
     /**
      * Creates path to texture of a stop sign.
+     *
      * @return path.
      */
+
     @Override
     public String createTexturePath() {
         return "file:" + getTextureFolder() + "/stopsign5.png";

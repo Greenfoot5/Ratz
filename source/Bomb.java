@@ -14,6 +14,7 @@ import java.util.Objects;
 public class Bomb extends Power {
 
     private static final String BOMB_SOUND_PATH = "resources/bombSound.mp3";
+    private static final float BOMB_SOUND_VOLUME = 0.2f;
     private static final int EXPLODE_TICK = 16; // How many ticks to reach to explode
     private static final int ANIMATION_SLOWDOWN = 4;
     private static final int SOUND_DELAY = 11;
@@ -124,7 +125,7 @@ public class Bomb extends Power {
     void onTick(ArrayList<Rat> rats, Tile currentTile) {
         if (ticksActive == SOUND_DELAY) {
             SeaShantySimulator seaSim = new SeaShantySimulator();
-            seaSim.playAudioClip(BOMB_SOUND_PATH, 0.2);
+            seaSim.playAudioClip(BOMB_SOUND_PATH, BOMB_SOUND_VOLUME);
         }
 
         ticksActive = ticksActive + 1;
