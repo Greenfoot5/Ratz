@@ -108,6 +108,8 @@ public class LevelController {
 
     /**
      * Constructor for LevelController class.
+     * @param levelNum Number of level being played.
+     * @param mainMenuController Reference to the main menu controller.
      */
     public LevelController (int levelNum, MainMenuController mainMenuController) {
         LEVEL_NUMBER = levelNum;
@@ -118,7 +120,7 @@ public class LevelController {
         buildNewLevel();
 
         MAX_RATS = LevelFileReader.getMaxRats();
-        if(LevelFileReader.getInProgTimer() != 0) {
+        if(LevelFileReader.getInProgTimer() != -1) {
             PAR_TIME = LevelFileReader.getInProgTimer();
         } else {
             PAR_TIME = LevelFileReader.getParTime();
@@ -126,10 +128,18 @@ public class LevelController {
         DROP_RATES = LevelFileReader.getDropRates();
     }
 
+    /**
+     * Returns current timer.
+     * @return Time in milliseconds.
+     */
     public static int getCurrentTimeLeft() {
         return currentTimeLeft;
     }
 
+    /**
+     * Returns current item counters.
+     * @return number of each item.
+     */
     public static int[] getCounters() {
         return counters;
     }
@@ -233,7 +243,7 @@ public class LevelController {
     }
 
     /**
-     * Periodically refreshes game screen.
+     * Periodically refreshes game.
      */
     public void tick() {
         if ((femaleRatCounter + maleRatCounter + childRatCounter) == 0) {
@@ -430,7 +440,11 @@ public class LevelController {
     public void saveAndExit() {
         tickTimeline.stop();
 
-        //TODO: SAVE GAME HERE
+        try {
+            LevelFileReader.saveLevel("level-" + LEVEL_NUMBER);
+        } catch (IOException e) {
+            System.out.println("Couldn't save level state.");
+        }
 
         exitGame();
     }

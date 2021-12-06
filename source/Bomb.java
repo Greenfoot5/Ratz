@@ -1,9 +1,7 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.media.AudioClip;
-
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A class that kills all rats standing on the tile at the time of explosion -
@@ -59,7 +57,7 @@ public class Bomb extends Power {
         int counter = 1;
 
         if (LevelController.getTileAt(this.xPos, this.yPos + counter) != null) {
-            while (LevelController.getTileAt(this.xPos, this.yPos + counter).isPassable()) {
+            while (Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos + counter)).isPassable()) {
                 tilesToExplode.add(LevelController.getTileAt(this.xPos,
                         this.yPos + counter));
                 counter++;
@@ -68,7 +66,7 @@ public class Bomb extends Power {
 
         counter = 1;
         if (LevelController.getTileAt(this.xPos, this.yPos - counter) != null) {
-            while (LevelController.getTileAt(this.xPos, this.yPos - counter).isPassable()) {
+            while (Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos - counter)).isPassable()) {
                 tilesToExplode.add(LevelController.getTileAt(this.xPos,
                         this.yPos - counter));
                 counter++;
@@ -77,7 +75,7 @@ public class Bomb extends Power {
 
         counter = 1;
         if (LevelController.getTileAt(this.xPos + counter, this.yPos) != null) {
-            while (LevelController.getTileAt(this.xPos + counter, this.yPos).isPassable()) {
+            while (Objects.requireNonNull(LevelController.getTileAt(this.xPos + counter, this.yPos)).isPassable()) {
                 tilesToExplode.add(LevelController.getTileAt(this.xPos + counter,
                         this.yPos));
                 counter++;
@@ -86,7 +84,7 @@ public class Bomb extends Power {
 
         counter = 1;
         if (LevelController.getTileAt(this.xPos - counter, this.yPos) != null) {
-            while(LevelController.getTileAt(this.xPos - counter, this.yPos).isPassable()) {
+            while(Objects.requireNonNull(LevelController.getTileAt(this.xPos - counter, this.yPos)).isPassable()) {
                 tilesToExplode.add(LevelController.getTileAt(this.xPos-counter,
                         this.yPos));
                 counter++;
