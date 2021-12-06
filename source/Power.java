@@ -37,4 +37,12 @@ public abstract class Power extends GameObject {
      */
 
     abstract void onTick(ArrayList<Rat> rats, Tile currentTile);
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public int getyPos() {
+        return yPos;
+    }
 }

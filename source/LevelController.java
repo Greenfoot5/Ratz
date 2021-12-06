@@ -19,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -30,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 public class LevelController {
 
     private static final int ITEM_NUM = 8;
+    private static final int[] counters = new int[ITEM_NUM];
 
     //Game map
     private static Tile[][] tileMap = new Tile[0][0];
@@ -41,12 +43,19 @@ public class LevelController {
     private static int maleRatCounter;
     private static int childRatCounter;
 
+    //For sounds
+    private static final String DEATH_RAT_SOUND_1_PATH = "resources" +
+            "/deathRatSound1.mp3";
+    private static final String DEATH_RAT_SOUND_2_PATH = "resources" +
+            "/deathRatSound2.mp3";
+    private static final String DEATH_RAT_SOUND_3_PATH = "resources" +
+            "/deathRatSound3.mp3";
+
     //Images for different game items
     private final List<Image> itemImages = Arrays.asList((new Bomb(0,0)).getImg(),(new Gas(0,0,true)).getImg(),
             (new Sterilisation(0,0)).getImg(), (new Poison(0,0)).getImg(),
             (new MaleSwapper(0,0)).getImg(),(new FemaleSwapper(0,0)).getImg(),
             (new StopSign(0,0)).getImg(),(new DeathRat(0, Rat.Direction.WEST,0,0,0,0)).getImg());
-    private final int[] counters = new int[ITEM_NUM];
 
     //Size of game map
     private final int WIDTH;
@@ -70,7 +79,7 @@ public class LevelController {
 
     //Game timeline
     private Timeline tickTimeline;
-    private int currentTimeLeft;
+    private static int currentTimeLeft;
 
     @FXML
     public Canvas levelCanvas; //Game map canvas
@@ -115,6 +124,14 @@ public class LevelController {
             PAR_TIME = LevelFileReader.getParTime();
         }
         DROP_RATES = LevelFileReader.getDropRates();
+    }
+
+    public static int getCurrentTimeLeft() {
+        return currentTimeLeft;
+    }
+
+    public static int[] getCounters() {
+        return counters;
     }
 
     /**
@@ -165,7 +182,7 @@ public class LevelController {
     public void renderCounters() {
         String mc = String.valueOf(maleRatCounter);
         String fc = String.valueOf(femaleRatCounter);
-        String rc = String.valueOf(femaleRatCounter + maleRatCounter + childRatCounter) + "/" + String.valueOf(MAX_RATS);
+        String rc = (femaleRatCounter + maleRatCounter + childRatCounter) + "/" + (MAX_RATS);
 
         maleRatCounterLabel.setText(mc);
         femaleRatCounterLabel.setText(fc);
@@ -383,6 +400,16 @@ public class LevelController {
                 power = new StopSign(x, y);
                 break;
             case 7:
+                SeaShantySimulator seaSim = new SeaShantySimulator();
+                int randomNum = ThreadLocalRandom.current().nextInt(1, 3);
+                if (randomNum == 1) {
+                    seaSim.playAudioClip(DEATH_RAT_SOUND_1_PATH, 0.1);
+                } else if (randomNum == 2) {
+                    seaSim.playAudioClip(DEATH_RAT_SOUND_2_PATH, 0.1);
+                } else {
+                    seaSim.playAudioClip(DEATH_RAT_SOUND_3_PATH, 0.1);
+                }
+
                 tileMap[x][y].addOccupantRat(new DeathRat(Rat.getDEFAULT_SPEED(),Rat.Direction.NORTH,0,x,y,0));
                 addPower = false;
                 break;

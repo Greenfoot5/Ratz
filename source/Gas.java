@@ -82,10 +82,8 @@ public class Gas extends Power {
         //Places a bunch of new Gas on Tiles with isOriginal = false;
         if (isOriginal) {
             if (ticksActive == 1 || ticksActive % 4 == 0) {
-                AudioClip deathSound = new AudioClip(
-                        new File(GAS_SOUND_PATH).toURI().toString());
-                deathSound.setVolume(0.1);
-                deathSound.play();
+                SeaShantySimulator seaSim = new SeaShantySimulator();
+                seaSim.playAudioClip(GAS_SOUND_PATH, 0.1);
                 gasSurroundingPathTiles();
             }
         }

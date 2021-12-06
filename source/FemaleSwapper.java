@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class FemaleSwapper extends Power {
 
+    private static final String FEMALE_SWAP_SOUND_PATH
+            = "resources/femaleSwapperSound.mp3";
     /** FemaleSwapper constructor
      *
      * @param xPos x coordinate
@@ -24,6 +26,10 @@ public class FemaleSwapper extends Power {
      */
     @Override
     void activate(ArrayList<Rat> rats, Tile currentTile) {
+
+        SeaShantySimulator seaSim = new SeaShantySimulator();
+        seaSim.playAudioClip(FEMALE_SWAP_SOUND_PATH, 0.1);
+
         for (Rat r : rats) {
             if(r instanceof AdultMale) {
                 AdultFemale copyRat = new AdultFemale(r.getSpeed(), r.getDirection(), r.getGasTimer(),

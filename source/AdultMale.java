@@ -31,16 +31,18 @@ public class AdultMale extends LivingRat {
     }
 
     /**
-     * Makes every female rat on the tile pregnant.
+     * Makes every female or intersex rat on the tile pregnant.
      */
     public void ratSexFunction() {
         if (this.isFertile) {
             Tile currentTile = LevelController.getTileAt(xPos, yPos);
 
             for (Rat currentRat : currentTile.getOccupantRats()) {
-                if (currentRat instanceof AdultFemale) {
+                if (currentRat instanceof AdultFemale ) {
                     ((AdultFemale) currentRat).becomePregnant();
-                }
+                } /*else if (currentRat instanceof  AdultIntersex ) {
+                    ((AdultIntersex) currentRat).becomePregnant();
+                }*/
             }
         }
 
