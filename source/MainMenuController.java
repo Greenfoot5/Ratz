@@ -35,7 +35,7 @@ public class MainMenuController extends Application {
 	private static final int WINDOW_HEIGHT = 500;
 	private final int NUMBER_OF_RATS_IMAGES = 7;
 
-    // The various labels we'll use
+	// The various labels we'll use
 	private Label loggedProfile;
 	private Label loggedLabel;
 	private Label scoresHeading;
@@ -47,6 +47,7 @@ public class MainMenuController extends Application {
 	private FileInputStream inputStreamsPreviev;
 	private Image imagePreviev;
 	private ImageView imageViewPreviev;
+
 	/**
 	 * Launches the application
 	 *
@@ -64,12 +65,12 @@ public class MainMenuController extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 
-        // Start the SeaShantySimulator
+		// Start the SeaShantySimulator
 		SeaShantySimulator seaShantySimulator = new SeaShantySimulator();
 		seaShantySimulator.initialize();
 		seaShantySimulator.play();
 
-        // Create the stage
+		// Create the stage
 		mainStage = primaryStage;
 		primaryStage.setResizable(false);
 
@@ -81,7 +82,7 @@ public class MainMenuController extends Application {
 		// Create a scene based on the pane.
 		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 		mainScene = scene;
-        // Load the css
+		// Load the css
 		File f = new File("source/menu.css");
 		scene.getStylesheets().clear();
 		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
@@ -96,22 +97,22 @@ public class MainMenuController extends Application {
 		primaryStage.show();
 	}
 
-    /**
-     * Returns the buttons in the centre of the main menu
-     *
-     * @param scene The scene we're currently on
-     * @param primaryStage The current stage
-     * @return The VerticalBox with all the buttons inside
-     */
+	/**
+	 * Returns the buttons in the centre of the main menu
+	 *
+	 * @param scene        The scene we're currently on
+	 * @param primaryStage The current stage
+	 * @return The VerticalBox with all the buttons inside
+	 */
 	private VBox getCentreMain(Scene scene, Stage primaryStage) {
-        // Creates rhe base for the layout
+		// Creates rhe base for the layout
 		VBox centre = new VBox(ProfileFileReader.getNumberOfLevels());
 		ImageView ratzImageView = getRatzImageViewMain();
 
-        // Sets the MOTD
+		// Sets the MOTD
 		Label motd = new Label(MOTD.GETMotd());
 
-        // Logged in text
+		// Logged in text
 		Label loggedProfileText = new Label("You are logged as ");
 		loggedProfile = new Label();
 		if (ProfileFileReader.getLoggedProfile() == null) {
@@ -121,13 +122,13 @@ public class MainMenuController extends Application {
 		}
 		loggedProfile.setStyle("-fx-text-fill: #Fd062a");
 
-        // Login css
+		// Login css
 		HBox loggedProfileBox = new HBox();
 		loggedProfileBox.setAlignment(Pos.CENTER);
 		loggedProfileBox.setStyle("-fx-text-fill: #Fd062a");
 		loggedProfileBox.getChildren().addAll(loggedProfileText, loggedProfile);
 
-        // Select level button
+		// Select level button
 		Button playButton = new Button("Select level!");
 		playButton.setPrefWidth(100);
 		playButton.setOnAction(event -> {
@@ -139,7 +140,7 @@ public class MainMenuController extends Application {
 			}
 		});
 
-        // Select profile button
+		// Select profile button
 		Button selectProfile = new Button("Select Profile!");
 		selectProfile.setPrefWidth(100);
 		selectProfile.setPadding(new Insets(10, 0, 0, 0));
@@ -148,52 +149,54 @@ public class MainMenuController extends Application {
 			primaryStage.show();
 		});
 
-        // Button to quite the application
+		// Button to quite the application
 		Button exitButton = new Button("Exit!");
 		exitButton.setPrefWidth(100);
 		exitButton.setPadding(new Insets(10, 0, 0, 0));
 		exitButton.setOnAction(event -> primaryStage.close());
 
-        // Adds the items to the layout
-		centre.getChildren().addAll(ratzImageView, motd, loggedProfileBox, playButton, selectProfile,
-				exitButton);
+		// Adds the items to the layout
+		centre.getChildren().addAll(ratzImageView, motd, loggedProfileBox, playButton, selectProfile, exitButton);
 		centre.setAlignment(Pos.CENTER);
 
 		return centre;
 	}
 
-    /**
-     * Displays the rats title
-     * @return The image title
-     */
+	/**
+	 * Displays the rats title
+	 * 
+	 * @return The image title
+	 */
 	private ImageView getRatzImageViewMain() {
 		FileInputStream inputstream = null;
 
 		try {
 			inputstream = new FileInputStream("resources/ratzLabel.png");
-		} catch (FileNotFoundException ignored) { }
+		} catch (FileNotFoundException ignored) {
+		}
 
-        assert inputstream != null;
-        Image ratzImage = new Image(inputstream);
+		assert inputstream != null;
+		Image ratzImage = new Image(inputstream);
 
-        return new ImageView(ratzImage);
+		return new ImageView(ratzImage);
 	}
 
-    /**
-     * Displays the rats at the top of the menu
-     *
-     * @return The layout elements with the rats added
-     */
+	/**
+	 * Displays the rats at the top of the menu
+	 *
+	 * @return The layout elements with the rats added
+	 */
 	private HBox getTopRatsMain() {
 		HBox top = new HBox();
 
 		FileInputStream inputstream = null;
 		try {
 			inputstream = new FileInputStream("resources/adultmaleSOUTH.png");
-		} catch (FileNotFoundException ignored) { }
+		} catch (FileNotFoundException ignored) {
+		}
 
-        assert inputstream != null;
-        Image image = new Image(inputstream);
+		assert inputstream != null;
+		Image image = new Image(inputstream);
 
 		top.setAlignment(Pos.BASELINE_RIGHT);
 		top.setSpacing(60);
@@ -201,56 +204,56 @@ public class MainMenuController extends Application {
 		return top;
 	}
 
-    /**
-     * Generates the layout element for the rats at the bottom of the main menu
-     *
-     * @return The layout element to display the rats at the bottom of the main menu
-     */
+	/**
+	 * Generates the layout element for the rats at the bottom of the main menu
+	 *
+	 * @return The layout element to display the rats at the bottom of the main menu
+	 */
 	private HBox getBottomRatsMain() {
 		HBox bottom = new HBox();
 		FileInputStream inputstream = null;
 		try {
 			inputstream = new FileInputStream("resources/adultfemaleNORTH.png");
-		} catch (FileNotFoundException ignored) { }
-        assert inputstream != null;
-        Image image = new Image(inputstream);
+		} catch (FileNotFoundException ignored) {
+		}
+		assert inputstream != null;
+		Image image = new Image(inputstream);
 
 		bottom.setSpacing(60);
 		bottom.getChildren().addAll(newImageViews(image));
 		return bottom;
 	}
 
-    /**
-     * Generates the image views for the rats on the main menu
-     *
-     * @param image The Image to generate the image views for
-     * @return The ImageViews for the rats
-     */
-    private ImageView[] newImageViews(Image image) {
-        ImageView[] result = new ImageView[NUMBER_OF_RATS_IMAGES];
+	/**
+	 * Generates the image views for the rats on the main menu
+	 *
+	 * @param image The Image to generate the image views for
+	 * @return The ImageViews for the rats
+	 */
+	private ImageView[] newImageViews(Image image) {
+		ImageView[] result = new ImageView[NUMBER_OF_RATS_IMAGES];
 
-        for(int i = 0; i < result.length; i++)
-        {
-            result[i] = new ImageView(image);
-        }
+		for (int i = 0; i < result.length; i++) {
+			result[i] = new ImageView(image);
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    /**
-     * Creates the menu to select a profile
-     *
-     * @param profileStage The stage of the menu
-     * @param scene The current scene
-     * @return The Scene to set to display the select profiles menu
-     */
+	/**
+	 * Creates the menu to select a profile
+	 *
+	 * @param profileStage The stage of the menu
+	 * @param scene        The current scene
+	 * @return The Scene to set to display the select profiles menu
+	 */
 	public Scene selectProfiles(Stage profileStage, Scene scene) {
 		// Create reader if we don't have one yet
 
 		// Layout items
 		BorderPane profilePane = new BorderPane();
 
-        // Generate each part of the layout
+		// Generate each part of the layout
 		HBox top = getTopLogin();
 		HBox selectMenuPics = getSelectMenuPicsLogin();
 		VBox centre = getCentreLogin();
@@ -266,7 +269,7 @@ public class MainMenuController extends Application {
 		profilePane.setLeft(left);
 		profilePane.setBottom(bottom);
 
-        // Adds the css for the menu
+		// Adds the css for the menu
 		Scene profileScene = new Scene(profilePane, WINDOW_WIDTH, WINDOW_HEIGHT);
 		File f = new File("source/menu.css");
 		profileScene.getStylesheets().clear();
@@ -275,14 +278,14 @@ public class MainMenuController extends Application {
 		return profileScene;
 	}
 
-    /**
-     * Generates the Add profile elements at the bottom of the login screen
-     *
-     * @param left The left box on the profiles' menu layout
-     * @return The layout element for the profiles menu
-     */
+	/**
+	 * Generates the Add profile elements at the bottom of the login screen
+	 *
+	 * @param left The left box on the profiles' menu layout
+	 * @return The layout element for the profiles menu
+	 */
 	private HBox getBottomLogin(VBox left) {
-        // Generate base layout
+		// Generate base layout
 		HBox bottom = new HBox(20);
 		bottom.setAlignment(Pos.TOP_CENTER);
 		bottom.setPadding(new Insets(10, 80, 30, 0));
@@ -292,25 +295,25 @@ public class MainMenuController extends Application {
 		TextField newProfField = new TextField();
 		Button addProfButton = new Button("Add");
 		addProfButton.setPrefWidth(70);
-        // Adds the actions to the button
+		// Adds the actions to the button
 		addProfButton.setOnAction(event -> {
 			try {
-                // Check we don't have too many profiles already
+				// Check we don't have too many profiles already
 				if (left.getChildren().size() > 8) {
 					alert("Too many profiles!");
-                    // Check there's at least something in the text box
-                    // and the profiles doesn't already exist
+					// Check there's at least something in the text box
+					// and the profiles doesn't already exist
 				} else if (!newProfField.getText().equals("")
 						&& !ProfileFileReader.doesProfileExist(newProfField.getText())) {
 
 					ProfileFileReader.createNewProfile(newProfField.getText());
 
-                    // Add the new profile's button
+					// Add the new profile's button
 					Button newProfButton = new Button(newProfField.getText());
 					newProfButton.setPrefWidth(100);
 					ProfileFileReader.loginProfile(newProfButton.getText());
 
-                    // Add the login action to the button
+					// Add the login action to the button
 					newProfButton.setOnAction(event2 -> {
 						// Logging in
 						ProfileFileReader.loginProfile(newProfButton.getText());
@@ -319,11 +322,11 @@ public class MainMenuController extends Application {
 					});
 					left.getChildren().add(newProfButton);
 				}
-                // If the profile already exists
-                else if (!newProfField.getText().equals("")) {
-                    alert("Profile already exists");
-                }
-                // There's nothing in the text box
+				// If the profile already exists
+				else if (!newProfField.getText().equals("")) {
+					alert("Profile already exists");
+				}
+				// There's nothing in the text box
 				else {
 					alert("Please, type a name");
 				}
@@ -337,14 +340,14 @@ public class MainMenuController extends Application {
 		return bottom;
 	}
 
-    /**
-     * Creates the layout for the right of the profiles' login menu
-     *
-     * @param profileStage The profileMenu stage
-     * @param scene The current scene
-     * @param left The left layout element
-     * @return The layout element with to return to main menu
-     */
+	/**
+	 * Creates the layout for the right of the profiles' login menu
+	 *
+	 * @param profileStage The profileMenu stage
+	 * @param scene        The current scene
+	 * @param left         The left layout element
+	 * @return The layout element with to return to main menu
+	 */
 	private VBox getRightLogin(Stage profileStage, Scene scene, VBox left) {
 		VBox right = new VBox(10);
 		right.setAlignment(Pos.TOP_CENTER);
@@ -394,19 +397,19 @@ public class MainMenuController extends Application {
 		return right;
 	}
 
-    /**
-     * Generates the layout and buttons for the profiles on the profile menu
-     *
-     * @return The layout for the profile buttons
-     */
+	/**
+	 * Generates the layout and buttons for the profiles on the profile menu
+	 *
+	 * @return The layout for the profile buttons
+	 */
 	private VBox getLeftLogin() {
-        // Generates the base layout
+		// Generates the base layout
 		VBox left = new VBox(HighScores.getNumberOfScores());
 		left.setAlignment(Pos.TOP_CENTER);
 		left.setPadding(new Insets(10, 10, 10, 40));
 
 		// Get the profiles
-		String[] s = {""};
+		String[] s = { "" };
 		try {
 			s = ProfileFileReader.getProfiles();
 		} catch (FileNotFoundException e) {
@@ -421,7 +424,7 @@ public class MainMenuController extends Application {
 			left.getChildren().add(profButton[i]);
 
 			final int buttonIndex = i;
-            // Adds the action for each button
+			// Adds the action for each button
 			profButton[i].setOnAction(event -> {
 				ProfileFileReader.loginProfile(profButton[buttonIndex].getText());
 				loggedProfile.setText(ProfileFileReader.getLoggedProfile());
@@ -431,18 +434,19 @@ public class MainMenuController extends Application {
 		return left;
 	}
 
-    /**
-     * Generates the display for the poison images on the profiles menu
-     *
-     * @return The layout element for the images
-     */
+	/**
+	 * Generates the display for the poison images on the profiles menu
+	 *
+	 * @return The layout element for the images
+	 */
 	private HBox getSelectMenuPicsLogin() {
 		FileInputStream inputstream = null;
 		try {
 			inputstream = new FileInputStream("resources/poison.png");
-		} catch (FileNotFoundException ignored) { }
-        assert inputstream != null;
-        Image image = new Image(inputstream);
+		} catch (FileNotFoundException ignored) {
+		}
+		assert inputstream != null;
+		Image image = new Image(inputstream);
 		ImageView imageView = new ImageView(image);
 		ImageView imageView2 = new ImageView(image);
 		HBox selectMenuPics = new HBox();
@@ -452,44 +456,46 @@ public class MainMenuController extends Application {
 		return selectMenuPics;
 	}
 
-    /**
-     * Displays the best scores for the selected user
-     *
-     * @return The layout element with the high scores
-     */
+	/**
+	 * Displays the best scores for the selected user
+	 *
+	 * @return The layout element with the high scores
+	 */
 	private VBox getCentreLogin() {
-        // Generate the base layout
+		// Generate the base layout
 		VBox centre = new VBox(10);
 		centre.setAlignment(Pos.TOP_CENTER);
 		centre.setPadding(new Insets(5, 0, 5, 0));
 
-        // Creating array of labels to display
+		// Creating array of labels to display
 		profileScore = new Label[ProfileFileReader.getNumberOfLevels()];
 
 		if (ProfileFileReader.getLoggedProfile() != null) {
-	        // Player is logged in so scores can be displayed
+			// Player is logged in so scores can be displayed
 			scoresHeading = new Label("Best " + ProfileFileReader.getLoggedProfile() + "'s scores:");
-            centre.getChildren().add(scoresHeading);
+			centre.getChildren().add(scoresHeading);
 
-            // Score 0 means that player hasn't completed the level, so next level should be locked
-            // When loop over score equal to 0 should be changed to false to show that next level is locked 
+			// Score 0 means that player hasn't completed the level, so next level should be
+			// locked
+			// When loop over score equal to 0 should be changed to false to show that next
+			// level is locked
 			boolean unlocked = true;
 			for (int i = 0; i < profileScore.length; i++) {
-				// Looping over scores to check if level was unlocked by a player (if so display the score)
+				// Looping over scores to check if level was unlocked by a player (if so display
+				// the score)
 				try {
 					if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) > 0 && unlocked) {
-						// If player's score is above 0 it means player unlocked this level and score should be displayed
+						// If player's score is above 0 it means player unlocked this level and score
+						// should be displayed
 						profileScore[i] = new Label("Lvl" + (i + 1) + " "
 								+ ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
-					} 
-					else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0
+					} else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0
 							&& unlocked) {
-						// If player's score is 0 it means it is last level unlocked by a player 
+						// If player's score is 0 it means it is last level unlocked by a player
 						profileScore[i] = new Label("Lvl" + (i + 1) + " "
 								+ ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
 						unlocked = false;
-					}
-					else {
+					} else {
 						// Level wasn't unlocked, so score shouldn't be displayed
 						profileScore[i] = new Label("Lvl" + (i + 1) + " is locked");
 					}
@@ -499,8 +505,7 @@ public class MainMenuController extends Application {
 				}
 				centre.getChildren().add(profileScore[i]);
 			}
-		} 
-		else {
+		} else {
 			// No player is logged in so scores are displayed as zeros
 			scoresHeading = new Label("Best ... scores:");
 			centre.getChildren().add(scoresHeading);
@@ -513,22 +518,22 @@ public class MainMenuController extends Application {
 		return centre;
 	}
 
-    /**
-     * Generate the headers for the profiles' menu
-     *
-     * @return The layout containing the title and logged in text
-     */
+	/**
+	 * Generate the headers for the profiles' menu
+	 *
+	 * @return The layout containing the title and logged in text
+	 */
 	private HBox getTopLogin() {
 		HBox top = new HBox();
 
-        // Generates the logged in label
+		// Generates the logged in label
 		Label loggedLabelText = new Label("You are logged as ");
 		loggedLabelText.getStyleClass().add("loggingLabel");
 		loggedLabel = new Label();
 		loggedLabel.getStyleClass().add("loggingLabel");
 		loggedLabel.setStyle("-fx-text-fill: #Fd062a");
 
-        // Displays the profile currently logged in
+		// Displays the profile currently logged in
 		if (ProfileFileReader.getLoggedProfile() == null) {
 			loggedLabel.setText("...");
 		} else {
@@ -540,37 +545,39 @@ public class MainMenuController extends Application {
 		return top;
 	}
 
-    /**
-     * Generates the bests for each profile
-     *
-     * @param loggedLabel The label displaying who's logged in
-     * @param scoresHeading The heading for the scores
-     * @param profileScore The labels to display the scores i
-     */
+	/**
+	 * Generates the bests for each profile
+	 *
+	 * @param loggedLabel   The label displaying who's logged in
+	 * @param scoresHeading The heading for the scores
+	 * @param profileScore  The labels to display the scores i
+	 */
 	private void displayProfileBests(Label loggedLabel, Label scoresHeading, Label[] profileScore) {
 		// Change the text of headings
 		loggedLabel.setText(ProfileFileReader.getLoggedProfile());
 		scoresHeading.setText("Best " + ProfileFileReader.getLoggedProfile() + "'s scores:");
 
-		// Score 0 means that player hasn't completed the level, so next level should be locked
-        // When loop over score equal to 0 should be changed to false to show that next level is locked 
+		// Score 0 means that player hasn't completed the level, so next level should be
+		// locked
+		// When loop over score equal to 0 should be changed to false to show that next
+		// level is locked
 		boolean unlocked = true;
-		// Looping over scores to check if level was unlocked by a player (if so display the score)
+		// Looping over scores to check if level was unlocked by a player (if so display
+		// the score)
 		for (int i = 0; i < profileScore.length; i++) {
 			try {
 				if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) > 0) {
-					// If player's score is above 0 it means player unlocked this level and score should be displayed
+					// If player's score is above 0 it means player unlocked this level and score
+					// should be displayed
 					profileScore[i].setText("Lvl" + (i + 1) + " "
 							+ ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
-				} 
-				else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0
+				} else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0
 						&& unlocked) {
-					// If player's score is 0 it means it is last level unlocked by a player 
+					// If player's score is 0 it means it is last level unlocked by a player
 					profileScore[i].setText("Lvl" + (i + 1) + " "
 							+ ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
 					unlocked = false;
-				} 
-				else {
+				} else {
 					// Level wasn't unlocked, so score shouldn't be displayed
 					profileScore[i].setText("Lvl" + (i + 1) + " is locked");
 				}
@@ -581,11 +588,11 @@ public class MainMenuController extends Application {
 		}
 	}
 
-    /**
-     * Generates a popup alert
-     *
-     * @param message The message to display in the alert
-     */
+	/**
+	 * Generates a popup alert
+	 *
+	 * @param message The message to display in the alert
+	 */
 	private void alert(String message) {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL);
@@ -607,7 +614,7 @@ public class MainMenuController extends Application {
 		scene.getStylesheets().clear();
 		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
-        window.setScene(scene);
+		window.setScene(scene);
 		window.setResizable(false);
 		window.showAndWait();
 	}
@@ -627,7 +634,7 @@ public class MainMenuController extends Application {
 		VBox leftBox = getLeftLevel(selectedLevel);
 		VBox rightBox = getRightLevel(selectStage, scene, selectedLevel);
 		HBox bottomBox = getBottomLevel();
-		
+
 		root.setCenter(centreBox);
 		root.setTop(topBox);
 		root.setRight(rightBox);
@@ -643,81 +650,81 @@ public class MainMenuController extends Application {
 		return levelsScene;
 	}
 
-    /**
-     * Display the rats at the bottom of the level select screen
-     *
-     * @return The layout element with the rats
-     */
+	/**
+	 * Display the rats at the bottom of the level select screen
+	 *
+	 * @return The layout element with the rats
+	 */
 	private HBox getBottomLevel() {
 		HBox bottomBox = new HBox(82);
 		bottomBox.setPrefHeight(80);
 
-        // Gets the rat images
+		// Gets the rat images
 		FileInputStream inputs1 = null;
 		FileInputStream inputs2 = null;
 		try {
 			inputs1 = new FileInputStream("resources/childratEAST.png");
 			inputs2 = new FileInputStream("resources/deathratEAST.png");
-		} catch (FileNotFoundException ignored) { }
+		} catch (FileNotFoundException ignored) {
+		}
 
-        // Turns the rat filepaths to images
-        assert inputs1 != null;
-        assert inputs2 != null;
-        Image imageB1 = new Image(inputs1);
-        Image imageB2 = new Image(inputs2);
+		// Turns the rat filepaths to images
+		assert inputs1 != null;
+		assert inputs2 != null;
+		Image imageB1 = new Image(inputs1);
+		Image imageB2 = new Image(inputs2);
 
-        // Allows us to display the images
-        ImageView[] imageViews = new ImageView[6];
-        for (int i = 0; i < imageViews.length; i++)
-        {
-            switch (i % 2)
-            {
-                case 0:
-                    imageViews[i] = new ImageView(imageB1);
-                    break;
-                case 1:
-                    imageViews[i] = new ImageView(imageB2);
-            }
-        }
+		// Allows us to display the images
+		ImageView[] imageViews = new ImageView[6];
+		for (int i = 0; i < imageViews.length; i++) {
+			switch (i % 2) {
+			case 0:
+				imageViews[i] = new ImageView(imageB1);
+				break;
+			case 1:
+				imageViews[i] = new ImageView(imageB2);
+			}
+		}
 
 		bottomBox.getChildren().addAll(imageViews);
 		return bottomBox;
 	}
 
-    /**
-     * Generates the bombs and buttons for the level select menu
-     *
-     * @param selectStage The stage for the level select screen
-     * @param scene The current scene
-     * @param selectedLevel The current selected level
-     * @return The layout element with the bombs and menu navigation buttons
-     */
+	/**
+	 * Generates the bombs and buttons for the level select menu
+	 *
+	 * @param selectStage   The stage for the level select screen
+	 * @param scene         The current scene
+	 * @param selectedLevel The current selected level
+	 * @return The layout element with the bombs and menu navigation buttons
+	 */
 	private VBox getRightLevel(Stage selectStage, Scene scene, AtomicInteger selectedLevel) {
 		VBox rightBox = new VBox(ProfileFileReader.getNumberOfLevels());
 		rightBox.setAlignment(Pos.CENTER_LEFT);
 		rightBox.setPrefWidth(180);
 		rightBox.setPadding(new Insets(5, 0, 5, 0));
 
-        // Get the bomb images
+		// Get the bomb images
 		FileInputStream[] inputStreams = new FileInputStream[2];
 		try {
 			inputStreams[0] = new FileInputStream("resources/bomb1.png");
-			inputStreamsPreviev= new FileInputStream("resources/preview1.png");
+			inputStreamsPreviev = new FileInputStream("resources/preview1.png");
 			inputStreams[1] = new FileInputStream("resources/bomb4.png");
-		} catch (FileNotFoundException ignored) { }
-        // Turn the bombs from file paths
-        assert inputStreams[0] != null;
-        Image image1 = new Image(inputStreams[0]);
-        assert inputStreams[1] != null;
-        Image image2 = new Image(inputStreams[1]);
-        assert inputStreamsPreviev != null;
-        imagePreviev = new Image(inputStreamsPreviev);
+		} catch (FileNotFoundException ignored) {
+		}
+		// Turn the bombs from file paths
+		assert inputStreams[0] != null;
+		Image image1 = new Image(inputStreams[0]);
+		assert inputStreams[1] != null;
+		Image image2 = new Image(inputStreams[1]);
+		assert inputStreamsPreviev != null;
+		imagePreviev = new Image(inputStreamsPreviev);
 
-        ImageView[] imageViews = new ImageView[2];
-        imageViews[0] = new ImageView(image1);
-        imageViews[1] = new ImageView(image2);
-        imageViewPreviev = new ImageView(imagePreviev);
-        // Generate the play button
+		ImageView[] imageViews = new ImageView[2];
+		imageViews[0] = new ImageView(image1);
+		imageViews[1] = new ImageView(image2);
+		imageViewPreviev = new ImageView(imagePreviev);
+		// Generate the play button
 		Button playButton = new Button("Play!");
 		playButton.setPrefWidth(80);
 		playButton.setOnAction(event -> {
@@ -728,7 +735,7 @@ public class MainMenuController extends Application {
 			}
 		});
 
-        // Generate the main menu button
+		// Generate the main menu button
 		Button backToMenu = new Button("Main Menu");
 		backToMenu.setOnAction(event -> {
 			selectStage.setScene(scene);
@@ -736,17 +743,16 @@ public class MainMenuController extends Application {
 		});
 		backToMenu.setPrefWidth(85);
 
-		rightBox.getChildren().addAll(
-				imageViews[0], playButton, imageViewPreviev, backToMenu, imageViews[1]);
+		rightBox.getChildren().addAll(imageViews[0], playButton, imageViewPreviev, backToMenu, imageViews[1]);
 		return rightBox;
 	}
 
-    /**
-     * Displays the level buttons to select
-     *
-     * @param selectedLevel The currently selected level
-     * @return The layout of buttons to select the level
-     */
+	/**
+	 * Displays the level buttons to select
+	 *
+	 * @param selectedLevel The currently selected level
+	 * @return The layout of buttons to select the level
+	 */
 	private VBox getLeftLevel(AtomicInteger selectedLevel) {
 		VBox leftBox = new VBox(10);
 		leftBox.setAlignment(Pos.CENTER_RIGHT);
@@ -756,11 +762,9 @@ public class MainMenuController extends Application {
 		boolean unlocked = true;
 		for (int i = 0; i < ProfileFileReader.getNumberOfLevels(); i++) {
 			try {
-				if (ProfileFileReader.getBestScore(
-						ProfileFileReader.getLoggedProfile(), i + 1) > 0) {
+				if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) > 0) {
 					isUnlocked[i] = true;
-				} else if (ProfileFileReader.getBestScore(
-						ProfileFileReader.getLoggedProfile(), i + 1) == 0
+				} else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0
 						&& unlocked) {
 					isUnlocked[i] = true;
 					unlocked = false;
@@ -775,24 +779,33 @@ public class MainMenuController extends Application {
 		Button[] lvl = new Button[ProfileFileReader.getNumberOfLevels()];
 		for (int i = 0; i < lvl.length; i++) {
 			int levelIndex = i + 1;
-			lvl[i] = new Button("Level " + (levelIndex));
-			lvl[i].setPrefWidth(70);
+
+			File levelDataInProgress = new File(
+					"./resources/level" + levelIndex 
+					+ "inProgress-" + ProfileFileReader.getLoggedProfile() + ".txt");
+			
+			if (levelDataInProgress.exists()) {
+				lvl[i] = new Button("Load lvl" + (levelIndex));
+				lvl[i].getStyleClass().add("buttonLoad");
+			} else {
+				lvl[i] = new Button("Level " + (levelIndex));
+			}
+			lvl[i].setPrefWidth(80);
 
 			final int imageIndex = i;
 			if (isUnlocked[i]) {
 				lvl[i].setOnAction(event -> {
 					scoreHeading.setText("Lvl " + (levelIndex) + " best scores:");
 					selectedLevel.set(levelIndex);
-					
+
 					try {
-						inputStreamsPreviev = new FileInputStream(
-								"resources/preview" + (imageIndex + 1) + ".png");
+						inputStreamsPreviev = new FileInputStream("resources/preview" + (imageIndex + 1) + ".png");
 						System.out.print("aa");
 					} catch (FileNotFoundException e) {
 					}
 					assert inputStreamsPreviev != null;
-			        imagePreviev = new Image(inputStreamsPreviev);
-			        imageViewPreviev.setImage(imagePreviev);
+					imagePreviev = new Image(inputStreamsPreviev);
+					imageViewPreviev.setImage(imagePreviev);
 
 					String[] newScores = null;
 					try {
@@ -819,11 +832,11 @@ public class MainMenuController extends Application {
 		return leftBox;
 	}
 
-    /**
-     *
-     * @param selectedLevel
-     * @return
-     */
+	/**
+	 *
+	 * @param selectedLevel
+	 * @return
+	 */
 	private VBox getCentreLevel(AtomicInteger selectedLevel) {
 		VBox centreBox = new VBox();
 		centreBox.setAlignment(Pos.CENTER);
@@ -835,8 +848,7 @@ public class MainMenuController extends Application {
 		scoresLabel = new Label[HighScores.getNumberOfScores()];
 		String[] scoresString = null;
 		try {
-			scoresString = HighScores.getTopScores(
-					selectedLevel.get());
+			scoresString = HighScores.getTopScores(selectedLevel.get());
 		} catch (FileNotFoundException ignored) {
 		}
 
@@ -845,8 +857,7 @@ public class MainMenuController extends Application {
 			scoresLabel[i].setPadding(new Insets(3, 0, 3, 0));
 			try {
 				assert scoresString != null;
-				scoresLabel[i].setText((i + 1) + " " 
-						+ scoresString[i]);
+				scoresLabel[i].setText((i + 1) + " " + scoresString[i]);
 			} catch (Exception e2) {
 				scoresLabel[i].setText((i + 1) + " ...");
 			}
@@ -855,10 +866,10 @@ public class MainMenuController extends Application {
 		return centreBox;
 	}
 
-    /**
-     *
-     * @return
-     */
+	/**
+	 *
+	 * @return
+	 */
 	private VBox getTopLevel() {
 		VBox topBox = new VBox();
 		topBox.setAlignment(Pos.CENTER);
@@ -891,9 +902,9 @@ public class MainMenuController extends Application {
 		levelStage.setScene(scene);
 	}
 
-    /**
-     * Called when a level is finished
-     */
+	/**
+	 * Called when a level is finished
+	 */
 	public void finishLevel() {
 		mainStage.setScene(mainScene);
 		mainStage.show();
