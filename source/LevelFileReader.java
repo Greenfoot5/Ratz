@@ -3,22 +3,18 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 /**
- * A class which reads levels from files, and saves levels to files.
+ * A class which reads levels from files, and saves levels to file.
  *
  * @author James McWilliams
  */
 public class LevelFileReader {
     private static int height;
     private static int width;
-    private static String[] tiles;
-    private static Power[] powers;
-    private static Rat[] ratSpawns;
     private static int maxRats;
     private static int parTime;
-    private static int[] dropRates = new int[8];
-    private static ArrayList<Tile> tileArrayList = new ArrayList<>();
-    private static ArrayList<Power> powerArrayList = new ArrayList<>();
-    private static ArrayList<Rat> ratArrayList = new ArrayList<>();
+    private static final int[] DROP_RATES = new int[8];
+    private static final ArrayList<Power> POWER_ARRAY_LIST = new ArrayList<>();
+    private static final ArrayList<Rat> RAT_ARRAY_LIST = new ArrayList<>();
     private static Tile[][] tileMap;
 
     private static int inProgTimer;
@@ -33,36 +29,12 @@ public class LevelFileReader {
         return width;
     }
 
-    /**
-     * `tiles` is a 2d array of strings with a length equal to the height of the level.
-     * Each item in the array is a new row of tiles. They can be:
-     * G for grass, P for path, and T for tunnel.
-     *
-     * @return tiles
-     */
-    public static String[] getTiles() {
-        return tiles;
-    }
-
-    /**
-     * Returns a tile at the specified location. G for grass, P for path, T for tunnel.
-     *
-     * @param x X coordinate of the tile.
-     * @param y Y coordinate of the tile.
-     * @return A char representing the type of tile in the given location.
-     */
-    public static char getTile(int x, int y) {
-        return tiles[y].charAt(x);
-    }
-
     public static Rat[] getRatSpawns() {
-        ratSpawns = ratArrayList.toArray(new Rat[0]);
-        return ratSpawns;
+        return RAT_ARRAY_LIST.toArray(new Rat[0]);
     }
 
     public static Power[] getPowers() {
-        powers = powerArrayList.toArray(new Power[0]);
-        return powers;
+        return POWER_ARRAY_LIST.toArray(new Power[0]);
     }
 
     public static int getMaxRats() {
@@ -83,7 +55,7 @@ public class LevelFileReader {
      * @return dropRates the chances that each power will drop.
      */
     public static int[] getDropRates() {
-        return dropRates;
+        return DROP_RATES;
     }
 
     public static int getInProgTimer() {
@@ -366,7 +338,7 @@ public class LevelFileReader {
         File levelData = new File(filename + ".txt");
         Scanner reader = new Scanner(levelData);
 
-        ratArrayList.clear();
+        RAT_ARRAY_LIST.clear();
         inProgInv = null;
         inProgTimer = -1;
 
@@ -381,8 +353,8 @@ public class LevelFileReader {
 
         // get drop rate data
         String[] dropRatesString = reader.nextLine().split(",");
-        for (int i = 0; i < dropRates.length; i++) {
-            dropRates[i] = Integer.parseInt(dropRatesString[i]);
+        for (int i = 0; i < DROP_RATES.length; i++) {
+            DROP_RATES[i] = Integer.parseInt(dropRatesString[i]);
         }
 
         // get tile data
@@ -394,7 +366,7 @@ public class LevelFileReader {
         }
 
         // this ugly regex splits currentTiles based on the level's width
-        tiles = currentTiles.split("(?<=\\G.{" + width + "})");
+        String[] tiles = currentTiles.split("(?<=\\G.{" + width + "})");
 
         tileMap = tilesToTileMap(tiles);
 
@@ -440,15 +412,11 @@ public class LevelFileReader {
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
                 boolean isFertile;
-                if (currentItem[6].equals("1")) {
-                    isFertile = true;
-                } else {
-                    isFertile = false;
-                }
+                isFertile = currentItem[6].equals("1");
                 int age = Integer.parseInt(currentItem[7]);
                 ChildRat newRat = new ChildRat(speed, direction, gasTimer,
                         xPos, yPos, isFertile, age, true);
-                ratArrayList.add(newRat);
+                RAT_ARRAY_LIST.add(newRat);
                 tileMap[xPos][yPos].addOccupantRat(newRat);
             }
 
@@ -461,15 +429,11 @@ public class LevelFileReader {
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
                 boolean isFertile;
-                if (currentItem[6].equals("1")) {
-                    isFertile = true;
-                } else {
-                    isFertile = false;
-                }
+                isFertile = currentItem[6].equals("1");
                 int age = Integer.parseInt(currentItem[7]);
                 ChildRat newRat = new ChildRat(speed, direction, gasTimer,
                         xPos, yPos, isFertile, age, false);
-                ratArrayList.add(newRat);
+                RAT_ARRAY_LIST.add(newRat);
                 tileMap[xPos][yPos].addOccupantRat(newRat);
             }
 
@@ -482,16 +446,12 @@ public class LevelFileReader {
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
                 boolean isFertile;
-                if (currentItem[6].equals("1")) {
-                    isFertile = true;
-                } else {
-                    isFertile = false;
-                }
+                isFertile = currentItem[6].equals("1");
                 int pregnancyTimer = Integer.parseInt(currentItem[7]);
                 int ratFetusCount = Integer.parseInt(currentItem[8]);
                 AdultFemale newRat = new AdultFemale(speed, direction, gasTimer,
                         xPos, yPos, isFertile, pregnancyTimer, ratFetusCount);
-                ratArrayList.add(newRat);
+                RAT_ARRAY_LIST.add(newRat);
                 tileMap[xPos][yPos].addOccupantRat(newRat);
             }
 
@@ -504,14 +464,10 @@ public class LevelFileReader {
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
                 boolean isFertile;
-                if (currentItem[6].equals("1")) {
-                    isFertile = true;
-                } else {
-                    isFertile = false;
-                }
+                isFertile = currentItem[6].equals("1");
                 AdultMale newRat = new AdultMale(speed, direction, gasTimer,
                         xPos, yPos, isFertile);
-                ratArrayList.add(newRat);
+                RAT_ARRAY_LIST.add(newRat);
                 tileMap[xPos][yPos].addOccupantRat(newRat);
             }
 
@@ -524,16 +480,12 @@ public class LevelFileReader {
                 int xPos = Integer.parseInt(currentItem[4]);
                 int yPos = Integer.parseInt(currentItem[5]);
                 boolean isFertile;
-                if (currentItem[6].equals("1")) {
-                    isFertile = true;
-                } else {
-                    isFertile = false;
-                }
+                isFertile = currentItem[6].equals("1");
                 int pregnancyTimer = Integer.parseInt(currentItem[7]);
                 int ratFetusCount = Integer.parseInt(currentItem[8]);
                 AdultIntersex newRat = new AdultIntersex(speed, direction, gasTimer,
                         xPos, yPos, isFertile, pregnancyTimer, ratFetusCount);
-                ratArrayList.add(newRat);
+                RAT_ARRAY_LIST.add(newRat);
                 tileMap[xPos][yPos].addOccupantRat(newRat);
             }
 
@@ -548,7 +500,7 @@ public class LevelFileReader {
                 int killCounter = Integer.parseInt(currentItem[6]);
                 DeathRat newRat = new DeathRat(speed, direction, gasTimer,
                         xPos, yPos, killCounter);
-                ratArrayList.add(newRat);
+                RAT_ARRAY_LIST.add(newRat);
                 tileMap[xPos][yPos].addOccupantRat(newRat);
             }
 
@@ -559,7 +511,7 @@ public class LevelFileReader {
                 int ticksActive = Integer.parseInt(currentItem[3]);
                 Bomb newBomb = new Bomb(xPos, yPos);
                 newBomb.setTicksActive(ticksActive);
-                powerArrayList.add(newBomb);
+                POWER_ARRAY_LIST.add(newBomb);
                 tileMap[xPos][yPos].addActivePower(newBomb);
             }
 
@@ -568,15 +520,11 @@ public class LevelFileReader {
                 int xPos = Integer.parseInt(currentItem[1]);
                 int yPos = Integer.parseInt(currentItem[2]);
                 boolean isOriginal;
-                if (currentItem[3].equals("1")) {
-                    isOriginal = true;
-                } else {
-                    isOriginal = false;
-                }
+                isOriginal = currentItem[3].equals("1");
                 int ticksActive = Integer.parseInt(currentItem[4]);
                 Gas newGas = new Gas(xPos, yPos, isOriginal);
                 newGas.setTicksActive(ticksActive);
-                powerArrayList.add(newGas);
+                POWER_ARRAY_LIST.add(newGas);
                 tileMap[xPos][yPos].addActivePower(newGas);
             }
 
@@ -587,7 +535,7 @@ public class LevelFileReader {
                 int ticksActive = Integer.parseInt(currentItem[3]);
                 Sterilisation newSterilisation = new Sterilisation(xPos, yPos);
                 newSterilisation.setTicksActive(ticksActive);
-                powerArrayList.add(newSterilisation);
+                POWER_ARRAY_LIST.add(newSterilisation);
                 tileMap[xPos][yPos].addActivePower(newSterilisation);
             }
 
@@ -596,7 +544,7 @@ public class LevelFileReader {
                 int xPos = Integer.parseInt(currentItem[1]);
                 int yPos = Integer.parseInt(currentItem[2]);
                 Poison newPoison = new Poison(xPos, yPos);
-                powerArrayList.add(newPoison);
+                POWER_ARRAY_LIST.add(newPoison);
                 tileMap[xPos][yPos].addActivePower(newPoison);
             }
 
@@ -605,7 +553,7 @@ public class LevelFileReader {
                 int xPos = Integer.parseInt(currentItem[1]);
                 int yPos = Integer.parseInt(currentItem[2]);
                 MaleSwapper newMaleSwapper = new MaleSwapper(xPos, yPos);
-                powerArrayList.add(newMaleSwapper);
+                POWER_ARRAY_LIST.add(newMaleSwapper);
                 tileMap[xPos][yPos].addActivePower(newMaleSwapper);
             }
 
@@ -614,7 +562,7 @@ public class LevelFileReader {
                 int xPos = Integer.parseInt(currentItem[1]);
                 int yPos = Integer.parseInt(currentItem[2]);
                 FemaleSwapper newFemaleSwapper = new FemaleSwapper(xPos, yPos);
-                powerArrayList.add(newFemaleSwapper);
+                POWER_ARRAY_LIST.add(newFemaleSwapper);
                 tileMap[xPos][yPos].addActivePower(newFemaleSwapper);
             }
 
@@ -625,7 +573,7 @@ public class LevelFileReader {
                 int HP = Integer.parseInt(currentItem[3]);
                 StopSign newStopSign = new StopSign(xPos, yPos);
                 newStopSign.setHP(HP);
-                powerArrayList.add(newStopSign);
+                POWER_ARRAY_LIST.add(newStopSign);
                 tileMap[xPos][yPos].addActivePower(newStopSign);
             }
 
