@@ -138,28 +138,34 @@ public abstract class Rat extends GameObject {
         int numOfPowers = getForwardTile().getActivePowers().size();
         for (int i = 0; i < numOfPowers; i++) {
             Power powerAhead = getForwardTile().getActivePowers().get(i);
+            // if any powers on the tile ahead are stop signs
             if (powerAhead instanceof StopSign) {
+                // damage the stop sign
                 stopSignAhead = true;
                 powerAhead.activate(new ArrayList<>(), getForwardTile());
             }
-            numOfPowers = getForwardTile().getActivePowers().size();
         }
 
         if (!stopSignAhead && direction != null) {
             boolean move = true;
             if (!(this instanceof DeathRat)) {
+                // add the rat to the next tile and remove it from the current one
                 getForwardTile().addOccupantRat(this);
                 Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).removeOccupantRat(this);
 
             } else {
                 if (((DeathRat) this).getOminousWaiting() == 0) {
-                    Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).removeOccupantRat(this);
+                    // death rats can only move if their wait time is up
+                    // add the rat to the next tile and remove it from the current one
                     getForwardTile().addOccupantRat(this);
+                    Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).removeOccupantRat(this);
+
                 } else {
                     move = false;
                 }
             }
             if (move){
+                // update rat position
                 if (direction == Direction.NORTH) {
                     yPos--;
                 }
