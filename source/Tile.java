@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class Tile extends GameObject {
     //private boolean canRatMove;
-    private ArrayList<Power> activePowers;
-    private ArrayList<Rat> occupantRats;
+    private final ArrayList<Power> activePowers;
+    private final ArrayList<Rat> occupantRats;
 
     /**
      * Tile constructor.
@@ -29,7 +29,8 @@ public class Tile extends GameObject {
     /**
      * Occupancy Controllers
      * <p>
-     * Adds and removes powers/rats from the tile.
+     *      Adds and removes powers/rats from the tile.
+     * </p>
      */
     public void addActivePower(Power p) {
         this.activePowers.add(p);
@@ -47,6 +48,12 @@ public class Tile extends GameObject {
         this.occupantRats.remove(r);
     }
 
+    /**
+     * update
+     * <p>
+     *     actively updates the powers/rats on a tile per tick
+     * </p>
+     */
     public void update() {
         int numOfPowers = activePowers.size();
         int numOfRats = occupantRats.size();
@@ -65,7 +72,6 @@ public class Tile extends GameObject {
             numOfPowers = activePowers.size();
         }
 
-        numOfRats = occupantRats.size();
         for(int i = 0; i < numOfRats; i++) {
             occupantRats.get(i).onTick();
             numOfRats = occupantRats.size();
@@ -75,14 +81,18 @@ public class Tile extends GameObject {
     //==================================Getters==================================
 
     /**
-     * Getters
+     * Rat Getter
      *
-     * @return The rats and powers on a tile
+     * @return The rats on a tile
      */
     public ArrayList<Rat> getOccupantRats() {
         return occupantRats;
     }
 
+    /**
+     * Power Getter
+     * @return The powers on a tile
+     */
     public ArrayList<Power> getActivePowers() {
         return activePowers;
     }

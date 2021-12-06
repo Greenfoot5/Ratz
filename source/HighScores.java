@@ -215,4 +215,8 @@ public class HighScores {
 		tempFile.renameTo(rename);
 		fixPositions();
 	}
+	
+	public static int getNumberOfScores() {
+		return NUMBER_OF_TOP_SCORES;
+	}
 }
