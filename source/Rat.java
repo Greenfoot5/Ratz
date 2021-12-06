@@ -4,8 +4,6 @@ import javafx.scene.media.AudioClip;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * An abstract class to model a rat. Scurries around and dies when appropriate.
@@ -52,34 +50,54 @@ public abstract class Rat extends GameObject {
         this.tickCounter = (int) Math.floor(Math.random() * RANDOM_START_DELAY);
     }
 
+    /**
+     * gets the speed of the rat
+     * @return the rat's speed
+     */
     public int getSpeed() {
         return speed;
     }
 
+    /**
+     * gets the default speed of a rat
+     * @return the rat's default speed
+     */
     public static int getDEFAULT_SPEED() {
         return DEFAULT_SPEED;
     }
 
+    /**
+     * gets the direction the rat is facing
+     * @return the rat's direction
+     */
     public Direction getDirection() {
         return direction;
     }
 
+    /**
+     * gets the time the rat has been in gas
+     * @return the rat's gas timer
+     */
     public int getGasTimer() {
         return gasTimer;
     }
 
+    /**
+     * gets rat's position on the x-axis
+     * @return the rat's x position
+     */
     public int getxPos() {
         return xPos;
     }
 
+    /**
+     * gets rat's position on the y-axis
+     * @return the rat's y position
+     */
     public int getyPos() {
         return yPos;
     }
 
-
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
 
     /**
      * A list of things the rat needs to do every tick.
@@ -214,10 +232,13 @@ public abstract class Rat extends GameObject {
     }
 
     /**
-     * Chooses a direction for the rat to move in, such that it will not land on a grass tile. It will prioritize
-     * moving forward, left or right, only moving backwards when the other three options are not valid (i.e a dead end).
-     * IMPORTANT: This will return null if the rat is trapped by 4 grass squares. This shouldn't happen outside of
-     * levels created via level editing.
+     * Chooses a direction for the rat to move in, such that it will
+     * not land on a grass tile. It will prioritize moving forward,
+     * left or right, only moving backwards when the other three
+     * options are not valid (i.e a dead end).
+     * IMPORTANT: This will return null if the rat is trapped by 4
+     * grass squares. This shouldn't happen outside of levels
+     * created via level editing.
      *
      * @return a valid direction for the rat to move in.
      */
@@ -245,7 +266,8 @@ public abstract class Rat extends GameObject {
             }
         } else {
             // select a random item from validDirections
-            chosenDirection = validDirections.get((int) Math.floor(Math.random() * validDirections.size()));
+            chosenDirection = validDirections.get((int)
+                    Math.floor(Math.random() * validDirections.size()));
         }
 
         return chosenDirection;
@@ -397,7 +419,8 @@ public abstract class Rat extends GameObject {
         String path;
 
         if (direction == null) {
-            path = "file:" + getTextureFolder() + "/" + className + "NORTH" + ".png";
+            path = "file:" + getTextureFolder() + "/" + className
+                    + "NORTH" + ".png";
         } else {
             path = createTexturePath();
         }
@@ -413,9 +436,11 @@ public abstract class Rat extends GameObject {
     public String createTexturePath() {
         String className = this.getClass().getSimpleName().toLowerCase();
         if (direction == null) {
-            return "file:" + getTextureFolder() + "/" + className + "NORTH" + ".png";
+            return "file:" + getTextureFolder() + "/" + className
+                    + "NORTH" + ".png";
         } else {
-            return "file:" + getTextureFolder() + "/" + className + direction.name() + ".png";
+            return "file:" + getTextureFolder() + "/" + className
+                    + direction.name() + ".png";
         }
     }
 }
