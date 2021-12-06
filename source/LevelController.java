@@ -120,7 +120,7 @@ public class LevelController {
         buildNewLevel();
 
         MAX_RATS = LevelFileReader.getMaxRats();
-        if(LevelFileReader.getInProgTimer() != 0) {
+        if(LevelFileReader.getInProgTimer() != -1) {
             PAR_TIME = LevelFileReader.getInProgTimer();
         } else {
             PAR_TIME = LevelFileReader.getParTime();
@@ -440,7 +440,11 @@ public class LevelController {
     public void saveAndExit() {
         tickTimeline.stop();
 
-        //TODO: SAVE GAME HERE
+        try {
+            LevelFileReader.saveLevel("level-" + LEVEL_NUMBER);
+        } catch (IOException e) {
+            System.out.println("Couldn't save level state.");
+        }
 
         exitGame();
     }
