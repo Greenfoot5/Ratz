@@ -19,6 +19,18 @@
     -fx-padding: 3 6 6 6;
     -fx-background-color: #002340;
 }
+.buttonLoad {
+    -fx-text-fill: #04fce4;
+    -fx-background-radius: 9;
+    -fx-padding: 3 6 6 6;
+    -fx-background-color: #214561;
+}
+.buttonLoad:hover {
+    -fx-text-fill: #04fce4;
+    -fx-background-radius: 9;
+    -fx-padding: 3 6 6 6;
+    -fx-background-color: #103450;
+}
 .buttonBlocked {
 	-fx-text-fill: #04fce4;
     -fx-background-radius: 9;
