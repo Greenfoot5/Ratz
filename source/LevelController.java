@@ -108,6 +108,8 @@ public class LevelController {
 
     /**
      * Constructor for LevelController class.
+     * @param levelNum Number of level being played.
+     * @param mainMenuController Reference to the main menu controller.
      */
     public LevelController (int levelNum, MainMenuController mainMenuController) {
         LEVEL_NUMBER = levelNum;
@@ -126,10 +128,18 @@ public class LevelController {
         DROP_RATES = LevelFileReader.getDropRates();
     }
 
+    /**
+     * Returns current timer.
+     * @return Time in milliseconds.
+     */
     public static int getCurrentTimeLeft() {
         return currentTimeLeft;
     }
 
+    /**
+     * Returns current item counters.
+     * @return number of each item.
+     */
     public static int[] getCounters() {
         return counters;
     }
@@ -233,7 +243,7 @@ public class LevelController {
     }
 
     /**
-     * Periodically refreshes game screen.
+     * Periodically refreshes game.
      */
     public void tick() {
         if ((femaleRatCounter + maleRatCounter + childRatCounter) == 0) {
