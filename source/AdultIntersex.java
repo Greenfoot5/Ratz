@@ -1,7 +1,8 @@
 import java.util.Objects;
 
 /**
- * A class to model a female rat. Gives birth to baby rats.
+ * A class to model a rat which is both male and female. Gives birth to baby rats and gets female rats (and other
+ * intersex rats) pregnant
  *
  * @author James McWilliams
  * @version 1.0
