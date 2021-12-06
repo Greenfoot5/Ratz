@@ -209,7 +209,11 @@ public class HighScores {
 		tempFile.renameTo(rename);
 		fixPositions();
 	}
-	
+
+    /**
+     * Gets the number of top scores to display.
+     * @return the current value of NUMBER_OF_TOP_SCORES
+     */
 	public static int getNumberOfScores() {
 		return NUMBER_OF_TOP_SCORES;
 	}
