@@ -50,6 +50,7 @@ public class LevelController {
             "/deathRatSound2.mp3";
     private static final String DEATH_RAT_SOUND_3_PATH = "resources" +
             "/deathRatSound3.mp3";
+    private static final double SOUND_VOLUME_RAT = 0.1f;
 
     //Images for different game items
     private final List<Image> itemImages = Arrays.asList((new Bomb(0,0)).getImg(),(new Gas(0,0,true)).getImg(),
@@ -418,11 +419,11 @@ public class LevelController {
                 SeaShantySimulator seaSim = new SeaShantySimulator();
                 int randomNum = ThreadLocalRandom.current().nextInt(1, 3);
                 if (randomNum == 1) {
-                    seaSim.playAudioClip(DEATH_RAT_SOUND_1_PATH, 0.1);
+                    seaSim.playAudioClip(DEATH_RAT_SOUND_1_PATH, SOUND_VOLUME_RAT);
                 } else if (randomNum == 2) {
-                    seaSim.playAudioClip(DEATH_RAT_SOUND_2_PATH, 0.1);
+                    seaSim.playAudioClip(DEATH_RAT_SOUND_2_PATH, SOUND_VOLUME_RAT);
                 } else {
-                    seaSim.playAudioClip(DEATH_RAT_SOUND_3_PATH, 0.1);
+                    seaSim.playAudioClip(DEATH_RAT_SOUND_3_PATH, SOUND_VOLUME_RAT);
                 }
 
                 tileMap[x][y].addOccupantRat(new DeathRat(Rat.getDEFAULT_SPEED(),Rat.Direction.NORTH,0,x,y,0));

@@ -6,7 +6,6 @@ import java.util.ArrayList;
  * @author Alexander Douglas Lloyd-Ward
  */
 public class Tile extends GameObject {
-    //private boolean canRatMove;
     private final ArrayList<Power> activePowers;
     private final ArrayList<Rat> occupantRats;
 
@@ -24,22 +23,38 @@ public class Tile extends GameObject {
     }
 
     /**
-     * Occupancy Controllers
+     * Adds Power to Tile
      *
-     * Adds and removes powers/rats from the tile.
+     * @param p Power to add to Tile
      */
     public void addActivePower(Power p) {
         this.activePowers.add(p);
     }
 
+    /**
+     * Adds Rat to Tile
+     *
+     * @param r Rat to add to Tile
+     */
     public void addOccupantRat(Rat r) {
         this.occupantRats.add(r);
     }
 
+
+    /**
+     * Removes Power from Tile
+     *
+     * @param p Power to remove from Tile
+     */
     public void removeActivePower(Power p) {
         this.activePowers.remove(p);
     }
 
+    /**
+     * Removes Rat from Tile
+     *
+     * @param r Rat to remove from Tile
+     */
     public void removeOccupantRat(Rat r) {
         this.occupantRats.remove(r);
     }
@@ -75,7 +90,8 @@ public class Tile extends GameObject {
     }
 
     /**
-     * Rat Getter
+     * Returns the Rats on the requested Tile
+     *
      * @return The rats on a tile
      */
     public ArrayList<Rat> getOccupantRats() {
@@ -83,7 +99,8 @@ public class Tile extends GameObject {
     }
 
     /**
-     * Power Getter
+     * Returns the active Powers on the requested Tile
+     *
      * @return The powers on a tile
      */
     public ArrayList<Power> getActivePowers() {
@@ -91,7 +108,8 @@ public class Tile extends GameObject {
     }
 
     /**
-     * Returns whether players can place items on the tile.
+     * Returns whether players can place items on the Tile.
+     *
      * @return interactivity.
      */
     public boolean isInteractive() {
