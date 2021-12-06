@@ -94,12 +94,6 @@ public class HighScores {
 						printWriter.println(lvl + " " 
 							+ posToFix + " " + profName + " " + scr);
 						isUsed = true;
-					} else if (!isUsed) {
-						printWriter.println(level + " " 
-								+ posToFix + " " + profile + " " + score);
-						printWriter.println(lvl + " " 
-							+ posToFix + " " + profName + " " + scr);
-						isUsed = true;
 					} else {
 						printWriter.println(lvl + " " 
 							+ posToFix + " " + profName + " " + scr);
