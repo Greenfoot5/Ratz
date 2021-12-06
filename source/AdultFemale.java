@@ -15,7 +15,7 @@ public class AdultFemale extends LivingRat {
     private int ratFetusCount;
 
     /**
-     * AdultFemale constructor.
+     * Creates a new Female Rat
      *
      * @param speed         how fast the rat moves.
      * @param direction     the direction the rat is facing.
@@ -37,6 +37,7 @@ public class AdultFemale extends LivingRat {
 
     /**
      * Gets the current fetus count of the rat
+     *
      * @return the current value of ratFetusCount
      */
     public int getRatFetusCount() {
@@ -70,6 +71,7 @@ public class AdultFemale extends LivingRat {
 
     /**
      * Gets the length of the pregnancy
+     *
      * @return pregnancyTime
      */
     public int getPregnancyTime() {
