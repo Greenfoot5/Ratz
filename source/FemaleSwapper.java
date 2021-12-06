@@ -45,6 +45,9 @@ public class FemaleSwapper extends Power {
             } else {
                 currentTile.removeActivePower(this);
             }
+            if (r instanceof ChildRat) {
+                ((ChildRat) r).setIsFemale(true);
+            }
         }
     }
 
