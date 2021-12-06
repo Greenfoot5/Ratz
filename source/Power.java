@@ -2,7 +2,9 @@ import java.util.ArrayList;
 
 /**
  * An abstract class which models all powers.
+ *
  * @author Daumantas Balakauskas
+ * @version 1.0
  */
 
 public abstract class Power extends GameObject {
@@ -25,8 +27,11 @@ public abstract class Power extends GameObject {
 
     /**
      * Abstract method to let any power know it's time to do something.
+     *
      * @param rats used to interact with all rats that stepped on the power.
+     * @param currentTile used for removing power from its Tile.
      */
+
     abstract void activate(ArrayList<Rat> rats, Tile currentTile);
 
     /**
