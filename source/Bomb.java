@@ -6,6 +6,7 @@ import java.util.Objects;
 /**
  * A class that kills all rats standing on the tile at the time of explosion -
  * (5 game ticks after it's been placed).
+ *
  * @author Daumantas Balakauskas
  * @version 1.0
  */
@@ -21,7 +22,8 @@ public class Bomb extends Power {
 
 
     /**
-     * Constructs a bomb
+     * Creates a new bomb
+     *
      * @param xPos The x position to create the bomb
      * @param yPos The y position to create the bomb
      */
@@ -36,7 +38,6 @@ public class Bomb extends Power {
      * @param rats used to interact with all rats that stepped on the power.
      * @param currentTile used to remove this Power from Tile.
      */
-
     @Override
     void activate(ArrayList<Rat> rats, Tile currentTile) {
         ArrayList<Tile> tilesToExplode = findPathTiles();
@@ -58,6 +59,7 @@ public class Bomb extends Power {
 
     /**
      * Method that finds all Tiles bomb can reach.
+     *
      * @return All Tiles that bomb can reach (not grass) in all 4 directions.
      */
     private ArrayList<Tile> findPathTiles () {
@@ -67,7 +69,8 @@ public class Bomb extends Power {
 
         // North
         if (LevelController.getTileAt(this.xPos, this.yPos + counter) != null) {
-            while (Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos + counter)).isPassable()) {
+            while (Objects.requireNonNull(LevelController.getTileAt(this.xPos,
+                    this.yPos + counter)).isPassable()) {
                 tilesToExplode.add(LevelController.getTileAt(this.xPos,
                         this.yPos + counter));
                 counter++;
@@ -77,7 +80,8 @@ public class Bomb extends Power {
         // South
         counter = 1;
         if (LevelController.getTileAt(this.xPos, this.yPos - counter) != null) {
-            while (Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos - counter)).isPassable()) {
+            while (Objects.requireNonNull(LevelController.getTileAt(this.xPos,
+                    this.yPos - counter)).isPassable()) {
                 tilesToExplode.add(LevelController.getTileAt(this.xPos,
                         this.yPos - counter));
                 counter++;
@@ -87,9 +91,10 @@ public class Bomb extends Power {
         // East
         counter = 1;
         if (LevelController.getTileAt(this.xPos + counter, this.yPos) != null) {
-            while (Objects.requireNonNull(LevelController.getTileAt(this.xPos + counter, this.yPos)).isPassable()) {
-                tilesToExplode.add(LevelController.getTileAt(this.xPos + counter,
-                        this.yPos));
+            while (Objects.requireNonNull(LevelController.getTileAt(this.xPos +
+                    counter, this.yPos)).isPassable()) {
+                tilesToExplode.add(LevelController.getTileAt(this.xPos +
+                                counter, this.yPos));
                 counter++;
             }
         }
@@ -97,7 +102,8 @@ public class Bomb extends Power {
         // West
         counter = 1;
         if (LevelController.getTileAt(this.xPos - counter, this.yPos) != null) {
-            while(Objects.requireNonNull(LevelController.getTileAt(this.xPos - counter, this.yPos)).isPassable()) {
+            while(Objects.requireNonNull(LevelController.getTileAt(this.xPos -
+                    counter, this.yPos)).isPassable()) {
                 tilesToExplode.add(LevelController.getTileAt(this.xPos-counter,
                         this.yPos));
                 counter++;
@@ -110,6 +116,7 @@ public class Bomb extends Power {
     /**
      * Abstract method for certain powers that need to activate after a
      * certain amount of time.
+     *
      * @param currentTile used for calling removeActivePower(this).
      * @param rats used for updating the rat arraylist every game tick.
      */
@@ -127,18 +134,27 @@ public class Bomb extends Power {
         }
     }
 
+    /**
+     * Draws the bomb on the tile
+     *
+     * @param x Horizontal position.
+     * @param y Vertical position.
+     * @param g Graphics context being drawn on.
+     */
     @Override
     public void draw(int x, int y, GraphicsContext g) {
         x = GameObject.getWIDTH()* x;
         y = GameObject.getWIDTH() * y;
 
-        String path = "file:" + getTextureFolder() + "/bomb" + ticksActive / ANIMATION_SLOWDOWN + ".png";
+        String path = "file:" + getTextureFolder() + "/bomb" + ticksActive /
+                ANIMATION_SLOWDOWN + ".png";
 
         g.drawImage(new Image(path),x,y);
     }
 
     /**
      * How many ticks since the creation of the class
+     *
      * @return ticksActive
      */
     public int getTicksActive() {
@@ -147,6 +163,7 @@ public class Bomb extends Power {
 
     /**
      * Sets how many ticks have passed since the creation of the class
+     *
      * @param ticksActive ticks since class creation
      */
     public void setTicksActive(int ticksActive) {
@@ -155,6 +172,7 @@ public class Bomb extends Power {
 
     /**
      * Creates path to texture of a bomb.
+     *
      * @return path.
      */
     @Override
