@@ -8,6 +8,9 @@ import java.util.Objects;
  */
 public class Gas extends Power {
     private static final String GAS_SOUND_PATH = "resources/gasSound.mp3";
+    private static final float GAS_SOUND_VOLUME = 0.1f;
+    private static final int TICKS_TO_SPAWN_NEW_GAS = 4;
+    private static final int LIFETIME = 24;
 
     private int ticksActive = 0; //Tick counter since creation of this class.
     private boolean isOriginal;
@@ -74,9 +77,9 @@ public class Gas extends Power {
 
         //Places a bunch of new Gas on Tiles with isOriginal = false;
         if (isOriginal) {
-            if (ticksActive == 1 || ticksActive % 4 == 0) {
+            if (ticksActive == 1 || ticksActive % TICKS_TO_SPAWN_NEW_GAS == 0) {
                 SeaShantySimulator seaSim = new SeaShantySimulator();
-                seaSim.playAudioClip(GAS_SOUND_PATH, 0.1);
+                seaSim.playAudioClip(GAS_SOUND_PATH, GAS_SOUND_VOLUME);
                 gasSurroundingPathTiles();
             }
         }
@@ -96,8 +99,8 @@ public class Gas extends Power {
 
     @Override
     public void onTick(ArrayList<Rat> rats, Tile currentTile) {
-        ticksActive = ticksActive + 1;
-        if (ticksActive <= 24) {
+        ticksActive++;
+        if (ticksActive <= LIFETIME) {
             activate(rats, currentTile);
         } else {
             currentTile.removeActivePower(this);
@@ -107,7 +110,7 @@ public class Gas extends Power {
     /** Method that spawns new gas in Tiles around that aren't Grass
      * with isOriginal = false - that new Gas won't duplicate itself forever.
      */
-    private void gasSurroundingPathTiles () {
+    private void gasSurroundingPathTiles() {
         getSurroundingNonDiagonals();
 
         getSurroundDiagonals();
@@ -137,7 +140,8 @@ public class Gas extends Power {
             if (Objects.requireNonNull(LevelController.getTileAt(this.xPos,
                     this.yPos - gasCounterS)).isPassable()) {
                 Objects.requireNonNull(LevelController.getTileAt(this.xPos,
-                        this.yPos - gasCounterS)).addActivePower(new Gas(this.xPos, this.yPos - gasCounterS, false));
+                        this.yPos - gasCounterS)).addActivePower(new Gas(
+                                this.xPos, this.yPos - gasCounterS, false));
                 gasCounterS++;
             }
         }
