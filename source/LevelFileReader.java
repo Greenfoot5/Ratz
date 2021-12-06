@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 /**
  * A class which reads levels from files, and saves levels to files.
@@ -102,30 +103,48 @@ public class LevelFileReader {
     /**
      * Writes a level to a .txt file in a format that can be read back by the file reader.
      *
-     * @param levelName The name for the level. Formatted as "level-X.txt" where X is a number.
-     * @param maxRats   The number of rats that can exist before you lose.
-     * @param parTime   The par time for the level - beating it faster than this gets you extra points.
-     * @param dropRates The likelihood of different items dropping.
-     * @param tiles     The map of tiles to be shown on the game board.
-     * @param ratSpawns The rats to be shown on the game board.
-     * @param powers    The powerups to be shown on the game board.
+     * @param levelName The name for the level. Formatted as "level-X-USER.txt" where X is a number and USER
+     *                  is the profile's name.
      * @throws IOException if it can't find the file specified.
      */
-    public static void saveLevel(String levelName, int maxRats, int parTime, int[] dropRates,
-                                 String[] tiles, Rat[] ratSpawns, Power[] powers) throws IOException {
+    public static void saveLevel(String levelName) throws IOException {
 
         File saveFile = new File(levelName + "-inProgress-" + ProfileFileReader.getLoggedProfile() + ".txt");
         // if an in progress file doesn't exist yet
         if (!new File(levelName + "-inProgress-" + ProfileFileReader.getLoggedProfile() + ".txt").isFile()) {
             try {
                 saveFile.createNewFile();
-            } catch(IOException e) {
+            } catch (IOException e) {
                 System.out.println("Error occurred creating save file.");
                 e.printStackTrace();
             }
         }
+        FileWriter writer = new FileWriter(saveFile);
 
+        String inventory = "";
 
+        for (int i = 0; i < LevelController.getCounters().length; i++) {
+            inventory += LevelController.getCounters() + ",";
+        }
+
+        String allObjects = "";
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (LevelController.getTileAt(x,y).getOccupantRats().size() > 0) {
+                    for (Rat rat : LevelController.getTileAt(x,y).getOccupantRats()) {
+                        allObjects += "(" + ratToStr(rat) + ")\n";
+                    }
+                }
+                if (LevelController.getTileAt(x,y).getActivePowers().size() > 0) {
+                    for (Power power : LevelController.getTileAt(x,y).getActivePowers()) {
+                        allObjects += "(" + powerToStr(power) + ")\n";
+                    }
+                }
+            }
+        }
+
+        String fileString = String.format("%d\n%s\n%s\n", LevelController.getCurrentTimeLeft(),inventory,allObjects);
     }
 
     /**
@@ -166,7 +185,7 @@ public class LevelFileReader {
             }
             item7 = Integer.toString(((ChildRat) rat).getAge());
 
-            return type + speed + direction + gasTimer + xPos + yPos + item6 + item7;
+            return type + "," + speed + "," + direction + "," + gasTimer + "," + xPos + "," + yPos + "," + item6 + "," + item7;
         }
 
         if (rat instanceof AdultFemale) {
@@ -179,7 +198,7 @@ public class LevelFileReader {
             item7 = Integer.toString(((AdultFemale) rat).getPregnancyTime());
             item8 = Integer.toString(((AdultFemale) rat).getRatFetusCount());
 
-            return type + speed + direction + gasTimer + xPos + yPos + item6 + item7 + item8;
+            return type + "," + speed + "," + direction + "," + gasTimer + "," + xPos + "," + yPos + "," + item6 + "," + item7 + "," + item8;
         }
 
         if (rat instanceof AdultMale) {
@@ -191,7 +210,7 @@ public class LevelFileReader {
                 item6 = "0";
             }
 
-            return type + speed + direction + gasTimer + xPos + yPos + item6;
+            return type + "," + speed + "," + direction + "," + gasTimer + "," + xPos + "," + yPos + "," + item6;
 
         }
 
@@ -200,12 +219,57 @@ public class LevelFileReader {
 
             item6 = Integer.toString(((DeathRat) rat).getKillCounter());
 
-            return type + speed + direction + gasTimer + xPos + yPos + item6;
+            return type + "," + speed + "," + direction + "," + gasTimer + "," + xPos + "," + yPos + "," + item6;
         }
 
         // if nothing has been returned yet, someone's added in some kind of new rat.
         return null;
     }
+
+    /**
+     * Turns a power into a string that can be pasted into a level file to be loaded later.
+     *
+     * @param power The power to convert
+     * @return A string that can be read by the file reader
+     */
+    public static String powerToStr(Power power) {
+        String xPos;
+        String yPos;
+        String special;
+
+        xPos = Integer.toString(power.getxPos());
+        yPos = Integer.toString(power.getyPos());
+
+        if (power instanceof Bomb) {
+            special = String.valueOf(((Bomb) power).getTicksActive());
+            return xPos + "," + yPos + "," + special;
+        }
+        if (power instanceof Gas) {
+            special = String.valueOf(((Gas) power).getTicksActive());
+            return xPos + "," + yPos + "," + special;
+        }
+        if (power instanceof Sterilisation) {
+            special = String.valueOf(((Sterilisation) power).getTicksActive());
+            return xPos + "," + yPos + "," + special;
+        }
+        if (power instanceof Poison) {
+            return xPos + "," + yPos;
+        }
+        if (power instanceof MaleSwapper) {
+            return xPos + "," + yPos;
+        }
+        if (power instanceof FemaleSwapper) {
+            return xPos + "," + yPos;
+        }
+        if (power instanceof StopSign) {
+            special = String.valueOf(((StopSign) power).getHP());
+            return xPos + "," + yPos + "," + special;
+        }
+
+        // if nothing has been returned yet, someone's added in a new power.
+        return null;
+    }
+
 
     /**
      * Converts a direction stored as an int into a Direction enum.
@@ -314,6 +378,7 @@ public class LevelFileReader {
 
     /**
      * Reads rats and powers from the level file.
+     *
      * @param reader The scanner to read data from
      */
     private static void readObjects(Scanner reader) {
@@ -490,9 +555,6 @@ public class LevelFileReader {
                 tileMap[xPos][yPos].addActivePower(newStopSign);
             }
 
-            for (Rat rat : ratArrayList) {
-                //getTile(rat.getxPos(),rat.getyPos()).addOccupantRat(rat);
-            }
         }
     }
 
