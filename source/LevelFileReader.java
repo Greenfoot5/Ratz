@@ -51,6 +51,7 @@ public class LevelFileReader {
         return RAT_ARRAY_LIST.toArray(new Rat[0]);
     }
 
+<<<<<<< HEAD
     /**
      * Returns current powers on the map
      *
@@ -65,6 +66,8 @@ public class LevelFileReader {
      *
      * @return the maximum amount of rats before the level ends
      */
+=======
+>>>>>>> dbe1ee418937991fc636473a435d2f42bc8a356d
     public static int getMaxRats() {
         return maxRats;
     }
@@ -177,8 +180,6 @@ public class LevelFileReader {
         int timeInSeconds = (int) Math.floor(LevelController.getCurrentTimeLeft() / milli);
 
         String fileString = String.format("%d\n%s\n%s\n", timeInSeconds, inventory, allObjects);
-        System.out.println(fileString);
-
         writer.write(fileString);
         writer.close();
     }

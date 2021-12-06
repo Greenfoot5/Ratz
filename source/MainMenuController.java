@@ -857,7 +857,6 @@ public class MainMenuController extends Application {
 					try {
 						inputStreamsPreview = new FileInputStream("resources/" +
                                 "preview" + (imageIndex + 1) + ".png");
-						System.out.print("aa");
 					} catch (FileNotFoundException e) {
                         e.printStackTrace();
 					}
