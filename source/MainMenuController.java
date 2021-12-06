@@ -43,7 +43,9 @@ public class MainMenuController extends Application {
 	private Label scoreHeading;
 	private Stage mainStage;
 	private Scene mainScene;
-
+	private FileInputStream inputStreamsPreviev;
+	private Image imagePreviev;
+	private ImageView imageViewPreviev;
 	/**
 	 * Launches the application
 	 *
@@ -695,25 +697,24 @@ public class MainMenuController extends Application {
 		rightBox.setPadding(new Insets(5, 0, 5, 0));
 
         // Get the bomb images
-		FileInputStream[] inputStreams = new FileInputStream[3];
+		FileInputStream[] inputStreams = new FileInputStream[2];
 		try {
 			inputStreams[0] = new FileInputStream("resources/bomb1.png");
-			inputStreams[1] = new FileInputStream("resources/bomb3.png");
-			inputStreams[2] = new FileInputStream("resources/bomb4.png");
+			inputStreamsPreviev= new FileInputStream("resources/preview1.png");
+			inputStreams[1] = new FileInputStream("resources/bomb4.png");
 		} catch (FileNotFoundException ignored) { }
         // Turn the bombs from file paths
         assert inputStreams[0] != null;
         Image image1 = new Image(inputStreams[0]);
         assert inputStreams[1] != null;
         Image image2 = new Image(inputStreams[1]);
-        assert inputStreams[2] != null;
-        Image image3 = new Image(inputStreams[2]);
+        assert inputStreamsPreviev != null;
+        imagePreviev = new Image(inputStreamsPreviev);
 
-        ImageView[] imageViews = new ImageView[3];
+        ImageView[] imageViews = new ImageView[2];
         imageViews[0] = new ImageView(image1);
         imageViews[1] = new ImageView(image2);
-        imageViews[2] = new ImageView(image3);
-
+        imageViewPreviev = new ImageView(imagePreviev);
         // Generate the play button
 		Button playButton = new Button("Play!");
 		playButton.setPrefWidth(80);
@@ -733,7 +734,7 @@ public class MainMenuController extends Application {
 		});
 		backToMenu.setPrefWidth(85);
 
-		rightBox.getChildren().addAll(imageViews[0], playButton, imageViews[1], backToMenu, imageViews[2]);
+		rightBox.getChildren().addAll(imageViews[0], playButton, imageViewPreviev, backToMenu, imageViews[1]);
 		return rightBox;
 	}
 
@@ -772,10 +773,21 @@ public class MainMenuController extends Application {
 			lvl[i] = new Button("Level " + (levelIndex));
 			lvl[i].setPrefWidth(70);
 
+			final int imageIndex = i;
 			if (isUnlocked[i]) {
 				lvl[i].setOnAction(event -> {
 					scoreHeading.setText("Lvl " + (levelIndex) + " best scores:");
 					selectedLevel.set(levelIndex);
+					
+					try {
+						inputStreamsPreviev = new FileInputStream(
+								"resources/preview" + (imageIndex + 1) + ".png");
+						System.out.print("aa");
+					} catch (FileNotFoundException e) {
+					}
+					assert inputStreamsPreviev != null;
+			        imagePreviev = new Image(inputStreamsPreviev);
+			        imageViewPreviev.setImage(imagePreviev);
 
 					String[] newScores = null;
 					try {
