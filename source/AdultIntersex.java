@@ -1,22 +1,23 @@
 import java.util.Objects;
 
 /**
- * A class to model a rat which is both male and female. Gives birth to baby rats and gets female rats (and other
- * intersex rats) pregnant
+ * A class to model a rat which is both male and female.
+ * Gives birth to baby rats and gets female rats (and other intersex rats) pregnant
  *
  * @author James McWilliams
  * @version 1.0
  */
 public class AdultIntersex extends LivingRat {
-    private int pregnancyTime;
-    private boolean pregnant;
-    private int ratFetusCount;
     private static final int DEFAULT_PREGNANCY_TIME = 40;
     private static final int RAT_BABY_MULTIPLIER = 4;
 
+    private int pregnancyTime;
+    private boolean pregnant;
+    private int ratFetusCount;
+
 
     /**
-     * AdultIntersex constructor.
+     * Creates a new AdultIntersex Rat
      *
      * @param speed         how fast the rat moves.
      * @param direction     the direction the rat is facing.
@@ -27,8 +28,9 @@ public class AdultIntersex extends LivingRat {
      * @param pregnancyTime how long the rat has left being pregnant.
      * @param ratFetusCount how many baby rats the mother rat is carrying
      */
-    public AdultIntersex(int speed, Direction direction, int gasTimer, int xPos,
-                       int yPos, boolean isFertile, int pregnancyTime, int ratFetusCount) {
+    public AdultIntersex(int speed, Direction direction, int gasTimer,
+                         int xPos, int yPos, boolean isFertile,
+                         int pregnancyTime, int ratFetusCount) {
         super(speed, direction, gasTimer, xPos, yPos, isFertile);
         this.pregnancyTime = pregnancyTime;
         this.pregnant = pregnancyTime > 0;
@@ -37,6 +39,7 @@ public class AdultIntersex extends LivingRat {
 
     /**
      * Gets the current fetus count for the rat
+     *
      * @return ratFetusCount
      */
     public int getRatFetusCount() {
@@ -63,12 +66,16 @@ public class AdultIntersex extends LivingRat {
         if (!pregnant) {
             pregnant = true;
             pregnancyTime = DEFAULT_PREGNANCY_TIME;
-            ratFetusCount = (int) (Math.ceil(Math.random() * RAT_BABY_MULTIPLIER) + Math.ceil(Math.random() * RAT_BABY_MULTIPLIER));
+            ratFetusCount = (int) (Math.ceil(Math.random() *
+                    RAT_BABY_MULTIPLIER) + Math.ceil(Math.random() *
+                    RAT_BABY_MULTIPLIER));
         }
     }
 
     /**
-     * Makes the rat pregnant. Rats will have 2d4 babies.
+     * Gets the time in ticks since the rat became pregnant
+     * 
+     * @return the current value of pregnancyTime
      */
     public int getPregnancyTime() {
         return pregnancyTime;
@@ -81,18 +88,12 @@ public class AdultIntersex extends LivingRat {
         if (ratFetusCount > 0) {
             ratFetusCount--;
             boolean newIsFemale;
-            if (Math.round(Math.random()) == 0) {
-                newIsFemale = true;
-            } else {
-                newIsFemale = false;
-            }
+            newIsFemale = Math.round(Math.random()) == 0;
 
             ChildRat newBaby = new ChildRat(Rat.getDEFAULT_SPEED() * 2, direction, 0,
                     xPos, yPos, true, 0, newIsFemale);
             LevelController.ratAdded(newBaby);
             Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).addOccupantRat(newBaby);
-
-
         }
     }
 
