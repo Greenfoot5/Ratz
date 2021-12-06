@@ -3,6 +3,7 @@ import java.util.ArrayList;
 /**
  * A class that makes rat's sterile once they step on this Power.
  * @author Daumantas Balakauskas
+ * @version 1.0
  */
 
 public class Sterilisation extends Power{
@@ -10,6 +11,8 @@ public class Sterilisation extends Power{
     private int ticksActive = 0; //Tick counter since creation of this class.
     private static final String STERILISATION_SOUND_PATH
             = "resources/sterilisationSound.mp3";
+    private static final float STERILISATION_SOUND_VOLUME = 0.1f;
+    private static final int LIFETIME = 24;
 
     /**
      * Sterilisation constructor
@@ -23,6 +26,8 @@ public class Sterilisation extends Power{
     }
 
     /**
+     * Activates the power
+     *
      * @param rats used to interact with all rats that stepped on the power.
      * @param currentTile used to remove the power from Tile.
      */
@@ -47,18 +52,20 @@ public class Sterilisation extends Power{
     /**
      * Abstract method for certain powers that need to activate after a
      * certain amount of time.
+     *
      * @param currentTile used for calling removeActivePower(this).
      * @param rats used for updating the rat arraylist every game tick.
      */
 
     @Override
     void onTick(ArrayList<Rat> rats, Tile currentTile) {
-        ticksActive = ticksActive + 1;
+        ticksActive++;
         if (ticksActive == 1) {
             SeaShantySimulator seaSim = new SeaShantySimulator();
-            seaSim.playAudioClip(STERILISATION_SOUND_PATH, 0.1);
+            seaSim.playAudioClip(STERILISATION_SOUND_PATH,
+                    STERILISATION_SOUND_VOLUME);
         }
-        if (ticksActive < 24) {
+        if (ticksActive < LIFETIME) {
             activate(rats, currentTile);
         } else {
             currentTile.removeActivePower(this);
@@ -66,6 +73,7 @@ public class Sterilisation extends Power{
     }
 
     /** Method that finds all Tiles Sterilisation can reach.
+     *
      *  @return All Tiles that Sterilisation can reach in all 4 directions.
      *  (radius = 2)
      */
@@ -93,17 +101,17 @@ public class Sterilisation extends Power{
     }
 
     /**
-     * Getter for fileReader
+     * Gets the time in ticks from the power's creation
+     * @return the current value of ticksActive
      */
-
     public int getTicksActive() {
         return ticksActive;
     }
 
     /**
-     * Setter for fileReader
+     * Sets the current time in ticks from the power's creation
+     * @param ticksActive the new value of ticksActive
      */
-
     public void setTicksActive(int ticksActive) {
         this.ticksActive = ticksActive;
     }
