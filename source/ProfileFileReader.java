@@ -27,8 +27,8 @@ public class ProfileFileReader {
 	/**
 	 * Create new profile in text file with chosen name.
 	 * 
-	 * @param profileName
-	 * @throws Exception - if there is a problem with 
+	 * @param profileName	name of a profile
+	 * @throws Exception  	if there is a problem with 
 	 * 						a file or name is already used
 	 */
 	@SuppressWarnings("resource")
@@ -87,8 +87,8 @@ public class ProfileFileReader {
 	 * Remove profile from the txt file.
 	 * If name is not in a file then does nothing.
 	 * 
-	 * @param profileName
-	 * @throws IOException - if there is a problem with a file
+	 * @param profileName	name of a profile
+	 * @throws IOException  if there is a problem with a file
 	 */
 
 	public static void deleteProfile(String profileName) throws IOException {
@@ -142,10 +142,10 @@ public class ProfileFileReader {
 	/**
 	 * Return best profile score for the specified level.
 	 *
-	 * @param profileName
-	 * @param level
-	 * @return - best player score
-	 * @throws IOException - if there is a problem with a file
+	 * @param profileName	name of a profile
+	 * @param level			level which you want to safe score
+	 * @return best player score
+	 * @throws IOException  if there is a problem with a file
 	 */
 	public static int getBestScore(String profileName, int level) throws IOException {
 		File file = new File(FILE_PATH);
@@ -175,17 +175,16 @@ public class ProfileFileReader {
 	/**
 	 * Save score if it is new best score for specified level.
 	 *
-	 * @param profileName
-	 * @param level
-	 * @param score       - score you want to safe
-	 * @throws IOException - if there is a problem with a file
+	 * @param profileName	name of a profile
+	 * @param level			level which you want to safe score
+	 * @param score 		score you want to safe
+	 * @throws IOException  if there is a problem with a file
 	 */
 	public static void saveBestScore(String profileName, int level, int score) throws IOException {
 		File file = new File(FILE_PATH);
 		File tempFile = new File("resources/tempProf.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
-		// BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
 
 		while (in.hasNext()) {
@@ -223,9 +222,9 @@ public class ProfileFileReader {
 	/**
 	 * Check if a profile exist in database.
 	 *
-	 * @param profileName
+	 * @param profileName				name of a profile
 	 * @return true if profile exist, false otherwise
-	 * @throws FileNotFoundException
+	 * @throws FileNotFoundException	if there is a problem with a file
 	 */
 	public static boolean doesProfileExist(String profileName) throws FileNotFoundException {
 		File file = new File(FILE_PATH);
@@ -255,7 +254,7 @@ public class ProfileFileReader {
 	/**
 	 * Login to a profile. Change "selectedProfile"
 	 *
-	 * @param profileName
+	 * @param profileName	name of a profile
 	 */
 	public static void loginProfile(String profileName) {
 		try {
@@ -280,7 +279,7 @@ public class ProfileFileReader {
 	 * Get all registered profiles.
 	 *
 	 * @return Sting array containing every profile name
-	 * @throws FileNotFoundException - if there is a problem with a file
+	 * @throws FileNotFoundException	if there is a problem with a file
 	 */
 	public static String[] getProfiles() throws FileNotFoundException {
 		File file = new File(FILE_PATH);
