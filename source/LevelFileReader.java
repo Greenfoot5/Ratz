@@ -34,10 +34,6 @@ public class LevelFileReader {
         return RAT_ARRAY_LIST.toArray(new Rat[0]);
     }
 
-    public static Power[] getPowers() {
-        return POWER_ARRAY_LIST.toArray(new Power[0]);
-    }
-
     public static int getMaxRats() {
         return maxRats;
     }
@@ -135,8 +131,6 @@ public class LevelFileReader {
         int timeInSeconds = (int) Math.floor(LevelController.getCurrentTimeLeft() / 1000.0);
 
         String fileString = String.format("%d\n%s\n%s\n", timeInSeconds, inventory, allObjects);
-        System.out.println(fileString);
-
         writer.write(fileString);
         writer.close();
     }
