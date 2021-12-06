@@ -5,7 +5,6 @@ import java.util.ArrayList;
  *
  * @author Alexander Douglas Lloyd-Ward
  */
-
 public class Tile extends GameObject {
     //private boolean canRatMove;
     private final ArrayList<Power> activePowers;
@@ -24,13 +23,10 @@ public class Tile extends GameObject {
         this.occupantRats = occupantRats;
     }
 
-    //===========================ArrayList controllers===========================
-
     /**
      * Occupancy Controllers
-     * <p>
-     *      Adds and removes powers/rats from the tile.
-     * </p>
+     *
+     * Adds and removes powers/rats from the tile.
      */
     public void addActivePower(Power p) {
         this.activePowers.add(p);
@@ -50,9 +46,8 @@ public class Tile extends GameObject {
 
     /**
      * update
-     * <p>
-     *     actively updates the powers/rats on a tile per tick
-     * </p>
+     *
+     * actively updates the powers/rats on a tile per tick
      */
     public void update() {
         int numOfPowers = activePowers.size();
@@ -72,17 +67,15 @@ public class Tile extends GameObject {
             numOfPowers = activePowers.size();
         }
 
+        numOfRats = occupantRats.size();
         for(int i = 0; i < numOfRats; i++) {
             occupantRats.get(i).onTick();
             numOfRats = occupantRats.size();
         }
     }
 
-    //==================================Getters==================================
-
     /**
      * Rat Getter
-     *
      * @return The rats on a tile
      */
     public ArrayList<Rat> getOccupantRats() {
