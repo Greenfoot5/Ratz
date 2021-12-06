@@ -4,6 +4,7 @@ import java.util.ArrayList;
  * A class that swaps female rat to male if it steps on this Power.
  *
  * @author Daumantas Balakauskas
+ * @version 1.0
  */
 
 public class MaleSwapper extends Power {
@@ -34,6 +35,7 @@ public class MaleSwapper extends Power {
         SeaShantySimulator seaSim = new SeaShantySimulator();
         seaSim.playAudioClip(MALE_PATH, 1.0);
 
+        // Loops through the rats and tries to swap the gender
         for (Rat r : rats) {
             if (r instanceof AdultFemale) {
                 AdultMale copyRat = new AdultMale(r.getSpeed(), r.getDirection(), r.getGasTimer(),
@@ -55,8 +57,7 @@ public class MaleSwapper extends Power {
     }
 
     /**
-     * Abstract method for certain powers that need to activate after a
-     * certain amount of time.
+     * This power does nothing onTick
      *
      * @param currentTile used for calling removeActivePower(this).
      * @param rats        used for updating the rat arraylist every game tick.
@@ -64,8 +65,5 @@ public class MaleSwapper extends Power {
      */
 
     @Override
-    void onTick(ArrayList<Rat> rats, Tile currentTile) {
-
-    }
-
+    void onTick(ArrayList<Rat> rats, Tile currentTile) { }
 }
