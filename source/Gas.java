@@ -37,28 +37,32 @@ public class Gas extends Power {
     }
 
     /**
-     * Getter for fileReader
+     * Gets how many ticks since the creation of the class
+     * @return current value of ticksActive
      */
     public int getTicksActive() {
         return ticksActive;
     }
 
     /**
-     * Getter for fileReader
+     * Gets if the gas is the original gas the player placed
+     * @return current value of isOriginal
      */
     public boolean isOriginal() {
         return isOriginal;
     }
 
     /**
-     * Setter for fileReader
+     * Sets the value of ticksActive
+     * @param ticksActive the new value of ticksActive
      */
     public void setTicksActive(int ticksActive) {
         this.ticksActive = ticksActive;
     }
 
     /**
-     * Setter for fileReader
+     * Sets if the gas is the original gas the player placed
+     * @param original the new value of isOriginal
      */
     public void setOriginal(boolean original) {
         isOriginal = original;
@@ -93,10 +97,10 @@ public class Gas extends Power {
     /**
      * Abstract method for certain powers that need to activate after a
      * certain amount of time.
+     *
      * @param currentTile used for calling removeActivePower(this).
      * @param rats used for updating the rat arraylist every game tick.
      */
-
     @Override
     public void onTick(ArrayList<Rat> rats, Tile currentTile) {
         ticksActive++;
@@ -107,7 +111,8 @@ public class Gas extends Power {
         }
     }
 
-    /** Method that spawns new gas in Tiles around that aren't Grass
+    /**
+     * Method that spawns new gas in Tiles around that aren't Grass
      * with isOriginal = false - that new Gas won't duplicate itself forever.
      */
     private void gasSurroundingPathTiles() {
