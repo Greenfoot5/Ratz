@@ -15,8 +15,7 @@ public class StopSign extends Power {
 
     private int ticksActive = 0;
 
-    private static final String STOP_SIGN_SOUND_PATH
-            = "resources/stopSignSound.mp3";
+    private static final String STOP_SIGN_SOUND_PATH = "resources/stopSignSound.mp3";
     private static final double SOUND_VOLUME = 0.1;
 
     private int HP = 5;
@@ -98,7 +97,9 @@ public class StopSign extends Power {
     }
 
     /**
-     * Getter for fileReader
+     * Gets the current hit points of StopSign.
+     *
+     * @return hit points value.
      */
 
     public int getHP() {
@@ -106,7 +107,9 @@ public class StopSign extends Power {
     }
 
     /**
-     * Setter for fileReader
+     * Sets the current hit points of StopSign.
+     *
+     * @param HP value of hit points to set.
      */
 
     public void setHP(int HP) {
