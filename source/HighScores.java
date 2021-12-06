@@ -20,7 +20,7 @@ public class HighScores {
 	/**
 	 * Maximum number of saved scores per level.
 	 */
-	private final static int NUMBER_OF_TOP_SCORES = 10;
+	private static final int NUMBER_OF_TOP_SCORES = 10;
 
 	/** 
 	 * @param level	level of the game.
