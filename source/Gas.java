@@ -107,35 +107,46 @@ public class Gas extends Power {
     private void getSurroundingNonDiagonals()
     {
         // North
-        if (LevelController.getTileAt(this.xPos, this.yPos + gasCounterN) != null) {
-            if (Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos + gasCounterN)).isPassable()) {
-                Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos + gasCounterN)).addActivePower(new Gas(this.xPos,
+        if (LevelController.getTileAt(this.xPos, this.yPos + gasCounterN)
+                != null) {
+            if (Objects.requireNonNull(LevelController.getTileAt(this.xPos,
+                    this.yPos + gasCounterN)).isPassable()) {
+                Objects.requireNonNull(LevelController.getTileAt(this.xPos,
+                        this.yPos + gasCounterN)).addActivePower(new Gas(this.xPos,
                         this.yPos + gasCounterN, false));
                 gasCounterN++;
             }
         }
 
         // South
-        if (LevelController.getTileAt(this.xPos, this.yPos - gasCounterS) != null) {
-            if (Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos - gasCounterS)).isPassable()) {
-                Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos - gasCounterS)).addActivePower(new Gas(this.xPos, this.yPos - gasCounterS, false));
+        if (LevelController.getTileAt(this.xPos, this.yPos - gasCounterS)
+                != null) {
+            if (Objects.requireNonNull(LevelController.getTileAt(this.xPos,
+                    this.yPos - gasCounterS)).isPassable()) {
+                Objects.requireNonNull(LevelController.getTileAt(this.xPos,
+                        this.yPos - gasCounterS)).addActivePower(new Gas(this.xPos, this.yPos - gasCounterS, false));
                 gasCounterS++;
             }
         }
 
         // East
         if (LevelController.getTileAt(this.xPos + gasCounterE, this.yPos) != null) {
-            if (Objects.requireNonNull(LevelController.getTileAt(this.xPos + gasCounterE, this.yPos)).isPassable()) {
-                Objects.requireNonNull(LevelController.getTileAt(this.xPos + gasCounterE, this.yPos)).addActivePower(new Gas(this.xPos + gasCounterE, this.yPos, false));
+            if (Objects.requireNonNull(LevelController.getTileAt(this.xPos
+                    + gasCounterE, this.yPos)).isPassable()) {
+                Objects.requireNonNull(LevelController.getTileAt(this.xPos
+                        + gasCounterE, this.yPos)).addActivePower(new Gas(
+                                this.xPos + gasCounterE, this.yPos, false));
                 gasCounterE++;
             }
         }
 
         // South
         if (LevelController.getTileAt(this.xPos-gasCounterW, this.yPos) != null) {
-            if (Objects.requireNonNull(LevelController.getTileAt(this.xPos - gasCounterW, this.yPos)).isPassable()) {
-                Objects.requireNonNull(LevelController.getTileAt(this.xPos - gasCounterW, this.yPos)).addActivePower(new Gas(this.xPos - gasCounterW,
-                        this.yPos, false));
+            if (Objects.requireNonNull(LevelController.getTileAt(this.xPos -
+                    gasCounterW, this.yPos)).isPassable()) {
+                Objects.requireNonNull(LevelController.getTileAt(this.xPos -
+                        gasCounterW, this.yPos)).addActivePower(new Gas(
+                                this.xPos - gasCounterW, this.yPos, false));
                 gasCounterW++;
             }
         }
@@ -150,8 +161,12 @@ public class Gas extends Power {
         // North East
         if (LevelController.getTileAt(this.xPos+gasCounterNE,
                 this.yPos+gasCounterNE) != null) {
-            if (Objects.requireNonNull(LevelController.getTileAt(this.xPos + gasCounterNE, this.yPos + gasCounterNE)).isPassable()) {
-                Objects.requireNonNull(LevelController.getTileAt(this.xPos + gasCounterNE, this.yPos + gasCounterNE)).addActivePower(new Gas(this.xPos + gasCounterNE, this.yPos + gasCounterNE, false));
+            if (Objects.requireNonNull(LevelController.getTileAt(this.xPos +
+                    gasCounterNE, this.yPos + gasCounterNE)).isPassable()) {
+                Objects.requireNonNull(LevelController.getTileAt(this.xPos +
+                        gasCounterNE, this.yPos + gasCounterNE)).
+                        addActivePower(new Gas(this.xPos + gasCounterNE,
+                                this.yPos + gasCounterNE, false));
                 gasCounterNE++;
             }
         }
@@ -159,9 +174,12 @@ public class Gas extends Power {
         // South East
         if (LevelController.getTileAt(this.xPos+gasCounterSE,
                 this.yPos-gasCounterSE) != null) {
-            if (Objects.requireNonNull(LevelController.getTileAt(this.xPos + gasCounterSE,
-                    this.yPos - gasCounterSE)).isPassable()) {
-                Objects.requireNonNull(LevelController.getTileAt(this.xPos + gasCounterSE, this.yPos - gasCounterSE)).addActivePower(new Gas(this.xPos + gasCounterSE, this.yPos - gasCounterSE, false));
+            if (Objects.requireNonNull(LevelController.getTileAt(this.xPos +
+                    gasCounterSE, this.yPos - gasCounterSE)).isPassable()) {
+                Objects.requireNonNull(LevelController.getTileAt(this.xPos +
+                        gasCounterSE, this.yPos - gasCounterSE)).
+                        addActivePower(new Gas(this.xPos + gasCounterSE,
+                                this.yPos - gasCounterSE, false));
                 gasCounterSE++;
             }
         }
@@ -169,9 +187,12 @@ public class Gas extends Power {
         // North West
         if (LevelController.getTileAt(this.xPos - gasCounterNW,
                 this.yPos + gasCounterNW) != null) {
-            if (Objects.requireNonNull(LevelController.getTileAt(this.xPos - gasCounterNW,
-                    this.yPos + gasCounterNW)).isPassable()) {
-                Objects.requireNonNull(LevelController.getTileAt(this.xPos - gasCounterNW, this.yPos + gasCounterNW)).addActivePower(new Gas(this.xPos - gasCounterNW, this.yPos + gasCounterNW, false));
+            if (Objects.requireNonNull(LevelController.getTileAt(this.xPos -
+                    gasCounterNW, this.yPos + gasCounterNW)).isPassable()) {
+                Objects.requireNonNull(LevelController.getTileAt(this.xPos -
+                        gasCounterNW, this.yPos + gasCounterNW)).
+                        addActivePower(new Gas(this.xPos - gasCounterNW,
+                                this.yPos + gasCounterNW, false));
                 gasCounterNW++;
             }
         }
@@ -179,9 +200,11 @@ public class Gas extends Power {
         // South West
         if (LevelController.getTileAt(this.xPos - gasCounterSW,
                 this.yPos - gasCounterSW) != null) {
-            if (Objects.requireNonNull(LevelController.getTileAt(this.xPos - gasCounterSW,
-                    this.yPos - gasCounterSW)).isPassable()) {
-                Objects.requireNonNull(LevelController.getTileAt(this.xPos - gasCounterSW, this.yPos - gasCounterSW)).addActivePower(new Gas(this.xPos - gasCounterSW,
+            if (Objects.requireNonNull(LevelController.getTileAt(this.xPos -
+                    gasCounterSW, this.yPos - gasCounterSW)).isPassable()) {
+                Objects.requireNonNull(LevelController.getTileAt(this.xPos -
+                        gasCounterSW, this.yPos - gasCounterSW)).
+                        addActivePower(new Gas(this.xPos - gasCounterSW,
                         this.yPos - gasCounterSW, false));
                 gasCounterSW++;
             }
