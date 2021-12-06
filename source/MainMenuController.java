@@ -118,6 +118,7 @@ public class MainMenuController extends Application {
 		} else {
 			loggedProfile.setText(ProfileFileReader.getLoggedProfile());
 		}
+		loggedProfile.setStyle("-fx-text-fill: #Fd062a");
 
         // Login css
 		HBox loggedProfileBox = new HBox();
