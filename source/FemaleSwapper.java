@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class FemaleSwapper extends Power {
 
-    private static final String FEMALE_SWAP_SOUND_PATH
-            = "resources/femaleSwapperSound.mp3";
+    private static final String FEMALE_SWAP_SOUND_PATH = "resources/femaleSwapperSound.mp3";
+    private static final float FEMALE_SWAP_SOUND_VOLUME = 0.1f;
 
     /**
      * FemaleSwapper constructor
@@ -33,9 +33,9 @@ public class FemaleSwapper extends Power {
     void activate(ArrayList<Rat> rats, Tile currentTile) {
 
         SeaShantySimulator seaSim = new SeaShantySimulator();
-        seaSim.playAudioClip(FEMALE_SWAP_SOUND_PATH, 0.1);
+        seaSim.playAudioClip(FEMALE_SWAP_SOUND_PATH, FEMALE_SWAP_SOUND_VOLUME);
 
-        // Loop through the rats and attempt to change it's gender
+        // Loop through the rats and attempt to change its gender
         for (Rat r : rats) {
             if (r instanceof AdultMale) {
                 AdultFemale copyRat = new AdultFemale(r.getSpeed(),

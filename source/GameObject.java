@@ -3,6 +3,7 @@ import javafx.scene.image.Image;
 
 /**
  * Class that describes a game object.
+ *
  * @author Vilija Pundyte
  * @version 1.0
  */
@@ -10,12 +11,13 @@ public abstract class GameObject {
     private static final int WIDTH = 64;
 
     private static String TEXTURE_FOLDER = "resources";
-    private final Image img;
 
+    private final Image img;
     private final boolean isPassable;
 
     /**
      * Object constructor.
+     *
      * @param isPassable can rats walk through.
      */
     public GameObject(boolean isPassable) {
@@ -25,6 +27,7 @@ public abstract class GameObject {
 
     /**
      * Draws object on screen.
+     *
      * @param x Horizontal position.
      * @param y Vertical position.
      * @param g Graphics context being drawn on.
@@ -37,6 +40,7 @@ public abstract class GameObject {
 
     /**
      * Gets width of a single game object texture in pixels.
+     *
      * @return width of game object.
      */
     protected static int getWIDTH() {
@@ -45,6 +49,7 @@ public abstract class GameObject {
 
     /**
      * Gets folder that textures are being held in.
+     *
      * @return texture folder.
      */
     protected static String getTextureFolder() {
@@ -53,6 +58,7 @@ public abstract class GameObject {
 
     /**
      * Gets game object image.
+     *
      * @return game object image.
      */
     protected Image getImg() {
@@ -61,6 +67,7 @@ public abstract class GameObject {
 
     /**
      * Creates file path to the texture of a specific object.
+     *
      * @return File path as String.
      */
     public String createTexturePath() {
@@ -70,6 +77,7 @@ public abstract class GameObject {
 
     /**
      * Sets the folder where all textures are stored.
+     *
      * @param folder Name of texture folder.
      */
     public void setTextureFolder(String folder) {
@@ -78,6 +86,7 @@ public abstract class GameObject {
 
     /**
      * Returns whether rats can pass through game object.
+     *
      * @return can be passed.
      */
     public boolean isPassable() {

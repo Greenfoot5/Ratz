@@ -3,6 +3,7 @@ import java.util.Objects;
 
 /**
  * A class that deals damage to Rats that step over this Power.
+ *
  * @author Daumantas Balakauskas
  * @version 1.0
  */
@@ -27,6 +28,7 @@ public class Gas extends Power {
 
     /**
      * Constructs a new gas
+     *
      * @param xPos The x position
      * @param yPos The y position
      * @param isOriginal Is it the origin gas
@@ -38,6 +40,7 @@ public class Gas extends Power {
 
     /**
      * Gets how many ticks since the creation of the class
+     *
      * @return current value of ticksActive
      */
     public int getTicksActive() {
@@ -46,6 +49,7 @@ public class Gas extends Power {
 
     /**
      * Gets if the gas is the original gas the player placed
+     *
      * @return current value of isOriginal
      */
     public boolean isOriginal() {
@@ -54,6 +58,7 @@ public class Gas extends Power {
 
     /**
      * Sets the value of ticksActive
+     *
      * @param ticksActive the new value of ticksActive
      */
     public void setTicksActive(int ticksActive) {
@@ -62,6 +67,7 @@ public class Gas extends Power {
 
     /**
      * Sets if the gas is the original gas the player placed
+     *
      * @param original the new value of isOriginal
      */
     public void setOriginal(boolean original) {
