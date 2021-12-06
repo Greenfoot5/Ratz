@@ -3,8 +3,17 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.io.File;
 
+/**
+ *  Class that handles game sounds and music.
+ */
+
 public class SeaShantySimulator {
     private MediaPlayer mediaPlayer;
+
+    /**
+     * Initialises the media player and loads the music file for background
+     * music.
+     */
 
     public void initialize() {
         String musicFile = "resources/bgMusic.mp3";
@@ -14,9 +23,19 @@ public class SeaShantySimulator {
 
     }
 
+    /**
+     * Starts playing the background music.
+     */
+
     public void play() {
         mediaPlayer.play();
     }
+
+    /**
+     * Plays a short sound
+     * @param path path to the mp3 file.
+     * @param volume sets volume. 0.1 = 10% ect.
+     */
 
     public void playAudioClip(String path, double volume) {
         AudioClip soundToPlay = new AudioClip(
@@ -24,6 +43,5 @@ public class SeaShantySimulator {
         soundToPlay.setVolume(volume);
         soundToPlay.play();
     }
-
 }
 
