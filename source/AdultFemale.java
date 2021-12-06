@@ -7,12 +7,12 @@ import java.util.Objects;
  * @version 1.0
  */
 public class AdultFemale extends LivingRat {
-    private int pregnancyTime;
-    private boolean pregnant;
-    private int ratFetusCount;
     private static final int DEFAULT_PREGNANCY_TIME = 40;
     private static final int RAT_BABY_MULTIPLIER = 4;
 
+    private int pregnancyTime;
+    private boolean pregnant;
+    private int ratFetusCount;
 
     /**
      * AdultFemale constructor.
@@ -27,7 +27,8 @@ public class AdultFemale extends LivingRat {
      * @param ratFetusCount how many baby rats the mother rat is carrying
      */
     public AdultFemale(int speed, Direction direction, int gasTimer, int xPos,
-                       int yPos, boolean isFertile, int pregnancyTime, int ratFetusCount) {
+                       int yPos, boolean isFertile, int pregnancyTime,
+                       int ratFetusCount) {
         super(speed, direction, gasTimer, xPos, yPos, isFertile);
         this.pregnancyTime = pregnancyTime;
         this.pregnant = pregnancyTime > 0;
@@ -57,7 +58,9 @@ public class AdultFemale extends LivingRat {
         if (!pregnant) {
             pregnant = true;
             pregnancyTime = DEFAULT_PREGNANCY_TIME;
-            ratFetusCount = (int) (Math.ceil(Math.random() * RAT_BABY_MULTIPLIER) + Math.ceil(Math.random() * RAT_BABY_MULTIPLIER));
+            ratFetusCount = (int) (Math.ceil(Math.random() *
+                    RAT_BABY_MULTIPLIER) + Math.ceil(Math.random() *
+                    RAT_BABY_MULTIPLIER));
         }
     }
 
@@ -78,10 +81,11 @@ public class AdultFemale extends LivingRat {
             boolean newIsFemale;
             newIsFemale = Math.round(Math.random()) == 0;
 
-            ChildRat newBaby = new ChildRat(Rat.getDEFAULT_SPEED() * 2, direction, 0,
-                    xPos, yPos, true, 0, newIsFemale);
+            ChildRat newBaby = new ChildRat(Rat.getDEFAULT_SPEED() * 2,
+                    direction, 0, xPos, yPos, true, 0, newIsFemale);
             LevelController.ratAdded(newBaby);
-            Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).addOccupantRat(newBaby);
+            Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).
+                    addOccupantRat(newBaby);
         }
     }
 }

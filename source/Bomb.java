@@ -14,12 +14,15 @@ public class Bomb extends Power {
 
     private static final String BOMB_SOUND_PATH = "resources/bombSound.mp3";
     private static final int EXPLODE_TICK = 5; // How many ticks to reach to explode
-    
-    private int ticksActive = 0; //Tick counter since creation of this class.
-    /**
-     * Bomb constructor
-     */
 
+    private int ticksActive = 0; //Tick counter since creation of this class.
+
+
+    /**
+     * Constructs a bom
+     * @param xPos The x position to create the bomb
+     * @param yPos The y position to create the bomb
+     */
     Bomb(int xPos, int yPos) {
         super(true, xPos, yPos);
     }
