@@ -35,6 +35,10 @@ public class AdultFemale extends LivingRat {
         this.ratFetusCount = ratFetusCount;
     }
 
+    /**
+     * Gets the current fetus count of the rat
+     * @return the current value of ratFetusCount
+     */
     public int getRatFetusCount() {
         return ratFetusCount;
     }
