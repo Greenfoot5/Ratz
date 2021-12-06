@@ -19,6 +19,7 @@ public class LevelFileReader {
 
     private static int inProgTimer;
     private static int[] inProgInv = new int[8];
+    private static boolean hasLoadedSavedLevel;
 
 
     public static int getHeight() {
@@ -43,6 +44,10 @@ public class LevelFileReader {
 
     public static int getParTime() {
         return parTime;
+    }
+
+    public static boolean getHasLoadedSavedLevel() {
+        return hasLoadedSavedLevel;
     }
 
     /**
@@ -373,6 +378,7 @@ public class LevelFileReader {
         // check if a saved level exists.
         // if it does, grab the rats, timer, and stored inventory from it from it
         if (levelDataInProgress.isFile()) {
+            hasLoadedSavedLevel = true;
             reader = new Scanner(levelDataInProgress);
             inProgInv = new int[8];
             if (reader.hasNextLine()) {
@@ -388,6 +394,7 @@ public class LevelFileReader {
             }
         } else {
             // if no saved data exists, just read the objects from the default file.
+            hasLoadedSavedLevel = false;
             reader = new Scanner(levelData);
             readObjects(reader);
         }
