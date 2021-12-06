@@ -1,20 +1,21 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.media.AudioClip;
-
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A class that kills all rats standing on the tile at the time of explosion -
  * (5 game ticks after it's been placed).
  * @author Daumantas Balakauskas
+ * @version 1.0
  */
 
 public class Bomb extends Power {
 
-    private int ticksActive = 0; //Tick counter since creation of this class.
     private static final String BOMB_SOUND_PATH = "resources/bombSound.mp3";
+    private static final int EXPLODE_TICK = 5; // How many ticks to reach to explode
+    
+    private int ticksActive = 0; //Tick counter since creation of this class.
     /**
      * Bomb constructor
      */
@@ -36,7 +37,7 @@ public class Bomb extends Power {
         ArrayList<Tile> tilesToExplode = findPathTiles();
         tilesToExplode.add(currentTile);
 
-        //Explody bit
+        // Explody bit
         for (Tile tile : tilesToExplode) {
             if (tile != null) {
                 int numOfRats = tile.getOccupantRats().size();
@@ -50,43 +51,48 @@ public class Bomb extends Power {
         currentTile.removeActivePower(this);
     }
 
-    /** Method that finds all Tiles bomb can reach.
-     *  @return All Tiles that bomb can reach (not grass) in all 4 directions.
+    /**
+     * Method that finds all Tiles bomb can reach.
+     * @return All Tiles that bomb can reach (not grass) in all 4 directions.
      */
     private ArrayList<Tile> findPathTiles () {
         ArrayList<Tile> tilesToExplode = new ArrayList<>();
 
         int counter = 1;
 
+        // North
         if (LevelController.getTileAt(this.xPos, this.yPos + counter) != null) {
-            while (LevelController.getTileAt(this.xPos, this.yPos + counter).isPassable()) {
+            while (Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos + counter)).isPassable()) {
                 tilesToExplode.add(LevelController.getTileAt(this.xPos,
                         this.yPos + counter));
                 counter++;
             }
         }
 
+        // South
         counter = 1;
         if (LevelController.getTileAt(this.xPos, this.yPos - counter) != null) {
-            while (LevelController.getTileAt(this.xPos, this.yPos - counter).isPassable()) {
+            while (Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos - counter)).isPassable()) {
                 tilesToExplode.add(LevelController.getTileAt(this.xPos,
                         this.yPos - counter));
                 counter++;
             }
         }
 
+        // East
         counter = 1;
         if (LevelController.getTileAt(this.xPos + counter, this.yPos) != null) {
-            while (LevelController.getTileAt(this.xPos + counter, this.yPos).isPassable()) {
+            while (Objects.requireNonNull(LevelController.getTileAt(this.xPos + counter, this.yPos)).isPassable()) {
                 tilesToExplode.add(LevelController.getTileAt(this.xPos + counter,
                         this.yPos));
                 counter++;
             }
         }
 
+        // West
         counter = 1;
         if (LevelController.getTileAt(this.xPos - counter, this.yPos) != null) {
-            while(LevelController.getTileAt(this.xPos - counter, this.yPos).isPassable()) {
+            while(Objects.requireNonNull(LevelController.getTileAt(this.xPos - counter, this.yPos)).isPassable()) {
                 tilesToExplode.add(LevelController.getTileAt(this.xPos-counter,
                         this.yPos));
                 counter++;
@@ -102,7 +108,6 @@ public class Bomb extends Power {
      * @param currentTile used for calling removeActivePower(this).
      * @param rats used for updating the rat arraylist every game tick.
      */
-
     @Override
     void onTick(ArrayList<Rat> rats, Tile currentTile) {
         if (ticksActive == 0) {
@@ -112,7 +117,7 @@ public class Bomb extends Power {
 
         ticksActive = ticksActive + 1;
 
-        if (ticksActive >= 5) {
+        if (ticksActive >= EXPLODE_TICK) {
             activate(rats, currentTile);
         }
     }
@@ -128,17 +133,17 @@ public class Bomb extends Power {
     }
 
     /**
-     * Getter for fileReader
+     * How many ticks since the creation of the class
+     * @return ticksActive
      */
-
     public int getTicksActive() {
         return ticksActive;
     }
 
     /**
-     * Setter for fileReader
+     * Sets how many ticks have passed since the creation of the class
+     * @param ticksActive ticks since class creation
      */
-
     public void setTicksActive(int ticksActive) {
         this.ticksActive = ticksActive;
     }

@@ -441,7 +441,7 @@ public class LevelController {
         tickTimeline.stop();
 
         try {
-            LevelFileReader.saveLevel("level-" + LEVEL_NUMBER);
+            LevelFileReader.saveLevel("./resources/level-" + LEVEL_NUMBER);
         } catch (IOException e) {
             System.out.println("Couldn't save level state.");
         }

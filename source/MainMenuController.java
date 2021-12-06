@@ -537,11 +537,11 @@ public class MainMenuController extends Application {
 	}
 
     /**
-     * Modify content of labels and scores table
-     * 
-     * @param loggedLabel
-     * @param scoresHeading
-     * @param profileScore
+     * Generates the bests for each profile
+     *
+     * @param loggedLabel The label displaying who's logged in
+     * @param scoresHeading The heading for the scores
+     * @param profileScore The labels to display the scores i
      */
 	private void displayProfileBests(Label loggedLabel, Label scoresHeading, Label[] profileScore) {
 		// Change the text of headings
@@ -640,23 +640,29 @@ public class MainMenuController extends Application {
 	}
 
     /**
-     * 
+     * Display the rats at the bottom of the level select screen
      *
-     * @return
+     * @return The layout element with the rats
      */
 	private HBox getBottomLevel() {
 		HBox bottomBox = new HBox(82);
 		bottomBox.setPrefHeight(80);
+
+        // Gets the rat images
 		FileInputStream inputs1 = null;
 		FileInputStream inputs2 = null;
 		try {
 			inputs1 = new FileInputStream("resources/childratEAST.png");
 			inputs2 = new FileInputStream("resources/deathratEAST.png");
 		} catch (FileNotFoundException ignored) { }
+
+        // Turns the rat filepaths to images
         assert inputs1 != null;
         assert inputs2 != null;
         Image imageB1 = new Image(inputs1);
         Image imageB2 = new Image(inputs2);
+
+        // Allows us to display the images
         ImageView[] imageViews = new ImageView[6];
         for (int i = 0; i < imageViews.length; i++)
         {
@@ -675,11 +681,12 @@ public class MainMenuController extends Application {
 	}
 
     /**
+     * Generates the bombs and buttons for the level select menu
      *
-     * @param selectStage
-     * @param scene
-     * @param selectedLevel
-     * @return
+     * @param selectStage The stage for the level select screen
+     * @param scene The current scene
+     * @param selectedLevel The current selected level
+     * @return The layout element with the bombs and menu navigation buttons
      */
 	private VBox getRightLevel(Stage selectStage, Scene scene, AtomicInteger selectedLevel) {
 		VBox rightBox = new VBox(5);
@@ -687,12 +694,14 @@ public class MainMenuController extends Application {
 		rightBox.setPrefWidth(180);
 		rightBox.setPadding(new Insets(5, 0, 5, 0));
 
+        // Get the bomb images
 		FileInputStream[] inputStreams = new FileInputStream[3];
 		try {
 			inputStreams[0] = new FileInputStream("resources/bomb1.png");
 			inputStreams[1] = new FileInputStream("resources/bomb3.png");
 			inputStreams[2] = new FileInputStream("resources/bomb4.png");
 		} catch (FileNotFoundException ignored) { }
+        // Turn the bombs from file paths
         assert inputStreams[0] != null;
         Image image1 = new Image(inputStreams[0]);
         assert inputStreams[1] != null;
@@ -705,17 +714,18 @@ public class MainMenuController extends Application {
         imageViews[1] = new ImageView(image2);
         imageViews[2] = new ImageView(image3);
 
+        // Generate the play button
 		Button playButton = new Button("Play!");
 		playButton.setPrefWidth(80);
 		playButton.setOnAction(event -> {
 			try {
-				// TODO - Get the level number
 				loadLevel(selectStage, selectedLevel.get());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		});
 
+        // Generate the main menu button
 		Button backToMenu = new Button("Main Menu");
 		backToMenu.setOnAction(event -> {
 			selectStage.setScene(scene);
@@ -728,9 +738,10 @@ public class MainMenuController extends Application {
 	}
 
     /**
+     * Displays the level buttons to select
      *
-     * @param selectedLevel
-     * @return
+     * @param selectedLevel The currently selected level
+     * @return The layout of buttons to select the level
      */
 	private VBox getLeftLevel(AtomicInteger selectedLevel) {
 		VBox leftBox = new VBox(10);

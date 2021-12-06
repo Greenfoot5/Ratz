@@ -1,10 +1,11 @@
+import java.util.Objects;
+
 /**
  * A class to model a female rat. Gives birth to baby rats.
  *
  * @author James McWilliams
+ * @verion 1.0
  */
-
-
 public class AdultIntersex extends LivingRat {
     private int pregnancyTime;
     private boolean pregnant;
@@ -19,9 +20,9 @@ public class AdultIntersex extends LivingRat {
      * @param speed         how fast the rat moves.
      * @param direction     the direction the rat is facing.
      * @param gasTimer      how long the rat has spent inside poison gas.
-     * @param xPos          where the rat is on the x axis.
-     * @param yPos          where the rat is on the y axis.
-     * @param isFertile     whether or not the rat can breed.
+     * @param xPos          where the rat is on the x-axis.
+     * @param yPos          where the rat is on the y-axis.
+     * @param isFertile     whether the rat can breed.
      * @param pregnancyTime how long the rat has left being pregnant.
      * @param ratFetusCount how many baby rats the mother rat is carrying
      */
@@ -33,6 +34,10 @@ public class AdultIntersex extends LivingRat {
         this.ratFetusCount = ratFetusCount;
     }
 
+    /**
+     * Gets the current fetus count for the rat
+     * @return ratFetusCount
+     */
     public int getRatFetusCount() {
         return ratFetusCount;
     }
@@ -60,7 +65,9 @@ public class AdultIntersex extends LivingRat {
         }
     }
 
-
+    /**
+     * Makes the rat pregnant. Rats will have 2d4 babies.
+     */
     public int getPregnancyTime() {
         return pregnancyTime;
     }
@@ -81,7 +88,7 @@ public class AdultIntersex extends LivingRat {
             ChildRat newBaby = new ChildRat(Rat.getDEFAULT_SPEED() * 2, direction, 0,
                     xPos, yPos, true, 0, newIsFemale);
             LevelController.ratAdded(newBaby);
-            LevelController.getTileAt(xPos, yPos).addOccupantRat(newBaby);
+            Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).addOccupantRat(newBaby);
 
 
         }
@@ -94,6 +101,7 @@ public class AdultIntersex extends LivingRat {
         if (this.isFertile) {
             Tile currentTile = LevelController.getTileAt(xPos, yPos);
 
+            assert currentTile != null;
             for (Rat currentRat : currentTile.getOccupantRats()) {
                 if (currentRat instanceof AdultFemale ) {
                     ((AdultFemale) currentRat).becomePregnant();

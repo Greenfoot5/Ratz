@@ -18,10 +18,6 @@ public class SeaShantySimulator {
         mediaPlayer.play();
     }
 
-    public void pause() {
-        mediaPlayer.pause();
-    }
-
     public void playAudioClip(String path, double volume) {
         AudioClip soundToPlay = new AudioClip(
                 new File(path).toURI().toString());

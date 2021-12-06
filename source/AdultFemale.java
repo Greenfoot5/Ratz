@@ -1,10 +1,11 @@
+import java.util.Objects;
+
 /**
  * A class to model a female rat. Gives birth to baby rats.
  *
  * @author James McWilliams
+ * @version 1.0
  */
-
-
 public class AdultFemale extends LivingRat {
     private int pregnancyTime;
     private boolean pregnant;
@@ -19,9 +20,9 @@ public class AdultFemale extends LivingRat {
      * @param speed         how fast the rat moves.
      * @param direction     the direction the rat is facing.
      * @param gasTimer      how long the rat has spent inside poison gas.
-     * @param xPos          where the rat is on the x axis.
-     * @param yPos          where the rat is on the y axis.
-     * @param isFertile     whether or not the rat can breed.
+     * @param xPos          where the rat is on the x-axis.
+     * @param yPos          where the rat is on the y-axis.
+     * @param isFertile     whether the rat can breed.
      * @param pregnancyTime how long the rat has left being pregnant.
      * @param ratFetusCount how many baby rats the mother rat is carrying
      */
@@ -60,7 +61,10 @@ public class AdultFemale extends LivingRat {
         }
     }
 
-
+    /**
+     * Gets the length of the pregnancy
+     * @return pregnancyTime
+     */
     public int getPregnancyTime() {
         return pregnancyTime;
     }
@@ -72,17 +76,12 @@ public class AdultFemale extends LivingRat {
         if (ratFetusCount > 0) {
             ratFetusCount--;
             boolean newIsFemale;
-            if (Math.round(Math.random()) == 0) {
-                newIsFemale = true;
-            } else {
-                newIsFemale = false;
-            }
+            newIsFemale = Math.round(Math.random()) == 0;
 
             ChildRat newBaby = new ChildRat(Rat.getDEFAULT_SPEED() * 2, direction, 0,
                     xPos, yPos, true, 0, newIsFemale);
             LevelController.ratAdded(newBaby);
-            LevelController.getTileAt(xPos, yPos).addOccupantRat(newBaby);
-
+            Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).addOccupantRat(newBaby);
         }
     }
 }

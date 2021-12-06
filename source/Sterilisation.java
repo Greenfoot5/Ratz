@@ -8,6 +8,8 @@ import java.util.ArrayList;
 public class Sterilisation extends Power{
 
     private int ticksActive = 0; //Tick counter since creation of this class.
+    private static final String STERILISATION_SOUND_PATH
+            = "resources/sterilisationSound.mp3";
 
     /**
      * Sterilisation constructor
@@ -52,6 +54,10 @@ public class Sterilisation extends Power{
     @Override
     void onTick(ArrayList<Rat> rats, Tile currentTile) {
         ticksActive = ticksActive + 1;
+        if (ticksActive == 1) {
+            SeaShantySimulator seaSim = new SeaShantySimulator();
+            seaSim.playAudioClip(STERILISATION_SOUND_PATH, 0.1);
+        }
         if (ticksActive < 24) {
             activate(rats, currentTile);
         } else {
