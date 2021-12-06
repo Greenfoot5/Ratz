@@ -17,10 +17,10 @@ public class Gas extends Power {
     private int gasCounterE = 1; // Counts how many gas was placed East
     private int gasCounterW = 1; // Counts how many gas was placed West
 
-    private int gasCounterNW = 1; // Counts how many gas was placed West
-    private int gasCounterSW = 1; // Counts how many gas was placed West
-    private int gasCounterNE = 1; // Counts how many gas was placed West
-    private int gasCounterSE = 1; // Counts how many gas was placed West
+    private int gasCounterNW = 1; // Counts how many gas was placed North-West
+    private int gasCounterSW = 1; // Counts how many gas was placed South-West
+    private int gasCounterNE = 1; // Counts how many gas was placed North-East
+    private int gasCounterSE = 1; // Counts how many gas was placed South-East
 
     /**
      * Gas constructor
