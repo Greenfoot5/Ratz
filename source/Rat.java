@@ -93,7 +93,9 @@ public abstract class Rat extends GameObject {
         if (tickCounter % speed == 0) {
             walk();
         }
-        decGasTimer();
+        if (gasTimer > 0) {
+            decGasTimer();
+        }
         onTickSpecific();
     }
 
