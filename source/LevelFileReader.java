@@ -88,6 +88,13 @@ public class LevelFileReader {
         return inProgTimer;
     }
 
+    /**
+     * Gets the items in a player's saved inventory.
+     * The powers are in the following order:
+     * Bombs, Gas, Sterilisation items, Poison, Male sex changes, Female sex changes, No-entry signs, and Death rats.
+     *
+     * @return
+     */
     public static int[] getInProgInv() {
         return inProgInv;
     }
@@ -117,25 +124,6 @@ public class LevelFileReader {
                 e.printStackTrace();
             }
         }
-
-
-
-        // saving first two lines
-        //FileWriter writer = new FileWriter(levelName + "-inProgress" + ProfileFileReader.getLoggedProfile() + ".txt");
-        //String dropRatesString = "";
-        //for (int i = 0; i < dropRates.length; i++) {
-        //    dropRatesString += dropRates[i] + ",";
-        //}
-        //
-        //// saving tiles
-        //String tileString = "";
-        //for (int i = 0; i < tiles.length; i++) {
-        //    tileString += tiles[i] + "\n";
-        //}
-
-        // more shit goes here
-
-        //String fileString = String.format("%d,%d,%d,%d\n%s\n%s", height, width, maxRats, parTime, dropRatesString, tileString);
 
 
     }
@@ -270,6 +258,8 @@ public class LevelFileReader {
         Scanner reader = new Scanner(levelData);
 
         ratArrayList.clear();
+        inProgInv = null;
+        inProgTimer = 0;
 
         // get level width, height, max rats, par time
         if (reader.hasNextLine()) {
@@ -299,7 +289,7 @@ public class LevelFileReader {
 
         tileMap = tilesToTileMap(tiles);
 
-        // check if a saved level exists. if it does, grab the timer and stored inventory from it from it
+        // check if a saved level exists. if it does, grab the rats, timer, and stored inventory from it from it
         if (levelDataInProgress.isFile()) {
             reader = new Scanner(levelDataInProgress);
             System.out.println("Loaded saved level");
@@ -311,6 +301,8 @@ public class LevelFileReader {
                     inProgInv[i] = Integer.parseInt(inProgInvString[i]);
                 }
                 readObjects(reader);
+
+
             }
         } else {
             // if no saved data exists, just read the objects from the default file.
