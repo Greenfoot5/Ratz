@@ -9,7 +9,7 @@ import java.net.URLConnection;
  * A class to obtain the motd.
  * It does this by getting the puzzle, solving it and
  * posting the solution through http requests to get the motd.
- * 
+ *
  * @author harvey
  * @version 1.0
  */
