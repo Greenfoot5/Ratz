@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 /**
  * A class which reads levels from files, and saves levels to files.
@@ -124,11 +123,12 @@ public class LevelFileReader {
         String inventory = "";
 
         for (int i = 0; i < LevelController.getCounters().length; i++) {
-            inventory += LevelController.getCounters() + ",";
+            inventory += LevelController.getCounters()[i] + ",";
         }
 
         String allObjects = "";
 
+        // add rats to file
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 if (LevelController.getTileAt(x,y).getOccupantRats().size() > 0) {
@@ -136,6 +136,12 @@ public class LevelFileReader {
                         allObjects += "(" + ratToStr(rat) + ")\n";
                     }
                 }
+            }
+        }
+
+        // add powers to file
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
                 if (LevelController.getTileAt(x,y).getActivePowers().size() > 0) {
                     for (Power power : LevelController.getTileAt(x,y).getActivePowers()) {
                         allObjects += "(" + powerToStr(power) + ")\n";
@@ -144,9 +150,13 @@ public class LevelFileReader {
             }
         }
 
-        String fileString = String.format("%d\n%s\n%s\n", LevelController.getCurrentTimeLeft(),inventory,allObjects);
+        double timeInSeconds = (int) Math.floor(LevelController.getCurrentTimeLeft() / 1000.0);
+
+        String fileString = String.format("%d\n%s\n%s\n", timeInSeconds,inventory,allObjects);
+        System.out.println(fileString);
 
         writer.write(fileString);
+        writer.close();
     }
 
     /**
@@ -235,6 +245,7 @@ public class LevelFileReader {
      * @return A string that can be read by the file reader
      */
     public static String powerToStr(Power power) {
+        String type;
         String xPos;
         String yPos;
         String special;
@@ -243,29 +254,36 @@ public class LevelFileReader {
         yPos = Integer.toString(power.getyPos());
 
         if (power instanceof Bomb) {
+            type = "B";
             special = String.valueOf(((Bomb) power).getTicksActive());
-            return xPos + "," + yPos + "," + special;
+            return type + "," + xPos + "," + yPos + "," + special;
         }
         if (power instanceof Gas) {
+            type = "G";
             special = String.valueOf(((Gas) power).getTicksActive());
-            return xPos + "," + yPos + "," + special;
+            return type + "," + xPos + "," + yPos + "," + special;
         }
         if (power instanceof Sterilisation) {
+            type = "S";
             special = String.valueOf(((Sterilisation) power).getTicksActive());
-            return xPos + "," + yPos + "," + special;
+            return type + "," + xPos + "," + yPos + "," + special;
         }
         if (power instanceof Poison) {
-            return xPos + "," + yPos;
+            type = "P";
+            return type + "," + xPos + "," + yPos;
         }
         if (power instanceof MaleSwapper) {
-            return xPos + "," + yPos;
+            type = "T";
+            return type + "," + xPos + "," + yPos;
         }
         if (power instanceof FemaleSwapper) {
-            return xPos + "," + yPos;
+            type = "E";
+            return type + "," + xPos + "," + yPos;
         }
         if (power instanceof StopSign) {
+            type = "N";
             special = String.valueOf(((StopSign) power).getHP());
-            return xPos + "," + yPos + "," + special;
+            return type + "," + xPos + "," + yPos + "," + special;
         }
 
         // if nothing has been returned yet, someone's added in a new power.

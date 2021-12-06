@@ -223,7 +223,7 @@ public class MainMenuController extends Application {
      * @return The ImageViews for the rats
      */
     private ImageView[] newImageViews(Image image) {
-        ImageView[] result = new ImageView[6];
+        ImageView[] result = new ImageView[7];
 
         for(int i = 0; i < result.length; i++)
         {
@@ -459,34 +459,45 @@ public class MainMenuController extends Application {
 		centre.setAlignment(Pos.TOP_CENTER);
 		centre.setPadding(new Insets(5, 0, 5, 0));
 
-        // Get the scores for the profile
+        // Creating array of labels to display
 		profileScore = new Label[ProfileFileReader.getNumberOfLevels()];
 
-        // If the profile isn't null,
 		if (ProfileFileReader.getLoggedProfile() != null) {
+	        // Player is logged in so scores can be displayed
 			scoresHeading = new Label("Best " + ProfileFileReader.getLoggedProfile() + "'s scores:");
             centre.getChildren().add(scoresHeading);
 
+            // Score 0 means that player hasn't completed the level, so next level should be locked
+            // When loop over score equal to 0 should be changed to false to show that next level is locked 
 			boolean unlocked = true;
 			for (int i = 0; i < profileScore.length; i++) {
+				// Looping over scores to check if level was unlocked by a player (if so display the score)
 				try {
 					if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) > 0 && unlocked) {
+						// If player's score is above 0 it means player unlocked this level and score should be displayed
 						profileScore[i] = new Label("Lvl" + (i + 1) + " "
 								+ ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
-					} else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0
+					} 
+					else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0
 							&& unlocked) {
+						// If player's score is 0 it means it is last level unlocked by a player 
 						profileScore[i] = new Label("Lvl" + (i + 1) + " "
 								+ ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
 						unlocked = false;
-					} else {
+					}
+					else {
+						// Level wasn't unlocked, so score shouldn't be displayed
 						profileScore[i] = new Label("Lvl" + (i + 1) + " is locked");
 					}
 				} catch (IOException e) {
+					// Error occurred in ProfileFileREader
 					profileScore[i] = new Label("Lvl" + (i + 1) + " unknown error");
 				}
 				centre.getChildren().add(profileScore[i]);
 			}
-		} else {
+		} 
+		else {
+			// No player is logged in so scores are displayed as zeros
 			scoresHeading = new Label("Best ... scores:");
 			centre.getChildren().add(scoresHeading);
 
@@ -533,24 +544,34 @@ public class MainMenuController extends Application {
      * @param profileScore The labels to display the scores i
      */
 	private void displayProfileBests(Label loggedLabel, Label scoresHeading, Label[] profileScore) {
+		// Change the text of headings
 		loggedLabel.setText(ProfileFileReader.getLoggedProfile());
 		scoresHeading.setText("Best " + ProfileFileReader.getLoggedProfile() + "'s scores:");
 
+		// Score 0 means that player hasn't completed the level, so next level should be locked
+        // When loop over score equal to 0 should be changed to false to show that next level is locked 
 		boolean unlocked = true;
+		// Looping over scores to check if level was unlocked by a player (if so display the score)
 		for (int i = 0; i < profileScore.length; i++) {
 			try {
 				if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) > 0) {
+					// If player's score is above 0 it means player unlocked this level and score should be displayed
 					profileScore[i].setText("Lvl" + (i + 1) + " "
 							+ ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
-				} else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0
+				} 
+				else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0
 						&& unlocked) {
+					// If player's score is 0 it means it is last level unlocked by a player 
 					profileScore[i].setText("Lvl" + (i + 1) + " "
 							+ ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1));
 					unlocked = false;
-				} else {
+				} 
+				else {
+					// Level wasn't unlocked, so score shouldn't be displayed
 					profileScore[i].setText("Lvl" + (i + 1) + " is locked");
 				}
 			} catch (IOException e) {
+				// Error occurred in ProfileFileREader
 				profileScore[i].setText("Lvl" + (i + 1) + " unknown error");
 			}
 		}
