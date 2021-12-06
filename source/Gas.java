@@ -91,8 +91,8 @@ public class Gas extends Power {
         }
     }
 
-    /** Method that finds all Tiles Gas can reach and puts a new Gas there
-     * with isOriginal = false.
+    /** Method that spawns new gas in Tiles around that aren't Grass
+     * with isOriginal = false - that new Gas won't duplicate itself forever.
      */
 
     private void gasSurroundingPathTiles () {
@@ -107,7 +107,6 @@ public class Gas extends Power {
             }
         }
 
-
         if (LevelController.getTileAt(this.xPos, this.yPos - gasCounterS) != null) {
             if (Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos - gasCounterS)).isPassable()) {
                     int x = this.xPos;
@@ -117,7 +116,6 @@ public class Gas extends Power {
                     gasCounterS++;
             }
         }
-
 
         if (LevelController.getTileAt(this.xPos + gasCounterE, this.yPos) != null) {
             if (Objects.requireNonNull(LevelController.getTileAt(this.xPos + gasCounterE, this.yPos)).isPassable()) {
@@ -129,7 +127,6 @@ public class Gas extends Power {
             }
         }
 
-
         if (LevelController.getTileAt(this.xPos-gasCounterW, this.yPos) != null) {
             if (Objects.requireNonNull(LevelController.getTileAt(this.xPos - gasCounterW, this.yPos)).isPassable()) {
                     int x = this.xPos - gasCounterW;
@@ -139,7 +136,6 @@ public class Gas extends Power {
                     gasCounterW++;
             }
         }
-
 
         //Diagonal spread
         if (LevelController.getTileAt(this.xPos+gasCounterNE,
@@ -189,7 +185,6 @@ public class Gas extends Power {
                 gasCounterSW++;
             }
         }
-
     }
 
     /**
