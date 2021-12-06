@@ -5,6 +5,8 @@ import java.io.File;
 
 /**
  *  Class that handles game sounds and music.
+ *  @author Daumantas Balakauskas
+ *  @version 1.0
  */
 
 public class SeaShantySimulator {
@@ -33,6 +35,7 @@ public class SeaShantySimulator {
 
     /**
      * Plays a short sound
+     *
      * @param path path to the mp3 file.
      * @param volume sets volume. 0.1 = 10% ect.
      */
