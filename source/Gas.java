@@ -4,13 +4,13 @@ import java.util.Objects;
 /**
  * A class that deals damage to Rats that step over this Power.
  * @author Daumantas Balakauskas
+ * @version 1.0
  */
-
 public class Gas extends Power {
+    private static final String GAS_SOUND_PATH = "resources/gasSound.mp3";
 
     private int ticksActive = 0; //Tick counter since creation of this class.
     private boolean isOriginal;
-    private static final String GAS_SOUND_PATH = "resources/gasSound.mp3";
 
     private int gasCounterN = 1; // Counts how many gas was placed North
     private int gasCounterS = 1; // Counts how many gas was placed South
@@ -23,10 +23,12 @@ public class Gas extends Power {
     private int gasCounterSE = 1; // Counts how many gas was placed South-East
 
     /**
-     * Gas constructor
+     * Constructs a new gas
+     * @param xPos The x position
+     * @param yPos The y position
+     * @param isOriginal Is it the origin gas
      */
-
-    Gas(int xPos, int yPos, boolean isOriginal) {
+    public Gas(int xPos, int yPos, boolean isOriginal) {
         super(true, xPos, yPos);
         this.isOriginal = isOriginal;
     }
@@ -34,7 +36,6 @@ public class Gas extends Power {
     /**
      * Getter for fileReader
      */
-
     public int getTicksActive() {
         return ticksActive;
     }
@@ -42,7 +43,6 @@ public class Gas extends Power {
     /**
      * Getter for fileReader
      */
-
     public boolean isOriginal() {
         return isOriginal;
     }
@@ -50,7 +50,6 @@ public class Gas extends Power {
     /**
      * Setter for fileReader
      */
-
     public void setTicksActive(int ticksActive) {
         this.ticksActive = ticksActive;
     }
@@ -58,7 +57,6 @@ public class Gas extends Power {
     /**
      * Setter for fileReader
      */
-
     public void setOriginal(boolean original) {
         isOriginal = original;
     }
@@ -71,10 +69,8 @@ public class Gas extends Power {
      * @param rats used to interact with all rats that stepped on the power.
      * @param currentTile used to remove this Power from Tile.
      */
-
-
     @Override
-    void activate(ArrayList<Rat> rats, Tile currentTile) {
+    public void activate(ArrayList<Rat> rats, Tile currentTile) {
 
         //Places a bunch of new Gas on Tiles with isOriginal = false;
         if (isOriginal) {
@@ -88,6 +84,23 @@ public class Gas extends Power {
         //Where the rats get gassed.
         for(Rat r : currentTile.getOccupantRats()) {
             r.incGasTimer();
+        }
+    }
+
+    /**
+     * Abstract method for certain powers that need to activate after a
+     * certain amount of time.
+     * @param currentTile used for calling removeActivePower(this).
+     * @param rats used for updating the rat arraylist every game tick.
+     */
+
+    @Override
+    public void onTick(ArrayList<Rat> rats, Tile currentTile) {
+        ticksActive = ticksActive + 1;
+        if (ticksActive <= 24) {
+            activate(rats, currentTile);
+        } else {
+            currentTile.removeActivePower(this);
         }
     }
 
@@ -208,23 +221,6 @@ public class Gas extends Power {
                         this.yPos - gasCounterSW, false));
                 gasCounterSW++;
             }
-        }
-    }
-
-    /**
-     * Abstract method for certain powers that need to activate after a
-     * certain amount of time.
-     * @param currentTile used for calling removeActivePower(this).
-     * @param rats used for updating the rat arraylist every game tick.
-     */
-
-    @Override
-    void onTick(ArrayList<Rat> rats, Tile currentTile) {
-        ticksActive = ticksActive + 1;
-        if (ticksActive <= 24) {
-            activate(rats, currentTile);
-        } else {
-            currentTile.removeActivePower(this);
         }
     }
 }
