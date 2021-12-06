@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Class that implements a playable level.
+ *
  * @author Vilija Pundyte
  * @version 1.0
  */
@@ -31,17 +32,8 @@ import java.util.concurrent.TimeUnit;
 public class LevelController {
 
     private static final int ITEM_NUM = 8;
+    private static final int TILE_SIZE = 64;
     private static final int[] counters = new int[ITEM_NUM];
-
-    //Game map
-    private static Tile[][] tileMap = new Tile[0][0];
-
-    private static int score;
-
-    //Rat counters
-    private static int femaleRatCounter;
-    private static int maleRatCounter;
-    private static int childRatCounter;
 
     //For sounds
     private static final String DEATH_RAT_SOUND_1_PATH = "resources" +
@@ -51,6 +43,17 @@ public class LevelController {
     private static final String DEATH_RAT_SOUND_3_PATH = "resources" +
             "/deathRatSound3.mp3";
     private static final double SOUND_VOLUME_RAT = 0.1f;
+
+    //Game map
+    private static Tile[][] tileMap = new Tile[0][0];
+
+    private static int score;
+    private static int currentTimeLeft;
+
+    //Rat counters
+    private static int femaleRatCounter;
+    private static int maleRatCounter;
+    private static int childRatCounter;
 
     //Images for different game items
     private final List<Image> itemImages = Arrays.asList((new Bomb(0,0)).getImg(),(new Gas(0,0,true)).getImg(),
@@ -80,7 +83,6 @@ public class LevelController {
 
     //Game timeline
     private Timeline tickTimeline;
-    private static int currentTimeLeft;
 
     @FXML
     public Canvas levelCanvas; //Game map canvas
@@ -109,6 +111,7 @@ public class LevelController {
 
     /**
      * Constructor for LevelController class.
+     *
      * @param levelNum Number of level being played.
      * @param mainMenuController Reference to the main menu controller.
      */
@@ -131,6 +134,7 @@ public class LevelController {
 
     /**
      * Returns current timer.
+     *
      * @return Time in milliseconds.
      */
     public static int getCurrentTimeLeft() {
@@ -139,6 +143,7 @@ public class LevelController {
 
     /**
      * Returns current item counters.
+     *
      * @return number of each item.
      */
     public static int[] getCounters() {
@@ -207,6 +212,7 @@ public class LevelController {
 
     /**
      * Returns tile at position (x,y).
+     *
      * @param x Horizontal position.
      * @param y Vertical position.
      * @return Tile at position.
@@ -221,16 +227,17 @@ public class LevelController {
 
     /**
      * Returns whether tile at position (x,y) on canvas can be interacted with.
+     *
      * @param x canvas x position.
      * @param y canvas y position.
      * @return interactivity.
      */
     private boolean tileInteractivityAt(double x, double y) {
-        if (x >= (WIDTH*64) || y >= (HEIGHT*64)){
+        if (x >= (WIDTH*TILE_SIZE) || y >= (HEIGHT*TILE_SIZE)){
             return false;
         } else {
-            int xPos = (int) (Math.floor(x) / 64);
-            int yPos = (int) (Math.floor(y) / 64);
+            int xPos = (int) (Math.floor(x) / TILE_SIZE);
+            int yPos = (int) (Math.floor(y) / TILE_SIZE);
 
             return tileMap[xPos][yPos].isInteractive();
         }
@@ -238,6 +245,7 @@ public class LevelController {
 
     /**
      * Converts milliseconds (as int) to a string of format mm:ss.
+     *
      * @param millis milliseconds as int.
      * @return String mm:ss.
      */
@@ -291,6 +299,7 @@ public class LevelController {
 
     /**
      * Ends game in a win/lose scenario.
+     *
      * @param wonGame whether level was won.
      */
     private void endGame(boolean wonGame) {
@@ -385,11 +394,12 @@ public class LevelController {
 
     /**
      * Adds item dropped by the player onto a Tile.
+     *
      * @param event Drag and drop event.
      */
     private void itemDropped(DragEvent event, int index) {
-        int x = (int) event.getX() / 64;
-        int y = (int) event.getY() / 64;
+        int x = (int) event.getX() / TILE_SIZE;
+        int y = (int) event.getY() / TILE_SIZE;
 
         Power power = null;
         boolean addPower = true;
@@ -488,6 +498,7 @@ public class LevelController {
 
     /**
      * Makes ImageView draggable.
+     *
      * @param item item that is being made draggable.
      * @param dbContent String used in setupCanvasDragBehaviour.
      */
@@ -503,6 +514,7 @@ public class LevelController {
 
     /**
      * Removes rat from a rat counter.
+     *
      * @param rat the rat being removed.
      */
     public static void ratRemoved(Rat rat) {
@@ -517,6 +529,7 @@ public class LevelController {
 
     /**
      * Adds rat to rat counter.
+     *
      * @param rat the rat being added.
      */
     public static void ratAdded(Rat rat) {
@@ -531,6 +544,7 @@ public class LevelController {
 
     /**
      * Removes rat that has been killed from rat counter and adds to score.
+     *
      * @param rat rat that has been killed.
      */
     public static void ratKilled(Rat rat) {

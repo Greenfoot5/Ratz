@@ -273,8 +273,8 @@ public class LevelFileReader {
         String yPos;
         String special;
 
-        xPos = Integer.toString(power.getxPos());
-        yPos = Integer.toString(power.getyPos());
+        xPos = Integer.toString(power.getXPos());
+        yPos = Integer.toString(power.getYPos());
 
         if (power instanceof Bomb) {
             type = "B";

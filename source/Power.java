@@ -20,7 +20,7 @@ public abstract class Power extends GameObject {
      */
 
     Power(boolean isPassable, int xPos, int yPos) {
-        super(true);
+        super(isPassable);
         this.xPos = xPos;
         this.yPos = yPos;
     }
@@ -43,11 +43,11 @@ public abstract class Power extends GameObject {
 
     abstract void onTick(ArrayList<Rat> rats, Tile currentTile);
 
-    public int getxPos() {
+    public int getXPos() {
         return xPos;
     }
 
-    public int getyPos() {
+    public int getYPos() {
         return yPos;
     }
 }
