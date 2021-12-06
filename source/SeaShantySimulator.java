@@ -10,7 +10,7 @@ public class SeaShantySimulator {
         String musicFile = "resources/bgMusic.mp3";
         Media sound = new Media(new File(musicFile).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.setVolume(0.3);
+        mediaPlayer.setVolume(0.02);
 
     }
 
