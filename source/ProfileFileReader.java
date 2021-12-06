@@ -18,11 +18,11 @@ public class ProfileFileReader {
 	/**
 	 * 
 	 */
-	private final static int NUMBER_OF_LEVELS = 5;
+	private static final int NUMBER_OF_LEVELS = 5;
 	/**
 	 * Path to file storing data about profiles
 	 */
-	private final static String FILE_PATH = "resources/profileFile.txt";
+	private static final String FILE_PATH = "resources/profileFile.txt";
 
 	/**
 	 * Create new profile in text file with chosen name.

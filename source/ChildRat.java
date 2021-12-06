@@ -8,6 +8,7 @@ import java.util.Objects;
  */
 
 public class ChildRat extends LivingRat {
+    private static final int GROWTH_AGE = 40;
     private int age;
     private boolean isFemale;
 
@@ -36,7 +37,7 @@ public class ChildRat extends LivingRat {
     @Override
     protected void onTickSpecific() {
         age++;
-        if (age >= 40) {
+        if (age >= GROWTH_AGE) {
             growUp();
         }
     }
