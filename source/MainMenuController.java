@@ -195,15 +195,15 @@ public class MainMenuController extends Application {
 	 * @return The image title
 	 */
 	private ImageView getRatzImageViewMain() {
-		FileInputStream inputstream = null;
+		FileInputStream inputStream = null;
 
 		try {
-			inputstream = new FileInputStream("resources/ratzLabel.png");
+			inputStream = new FileInputStream("resources/ratzLabel.png");
 		} catch (FileNotFoundException ignored) {
 		}
 
-		assert inputstream != null;
-		Image ratzImage = new Image(inputstream);
+		assert inputStream != null;
+		Image ratzImage = new Image(inputStream);
 
 		return new ImageView(ratzImage);
 	}
@@ -216,14 +216,14 @@ public class MainMenuController extends Application {
 	private HBox getTopRatsMain() {
 		HBox top = new HBox();
 
-		FileInputStream inputstream = null;
+		FileInputStream inputStream = null;
 		try {
-			inputstream = new FileInputStream("resources/adultmaleSOUTH.png");
+			inputStream = new FileInputStream("resources/adultmaleSOUTH.png");
 		} catch (FileNotFoundException ignored) {
 		}
 
-		assert inputstream != null;
-		Image image = new Image(inputstream);
+		assert inputStream != null;
+		Image image = new Image(inputStream);
 
 		top.setAlignment(Pos.BASELINE_RIGHT);
 		top.setSpacing(TOP_RAT_SPACING);
@@ -238,13 +238,13 @@ public class MainMenuController extends Application {
 	 */
 	private HBox getBottomRatsMain() {
 		HBox bottom = new HBox();
-		FileInputStream inputstream = null;
+		FileInputStream inputStream = null;
 		try {
-			inputstream = new FileInputStream("resources/adultfemaleNORTH.png");
+			inputStream = new FileInputStream("resources/adultfemaleNORTH.png");
 		} catch (FileNotFoundException ignored) {
 		}
-		assert inputstream != null;
-		Image image = new Image(inputstream);
+		assert inputStream != null;
+		Image image = new Image(inputStream);
 
 		bottom.setSpacing(BOTTOM_RATS_SPACING);
 		bottom.getChildren().addAll(newImageViews(image));
@@ -473,13 +473,13 @@ public class MainMenuController extends Application {
 	 * @return The layout element for the images
 	 */
 	private HBox getSelectMenuPicsLogin() {
-		FileInputStream inputstream = null;
+		FileInputStream inputStream = null;
 		try {
-			inputstream = new FileInputStream("resources/poison.png");
+			inputStream = new FileInputStream("resources/poison.png");
 		} catch (FileNotFoundException ignored) {
 		}
-		assert inputstream != null;
-		Image image = new Image(inputstream);
+		assert inputStream != null;
+		Image image = new Image(inputStream);
 		ImageView imageView = new ImageView(image);
 		ImageView imageView2 = new ImageView(image);
 		HBox selectMenuPics = new HBox();
@@ -533,7 +533,7 @@ public class MainMenuController extends Application {
 						profileScore[i] = new Label("Lvl" + (i + 1) + " is locked");
 					}
 				} catch (IOException e) {
-					// Error occurred in ProfileFileREader
+					// Error occurred in ProfileFileReader
 					profileScore[i] = new Label("Lvl" + (i + 1) + " unknown error");
 				}
 				centre.getChildren().add(profileScore[i]);
@@ -590,10 +590,10 @@ public class MainMenuController extends Application {
 		loggedLabel.setText(ProfileFileReader.getLoggedProfile());
 		scoresHeading.setText("Best " + ProfileFileReader.getLoggedProfile() + "'s scores:");
 
-		// Score 0 means that player hasn't completed the level, so next level should be
-		// locked
-		// When loop over score equal to 0 should be changed to false to show that next
-		// level is locked
+		// Score 0 means that player hasn't completed the level,
+        // so next level should be locked
+		// When loop over score equal to 0 should be changed to false.
+        // to show that next level is locked
 		boolean unlocked = true;
 		// Looping over scores to check if level was unlocked by a player (if so display
 		// the score)
@@ -615,7 +615,7 @@ public class MainMenuController extends Application {
 					profileScore[i].setText("Lvl" + (i + 1) + " is locked");
 				}
 			} catch (IOException e) {
-				// Error occurred in ProfileFileREader
+				// Error occurred in ProfileFileReader
 				profileScore[i].setText("Lvl" + (i + 1) + " unknown error");
 			}
 		}
