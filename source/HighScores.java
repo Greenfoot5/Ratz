@@ -13,13 +13,7 @@ import java.util.Scanner;
  */
 public class HighScores {
 	
-	// Attributes handling reading and changing files
-//	private Scanner in = null;
 	private static String FILE_PATH = "resources/highScores.txt";
-//	private File file = null;
-//	BufferedWriter bufferWriter = null;
-//	FileWriter fileWriter = null;
-//	PrintWriter printWriter = null;
 
 	public HighScores() {
 	}
@@ -64,7 +58,6 @@ public class HighScores {
 		File tempFile = new File("resources/temp.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
-		//bufferWriter = new BufferedWriter(fileWriter);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
 		
 		boolean shouldBeAbove = false;
@@ -134,7 +127,6 @@ public class HighScores {
 		File tempFile = new File("resources/temp.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
-		//bufferWriter = new BufferedWriter(fileWriter);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
 
 		int previousLevel = 0;
@@ -161,10 +153,8 @@ public class HighScores {
 		printWriter.flush();
 		printWriter.close();
 		file.delete();
-		// file = tempFile;
 
 		File rename = new File(FILE_PATH);
-		// rename.createNewFile();
 		tempFile.renameTo(rename);
 
 	}
