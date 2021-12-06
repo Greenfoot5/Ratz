@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 /**
  * Class to manage profiles and their best scores.
-
+ * 
  * @author Tomasz Fijalkowski
  * 
  */
@@ -19,6 +19,9 @@ public class ProfileFileReader {
 	 * 
 	 */
 	private final static int NUMBER_OF_LEVELS = 5;
+	/**
+	 * Path to file storing data about profiles
+	 */
 	private final static String FILE_PATH = "resources/profileFile.txt";
 
 	/**
@@ -26,7 +29,7 @@ public class ProfileFileReader {
 	 * 
 	 * @param profileName
 	 * @throws Exception - if there is a problem with 
-	 * 					   a file or name is already used
+	 * 						a file or name is already used
 	 */
 	@SuppressWarnings("resource")
 	public static void createNewProfile(String profileName) throws Exception {
@@ -65,7 +68,8 @@ public class ProfileFileReader {
 				printWriter.print(i + " " + "0 ");
 			}
 		} else {
-			throw new IllegalArgumentException("Profile name is already used");
+			throw new IllegalArgumentException(
+					"Profile name is already used");
 		}
 
 		in.close();
@@ -80,7 +84,8 @@ public class ProfileFileReader {
 	}
 
 	/**
-	 * Remove profile from the txt file. If name is not in a file then does nothing.
+	 * Remove profile from the txt file.
+	 * If name is not in a file then does nothing.
 	 * 
 	 * @param profileName
 	 * @throws IOException - if there is a problem with a file
@@ -100,14 +105,17 @@ public class ProfileFileReader {
 
 			if (!profName.equals(profileName)) {
 				if (isRemoved) {
-					printWriter.println((profNumber - 1) + " " + profName);
+					printWriter.println((profNumber - 1) 
+							+ " " + profName);
 				} else {
-					printWriter.println(profNumber + " " + profName);
+					printWriter.println(profNumber 
+							+ " " + profName);
 				}
 				for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
 					int lvl = in.nextInt();
 					int scr = in.nextInt();
-					printWriter.print(lvl + " " + scr + " ");
+					printWriter.print(lvl + " " 
+					+ scr + " ");
 				}
 				printWriter.println();
 			} else {
@@ -132,8 +140,8 @@ public class ProfileFileReader {
 	}
 
 	/**
-	 * Return best profile score for the specified level
-	 * 
+	 * Return best profile score for the specified level.
+	 *
 	 * @param profileName
 	 * @param level
 	 * @return - best player score
@@ -151,7 +159,8 @@ public class ProfileFileReader {
 			for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
 				int lvl = in.nextInt();
 				int scr = in.nextInt();
-				if (profName.equals(profileName) && level == lvl) {
+				if (profName.equals(profileName) 
+						&& level == lvl) {
 					bestScore = scr;
 				}
 			}
@@ -164,8 +173,8 @@ public class ProfileFileReader {
 	}
 
 	/**
-	 * Save score if it is new best score for specified level
-	 * 
+	 * Save score if it is new best score for specified level.
+	 *
 	 * @param profileName
 	 * @param level
 	 * @param score       - score you want to safe
@@ -189,10 +198,12 @@ public class ProfileFileReader {
 				int lvl = in.nextInt();
 				int scr = in.nextInt();
 
-				if (profName.equals(profileName) && level == lvl && score > scr) {
+				if (profName.equals(profileName) 
+						&& level == lvl && score > scr) {
 					printWriter.print(lvl + " " + score + " ");
 				} else {
-					printWriter.print(lvl + " " + scr + " ");
+					printWriter.print(lvl 
+							+ " " + scr + " ");
 				}
 			}
 			printWriter.println();
@@ -210,8 +221,8 @@ public class ProfileFileReader {
 	}
 
 	/**
-	 * Check if a profile exist in database
-	 * 
+	 * Check if a profile exist in database.
+	 *
 	 * @param profileName
 	 * @return true if profile exist, false otherwise
 	 * @throws FileNotFoundException
@@ -243,7 +254,7 @@ public class ProfileFileReader {
 
 	/**
 	 * Login to a profile. Change "selectedProfile"
-	 * 
+	 *
 	 * @param profileName
 	 */
 	public static void loginProfile(String profileName) {
@@ -259,15 +270,15 @@ public class ProfileFileReader {
 	}
 
 	/**
-	 * Logout the user
+	 * Logout the user.
 	 */
 	public static void logout() {
 		selectedProfile = null;
 	}
 
 	/**
-	 * Get all registered profiles
-	 * 
+	 * Get all registered profiles.
+	 *
 	 * @return Sting array containing every profile name
 	 * @throws FileNotFoundException - if there is a problem with a file
 	 */

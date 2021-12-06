@@ -7,41 +7,46 @@ import java.util.Scanner;
 
 /**
  * Class to manage high scores.
+ *
  * @author Tomasz Fijalkowski
- * 
- * Need file : "resources/highScores.txt" to work properly
  */
 public class HighScores {
-	
+
+	/**
+	 * Path to a file storing data about scores.
+	 */
 	private static String FILE_PATH = "resources/highScores.txt";
 
-	public HighScores() {
-	}
+	/**
+	 * Maximum number of saved scores per level.
+	 */
+	private final static int NUMBER_OF_TOP_SCORES = 10;
 
 	/** 
-	 * @param level - level of the game
-	 * @return array of string containing up to ten pairs - (profileName, score)
+	 * @param level - level of the game.
+	 *
+	 * @return array of string containing up to ten pairs 
+	 * 			- (profileName, score)
 	 * @throws FileNotFoundException if there is a problem with a file
 	 */
 	public static String[] getTopScores(int level) throws FileNotFoundException {
 		File file = new File(FILE_PATH);
 		Scanner in = new Scanner(file);
 
-		String[] topScores = new String[10];
+		String[] topScores = new String[NUMBER_OF_TOP_SCORES];
 		while (in.hasNext()) {
 			int lvl = in.nextInt();
 			int pos = in.nextInt();
 			String profName = in.next();
 			int scr = in.nextInt();
-			
 			if (lvl == level) {
 				topScores[pos - 1] = profName + " " + scr;
 			}
 		}
-		
+
 		in.close();
 		System.gc();
-		
+
 		return topScores;
 	}
 
@@ -59,7 +64,7 @@ public class HighScores {
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
-		
+
 		boolean shouldBeAbove = false;
 		boolean isUsed = false;
 		final int posToFix = 0;
@@ -73,39 +78,52 @@ public class HighScores {
 			if (lvl == level) {
 				if (score == scr) {
 					if (!isUsed) {
-						printWriter.println(lvl + " " + posToFix + " " + profName + " " + scr);
+						printWriter.println(lvl + " " 
+					+ posToFix + " " + profName + " " + scr);
 						shouldBeAbove = true;
 					}
 				} else if (score > scr) {
 					if (shouldBeAbove && !isUsed) {
-						printWriter.println(level + " " + posToFix + " " + profile + " " + score);
-						printWriter.println(lvl + " " + posToFix + " " + profName + " " + scr);
+						printWriter.println(level + " " 
+							+ posToFix + " " + profile + " " + score);
+						printWriter.println(lvl + " " 
+							+ posToFix + " " + profName + " " + scr);
 						isUsed = true;
 					} else if (!shouldBeAbove && !isUsed) {
-						printWriter.println(level + " " + posToFix + " " + profile + " " + score);
-						printWriter.println(lvl + " " + posToFix + " " + profName + " " + scr);
+						printWriter.println(level + " " 
+							+ posToFix + " " + profile + " " + score);
+						printWriter.println(lvl + " " 
+							+ posToFix + " " + profName + " " + scr);
 						isUsed = true;
 					} else if (!isUsed) {
-						printWriter.println(level + " " + posToFix + " " + profile + " " + score);
-						printWriter.println(lvl + " " + posToFix + " " + profName + " " + scr);
+						printWriter.println(level + " " 
+								+ posToFix + " " + profile + " " + score);
+						printWriter.println(lvl + " " 
+							+ posToFix + " " + profName + " " + scr);
 						isUsed = true;
 					} else {
-						printWriter.println(lvl + " " + posToFix + " " + profName + " " + scr);
+						printWriter.println(lvl + " " 
+							+ posToFix + " " + profName + " " + scr);
 					}
 				} else {
-					printWriter.println(lvl + " " + pos + " " + profName + " " + scr);
+					printWriter.println(lvl + " " 
+							+ pos + " " + profName + " " + scr);
 				}
 			} else if (lvl > level && !isUsed) {
 				isUsed = true;
-				printWriter.println(level + " " + posToFix + " " + profile + " " + score);
-				printWriter.println(lvl + " " + pos + " " + profName + " " + scr);
+				printWriter.println(level + " " 
+						+ posToFix + " " + profile + " " + score);
+				printWriter.println(lvl + " " 
+						+ pos + " " + profName + " " + scr);
 			} else {
-				printWriter.println(lvl + " " + pos + " " + profName + " " + scr);
+				printWriter.println(lvl + " " 
+						+ pos + " " + profName + " " + scr);
 			}
 		}
-		
+
 		if (!isUsed) {
-			printWriter.println(level + " " + posToFix + " " + profile + " " + score);
+			printWriter.println(level + " " 
+					+ posToFix + " " + profile + " " + score);
 		}
 
 		in.close();
@@ -139,11 +157,13 @@ public class HighScores {
 			if (lvl > previousLevel) {
 				previousLevel = lvl;
 				previousPos = 1;
-				printWriter.println(lvl + " " + previousPos + " " + profName + " " + scr);
+				printWriter.println(lvl + " " 
+						+ previousPos + " " + profName + " " + scr);
 			} else {
 				previousPos += 1;
-				if (previousPos <= 10) {
-					printWriter.println(lvl + " " + previousPos + " " + profName + " " + scr);
+				if (previousPos <= NUMBER_OF_TOP_SCORES) {
+					printWriter.println(lvl + " " 
+							+ previousPos + " " + profName + " " + scr);
 				}
 			}
 
@@ -158,16 +178,20 @@ public class HighScores {
 		tempFile.renameTo(rename);
 
 	}
-	
+
+	/**
+	 * Delete every profile score from a file
+	 * @param profilName
+	 * @throws IOException
+	 */
 	public static void deleteProfile(String profilName) throws IOException {
 
 		File file = new File(FILE_PATH);
 		File tempFile = new File("resources/temp.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
-		//bufferWriter = new BufferedWriter(fileWriter);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
-		
+
 		final int posToFix = 0;
 
 		while (in.hasNext()) {
@@ -175,9 +199,10 @@ public class HighScores {
 			in.nextInt();
 			String profName = in.next();
 			int scr = in.nextInt();
-			
+
 			if (!profName.equals(profilName)) {
-				printWriter.println(lvl + " " + posToFix + " " + profName + " " + scr);
+				printWriter.println(lvl + " " 
+						+ posToFix + " " + profName + " " + scr);
 			}
 		}
 
