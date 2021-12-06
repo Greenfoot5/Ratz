@@ -97,7 +97,9 @@ public class StopSign extends Power {
     }
 
     /**
-     * Getter for fileReader
+     * Gets the current hit points of StopSign.
+     *
+     * @return hit points value.
      */
 
     public int getHP() {
@@ -105,7 +107,9 @@ public class StopSign extends Power {
     }
 
     /**
-     * Setter for fileReader
+     * Sets the current hit points of StopSign.
+     *
+     * @param HP value of hit points to set.
      */
 
     public void setHP(int HP) {
