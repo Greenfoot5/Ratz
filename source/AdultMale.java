@@ -9,7 +9,7 @@ public class AdultMale extends LivingRat {
 
 
     /**
-     * AdultMale constructor.
+     * Creates a new Male Adult Rat
      *
      * @param speed     how fast the rat moves.
      * @param direction the direction the rat is facing.
@@ -47,7 +47,5 @@ public class AdultMale extends LivingRat {
                 }
             }
         }
-
     }
-
 }
