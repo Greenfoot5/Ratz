@@ -9,22 +9,20 @@ import java.util.Scanner;
  * Class to manage high scores.
  *
  * @author Tomasz Fijalkowski
+ * @version 1.0
  */
 public class HighScores {
 
-	/**
-	 * Path to a file storing data about scores.
-	 */
-	private static String FILE_PATH = "resources/highScores.txt";
+	// Path to a file storing data about scores.
+	private static final String FILE_PATH = "resources/highScores.txt";
 
-	/**
-	 * Maximum number of saved scores per level.
-	 */
+	// Maximum number of saved scores per level.
 	private static final int NUMBER_OF_TOP_SCORES = 10;
 
-	/** 
-	 * @param level	level of the game.
-	 *
+	/**
+     * Gets the tops scores for a level
+     *
+	 * @param level	level of the game
 	 * @return array of string containing up to 
 	 * 		   ten pairs - (profileName, score)
 	 * @throws FileNotFoundException if there is a problem with a file
@@ -52,6 +50,7 @@ public class HighScores {
 
 	/**
 	 * Method will try to safe a score, if it is in top 10.
+     *
 	 * @param profile	name of a profile
 	 * @param score		achieved score you want to safe
 	 * @param level		level of the game
@@ -181,10 +180,11 @@ public class HighScores {
 
 	/**
 	 * Delete every profile score from a file
-	 * @param profilName	name of a profile
+     *
+	 * @param profileName	name of a profile
 	 * @throws IOException	if there is a problem with a file
 	 */
-	public static void deleteProfile(String profilName) throws IOException {
+	public static void deleteProfile(String profileName) throws IOException {
 
 		File file = new File(FILE_PATH);
 		File tempFile = new File("resources/temp.txt");
@@ -200,7 +200,7 @@ public class HighScores {
 			String profName = in.next();
 			int scr = in.nextInt();
 
-			if (!profName.equals(profilName)) {
+			if (!profName.equals(profileName)) {
 				printWriter.println(lvl + " " 
 						+ posToFix + " " + profName + " " + scr);
 			}
