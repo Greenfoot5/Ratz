@@ -131,8 +131,8 @@ public class LevelFileReader {
         // add rats to file
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (LevelController.getTileAt(x,y).getOccupantRats().size() > 0) {
-                    for (Rat rat : LevelController.getTileAt(x,y).getOccupantRats()) {
+                if (LevelController.getTileAt(x, y).getOccupantRats().size() > 0) {
+                    for (Rat rat : LevelController.getTileAt(x, y).getOccupantRats()) {
                         allObjects += "(" + ratToStr(rat) + ")\n";
                     }
                 }
@@ -142,17 +142,17 @@ public class LevelFileReader {
         // add powers to file
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (LevelController.getTileAt(x,y).getActivePowers().size() > 0) {
-                    for (Power power : LevelController.getTileAt(x,y).getActivePowers()) {
+                if (LevelController.getTileAt(x, y).getActivePowers().size() > 0) {
+                    for (Power power : LevelController.getTileAt(x, y).getActivePowers()) {
                         allObjects += "(" + powerToStr(power) + ")\n";
                     }
                 }
             }
         }
 
-        double timeInSeconds = (int) Math.floor(LevelController.getCurrentTimeLeft() / 1000.0);
+        int timeInSeconds = (int) Math.floor(LevelController.getCurrentTimeLeft() / 1000.0);
 
-        String fileString = String.format("%d\n%s\n%s\n", timeInSeconds,inventory,allObjects);
+        String fileString = String.format("%d\n%s\n%s\n", timeInSeconds, inventory, allObjects);
         System.out.println(fileString);
 
         writer.write(fileString);
