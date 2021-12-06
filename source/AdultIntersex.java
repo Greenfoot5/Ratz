@@ -4,9 +4,8 @@ import java.util.Objects;
  * A class to model a female rat. Gives birth to baby rats.
  *
  * @author James McWilliams
+ * @verion 1.0
  */
-
-
 public class AdultIntersex extends LivingRat {
     private int pregnancyTime;
     private boolean pregnant;

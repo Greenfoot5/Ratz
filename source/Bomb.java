@@ -7,12 +7,15 @@ import java.util.Objects;
  * A class that kills all rats standing on the tile at the time of explosion -
  * (5 game ticks after it's been placed).
  * @author Daumantas Balakauskas
+ * @version 1.0
  */
 
 public class Bomb extends Power {
 
-    private int ticksActive = 0; //Tick counter since creation of this class.
     private static final String BOMB_SOUND_PATH = "resources/bombSound.mp3";
+    private static final int EXPLODE_TICK = 5; // How many ticks to reach to explode
+    
+    private int ticksActive = 0; //Tick counter since creation of this class.
     /**
      * Bomb constructor
      */
@@ -114,7 +117,7 @@ public class Bomb extends Power {
 
         ticksActive = ticksActive + 1;
 
-        if (ticksActive >= 5) {
+        if (ticksActive >= EXPLODE_TICK) {
             activate(rats, currentTile);
         }
     }

@@ -2,6 +2,7 @@
  * A class to model a male rat. Gets female rats pregnant.
  *
  * @author James McWilliams
+ * @version 1.0
  */
 
 public class AdultMale extends LivingRat {
