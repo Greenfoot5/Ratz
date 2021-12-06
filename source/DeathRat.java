@@ -10,6 +10,7 @@ import java.util.Objects;
 public class DeathRat extends Rat {
 
     private static final int MAX_KILL_COUNT = 5;
+    private static final int INITIAL_OMINOUS_WAITING = 8;
 
     private int ominousWaiting;
     private int killCounter;
@@ -28,7 +29,7 @@ public class DeathRat extends Rat {
                     int yPos, int killCounter) {
         super(speed, direction, gasTimer, xPos, yPos);
         this.killCounter = killCounter;
-        this.ominousWaiting = 8;
+        this.ominousWaiting = INITIAL_OMINOUS_WAITING;
     }
 
     /**
@@ -49,6 +50,7 @@ public class DeathRat extends Rat {
 
     /**
      * How long the rat has left till it moves
+     *
      * @return how long the rat has left to wait
      */
     public int getOminousWaiting() {
@@ -61,8 +63,9 @@ public class DeathRat extends Rat {
      */
     public void killRats() {
         Tile currentTile = LevelController.getTileAt(xPos, yPos);
-        // kill every rat on the tile unless your kill counter is 5 or greater
 
+        // kill every rat on the tile unless your kill counter is
+        // MAX_KILL_COUNT or greater
         int i = 0;
         while (Objects.requireNonNull(currentTile).getOccupantRats().size() > 1
                 && killCounter < MAX_KILL_COUNT) {
