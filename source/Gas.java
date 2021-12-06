@@ -94,39 +94,60 @@ public class Gas extends Power {
     /** Method that spawns new gas in Tiles around that aren't Grass
      * with isOriginal = false - that new Gas won't duplicate itself forever.
      */
-
     private void gasSurroundingPathTiles () {
+        getSurroundingNonDiagonals();
+
+        getSurroundDiagonals();
+    }
+
+    /**
+     * Method that spawns new gas in Tiles around that aren't Grass,
+     * Does this for North, South East and West
+     */
+    private void getSurroundingNonDiagonals()
+    {
+        // North
         if (LevelController.getTileAt(this.xPos, this.yPos + gasCounterN) != null) {
             if (Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos + gasCounterN)).isPassable()) {
-                    Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos + gasCounterN)).addActivePower(new Gas(this.xPos,
-                            this.yPos + gasCounterN, false));
-                    gasCounterN++;
+                Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos + gasCounterN)).addActivePower(new Gas(this.xPos,
+                        this.yPos + gasCounterN, false));
+                gasCounterN++;
             }
         }
 
+        // South
         if (LevelController.getTileAt(this.xPos, this.yPos - gasCounterS) != null) {
             if (Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos - gasCounterS)).isPassable()) {
-                    Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos - gasCounterS)).addActivePower(new Gas(this.xPos, this.yPos - gasCounterS, false));
-                    gasCounterS++;
+                Objects.requireNonNull(LevelController.getTileAt(this.xPos, this.yPos - gasCounterS)).addActivePower(new Gas(this.xPos, this.yPos - gasCounterS, false));
+                gasCounterS++;
             }
         }
 
+        // East
         if (LevelController.getTileAt(this.xPos + gasCounterE, this.yPos) != null) {
             if (Objects.requireNonNull(LevelController.getTileAt(this.xPos + gasCounterE, this.yPos)).isPassable()) {
-                    Objects.requireNonNull(LevelController.getTileAt(this.xPos + gasCounterE, this.yPos)).addActivePower(new Gas(this.xPos + gasCounterE, this.yPos, false));
-                    gasCounterE++;
+                Objects.requireNonNull(LevelController.getTileAt(this.xPos + gasCounterE, this.yPos)).addActivePower(new Gas(this.xPos + gasCounterE, this.yPos, false));
+                gasCounterE++;
             }
         }
 
+        // South
         if (LevelController.getTileAt(this.xPos-gasCounterW, this.yPos) != null) {
             if (Objects.requireNonNull(LevelController.getTileAt(this.xPos - gasCounterW, this.yPos)).isPassable()) {
-                    Objects.requireNonNull(LevelController.getTileAt(this.xPos - gasCounterW, this.yPos)).addActivePower(new Gas(this.xPos - gasCounterW,
-                            this.yPos, false));
-                    gasCounterW++;
+                Objects.requireNonNull(LevelController.getTileAt(this.xPos - gasCounterW, this.yPos)).addActivePower(new Gas(this.xPos - gasCounterW,
+                        this.yPos, false));
+                gasCounterW++;
             }
         }
+    }
 
-        //Diagonal spread
+    /**
+     * Method that spawns new gas in Tiles around that aren't Grass,
+     * Does this for North-East, South-East, South-West and North-West
+     */
+    private void getSurroundDiagonals()
+    {
+        // North East
         if (LevelController.getTileAt(this.xPos+gasCounterNE,
                 this.yPos+gasCounterNE) != null) {
             if (Objects.requireNonNull(LevelController.getTileAt(this.xPos + gasCounterNE, this.yPos + gasCounterNE)).isPassable()) {
@@ -135,6 +156,7 @@ public class Gas extends Power {
             }
         }
 
+        // South East
         if (LevelController.getTileAt(this.xPos+gasCounterSE,
                 this.yPos-gasCounterSE) != null) {
             if (Objects.requireNonNull(LevelController.getTileAt(this.xPos + gasCounterSE,
@@ -144,6 +166,7 @@ public class Gas extends Power {
             }
         }
 
+        // North West
         if (LevelController.getTileAt(this.xPos - gasCounterNW,
                 this.yPos + gasCounterNW) != null) {
             if (Objects.requireNonNull(LevelController.getTileAt(this.xPos - gasCounterNW,
@@ -153,6 +176,7 @@ public class Gas extends Power {
             }
         }
 
+        // South West
         if (LevelController.getTileAt(this.xPos - gasCounterSW,
                 this.yPos - gasCounterSW) != null) {
             if (Objects.requireNonNull(LevelController.getTileAt(this.xPos - gasCounterSW,
