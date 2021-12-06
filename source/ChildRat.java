@@ -11,6 +11,7 @@ public class ChildRat extends LivingRat {
     private static final int GROWTH_AGE = 40;
     private int age;
     private boolean isFemale;
+    private static final int INTERSEX_ODDS = 5;
 
     /**
      * ChildRat constructor.
@@ -64,22 +65,36 @@ public class ChildRat extends LivingRat {
      * Replaces this rat with an equivalent adult rat.
      */
     public void growUp() {
-        if (isFemale) {
-            AdultFemale newAdult = new AdultFemale(Rat.getDEFAULT_SPEED(),
+        // decide if the rat is going to be intersex when it grows up
+        // yeah, I know that's not how it works
+        boolean intersex = Math.floor(Math.random() * INTERSEX_ODDS) == 1;
+        if (!intersex) {
+            if (isFemale) {
+                // make a female rat
+                AdultFemale newAdult = new AdultFemale(Rat.getDEFAULT_SPEED(),
+                        direction, gasTimer, xPos, yPos, isFertile, 0, 0);
+                Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).
+                        addOccupantRat(newAdult);
+                LevelController.ratAdded(newAdult);
+            } else {
+                // make a male rat
+                AdultMale newAdult = new AdultMale(Rat.getDEFAULT_SPEED(),
+                        direction, gasTimer, xPos, yPos, isFertile);
+                Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).
+                        addOccupantRat(newAdult);
+                LevelController.ratAdded(newAdult);
+            }
+            Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).
+                    removeOccupantRat(this);
+            LevelController.ratRemoved(this);
+        } else {
+            // make an intersex rat
+            AdultIntersex newAdult = new AdultIntersex(Rat.getDEFAULT_SPEED(),
                     direction, gasTimer, xPos, yPos, isFertile, 0, 0);
             Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).
                     addOccupantRat(newAdult);
             LevelController.ratAdded(newAdult);
-        } else {
-            AdultMale newAdult = new AdultMale(Rat.getDEFAULT_SPEED(),
-                    direction, gasTimer, xPos, yPos, isFertile);
-            Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).
-                    addOccupantRat(newAdult);
-            LevelController.ratAdded(newAdult);
         }
-        Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).
-                removeOccupantRat(this);
-        LevelController.ratRemoved(this);
     }
 
     /**

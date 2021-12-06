@@ -108,7 +108,7 @@ public class AdultIntersex extends LivingRat {
             for (Rat currentRat : currentTile.getOccupantRats()) {
                 if (currentRat instanceof AdultFemale ) {
                     ((AdultFemale) currentRat).becomePregnant();
-                } else if (currentRat instanceof  AdultIntersex ) {
+                } else if (currentRat instanceof AdultIntersex ) {
                     ((AdultIntersex) currentRat).becomePregnant();
                 }
             }
