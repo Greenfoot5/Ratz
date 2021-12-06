@@ -234,6 +234,20 @@ public class LevelFileReader {
 
         }
 
+        if (rat instanceof AdultIntersex) {
+            type = "I";
+            if (((AdultIntersex) rat).getFertile()) {
+                item6 = "1";
+            } else {
+                item6 = "0";
+            }
+            item7 = Integer.toString(((AdultIntersex) rat).getPregnancyTime());
+            item8 = Integer.toString(((AdultIntersex) rat).getRatFetusCount());
+
+            return type + "," + speed + "," + direction + "," + gasTimer + ","
+                    + xPos + "," + yPos + "," + item6 + "," + item7 + "," + item8;
+        }
+
         if (rat instanceof DeathRat) {
             type = "D";
 
@@ -497,6 +511,28 @@ public class LevelFileReader {
                 }
                 AdultMale newRat = new AdultMale(speed, direction, gasTimer,
                         xPos, yPos, isFertile);
+                ratArrayList.add(newRat);
+                tileMap[xPos][yPos].addOccupantRat(newRat);
+            }
+
+            // if current item is an intersex adult rat
+            if (currentItem[0].equals("I")) {
+                int speed = Integer.parseInt(currentItem[1]);
+                int directionInt = Integer.parseInt(currentItem[2]);
+                Rat.Direction direction = directionIntToEnum(directionInt);
+                int gasTimer = Integer.parseInt(currentItem[3]);
+                int xPos = Integer.parseInt(currentItem[4]);
+                int yPos = Integer.parseInt(currentItem[5]);
+                boolean isFertile;
+                if (currentItem[6].equals("1")) {
+                    isFertile = true;
+                } else {
+                    isFertile = false;
+                }
+                int pregnancyTimer = Integer.parseInt(currentItem[7]);
+                int ratFetusCount = Integer.parseInt(currentItem[8]);
+                AdultIntersex newRat = new AdultIntersex(speed, direction, gasTimer,
+                        xPos, yPos, isFertile, pregnancyTimer, ratFetusCount);
                 ratArrayList.add(newRat);
                 tileMap[xPos][yPos].addOccupantRat(newRat);
             }
