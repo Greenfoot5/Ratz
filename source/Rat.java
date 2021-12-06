@@ -232,10 +232,13 @@ public abstract class Rat extends GameObject {
     }
 
     /**
-     * Chooses a direction for the rat to move in, such that it will not land on a grass tile. It will prioritize
-     * moving forward, left or right, only moving backwards when the other three options are not valid (i.e a dead end).
-     * IMPORTANT: This will return null if the rat is trapped by 4 grass squares. This shouldn't happen outside of
-     * levels created via level editing.
+     * Chooses a direction for the rat to move in, such that it will
+     * not land on a grass tile. It will prioritize moving forward,
+     * left or right, only moving backwards when the other three
+     * options are not valid (i.e a dead end).
+     * IMPORTANT: This will return null if the rat is trapped by 4
+     * grass squares. This shouldn't happen outside of levels
+     * created via level editing.
      *
      * @return a valid direction for the rat to move in.
      */
@@ -263,7 +266,8 @@ public abstract class Rat extends GameObject {
             }
         } else {
             // select a random item from validDirections
-            chosenDirection = validDirections.get((int) Math.floor(Math.random() * validDirections.size()));
+            chosenDirection = validDirections.get((int)
+                    Math.floor(Math.random() * validDirections.size()));
         }
 
         return chosenDirection;
@@ -415,7 +419,8 @@ public abstract class Rat extends GameObject {
         String path;
 
         if (direction == null) {
-            path = "file:" + getTextureFolder() + "/" + className + "NORTH" + ".png";
+            path = "file:" + getTextureFolder() + "/" + className
+                    + "NORTH" + ".png";
         } else {
             path = createTexturePath();
         }
@@ -431,9 +436,11 @@ public abstract class Rat extends GameObject {
     public String createTexturePath() {
         String className = this.getClass().getSimpleName().toLowerCase();
         if (direction == null) {
-            return "file:" + getTextureFolder() + "/" + className + "NORTH" + ".png";
+            return "file:" + getTextureFolder() + "/" + className
+                    + "NORTH" + ".png";
         } else {
-            return "file:" + getTextureFolder() + "/" + className + direction.name() + ".png";
+            return "file:" + getTextureFolder() + "/" + className
+                    + direction.name() + ".png";
         }
     }
 }
