@@ -356,7 +356,7 @@ public class LevelFileReader {
         // check if a saved level exists. if it does, grab the rats, timer, and stored inventory from it from it
         if (levelDataInProgress.isFile()) {
             reader = new Scanner(levelDataInProgress);
-            System.out.println("Loaded saved level");
+            inProgInv = new int[8];
             if (reader.hasNextLine()) {
                 String[] savedInfo = reader.nextLine().split(",");
                 inProgTimer = Integer.parseInt(savedInfo[0]);
