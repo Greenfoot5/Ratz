@@ -4,8 +4,6 @@ import javafx.scene.media.AudioClip;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * An abstract class to model a rat. Scurries around and dies when appropriate.
@@ -52,34 +50,54 @@ public abstract class Rat extends GameObject {
         this.tickCounter = (int) Math.floor(Math.random() * RANDOM_START_DELAY);
     }
 
+    /**
+     * gets the speed of the rat
+     * @return the rat's speed
+     */
     public int getSpeed() {
         return speed;
     }
 
+    /**
+     * gets the default speed of a rat
+     * @return the rat's default speed
+     */
     public static int getDEFAULT_SPEED() {
         return DEFAULT_SPEED;
     }
 
+    /**
+     * gets the direction the rat is facing
+     * @return the rat's direction
+     */
     public Direction getDirection() {
         return direction;
     }
 
+    /**
+     * gets the time the rat has been in gas
+     * @return the rat's gas timer
+     */
     public int getGasTimer() {
         return gasTimer;
     }
 
+    /**
+     * gets rat's position on the x-axis
+     * @return the rat's x position
+     */
     public int getxPos() {
         return xPos;
     }
 
+    /**
+     * gets rat's position on the y-axis
+     * @return the rat's y position
+     */
     public int getyPos() {
         return yPos;
     }
 
-
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
 
     /**
      * A list of things the rat needs to do every tick.
