@@ -185,8 +185,8 @@ public class LevelFileReader {
         speed = Integer.toString(rat.getSpeed());
         direction = Integer.toString(directionEnumToInt(rat.getDirection()));
         gasTimer = Integer.toString(rat.getGasTimer());
-        xPos = Integer.toString(rat.getxPos());
-        yPos = Integer.toString(rat.getyPos());
+        xPos = Integer.toString(rat.getXPos());
+        yPos = Integer.toString(rat.getYPos());
 
         if (rat instanceof ChildRat) {
             if (((ChildRat) rat).isFemale()) {

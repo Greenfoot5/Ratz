@@ -4,6 +4,7 @@ import javafx.scene.media.AudioClip;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * An abstract class to model a rat. Scurries around and dies when appropriate.
@@ -37,8 +38,8 @@ public abstract class Rat extends GameObject {
      * @param speed     how fast the rat moves.
      * @param direction the direction the rat is facing.
      * @param gasTimer  how long the rat has spent inside poison gas.
-     * @param xPos      where the rat is on the x axis.
-     * @param yPos      where the rat is on the y axis.
+     * @param xPos      where the rat is on the x-axis.
+     * @param yPos      where the rat is on the y-axis.
      */
     Rat(int speed, Direction direction, int gasTimer, int xPos, int yPos) {
         super(true);
@@ -52,6 +53,7 @@ public abstract class Rat extends GameObject {
 
     /**
      * gets the speed of the rat
+     *
      * @return the rat's speed
      */
     public int getSpeed() {
@@ -60,6 +62,7 @@ public abstract class Rat extends GameObject {
 
     /**
      * gets the default speed of a rat
+     *
      * @return the rat's default speed
      */
     public static int getDEFAULT_SPEED() {
@@ -68,6 +71,7 @@ public abstract class Rat extends GameObject {
 
     /**
      * gets the direction the rat is facing
+     *
      * @return the rat's direction
      */
     public Direction getDirection() {
@@ -76,6 +80,7 @@ public abstract class Rat extends GameObject {
 
     /**
      * gets the time the rat has been in gas
+     *
      * @return the rat's gas timer
      */
     public int getGasTimer() {
@@ -84,9 +89,10 @@ public abstract class Rat extends GameObject {
 
     /**
      * gets rat's position on the x-axis
+     *
      * @return the rat's x position
      */
-    public int getxPos() {
+    public int getXPos() {
         return xPos;
     }
 
@@ -94,7 +100,7 @@ public abstract class Rat extends GameObject {
      * gets rat's position on the y-axis
      * @return the rat's y position
      */
-    public int getyPos() {
+    public int getYPos() {
         return yPos;
     }
 
@@ -120,9 +126,7 @@ public abstract class Rat extends GameObject {
     /**
      * Does things that only certain subclasses of Rat need to do.
      */
-    protected void onTickSpecific() {
-
-    }
+    protected void onTickSpecific() { }
 
     /**
      * Causes the rat to walk in a direction. If multiple directions are valid, it will choose a random one.
@@ -145,11 +149,11 @@ public abstract class Rat extends GameObject {
             boolean move = true;
             if (!(this instanceof DeathRat)) {
                 getForwardTile().addOccupantRat(this);
-                LevelController.getTileAt(xPos, yPos).removeOccupantRat(this);
+                Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).removeOccupantRat(this);
 
             } else {
                 if (((DeathRat) this).getOminousWaiting() == 0) {
-                    LevelController.getTileAt(xPos, yPos).removeOccupantRat(this);
+                    Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).removeOccupantRat(this);
                     getForwardTile().addOccupantRat(this);
                 } else {
                     move = false;
@@ -232,10 +236,13 @@ public abstract class Rat extends GameObject {
     }
 
     /**
-     * Chooses a direction for the rat to move in, such that it will not land on a grass tile. It will prioritize
-     * moving forward, left or right, only moving backwards when the other three options are not valid (i.e a dead end).
-     * IMPORTANT: This will return null if the rat is trapped by 4 grass squares. This shouldn't happen outside of
-     * levels created via level editing.
+     * Chooses a direction for the rat to move in, such that it will
+     * not land on a grass tile. It will prioritize moving forward,
+     * left or right, only moving backwards when the other three
+     * options are not valid (i.e a dead end).
+     * IMPORTANT: This will return null if the rat is trapped by 4
+     * grass squares. This shouldn't happen outside of levels
+     * created via level editing.
      *
      * @return a valid direction for the rat to move in.
      */
@@ -257,13 +264,14 @@ public abstract class Rat extends GameObject {
             if (getRearTile() != null && getRearTile().isPassable()) {
                 chosenDirection = turnBack();
             } else {
-                // the only time we should get to the point is if the rat is stuck in a box.
-                // this is pretty cruel to the rat.
+                // the only time we should get to the point is if the rat is
+                // stuck in a box. this is pretty cruel to the rat.
                 return null;
             }
         } else {
             // select a random item from validDirections
-            chosenDirection = validDirections.get((int) Math.floor(Math.random() * validDirections.size()));
+            chosenDirection = validDirections.get((int)
+                    Math.floor(Math.random() * validDirections.size()));
         }
 
         return chosenDirection;
@@ -389,7 +397,7 @@ public abstract class Rat extends GameObject {
     public void die() {
         LevelController.ratKilled(this);
         if (LevelController.getTileAt(xPos, yPos) != null) {
-            LevelController.getTileAt(xPos, yPos).removeOccupantRat(this);
+            Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).removeOccupantRat(this);
             AudioClip deathSound = new AudioClip(
                     new File(DEATH_SOUND_PATH).toURI().toString());
             deathSound.play();
@@ -415,7 +423,8 @@ public abstract class Rat extends GameObject {
         String path;
 
         if (direction == null) {
-            path = "file:" + getTextureFolder() + "/" + className + "NORTH" + ".png";
+            path = "file:" + getTextureFolder() + "/" + className
+                    + "NORTH" + ".png";
         } else {
             path = createTexturePath();
         }
@@ -431,9 +440,11 @@ public abstract class Rat extends GameObject {
     public String createTexturePath() {
         String className = this.getClass().getSimpleName().toLowerCase();
         if (direction == null) {
-            return "file:" + getTextureFolder() + "/" + className + "NORTH" + ".png";
+            return "file:" + getTextureFolder() + "/" + className
+                    + "NORTH" + ".png";
         } else {
-            return "file:" + getTextureFolder() + "/" + className + direction.name() + ".png";
+            return "file:" + getTextureFolder() + "/" + className
+                    + direction.name() + ".png";
         }
     }
 }
