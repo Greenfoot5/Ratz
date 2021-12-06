@@ -104,7 +104,7 @@ public class MainMenuController extends Application {
      */
 	private VBox getCentreMain(Scene scene, Stage primaryStage) {
         // Creates rhe base for the layout
-		VBox centre = new VBox(5);
+		VBox centre = new VBox(ProfileFileReader.getNumberOfLevels());
 		ImageView ratzImageView = getRatzImageViewMain();
 
         // Sets the MOTD
@@ -399,7 +399,7 @@ public class MainMenuController extends Application {
      */
 	private VBox getLeftLogin() {
         // Generates the base layout
-		VBox left = new VBox(10);
+		VBox left = new VBox(HighScores.getNumberOfScores());
 		left.setAlignment(Pos.TOP_CENTER);
 		left.setPadding(new Insets(10, 10, 10, 40));
 
@@ -691,7 +691,7 @@ public class MainMenuController extends Application {
      * @return The layout element with the bombs and menu navigation buttons
      */
 	private VBox getRightLevel(Stage selectStage, Scene scene, AtomicInteger selectedLevel) {
-		VBox rightBox = new VBox(5);
+		VBox rightBox = new VBox(ProfileFileReader.getNumberOfLevels());
 		rightBox.setAlignment(Pos.CENTER_LEFT);
 		rightBox.setPrefWidth(180);
 		rightBox.setPadding(new Insets(5, 0, 5, 0));
@@ -749,13 +749,15 @@ public class MainMenuController extends Application {
 		leftBox.setAlignment(Pos.CENTER_RIGHT);
 		leftBox.setPrefWidth(180);
 
-		boolean[] isUnlocked = new boolean[5];
+		boolean[] isUnlocked = new boolean[ProfileFileReader.getNumberOfLevels()];
 		boolean unlocked = true;
 		for (int i = 0; i < ProfileFileReader.getNumberOfLevels(); i++) {
 			try {
-				if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) > 0) {
+				if (ProfileFileReader.getBestScore(
+						ProfileFileReader.getLoggedProfile(), i + 1) > 0) {
 					isUnlocked[i] = true;
-				} else if (ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), i + 1) == 0
+				} else if (ProfileFileReader.getBestScore(
+						ProfileFileReader.getLoggedProfile(), i + 1) == 0
 						&& unlocked) {
 					isUnlocked[i] = true;
 					unlocked = false;
@@ -795,7 +797,7 @@ public class MainMenuController extends Application {
 					} catch (FileNotFoundException ignored) {
 					}
 
-					for (int j = 0; j < 10; j++) {
+					for (int j = 0; j < HighScores.getNumberOfScores(); j++) {
 						try {
 							assert newScores != null;
 							scoresLabel[j].setText((j + 1) + " " + newScores[j]);
@@ -827,19 +829,21 @@ public class MainMenuController extends Application {
 		scoreHeading.setStyle("-fx-font-size: 14pt; -fx-font-weight: bold");
 		centreBox.getChildren().add(scoreHeading);
 
-		scoresLabel = new Label[10];
+		scoresLabel = new Label[HighScores.getNumberOfScores()];
 		String[] scoresString = null;
 		try {
-			scoresString = HighScores.getTopScores(selectedLevel.get());
+			scoresString = HighScores.getTopScores(
+					selectedLevel.get());
 		} catch (FileNotFoundException ignored) {
 		}
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < HighScores.getNumberOfScores(); i++) {
 			scoresLabel[i] = new Label();
 			scoresLabel[i].setPadding(new Insets(3, 0, 3, 0));
 			try {
 				assert scoresString != null;
-				scoresLabel[i].setText((i + 1) + " " + scoresString[i]);
+				scoresLabel[i].setText((i + 1) + " " 
+						+ scoresString[i]);
 			} catch (Exception e2) {
 				scoresLabel[i].setText((i + 1) + " ...");
 			}
