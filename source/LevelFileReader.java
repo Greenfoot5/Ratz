@@ -145,6 +145,8 @@ public class LevelFileReader {
         }
 
         String fileString = String.format("%d\n%s\n%s\n", LevelController.getCurrentTimeLeft(),inventory,allObjects);
+
+        writer.write(fileString);
     }
 
     /**
