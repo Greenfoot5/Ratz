@@ -33,7 +33,7 @@ public class LevelController {
 
     private static final int ITEM_NUM = 8;
     private static final int TILE_SIZE = 64;
-    private static final int[] counters = new int[ITEM_NUM];
+    private static int[] counters = new int[ITEM_NUM];
 
     //For sounds
     private static final String DEATH_RAT_SOUND_1_PATH = "resources" +
@@ -56,10 +56,10 @@ public class LevelController {
     private static int childRatCounter;
 
     //Images for different game items
-    private final List<Image> itemImages = Arrays.asList((new Bomb(0,0)).getImg(),(new Gas(0,0,true)).getImg(),
-            (new Sterilisation(0,0)).getImg(), (new Poison(0,0)).getImg(),
-            (new MaleSwapper(0,0)).getImg(),(new FemaleSwapper(0,0)).getImg(),
-            (new StopSign(0,0)).getImg(),(new DeathRat(0, Rat.Direction.WEST,0,0,0,0)).getImg());
+    private final List<Image> itemImages = Arrays.asList((new Bomb(0, 0)).getImg(), (new Gas(0, 0, true)).getImg(),
+            (new Sterilisation(0, 0)).getImg(), (new Poison(0, 0)).getImg(),
+            (new MaleSwapper(0, 0)).getImg(), (new FemaleSwapper(0, 0)).getImg(),
+            (new StopSign(0, 0)).getImg(), (new DeathRat(0, Rat.Direction.WEST, 0, 0, 0, 0)).getImg());
 
     //Size of game map
     private final int WIDTH;
@@ -70,7 +70,7 @@ public class LevelController {
     private final int PAR_TIME;
 
     private final int[] DROP_RATES;
-    private final int[] timeUntilDrop = new int [ITEM_NUM];
+    private final int[] timeUntilDrop = new int[ITEM_NUM];
 
     private final MainMenuController MAIN_MENU;
     private final int LEVEL_NUMBER;
@@ -112,10 +112,10 @@ public class LevelController {
     /**
      * Constructor for LevelController class.
      *
-     * @param levelNum Number of level being played.
+     * @param levelNum           Number of level being played.
      * @param mainMenuController Reference to the main menu controller.
      */
-    public LevelController (int levelNum, MainMenuController mainMenuController) {
+    public LevelController(int levelNum, MainMenuController mainMenuController) {
         LEVEL_NUMBER = levelNum;
         MAIN_MENU = mainMenuController;
         WIDTH = LevelFileReader.getWidth();
@@ -124,7 +124,7 @@ public class LevelController {
         buildNewLevel();
 
         MAX_RATS = LevelFileReader.getMaxRats();
-        if(LevelFileReader.getInProgTimer() != -1) {
+        if (LevelFileReader.getInProgTimer() != -1) {
             PAR_TIME = LevelFileReader.getInProgTimer();
         } else {
             PAR_TIME = LevelFileReader.getParTime();
@@ -157,7 +157,7 @@ public class LevelController {
         currentTimeLeft = PAR_TIME * 1000;
         timerLabel.setText(millisToString(currentTimeLeft));
 
-        toolbars = Arrays.asList(bombToolbar,gasToolbar, sterilisationToolbar, poisonToolbar, maleSwapToolbar, femaleSwapToolbar, stopSignToolbar, deathRatToolbar);
+        toolbars = Arrays.asList(bombToolbar, gasToolbar, sterilisationToolbar, poisonToolbar, maleSwapToolbar, femaleSwapToolbar, stopSignToolbar, deathRatToolbar);
         Arrays.fill(counters, 0);
 
         renderAllItems();
@@ -165,7 +165,7 @@ public class LevelController {
 
         renderGame();
 
-        if(LevelFileReader.getInProgInv() != null){
+        if (LevelFileReader.getHasLoadedSavedLevel()) {
             System.arraycopy(LevelFileReader.getInProgInv(), 0, timeUntilDrop, 0, timeUntilDrop.length);
         } else {
             System.arraycopy(DROP_RATES, 0, timeUntilDrop, 0, timeUntilDrop.length);
@@ -192,7 +192,7 @@ public class LevelController {
 
         tileMap = LevelFileReader.getTileMap();
 
-        for(Rat rat: LevelFileReader.getRatSpawns()) {
+        for (Rat rat : LevelFileReader.getRatSpawns()) {
             ratAdded(rat);
         }
     }
@@ -233,7 +233,7 @@ public class LevelController {
      * @return interactivity.
      */
     private boolean tileInteractivityAt(double x, double y) {
-        if (x >= (WIDTH*TILE_SIZE) || y >= (HEIGHT*TILE_SIZE)){
+        if (x >= (WIDTH * TILE_SIZE) || y >= (HEIGHT * TILE_SIZE)) {
             return false;
         } else {
             int xPos = (int) (Math.floor(x) / TILE_SIZE);
@@ -250,7 +250,7 @@ public class LevelController {
      * @return String mm:ss.
      */
     public String millisToString(int millis) {
-        int seconds = millis/1000;
+        int seconds = millis / 1000;
         int minutes = (int) TimeUnit.SECONDS.toMinutes(seconds);
         int remainSeconds = seconds - (int) TimeUnit.MINUTES.toSeconds(minutes);
         return String.format("%02d:%02d", minutes, remainSeconds);
@@ -262,7 +262,7 @@ public class LevelController {
     public void tick() {
         if ((femaleRatCounter + maleRatCounter + childRatCounter) == 0) {
             endGame(true);
-        } else if ((femaleRatCounter + maleRatCounter + childRatCounter) >= MAX_RATS){
+        } else if ((femaleRatCounter + maleRatCounter + childRatCounter) >= MAX_RATS) {
             endGame(false);
         } else {
             addPowers();
@@ -276,7 +276,7 @@ public class LevelController {
             renderGame();
             renderCounters();
 
-            if(currentTimeLeft > 0) {
+            if (currentTimeLeft > 0) {
                 currentTimeLeft = currentTimeLeft - FRAME_TIME;
                 timerLabel.setText(millisToString(currentTimeLeft));
             }
@@ -289,7 +289,7 @@ public class LevelController {
     private void addPowers() {
         for (int i = 0; i < counters.length; i++) {
             timeUntilDrop[i] -= FRAME_TIME;
-            if(timeUntilDrop[i] <= 0 && counters[i] < 4) {
+            if (timeUntilDrop[i] <= 0 && counters[i] < 4) {
                 counters[i]++;
                 timeUntilDrop[i] = DROP_RATES[i];
                 renderItem(i);
@@ -309,12 +309,12 @@ public class LevelController {
         gameEndPane.setVisible(true);
         saveAndExitButton.setVisible(false);
 
-        if(wonGame) {
-            score += currentTimeLeft/1000;
+        if (wonGame) {
+            score += currentTimeLeft / 1000;
             gamePaneText.getChildren().add(new Text("You've won! :)"));
             gamePaneScore.getChildren().add(new Text("Score: " + score));
             try {
-                ProfileFileReader.saveBestScore(ProfileFileReader.getLoggedProfile(),LEVEL_NUMBER,score);
+                ProfileFileReader.saveBestScore(ProfileFileReader.getLoggedProfile(), LEVEL_NUMBER, score);
                 HighScores.safeScore(ProfileFileReader.getLoggedProfile(), score, LEVEL_NUMBER);
             } catch (IOException e) {
                 System.out.println("Couldn't save score :(");
@@ -325,7 +325,7 @@ public class LevelController {
 
         try {
             String[] highScores = HighScores.getTopScores(LEVEL_NUMBER);
-            for(String text: highScores){
+            for (String text : highScores) {
                 gamePaneLeaderboard.getChildren().add(new Text(text + "\n"));
             }
         } catch (FileNotFoundException e) {
@@ -348,7 +348,7 @@ public class LevelController {
 
         levelCanvas.setOnDragOver(event -> {
             // Mark the drag as acceptable if the source is a draggable ImageView
-            if (event.getGestureSource() instanceof ImageView ) {
+            if (event.getGestureSource() instanceof ImageView) {
                 if (tileInteractivityAt(event.getSceneX(), event.getSceneY()))
                     event.acceptTransferModes(TransferMode.ANY);
                 event.consume();
@@ -359,12 +359,11 @@ public class LevelController {
         levelCanvas.setOnDragDropped(event -> {
             String dbContent = event.getDragboard().getString();
             try {
-                int index=Integer.parseInt(dbContent);
-                if(index >= 0 && index < ITEM_NUM) {
+                int index = Integer.parseInt(dbContent);
+                if (index >= 0 && index < ITEM_NUM) {
                     itemDropped(event, index);
                 }
-            }
-            catch( Exception ignored) {
+            } catch (Exception ignored) {
             }
         });
     }
@@ -377,7 +376,7 @@ public class LevelController {
         if (tileMap != null) {
             for (int i = 0; i < tileMap.length; i++) {
                 for (int j = 0; j < tileMap[i].length; j++) {
-                    tileMap[i][j].draw(i,j,gc);
+                    tileMap[i][j].draw(i, j, gc);
                 }
             }
         }
@@ -387,7 +386,7 @@ public class LevelController {
      * Renders all item toolbars.
      */
     private void renderAllItems() {
-        for (int i = 0; i < counters.length ; i++) {
+        for (int i = 0; i < counters.length; i++) {
             renderItem(i);
         }
     }
@@ -403,7 +402,7 @@ public class LevelController {
 
         Power power = null;
         boolean addPower = true;
-        switch(index) {
+        switch (index) {
             case 0:
                 power = new Bomb(x, y);
                 break;
@@ -436,12 +435,13 @@ public class LevelController {
                     seaSim.playAudioClip(DEATH_RAT_SOUND_3_PATH, SOUND_VOLUME_RAT);
                 }
 
-                tileMap[x][y].addOccupantRat(new DeathRat(Rat.getDEFAULT_SPEED(),Rat.Direction.NORTH,0,x,y,0));
+                tileMap[x][y].addOccupantRat(new DeathRat(Rat.getDEFAULT_SPEED(), Rat.Direction.NORTH, 0, x, y, 0));
                 addPower = false;
                 break;
-            default: addPower = false;
+            default:
+                addPower = false;
         }
-        if(addPower) {
+        if (addPower) {
             tileMap[x][y].addActivePower(power);
         }
 
@@ -472,23 +472,23 @@ public class LevelController {
         toolbars.get(index).getChildren().clear();
 
         ImageView[] items = new ImageView[counters[index]];
-        for (int i=0; i < counters[index]; i++) {
+        for (int i = 0; i < counters[index]; i++) {
             ImageView item = new ImageView(itemImages.get(index));
             items[i] = item;
             toolbars.get(index).getChildren().add(items[i]);
-            makeDraggable(item,index);
+            makeDraggable(item, index);
         }
     }
 
     /**
      * Disables side menu items (makes them non-draggable)
      */
-    private void disableToolbars(){
-        for(int i=0; i < toolbars.size(); i++) {
+    private void disableToolbars() {
+        for (int i = 0; i < toolbars.size(); i++) {
             toolbars.get(i).getChildren().clear();
 
             ImageView[] items = new ImageView[counters[i]];
-            for (int j=0; j < counters[i]; j++) {
+            for (int j = 0; j < counters[i]; j++) {
                 ImageView item = new ImageView(itemImages.get(i));
                 items[j] = item;
                 toolbars.get(i).getChildren().add(items[j]);
@@ -499,15 +499,15 @@ public class LevelController {
     /**
      * Makes ImageView draggable.
      *
-     * @param item item that is being made draggable.
+     * @param item      item that is being made draggable.
      * @param dbContent String used in setupCanvasDragBehaviour.
      */
-    private static void makeDraggable( final ImageView item, int dbContent ) {
+    private static void makeDraggable(final ImageView item, int dbContent) {
         item.setOnDragDetected(event -> {
-            Dragboard dragboard = item.startDragAndDrop( TransferMode.MOVE );
+            Dragboard dragboard = item.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent clipboardContent = new ClipboardContent();
             clipboardContent.putString(String.valueOf(dbContent));
-            dragboard.setContent( clipboardContent );
+            dragboard.setContent(clipboardContent);
             event.consume();
         });
     }
@@ -548,18 +548,18 @@ public class LevelController {
      * @param rat rat that has been killed.
      */
     public static void ratKilled(Rat rat) {
-        if(rat instanceof AdultFemale) {
+        if (rat instanceof AdultFemale) {
             if (((AdultFemale) rat).getRatFetusCount() > 0) {
-                for(int i = 0; i < ((AdultFemale) rat).getRatFetusCount(); i++) {
+                for (int i = 0; i < ((AdultFemale) rat).getRatFetusCount(); i++) {
                     score += 10;
                 }
                 score += 10;
             }
             femaleRatCounter--;
-        } else if(rat instanceof AdultMale) {
+        } else if (rat instanceof AdultMale) {
             score += 10;
             maleRatCounter--;
-        } else if(rat instanceof ChildRat) {
+        } else if (rat instanceof ChildRat) {
             score += 10;
             childRatCounter--;
         }
