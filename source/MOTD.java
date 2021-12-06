@@ -9,13 +9,17 @@ import java.net.URLConnection;
  * A class to obtain the motd.
  * It does this by getting the puzzle, solving it and
  * posting the solution through http requests to get the motd.
+ *
  * @author harvey
  * @version 1.0
  */
 public class MOTD {
 
+    public static final int ALPHABET_LENGTH = 26;
+
     /**
      * A public method to return the MOTD for the day
+     *
      * @return The Message of the Day, or null if the motd is incorrectly solved
      */
     public static String GETMotd() {
@@ -33,6 +37,7 @@ public class MOTD {
 
     /**
      * Uses a HTTP GET request to obtain the puzzle
+     *
      * @return The puzzle to solve
      * @throws IOException There was an issue with sending the request
      */
@@ -48,6 +53,7 @@ public class MOTD {
 
     /**
      * Solves the puzzle according to the puzzle specification
+     *
      * @param puzzleInput The input from the puzzle
      * @return The solved puzzle
      */
@@ -69,15 +75,15 @@ public class MOTD {
                 // Translate forwards
                 case 1:
                     puzzleNumbers[i] += (i + 1);
-                    while (puzzleNumbers[i] >= 26) {
-                        puzzleNumbers[i] -= 26;
+                    while (puzzleNumbers[i] >= ALPHABET_LENGTH) {
+                        puzzleNumbers[i] -= ALPHABET_LENGTH;
                     }
                     break;
                 // Translate backwards
                 case 0:
                     puzzleNumbers[i] -= (i + 1);
                     while (puzzleNumbers[i] < 0) {
-                        puzzleNumbers[i] += 26;
+                        puzzleNumbers[i] += ALPHABET_LENGTH;
                     }
                     break;
             }
@@ -95,7 +101,8 @@ public class MOTD {
     }
 
     private String postSolution(String solution) throws IOException {
-        String solutionUrl = "http://cswebcat.swansea.ac.uk/message?solution=" + solution;
+        String solutionUrl = "http://cswebcat.swansea.ac.uk/message" +
+                "?solution=" + solution;
         URL url = new URL(solutionUrl);
         URLConnection conn = url.openConnection();
         InputStream is = conn.getInputStream();

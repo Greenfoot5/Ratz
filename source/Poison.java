@@ -11,6 +11,7 @@ public class Poison extends Power {
 
     private int ticksActive = 0;
     private static final String POISON_SOUND_PATH = "resources/poisonSound.mp3";
+    private static final float POISON_SOUND_VOLUME = 0.1f;
 
     /** Poison constructor
      *
@@ -53,7 +54,7 @@ public class Poison extends Power {
 
         if (ticksActive == 1) {
             SeaShantySimulator seaSim = new SeaShantySimulator();
-            seaSim.playAudioClip(POISON_SOUND_PATH, 0.1);
+            seaSim.playAudioClip(POISON_SOUND_PATH, POISON_SOUND_VOLUME);
         }
     }
 }
