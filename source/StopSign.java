@@ -15,8 +15,7 @@ public class StopSign extends Power {
 
     private int ticksActive = 0;
 
-    private static final String STOP_SIGN_SOUND_PATH
-            = "resources/stopSignSound.mp3";
+    private static final String STOP_SIGN_SOUND_PATH = "resources/stopSignSound.mp3";
     private static final double SOUND_VOLUME = 0.1;
 
     private int HP = 5;
