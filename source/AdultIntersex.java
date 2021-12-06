@@ -53,6 +53,7 @@ public class AdultIntersex extends LivingRat {
             pregnant = false;
             birth();
         }
+        ratSexFunction();
     }
 
     /**
