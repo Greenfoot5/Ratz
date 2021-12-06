@@ -13,16 +13,13 @@ import java.util.Scanner;
  */
 public class ProfileFileReader {
 
-	static private String selectedProfile = null;
+    private static final int NUMBER_OF_LEVELS = 5;
+    /**
+     * Path to file storing data about profiles
+     */
+    private static final String FILE_PATH = "resources/profileFile.txt";
 
-	/**
-	 * 
-	 */
-	private static final int NUMBER_OF_LEVELS = 5;
-	/**
-	 * Path to file storing data about profiles
-	 */
-	private static final String FILE_PATH = "resources/profileFile.txt";
+    private static String selectedProfile = null;
 
 	/**
 	 * Create new profile in text file with chosen name.
@@ -311,6 +308,7 @@ public class ProfileFileReader {
 	}
 
 	/**
+     * Gets the name of the profile currently logged in
 	 * @return name of a profile which is logged in
 	 */
 	public static String getLoggedProfile() {
@@ -318,6 +316,7 @@ public class ProfileFileReader {
 	}
 
 	/**
+     * Gets the number of levels in the game
 	 * @return number of levels in the game
 	 */
 	public static int getNumberOfLevels() {
