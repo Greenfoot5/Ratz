@@ -71,6 +71,7 @@ public class LevelFileReader {
 
     /**
      * The time in seconds, the level has been active
+     *
      * @return time in seconds since level start
      */
     public static int getParTime() {
