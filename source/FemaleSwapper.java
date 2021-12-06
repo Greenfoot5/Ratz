@@ -60,7 +60,6 @@ public class FemaleSwapper extends Power {
      *
      * @param currentTile used for calling removeActivePower(this).
      * @param rats        used for updating the rat arraylist every game tick.
-     *                    <p>
      *                    onTick not used for this Power.
      */
 
