@@ -199,7 +199,7 @@ public class MainMenuController extends Application {
         FileInputStream inputStream = null;
 
         try {
-            inputStream = new FileInputStream("resources/ratzLabel.png");
+            inputStream = new FileInputStream("ratzLabel.png");
         } catch (FileNotFoundException ignored) {
         }
 
@@ -219,7 +219,7 @@ public class MainMenuController extends Application {
 
         FileInputStream inputStream = null;
         try {
-            inputStream = new FileInputStream("resources/adultmaleSOUTH.png");
+            inputStream = new FileInputStream("adultmaleSOUTH.png");
         } catch (FileNotFoundException ignored) {
         }
 
@@ -242,8 +242,9 @@ public class MainMenuController extends Application {
         FileInputStream inputStream = null;
         try {
             inputStream = new FileInputStream(
-                    "resources/adultfemaleNORTH.png");
-        } catch (FileNotFoundException ignored) {
+                    "adultfemaleNORTH.png");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
         assert inputStream != null;
         Image image = new Image(inputStream);
@@ -486,7 +487,7 @@ public class MainMenuController extends Application {
     private HBox getSelectMenuPicsLogin() {
         FileInputStream inputStream = null;
         try {
-            inputStream = new FileInputStream("resources/poison.png");
+            inputStream = new FileInputStream("poison.png");
         } catch (FileNotFoundException ignored) {
         }
         assert inputStream != null;
@@ -713,8 +714,8 @@ public class MainMenuController extends Application {
         FileInputStream inputs1 = null;
         FileInputStream inputs2 = null;
         try {
-            inputs1 = new FileInputStream("resources/childratEAST.png");
-            inputs2 = new FileInputStream("resources/deathratEAST.png");
+            inputs1 = new FileInputStream("childratEAST.png");
+            inputs2 = new FileInputStream("deathratEAST.png");
         } catch (FileNotFoundException ignored) {
         }
 
@@ -758,10 +759,10 @@ public class MainMenuController extends Application {
         // Get the bomb images
         FileInputStream[] inputStreams = new FileInputStream[2];
         try {
-            inputStreams[0] = new FileInputStream("resources/bomb1.png");
+            inputStreams[0] = new FileInputStream("bomb1.png");
             inputStreamsPreview = new FileInputStream(
-                    "resources/preview1.png");
-            inputStreams[1] = new FileInputStream("resources/bomb4.png");
+                    "preview1.png");
+            inputStreams[1] = new FileInputStream("bomb4.png");
         } catch (FileNotFoundException ignored) {
         }
         // Turn the bombs from file paths
@@ -837,7 +838,7 @@ public class MainMenuController extends Application {
             int levelIndex = i + 1;
 
             File levelDataInProgress = new File(
-                    "./resources/level" + levelIndex
+                    "./level" + levelIndex
                             + "inProgress-" + ProfileFileReader.getLoggedProfile() + ".txt");
 
             if (levelDataInProgress.exists()) {
@@ -856,8 +857,8 @@ public class MainMenuController extends Application {
                     selectedLevel.set(levelIndex);
 
                     try {
-                        inputStreamsPreview = new FileInputStream("resources/" +
-                                "preview" + (imageIndex + 1) + ".png");
+                        inputStreamsPreview = new FileInputStream("preview" +
+                                (imageIndex + 1) + ".png");
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -951,7 +952,7 @@ public class MainMenuController extends Application {
      */
     private void loadLevel(Stage levelStage, int levelNumber)
             throws IOException {
-        LevelFileReader.loadLevelFile("./resources/level-" + levelNumber);
+        LevelFileReader.loadLevelFile("./level-" + levelNumber);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "level.fxml"));

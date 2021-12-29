@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Poison extends Power {
 
     private int ticksActive = 0;
-    private static final String POISON_SOUND_PATH = "resources/poisonSound.mp3";
+    private static final String POISON_SOUND_PATH = "poisonSound.mp3";
     private static final float POISON_SOUND_VOLUME = 0.1f;
 
     /** Poison constructor

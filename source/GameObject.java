@@ -10,7 +10,7 @@ import javafx.scene.image.Image;
 public abstract class GameObject {
     private static final int WIDTH = 64;
 
-    private static String TEXTURE_FOLDER = "resources";
+    private static String TEXTURE_FOLDER = "";
 
     private final Image img;
     private final boolean isPassable;

@@ -10,6 +10,7 @@ import java.io.File;
  */
 
 public class SeaShantySimulator {
+    private static final float BG_MUSIC_VOLUME = 0.02f;
     private MediaPlayer mediaPlayer;
 
     /**
@@ -18,10 +19,10 @@ public class SeaShantySimulator {
      */
 
     public void initialize() {
-        String musicFile = "resources/bgMusic.mp3";
+        String musicFile = "source/bgMusic.mp3";
         Media sound = new Media(new File(musicFile).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.setVolume(0.02);
+        mediaPlayer.setVolume(BG_MUSIC_VOLUME);
 
     }
 

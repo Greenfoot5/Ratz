@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class Bomb extends Power {
 
-    private static final String BOMB_SOUND_PATH = "resources/bombSound.mp3";
+    private static final String BOMB_SOUND_PATH = "bombSound.mp3";
     private static final float BOMB_SOUND_VOLUME = 0.2f;
     private static final int EXPLODE_TICK = 16; // How many ticks to reach to explode
     private static final int ANIMATION_SLOWDOWN = 4;
