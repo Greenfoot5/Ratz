@@ -36,9 +36,12 @@ public class LevelController {
     private static int[] counters = new int[ITEM_NUM];
 
     //For sounds
-    private static final String DEATH_RAT_SOUND_1_PATH = "deathRatSound1.mp3";
-    private static final String DEATH_RAT_SOUND_2_PATH = "deathRatSound2.mp3";
-    private static final String DEATH_RAT_SOUND_3_PATH = "deathRatSound3.mp3";
+    private static final String DEATH_RAT_SOUND_1_PATH = "resources" +
+            "/deathRatSound1.mp3";
+    private static final String DEATH_RAT_SOUND_2_PATH = "resources" +
+            "/deathRatSound2.mp3";
+    private static final String DEATH_RAT_SOUND_3_PATH = "resources" +
+            "/deathRatSound3.mp3";
     private static final double SOUND_VOLUME_RAT = 0.1f;
 
     //Game map
@@ -454,7 +457,7 @@ public class LevelController {
         tickTimeline.stop();
 
         try {
-            LevelFileReader.saveLevel("./level-" + LEVEL_NUMBER);
+            LevelFileReader.saveLevel("./resources/level-" + LEVEL_NUMBER);
         } catch (IOException e) {
             System.out.println("Couldn't save level state.");
         }

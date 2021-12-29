@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class StopSign extends Power {
 
-    private static final String STOP_SIGN_SOUND_PATH = "stopSignSound.mp3";
+    private static final String STOP_SIGN_SOUND_PATH = "resources/stopSignSound.mp3";
     private static final double SOUND_VOLUME = 0.1;
 
     private int ticksActive = 0;

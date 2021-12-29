@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class HighScores {
 
 	// Path to a file storing data about scores.
-	private static final String FILE_PATH = "highScores.txt";
+	private static final String FILE_PATH = "resources/highScores.txt";
 
 	// Maximum number of saved scores per level.
 	private static final int NUMBER_OF_TOP_SCORES = 10;
@@ -59,7 +59,7 @@ public class HighScores {
 	public static void safeScore(String profile, int score, int level) throws IOException {
 
 		File file = new File(FILE_PATH);
-		File tempFile = new File("temp.txt");
+		File tempFile = new File("resources/temp.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
@@ -135,7 +135,7 @@ public class HighScores {
 	 */
 	private static void fixPositions() throws IOException {
 		File file = new File(FILE_PATH);
-		File tempFile = new File("temp.txt");
+		File tempFile = new File("resources/temp.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
@@ -181,7 +181,7 @@ public class HighScores {
 	public static void deleteProfile(String profileName) throws IOException {
 
 		File file = new File(FILE_PATH);
-		File tempFile = new File("temp.txt");
+		File tempFile = new File("resources/temp.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
 		PrintWriter printWriter = new PrintWriter(fileWriter);

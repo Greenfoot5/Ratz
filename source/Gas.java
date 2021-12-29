@@ -8,7 +8,7 @@ import java.util.Objects;
  * @version 1.0
  */
 public class Gas extends Power {
-    private static final String GAS_SOUND_PATH = "gasSound.mp3";
+    private static final String GAS_SOUND_PATH = "resources/gasSound.mp3";
     private static final float GAS_SOUND_VOLUME = 0.1f;
     private static final int TICKS_TO_SPAWN_NEW_GAS = 4;
     private static final int LIFETIME = 24;
