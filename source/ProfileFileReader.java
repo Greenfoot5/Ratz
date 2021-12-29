@@ -17,7 +17,7 @@ public class ProfileFileReader {
     /**
      * Path to file storing data about profiles
      */
-    private static final String FILE_PATH = "resources/profileFile.txt";
+    private static final String FILE_PATH = "profileFile.txt";
 
     private static String selectedProfile = null;
 
@@ -31,7 +31,7 @@ public class ProfileFileReader {
 	@SuppressWarnings("resource")
 	public static void createNewProfile(String profileName) throws Exception {
 		File file = new File(FILE_PATH);
-		File tempFile = new File("resources/tempProf.txt");
+		File tempFile = new File("tempProf.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
@@ -90,7 +90,7 @@ public class ProfileFileReader {
 
 	public static void deleteProfile(String profileName) throws IOException {
 		File file = new File(FILE_PATH);
-		File tempFile = new File("resources/tempProf.txt");
+		File tempFile = new File("tempProf.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, false);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
@@ -179,7 +179,7 @@ public class ProfileFileReader {
 	 */
 	public static void saveBestScore(String profileName, int level, int score) throws IOException {
 		File file = new File(FILE_PATH);
-		File tempFile = new File("resources/tempProf.txt");
+		File tempFile = new File("tempProf.txt");
 		Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
 		PrintWriter printWriter = new PrintWriter(fileWriter);

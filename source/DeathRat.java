@@ -69,7 +69,7 @@ public class DeathRat extends Rat {
         int i = 0;
         while (Objects.requireNonNull(currentTile).getOccupantRats().size() > 1
                 && killCounter < MAX_KILL_COUNT) {
-            if(currentTile.getOccupantRats().get(i) != this) {
+            if (currentTile.getOccupantRats().get(i) != this) {
                 currentTile.getOccupantRats().get(i).die();
             } else {
                 i++;
@@ -78,6 +78,11 @@ public class DeathRat extends Rat {
         }
     }
 
+    /**
+     * Gets the number of rats this death rat is able to kill
+     *
+     * @return the number of rats this death rat is able to kill
+     */
     public int getKillCounter() {
         return killCounter;
     }

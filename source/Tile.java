@@ -12,6 +12,7 @@ public class Tile extends GameObject {
     /**
      * Tile constructor.
      *
+     * @param isPassable   Whether rats can walk past this tile.
      * @param activePowers What powers are active on this tile.
      * @param occupantRats What rats are present on this tile.
      */
@@ -61,20 +62,20 @@ public class Tile extends GameObject {
 
     /**
      * update
-     *
+     * <p>
      * actively updates the powers/rats on a tile per tick
      */
     public void update() {
         int numOfPowers = activePowers.size();
         int numOfRats = occupantRats.size();
 
-        for(int i = 0; i < numOfPowers; i++) {
+        for (int i = 0; i < numOfPowers; i++) {
             activePowers.get(i).onTick(occupantRats, this);
-            if(activePowers.size() == numOfPowers) {
+            if (activePowers.size() == numOfPowers) {
                 Power power = activePowers.get(i);
-                if(power instanceof MaleSwapper || power instanceof FemaleSwapper || power instanceof Poison) {
-                    if (numOfRats > 0){
-                        activePowers.get(i).activate(occupantRats,this);
+                if (power instanceof MaleSwapper || power instanceof FemaleSwapper || power instanceof Poison) {
+                    if (numOfRats > 0) {
+                        activePowers.get(i).activate(occupantRats, this);
                     }
                 }
             }
@@ -83,7 +84,7 @@ public class Tile extends GameObject {
         }
 
         numOfRats = occupantRats.size();
-        for(int i = 0; i < numOfRats; i++) {
+        for (int i = 0; i < numOfRats; i++) {
             occupantRats.get(i).onTick();
             numOfRats = occupantRats.size();
         }
