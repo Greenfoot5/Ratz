@@ -4,7 +4,7 @@
 ![Total Lines Label](https://img.shields.io/tokei/lines/github/Greenfoot5/Ratz)
 ![Contributor Count Label](https://img.shields.io/github/contributors/Greenfoot5/Ratz?color=blue)
 
-Based off the 1996 game, Rats! by Sean O'Connor, built in Java and JavaFX.
+Based off the 1996 game Rats! by Sean O'Connor, built in Java and JavaFX.
 
 ## How to play
 
