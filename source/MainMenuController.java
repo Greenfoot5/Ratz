@@ -37,7 +37,7 @@ public class MainMenuController extends Application {
 	private static final int WINDOW_HEIGHT = 500;
 
     private static final int TOP_RAT_SPACING = 60;
-
+    // Various UI sizes
     private static final int ALERT_WIDTH = 300;
     private static final int ALERT_HEIGHT = 150;
     private static final int BUTTON_WIDTH = 80;
@@ -139,8 +139,7 @@ public class MainMenuController extends Application {
 		Label loggedProfileText = new Label("You are logged as ");
 		loggedProfile = new Label();
 		if (ProfileFileReader.getLoggedProfile() == null) {
-			loggedProfile.setText("NOBODY. Please log in before starting " +
-                    "the game");
+			loggedProfile.setText("NOBODY. Please log in before starting the game");
 		} else {
 			loggedProfile.setText(ProfileFileReader.getLoggedProfile());
 		}
