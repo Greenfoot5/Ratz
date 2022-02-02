@@ -47,10 +47,10 @@ _Please note, as this was a coursework project, the final result was a modified 
 - Produced several sounds for the game, including death rat spawns and sterilisation
 
 #### [TomaszFiji](https://github.com/TomaszFiji) - Programmer, SoundFX
-- Designed and implemented all Power classes, along with the music and sound player (SeaShantySimulator)
-- Produced or found sounds and music for the game
-
-#### [translibrius](https://github.com/translibrius) - Programmer, UI/UX
 - Designed and implemented Profiles and their classes/files
 - Developed a High Score system
 - Designed a style sheet for various menus including main menu and level selection
+
+#### [translibrius](https://github.com/translibrius) - Programmer, UI/UX
+- Designed and implemented all Power classes, along with the music and sound player (SeaShantySimulator)
+- Produced or found sounds and music for the game
