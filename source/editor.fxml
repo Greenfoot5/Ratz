@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="896.0" prefWidth="1324.0" styleClass="root" stylesheets="@editor.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+	<center>
+		<Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+			<Canvas fx:id="levelCanvas" height="896.0" width="1024.0" />
+		</Pane>
+	</center>
+	<right>
+		<BorderPane prefHeight="200.0" prefWidth="300.0" styleClass="sidebar" stylesheets="@editor.css" BorderPane.alignment="CENTER">
+			<bottom>
+				<Button fx:id="saveLevelButton" mnemonicParsing="false" onAction="#saveLevel" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Save Level" BorderPane.alignment="BOTTOM_CENTER">
+					<BorderPane.margin>
+						<Insets bottom="20.0" top="10.0" />
+					</BorderPane.margin>
+				</Button>
+			</bottom>
+         <top>
+            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                   <RadioButton fx:id="rbGrass" mnemonicParsing="false" text="GRASS" />
+                  <RadioButton fx:id="rbPath" mnemonicParsing="false" text="PATH" />
+                  <RadioButton fx:id="rbTunnel" mnemonicParsing="false" text="TUNNEL" />
+               </children>
+               <BorderPane.margin>
+                  <Insets left="20.0" right="20.0" top="20.0" />
+               </BorderPane.margin>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </HBox>
+         </top>
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+         </center>
+		</BorderPane>
+	</right>
+</BorderPane>
