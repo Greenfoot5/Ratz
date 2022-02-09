@@ -53,7 +53,7 @@ public class LevelController {
     //Rat counters
     private static int femaleRatCounter;
     private static int maleRatCounter;
-    private static int childRatCounter;
+    private static int otherRatCounter;
 
     //Images for different game items
     private final List<Image> itemImages = Arrays.asList((new Bomb(0, 0)).getImg(), (new Gas(0, 0, true)).getImg(),
@@ -185,7 +185,7 @@ public class LevelController {
      * Builds new level from level file.
      */
     private void buildNewLevel() {
-        childRatCounter = 0;
+        otherRatCounter = 0;
         femaleRatCounter = 0;
         maleRatCounter = 0;
         score = 0;
@@ -203,7 +203,7 @@ public class LevelController {
     public void renderCounters() {
         String mc = String.valueOf(maleRatCounter);
         String fc = String.valueOf(femaleRatCounter);
-        String rc = (femaleRatCounter + maleRatCounter + childRatCounter) + "/" + (MAX_RATS);
+        String rc = (femaleRatCounter + maleRatCounter + otherRatCounter) + "/" + (MAX_RATS);
 
         maleRatCounterLabel.setText(mc);
         femaleRatCounterLabel.setText(fc);
@@ -260,9 +260,9 @@ public class LevelController {
      * Periodically refreshes game.
      */
     public void tick() {
-        if ((femaleRatCounter + maleRatCounter + childRatCounter) == 0) {
+        if ((femaleRatCounter + maleRatCounter + otherRatCounter) == 0) {
             endGame(true);
-        } else if ((femaleRatCounter + maleRatCounter + childRatCounter) >= MAX_RATS) {
+        } else if ((femaleRatCounter + maleRatCounter + otherRatCounter) >= MAX_RATS) {
             endGame(false);
         } else {
             addPowers();
@@ -522,8 +522,8 @@ public class LevelController {
             maleRatCounter--;
         } else if (rat instanceof AdultFemale) {
             femaleRatCounter--;
-        } else if (rat instanceof ChildRat) {
-            childRatCounter--;
+        } else if (rat instanceof ChildRat || rat instanceof AdultIntersex) {
+            otherRatCounter--;
         }
     }
 
@@ -533,8 +533,8 @@ public class LevelController {
      * @param rat the rat being added.
      */
     public static void ratAdded(Rat rat) {
-        if (rat instanceof ChildRat) {
-            childRatCounter++;
+        if (rat instanceof ChildRat || rat instanceof AdultIntersex) {
+            otherRatCounter++;
         } else if (rat instanceof AdultMale) {
             maleRatCounter++;
         } else if (rat instanceof AdultFemale) {
@@ -553,15 +553,23 @@ public class LevelController {
                 for (int i = 0; i < ((AdultFemale) rat).getRatFetusCount(); i++) {
                     score += 10;
                 }
-                score += 10;
             }
+            score += 10;
             femaleRatCounter--;
         } else if (rat instanceof AdultMale) {
             score += 10;
             maleRatCounter--;
         } else if (rat instanceof ChildRat) {
             score += 10;
-            childRatCounter--;
+            otherRatCounter--;
+        } else if (rat instanceof AdultIntersex) {
+            if (((AdultIntersex) rat).getRatFetusCount() > 0) {
+                for (int i = 0; i < ((AdultIntersex) rat).getRatFetusCount(); i++) {
+                    score += 10;
+                }
+            }
+            score += 10;
+            otherRatCounter--;
         }
     }
 }
