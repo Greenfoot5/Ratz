@@ -12,6 +12,7 @@
 }
 .toolbar{
     -fx-background-image: url('../../../resources/gui/toolbar-bg.png');
+    -fx-background-position: center;
 }
 .sideBarButton{
     -fx-background-image: url('../../../resources/gui/level-button.png');
