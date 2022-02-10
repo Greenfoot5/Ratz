@@ -7,15 +7,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseMoved="#updateProfilesView" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
    <top>
       <Label prefHeight="63.0" prefWidth="107.0" text="You are logged as ..." BorderPane.alignment="CENTER" />
    </top>
    <left>
-      <VBox alignment="CENTER" prefHeight="282.0" prefWidth="136.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="profileButtons" alignment="CENTER" prefHeight="282.0" prefWidth="136.0" BorderPane.alignment="CENTER">
          <children>
-            <Label prefHeight="147.0" prefWidth="170.0" text="Profile buttons go here" />
+            <Label fx:id="l1" prefHeight="147.0" prefWidth="170.0" text="Profile buttons go here" />
          </children>
       </VBox>
    </left>
