@@ -950,7 +950,7 @@ public class MainMenuController extends Application {
      */
     private void loadLevel(Stage levelStage, int levelNumber)
             throws IOException {
-        LevelFileReader.loadLevelFile("./resources/level-" + levelNumber);
+        LevelFileReader.loadLevelFile("./resources/levels/level-" + levelNumber);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "level.fxml"));
