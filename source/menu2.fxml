@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
+   <children>
+      <Button mnemonicParsing="false" onAction="#changeToLevelSelection" text="Select Level!" />
+      <Button mnemonicParsing="false" onAction="#buttonCl" text="Select Profile!" />
+      <Button mnemonicParsing="false" text="Exit!" />
+   </children>
+</VBox>
