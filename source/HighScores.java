@@ -27,17 +27,17 @@ public class HighScores {
 	 * 		   ten pairs - (profileName, score)
 	 * @throws FileNotFoundException if there is a problem with a file
 	 */
-	public static String[] getTopScores(int level) throws FileNotFoundException {
+	public static String[] getTopScores(String levelName) throws FileNotFoundException {
 		File file = new File(FILE_PATH);
 		Scanner in = new Scanner(file);
 
 		String[] topScores = new String[NUMBER_OF_TOP_SCORES];
 		while (in.hasNext()) {
-			int lvl = in.nextInt();
+			String lvl = in.next();
 			int pos = in.nextInt();
 			String profName = in.next();
 			int scr = in.nextInt();
-			if (lvl == level) {
+			if (lvl.equals(levelName)) {
 				topScores[pos - 1] = profName + " " + scr;
 			}
 		}
@@ -56,7 +56,7 @@ public class HighScores {
 	 * @param level		level of the game
 	 * @throws IOException - if there is a problem with a file
 	 */
-	public static void safeScore(String profile, int score, int level) throws IOException {
+	public static void safeScore(String profile, int score, String levelName) throws IOException {
 
 		File file = new File(FILE_PATH);
 		File tempFile = new File("resources/temp.txt");
@@ -64,17 +64,19 @@ public class HighScores {
 		FileWriter fileWriter = new FileWriter(tempFile, true);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
 
-		boolean shouldBeAbove = false;
+		boolean shouldBeAbove = false; //in case when we have two the same scores and we want to safe new score under previous score
 		boolean isUsed = false;
+		boolean levelNameSeen = false;
 		final int posToFix = 0;
 
 		while (in.hasNext()) {
-			int lvl = in.nextInt();
+			String lvl = in.next();
 			int pos = in.nextInt();
 			String profName = in.next();
 			int scr = in.nextInt();
 
-			if (lvl == level) {
+			if (lvl.equals(levelName)) {
+				levelNameSeen = true;
 				if (score == scr) {
 					if (!isUsed) {
 						printWriter.println(lvl + " " 
@@ -83,14 +85,16 @@ public class HighScores {
 					}
 				} else if (score > scr) {
 					if (shouldBeAbove && !isUsed) {
-						printWriter.println(level + " " 
+						printWriter.println(levelName + " " 
 							+ posToFix + " " + profile + " " + score);
+						
 						printWriter.println(lvl + " " 
 							+ posToFix + " " + profName + " " + scr);
 						isUsed = true;
 					} else if (!shouldBeAbove && !isUsed) {
-						printWriter.println(level + " " 
+						printWriter.println(levelName + " " 
 							+ posToFix + " " + profile + " " + score);
+						
 						printWriter.println(lvl + " " 
 							+ posToFix + " " + profName + " " + scr);
 						isUsed = true;
@@ -102,9 +106,9 @@ public class HighScores {
 					printWriter.println(lvl + " " 
 							+ pos + " " + profName + " " + scr);
 				}
-			} else if (lvl > level && !isUsed) {
+			} else if (levelNameSeen && !isUsed) {
 				isUsed = true;
-				printWriter.println(level + " " 
+				printWriter.println(levelName + " " 
 						+ posToFix + " " + profile + " " + score);
 				printWriter.println(lvl + " " 
 						+ pos + " " + profName + " " + scr);
@@ -115,7 +119,7 @@ public class HighScores {
 		}
 
 		if (!isUsed) {
-			printWriter.println(level + " " 
+			printWriter.println(levelName + " " 
 					+ posToFix + " " + profile + " " + score);
 		}
 
@@ -140,14 +144,14 @@ public class HighScores {
 		FileWriter fileWriter = new FileWriter(tempFile, true);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
 
-		int previousLevel = 0;
+		String previousLevel = "";
 		int previousPos = 0;
 		while (in.hasNext()) {
-			int lvl = in.nextInt();
+			String lvl = in.next();
 			in.nextInt();
 			String profName = in.next();
 			int scr = in.nextInt();
-			if (lvl > previousLevel) {
+			if (!lvl.equals(previousLevel)) {
 				previousLevel = lvl;
 				previousPos = 1;
 				printWriter.println(lvl + " " 
@@ -189,7 +193,7 @@ public class HighScores {
 		final int posToFix = 0;
 
 		while (in.hasNext()) {
-			int lvl = in.nextInt();
+			String lvl = in.next();
 			in.nextInt();
 			String profName = in.next();
 			int scr = in.nextInt();
