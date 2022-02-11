@@ -56,8 +56,12 @@ public class LevelController {
     private static int maleRatCounter;
     private static int otherRatCounter;
 
+    //For loading inventory from save
+    private static int[] savedPowers;
+    private Boolean powersImportedFromSave = true;
+
     //Images for different game items
-    private final List<Image> itemImages = Arrays.asList((new Bomb(0, 0)).getImg(), (new Gas(0, 0, true)).getImg(),
+    private static final List<Image> itemImages = Arrays.asList((new Bomb(0, 0)).getImg(), (new Gas(0, 0, true)).getImg(),
             (new Sterilisation(0, 0)).getImg(), (new Poison(0, 0)).getImg(),
             (new MaleSwapper(0, 0)).getImg(), (new FemaleSwapper(0, 0)).getImg(),
             (new StopSign(0, 0)).getImg(), (new DeathRat(0, Rat.Direction.WEST, 0, 0, 0, 0)).getImg());
@@ -284,10 +288,27 @@ public class LevelController {
         }
     }
 
+    public static void addPowersFromSave (int[] powers) {
+        savedPowers = powers;
+    }
+
     /**
      * Grants player items periodically.
      */
     private void addPowers() {
+
+        //Add powers to inventory from file save
+        if (savedPowers != null && powersImportedFromSave){
+            for (int i = 0; i < savedPowers.length; i++){
+                while (savedPowers[i] > 0) {
+                    counters[i]++;
+                    renderItem(i);
+                    savedPowers[i] -= 1;
+                }
+            }
+            powersImportedFromSave = false;
+        }
+
         for (int i = 0; i < counters.length; i++) {
             timeUntilDrop[i] -= FRAME_TIME;
             if (timeUntilDrop[i] <= 0 && counters[i] < 4) {

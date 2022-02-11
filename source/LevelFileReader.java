@@ -427,10 +427,9 @@ public class LevelFileReader {
                 String[] inProgInvString = reader.nextLine().split(",");
                 for (int i = 0; i < inProgInvString.length; i++) {
                     inProgInv[i] = Integer.parseInt(inProgInvString[i]);
+                    LevelController.addPowersFromSave(inProgInv);
                 }
                 readObjects(reader);
-
-
             }
         } else {
             // if no saved data exists, just read the objects from the default file.
