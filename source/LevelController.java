@@ -61,7 +61,7 @@ public class LevelController {
     private Boolean powersImportedFromSave = true;
 
     //Images for different game items
-    private static final List<Image> itemImages = Arrays.asList((new Bomb(0, 0)).getImg(), (new Gas(0, 0, true)).getImg(),
+    private final List<Image> itemImages = Arrays.asList((new Bomb(0, 0)).getImg(), (new Gas(0, 0, true)).getImg(),
             (new Sterilisation(0, 0)).getImg(), (new Poison(0, 0)).getImg(),
             (new MaleSwapper(0, 0)).getImg(), (new FemaleSwapper(0, 0)).getImg(),
             (new StopSign(0, 0)).getImg(), (new DeathRat(0, Rat.Direction.WEST, 0, 0, 0, 0)).getImg());
