@@ -13,14 +13,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class MenuController {
 
-	private Stage stage;
-	private Scene scene;
+	private static Stage stage;
+	private static Scene scene;
 	private Parent root;
 	private Integer selectedLevel = 1;
 	private boolean profilesViewUpdated = false;
@@ -73,10 +74,11 @@ public class MenuController {
 
 	public void changeToLevelSelection(ActionEvent event) throws IOException {
 		System.out.println("move to level selection");
-
 		root = FXMLLoader.load(getClass().getResource("levelsSelection.fxml"));
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
+		System.out.println(stage == null);
+		System.out.println(scene == null);
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -105,7 +107,7 @@ public class MenuController {
 
 				ProfileFileReader.createNewProfile(newProfileTextField.getText());
 				ProfileFileReader.loginProfile(newProfileTextField.getText());
-				
+
 				newProfileTextField.setText("");
 				profilesViewUpdated = false;
 				this.updateProfilesView();
@@ -134,7 +136,8 @@ public class MenuController {
 				alert("No profile is selected");
 			} else {
 				ProfileFileReader.deleteProfile(ProfileFileReader.getLoggedProfile());
-				ProfileFileReader.logout();;
+				ProfileFileReader.logout();
+				;
 				HighScores.deleteProfile(ProfileFileReader.getLoggedProfile());
 				profilesViewUpdated = false;
 				this.updateProfilesView();
@@ -154,11 +157,11 @@ public class MenuController {
 			} catch (FileNotFoundException e) {
 				s[0] = "No profiles. Please Create a profile";
 			}
-			
+
 			profileButtons.getChildren().clear();
 			// Display a button for each profile
 			Button[] profButton = new Button[s.length];
-			
+
 			for (int i = 0; i < profButton.length; i++) {
 				profButton[i] = new Button(s[i]);
 				profButton[i].setPrefWidth(100);
@@ -171,13 +174,14 @@ public class MenuController {
 
 				});
 			}
-			
-			
+
 		}
 
 	}
 
 	////////////////////////////////////////////////////////////////////// levels
+
+	
 
 	public void changeToMenu(ActionEvent event) throws IOException {
 		System.out.println("move to menu");
@@ -188,5 +192,71 @@ public class MenuController {
 		stage.setScene(scene);
 		stage.show();
 	}
+	
+	@FXML
+	void playTheGame(ActionEvent event) {
+		try {
+			System.out.println(stage == null);
+			System.out.println(scene == null);
+            loadLevel();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	/**
+     * Loads a level through the LevelController
+     *
+     * @param levelStage The stage
+     * @throws IOException If we cannot load a level
+     */
+    private void loadLevel(Stage levelStage, int levelNumber)
+            throws IOException {
+        LevelFileReader.loadLevelFile("./resources/levels/level-" + levelNumber);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "level.fxml"));
+        LevelController levelController = new LevelController(levelNumber,
+                this);
+
+        loader.setController(levelController);
+
+        Pane root = loader.load();
+
+        scene = new Scene(root, root.getPrefWidth(),
+                root.getPrefHeight());
+
+        levelStage.setScene(scene);
+    }
+    private void loadLevel()
+            throws IOException {
+    	System.out.println(stage == null);
+		System.out.println(scene == null);
+        LevelFileReader.loadLevelFile("./resources/levels/level-" + selectedLevel);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "level.fxml"));
+        LevelController levelController = new LevelController(selectedLevel,
+                this);
+
+        loader.setController(levelController);
+
+        Pane root = loader.load();
+
+        scene = new Scene(root, root.getPrefWidth(),
+                root.getPrefHeight());
+
+        System.out.println(stage == null);
+        System.out.println(scene == null);
+        stage.setScene(scene);
+    }
+    
+    /**
+     * Called when a level is finished
+     */
+    public void finishLevel() {
+        stage.setScene(scene);
+        stage.show();
+    }
 
 }

@@ -72,7 +72,7 @@ public class LevelController {
     private final int[] DROP_RATES;
     private final int[] timeUntilDrop = new int[ITEM_NUM];
 
-    private final MainMenuController MAIN_MENU;
+    private final MenuController MAIN_MENU;
     private final int LEVEL_NUMBER;
 
     //Milliseconds between frames
@@ -115,7 +115,24 @@ public class LevelController {
      * @param levelNum           Number of level being played.
      * @param mainMenuController Reference to the main menu controller.
      */
-    public LevelController(int levelNum, MainMenuController mainMenuController) {
+//    public LevelController(int levelNum, MainMenuController mainMenuController) {
+//        LEVEL_NUMBER = levelNum;
+//        MAIN_MENU = mainMenuController;
+//        WIDTH = LevelFileReader.getWidth();
+//        HEIGHT = LevelFileReader.getHeight();
+//
+//        buildNewLevel();
+//
+//        MAX_RATS = LevelFileReader.getMaxRats();
+//        if (LevelFileReader.getInProgTimer() != -1) {
+//            PAR_TIME = LevelFileReader.getInProgTimer();
+//        } else {
+//            PAR_TIME = LevelFileReader.getParTime();
+//        }
+//        DROP_RATES = LevelFileReader.getDropRates();
+//    }
+    //copy
+    public LevelController(int levelNum, MenuController mainMenuController) {
         LEVEL_NUMBER = levelNum;
         MAIN_MENU = mainMenuController;
         WIDTH = LevelFileReader.getWidth();
