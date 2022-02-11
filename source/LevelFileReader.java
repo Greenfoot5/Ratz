@@ -124,7 +124,6 @@ public class LevelFileReader {
      * @throws IOException if it can't find the file specified.
      */
     public static void saveLevel(String levelName) throws IOException {
-
         File saveFile = new File(levelName + "-inProgress-"
                 + ProfileFileReader.getLoggedProfile() + ".txt");
         // if an in progress file doesn't exist yet

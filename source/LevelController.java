@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
@@ -321,6 +322,16 @@ public class LevelController {
             }
         } else {
             gamePaneText.getChildren().add(new Text("You've lost! :("));
+
+            //Delete save file after losing
+            String levelName = "./resources/level-" + LEVEL_NUMBER;
+            String fullSavePath =
+                    levelName + "-inProgress-" + ProfileFileReader.getLoggedProfile() + ".txt";
+            File currentSave = new File(fullSavePath);
+
+            if (!currentSave.delete()) {
+                System.out.println("Failed to delete save after losing!");
+            }
         }
 
         try {
