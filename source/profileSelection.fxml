@@ -8,9 +8,6 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseMoved="#updateProfilesView" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
-   <top>
-      <Label prefHeight="63.0" prefWidth="107.0" text="You are logged as ..." BorderPane.alignment="CENTER" />
-   </top>
    <left>
       <VBox fx:id="profileButtons" alignment="CENTER" prefHeight="282.0" prefWidth="136.0" BorderPane.alignment="CENTER">
          <children>
@@ -22,7 +19,7 @@
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#changeToMenu" text="Main menu" />
-            <Button mnemonicParsing="false" text="Remove Profile" />
+            <Button fx:id="removeProfileButton" mnemonicParsing="false" onAction="#removeProfile" text="Remove Profile" />
          </children>
       </VBox>
    </right>
@@ -30,12 +27,21 @@
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Add new profile:" />
-            <TextField />
-            <Button mnemonicParsing="false" text="Add" />
+            <TextField fx:id="newProfileTextField" promptText="new profile name" />
+            <Button fx:id="addProfilebutton" mnemonicParsing="false" onAction="#addProfile" text="Add" />
          </children>
       </HBox>
    </bottom>
+   <top>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Best" />
+            <Label fx:id="loggedProfileLabel" text="..." />
+            <Label text="'s scores: " />
+         </children>
+      </HBox>
+   </top>
    <center>
-      <Label prefHeight="105.0" prefWidth="166.0" text="Scores go here" BorderPane.alignment="CENTER" />
+      <VBox fx:id="bestScoresLabel" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
