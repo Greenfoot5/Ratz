@@ -23,9 +23,11 @@ public class MenuController {
 	private static Stage stage;
 	private static Scene scene;
 	private Parent root;
-	private Integer selectedLevel = 1;
+	//private Integer selectedLevel = 1;
+	private static String selectedLevelName = "";
 	private boolean profilesViewUpdated = false;
-
+	private final int FIRST_LETTER_OF_BUTTON_NAME = 35;
+	
 	@FXML
 	private Button addProfilebutton;
 	@FXML
@@ -181,7 +183,28 @@ public class MenuController {
 
 	////////////////////////////////////////////////////////////////////// levels
 
+	public String getButtonName(ActionEvent event) throws Exception {
+		String source = event.getSource().toString();
+		if (!source.contains("[styleClass=button]")) {
+			System.out.println(source);
+
+			throw new Exception("Element is not a button");
+		} 
+		String s = event.getSource().toString();
+		//System.out.println(s.charAt(35));
+		return s.substring(FIRST_LETTER_OF_BUTTON_NAME, s.length() - 1);
+	}
 	
+	public void levelButtonPressed(ActionEvent event) {
+		try {
+			System.out.println(getButtonName(event));
+			selectedLevelName = getButtonName(event);
+			System.out.println(selectedLevelName);
+
+		} catch (Exception e) {
+			alert("This level data is missing :(");
+		}
+	}
 
 	public void changeToMenu(ActionEvent event) throws IOException {
 		System.out.println("move to menu");
@@ -196,6 +219,8 @@ public class MenuController {
 	@FXML
 	void playTheGame(ActionEvent event) {
 		try {
+			System.out.println(event.getSource().toString());
+			System.out.println(selectedLevelName);
 			System.out.println(stage == null);
 			System.out.println(scene == null);
             loadLevel();
@@ -210,33 +235,33 @@ public class MenuController {
      * @param levelStage The stage
      * @throws IOException If we cannot load a level
      */
-    private void loadLevel(Stage levelStage, int levelNumber)
-            throws IOException {
-        LevelFileReader.loadLevelFile("./resources/levels/level-" + levelNumber);
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                "level.fxml"));
-        LevelController levelController = new LevelController(levelNumber,
-                this);
-
-        loader.setController(levelController);
-
-        Pane root = loader.load();
-
-        scene = new Scene(root, root.getPrefWidth(),
-                root.getPrefHeight());
-
-        levelStage.setScene(scene);
-    }
+//    private void loadLevel(Stage levelStage, int levelNumber)
+//            throws IOException {
+//        LevelFileReader.loadLevelFile("./resources/levels/" + selectedLevelName);
+//
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource(
+//                "level.fxml"));
+//        LevelController levelController = new LevelController(levelNumber,
+//                this);
+//
+//        loader.setController(levelController);
+//
+//        Pane root = loader.load();
+//
+//        scene = new Scene(root, root.getPrefWidth(),
+//                root.getPrefHeight());
+//
+//        levelStage.setScene(scene);
+//    }
     private void loadLevel()
             throws IOException {
     	System.out.println(stage == null);
 		System.out.println(scene == null);
-        LevelFileReader.loadLevelFile("./resources/levels/level-" + selectedLevel);
+        LevelFileReader.loadLevelFile("./resources/levels/" + selectedLevelName);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "level.fxml"));
-        LevelController levelController = new LevelController(selectedLevel,
+        LevelController levelController = new LevelController(selectedLevelName,
                 this);
 
         loader.setController(levelController);

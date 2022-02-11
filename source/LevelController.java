@@ -73,7 +73,7 @@ public class LevelController {
     private final int[] timeUntilDrop = new int[ITEM_NUM];
 
     private final MenuController MAIN_MENU;
-    private final int LEVEL_NUMBER;
+    private final String LEVEL_NAME;
 
     //Milliseconds between frames
     private final int FRAME_TIME = 250;
@@ -112,7 +112,7 @@ public class LevelController {
     /**
      * Constructor for LevelController class.
      *
-     * @param levelNum           Number of level being played.
+     * @param selectedLevelName           Number of level being played.
      * @param mainMenuController Reference to the main menu controller.
      */
 //    public LevelController(int levelNum, MainMenuController mainMenuController) {
@@ -132,8 +132,8 @@ public class LevelController {
 //        DROP_RATES = LevelFileReader.getDropRates();
 //    }
     //copy
-    public LevelController(int levelNum, MenuController mainMenuController) {
-        LEVEL_NUMBER = levelNum;
+    public LevelController(String selectedLevelName, MenuController mainMenuController) {
+        LEVEL_NAME = selectedLevelName;
         MAIN_MENU = mainMenuController;
         WIDTH = LevelFileReader.getWidth();
         HEIGHT = LevelFileReader.getHeight();
@@ -330,25 +330,25 @@ public class LevelController {
             score += currentTimeLeft / 1000;
             gamePaneText.getChildren().add(new Text("You've won! :)"));
             gamePaneScore.getChildren().add(new Text("Score: " + score));
-            try {
-                ProfileFileReader.saveBestScore(ProfileFileReader.getLoggedProfile(), LEVEL_NUMBER, score);
-                HighScores.safeScore(ProfileFileReader.getLoggedProfile(), score, LEVEL_NUMBER);
-            } catch (IOException e) {
-                System.out.println("Couldn't save score :(");
-            }
+//            try {
+//                ProfileFileReader.saveBestScore(ProfileFileReader.getLoggedProfile(), LEVEL_NAME, score);
+//                HighScores.safeScore(ProfileFileReader.getLoggedProfile(), score, LEVEL_NAME);
+//            } catch (IOException e) {
+//                System.out.println("Couldn't save score :(");
+//            }/////////////////////////////////////////////////////////////////////////////////////////////////////////////////:TODO
         } else {
             gamePaneText.getChildren().add(new Text("You've lost! :("));
         }
 
-        try {
-            String[] highScores = HighScores.getTopScores(LEVEL_NUMBER);
-            for (String text : highScores) {
-                gamePaneLeaderboard.getChildren().add(new Text(text + "\n"));
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+//        try {
+//            String[] highScores = HighScores.getTopScores(LEVEL_NAME);
+//            for (String text : highScores) {
+//                gamePaneLeaderboard.getChildren().add(new Text(text + "\n"));
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+    }///////////////////////////////////////////////////////////////////////////////////////////////////////////////:TODO
 
     /**
      * Exits level and goes back to main menu.
@@ -474,7 +474,7 @@ public class LevelController {
         tickTimeline.stop();
 
         try {
-            LevelFileReader.saveLevel("./resources/level-" + LEVEL_NUMBER);
+            LevelFileReader.saveLevel("./resources/" + LEVEL_NAME);
         } catch (IOException e) {
             System.out.println("Couldn't save level state.");
         }

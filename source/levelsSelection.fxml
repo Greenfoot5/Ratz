@@ -9,11 +9,11 @@
    <left>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="1" />
-            <Button mnemonicParsing="false" text="Butto2n" />
-            <Button mnemonicParsing="false" text="3" />
-            <Button mnemonicParsing="false" text="Butt4on" />
-            <Button mnemonicParsing="false" text="5" />
+            <Button mnemonicParsing="false" onAction="#levelButtonPressed" text="level-1" />
+            <Button mnemonicParsing="false" onAction="#levelButtonPressed" text="level-2" />
+            <Button mnemonicParsing="false" onAction="#levelButtonPressed" text="level-3" />
+            <Button mnemonicParsing="false" onAction="#levelButtonPressed" text="level-4" />
+            <Button mnemonicParsing="false" onAction="#levelButtonPressed" text="level-5" />
          </children>
       </VBox>
    </left>
