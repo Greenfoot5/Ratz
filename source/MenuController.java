@@ -131,7 +131,7 @@ public class MenuController {
 	}
 
 	@FXML
-	void removeProfile(ActionEvent event) {
+	void removeProfile(ActionEvent event) throws Exception {
 		try {
 
 			if (ProfileFileReader.getLoggedProfile() == null) {
@@ -149,7 +149,7 @@ public class MenuController {
 		}
 	}
 
-	public void updateProfilesView() {
+	public void updateProfilesView() throws Exception {
 		if (!this.profilesViewUpdated) {
 			this.profilesViewUpdated = true;
 
