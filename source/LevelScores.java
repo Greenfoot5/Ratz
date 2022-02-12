@@ -1,14 +1,12 @@
 
 public class LevelScores {
 	private String levelName;
-	public int nextAvailableIndex;
 	private static final int NUMBER_OF_TOP_SCORES = 10;
 	private Score[] scores;
 
 	
 	public LevelScores(String levelName) {
 		this.levelName = levelName;
-		this.nextAvailableIndex = 1;
 		scores = new Score[NUMBER_OF_TOP_SCORES];
 	}
 	
