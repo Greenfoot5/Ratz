@@ -1,18 +1,18 @@
-5
-level-1 level-2 level-3 level-4 level-5 
+6
+level-1 level-2 level-3 level-4 level-5 newLevel 
 Alex -1
-level-1 123 level-2 234 level-3 0 level-4 0 level-5 0 
+level-1 123 level-2 234 level-3 0 level-4 0 level-5 0 newLevel 0 
 Dom -1
-level-1 456 level-2 12 level-3 7456 level-4 0 level-5 0 
+level-1 456 level-2 12 level-3 7456 level-4 0 level-5 0 newLevel 0 
 James -1
-level-1 11111 level-2 218 level-3 128 level-4 133 level-5 0 
+level-1 11111 level-2 218 level-3 128 level-4 133 level-5 0 newLevel 0 
 Harvey -1
-level-1 5555 level-2 7777 level-3 0 level-4 0 level-5 0 
+level-1 5555 level-2 7777 level-3 0 level-4 0 level-5 0 newLevel 0 
 Tomasz -1
-level-1 2137 level-2 150 level-3 136 level-4 140 level-5 145 
+level-1 2137 level-2 150 level-3 136 level-4 140 level-5 145 newLevel 0 
 Vilija -1
-level-1 5677 level-2 100 level-3 0 level-4 0 level-5 0 
+level-1 5677 level-2 100 level-3 0 level-4 0 level-5 0 newLevel 0 
 Mart -1
-level-1 0 level-2 0 level-3 0 level-4 0 level-5 0 
+level-1 0 level-2 0 level-3 0 level-4 0 level-5 0 newLevel 0 
 Steffan -1
-level-1 0 level-2 0 level-3 0 level-4 0 level-5 0 
+level-1 0 level-2 0 level-3 0 level-4 0 level-5 0 newLevel 0 

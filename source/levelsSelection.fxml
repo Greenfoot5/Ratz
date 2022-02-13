@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -24,9 +25,13 @@
          <children>
             <VBox prefHeight="61.0" prefWidth="200.0">
                <children>
-                  <CheckBox fx:id="defaulLevelsCheckBox" alignment="TOP_LEFT" contentDisplay="TOP" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#defaulLevelsCheckBoxAction" selected="true" text="Default Levels" textOverrun="CLIP" />
-                  <CheckBox fx:id="savedGamesCheckBox" mnemonicParsing="false" onAction="#savedGamesCheckBoxAction" text="Saved Games" />
-                  <CheckBox fx:id="createdLevelsCheckBox" mnemonicParsing="false" onAction="#createdLevelsCheckBoxAction" text="Created Levels" />
+                  <RadioButton fx:id="defaultLevelsRadioButton" mnemonicParsing="false" onAction="#levelTypeChanged" selected="true" text="Default Levels">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="levelTypeGroup" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="savedGamesRadioButton" mnemonicParsing="false" onAction="#levelTypeChanged" text="Saved Games" toggleGroup="$levelTypeGroup" />
+                  <RadioButton fx:id="createdLevelsRadioButton" mnemonicParsing="false" onAction="#levelTypeChanged" text="Created Levels" toggleGroup="$levelTypeGroup" />
                </children>
             </VBox>
             <VBox fx:id="levelButtonsVBox" prefHeight="200.0" prefWidth="100.0" />

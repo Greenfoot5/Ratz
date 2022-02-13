@@ -14,7 +14,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -30,6 +32,7 @@ public class MenuController {
 
 	private static final int PROFILES_LIMIT = 8;
 	private static final String delfaultLevelRegex = "level-[1-5]";
+	private static final String savedGameStringPart = "inProgres";
 	private static Stage stage;
 	private static Scene scene;
 	private Parent root;
@@ -37,14 +40,16 @@ public class MenuController {
 	private static String selectedLevelName = "";
 	private static boolean profilesViewUpdated = false;
 	private static boolean levelsViewUpdated = false;
-	private final int FIRST_LETTER_OF_BUTTON_NAME = 35;
+	private final static int FIRST_LETTER_OF_BUTTON_NAME = 35;
 
 	@FXML
-	private CheckBox createdLevelsCheckBox;
+	private RadioButton createdLevelsRadioButton;
 	@FXML
-	private CheckBox defaulLevelsCheckBox;
+	private RadioButton defaultLevelsRadioButton;
 	@FXML
-	private CheckBox savedGamesCheckBox;
+	private ToggleGroup levelTypeGroup;
+	@FXML
+	private RadioButton savedGamesRadioButton;
 	@FXML
 	private Button addProfilebutton;
 	@FXML
@@ -67,7 +72,7 @@ public class MenuController {
 	 *
 	 * @param message The message to display in the alert
 	 */
-	private void alert(String message) {
+	private static void alert(String message) {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.setTitle("Alert");
@@ -227,41 +232,39 @@ public class MenuController {
 
 	////////////////////////////////////////////////////////////////////// levels
 
-	public void updateLevelsView() throws Exception {
+	@FXML
+	public void updateLevelsView() {
 		System.out.print("-");
 		if (!levelsViewUpdated) {
 			levelsViewUpdated = true;
 
-			ArrayList<String> levelNames = ProfileFileReaderV2.getLevelNames();
+			levelButtonsVBox.getChildren().clear();
 
-			// profileButtons.getChildren().clear();
-			// Display a button for each profile
+			ArrayList<String> levelNames = ProfileFileReaderV2.getLevelNames();
 			Button[] levelButtons = new Button[levelNames.size()];
 
 			for (int i = 0; i < levelNames.size(); i++) {
 				levelButtons[i] = new Button(levelNames.get(i));
 				levelButtons[i].setPrefWidth(100);
-				levelButtonsVBox.getChildren().add(levelButtons[i]);
-
+				
+				if (defaultLevelsRadioButton.isSelected() && isDefaultLevel(levelNames.get(i))) {
+					levelButtonsVBox.getChildren().add(levelButtons[i]);
+				} else if (createdLevelsRadioButton.isSelected() && isCreatedLevel(levelNames.get(i))) {
+					levelButtonsVBox.getChildren().add(levelButtons[i]);
+				} else if (savedGamesRadioButton.isSelected() &&
+						isSavedGame(levelNames.get(i))) {
+					levelButtonsVBox.getChildren().add(levelButtons[i]);
+				}
 				levelButtons[i].setOnAction(event -> {
 					levelButtonPressed(event);
 				});
-
 			}
-//			for (int i = 0; i < profButton.length; i++) {
-//				profButton[i] = new Button(s[i]);
-//				profButton[i].setPrefWidth(100);
-//				profileButtons.getChildren().add(profButton[i]);
-//
-//				final int buttonIndex = i;
-//				// Adds the action for each button
-//				profButton[i].setOnAction(event -> {
-//					ProfileFileReaderV2.loginProfile(profButton[buttonIndex].getText());
-//
-//				});
-//			}
-
 		}
+	}
+
+	public void levelTypeChanged() {
+		levelsViewUpdated = false;
+		updateLevelsView();
 	}
 
 	/**
@@ -271,7 +274,7 @@ public class MenuController {
 	 * @return name of the button
 	 * @throws Exception if source of action event wasn't button
 	 */
-	public String getButtonName(ActionEvent event) throws Exception {
+	public static String getButtonName(ActionEvent event) throws Exception {
 		String source = event.getSource().toString();
 		if (!source.contains("[styleClass=button]")) {
 			System.out.println(source);
@@ -288,7 +291,7 @@ public class MenuController {
 	 * 
 	 * @param event
 	 */
-	public void levelButtonPressed(ActionEvent event) {
+	public static void levelButtonPressed(ActionEvent event) {
 		try {
 			System.out.println(getButtonName(event));
 			selectedLevelName = getButtonName(event);
@@ -391,24 +394,18 @@ public class MenuController {
 		stage.show();
 	}
 
-	@FXML
-	void createdLevelsCheckBoxAction(ActionEvent event) {
-
-	}
-
-	@FXML
-	void defaulLevelsCheckBoxAction(ActionEvent event) {
-
-	}
-
-	@FXML
-	void savedGamesCheckBoxAction(ActionEvent event) {
-
-	}
-
 	public boolean isDefaultLevel(String levelName) {
 
 		return levelName.matches(delfaultLevelRegex);
+	}
+
+	public boolean isSavedGame(String levelName) {
+
+		return levelName.contains(savedGameStringPart) && levelName.contains(ProfileFileReaderV2.getLoggedProfile());
+	}
+
+	public boolean isCreatedLevel(String levelName) {
+		return !isSavedGame(levelName) && !isDefaultLevel(levelName);
 	}
 
 }

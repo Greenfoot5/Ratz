@@ -131,7 +131,7 @@ public class HighScoresV2 {
 	 * Creates new level in database, with no scores.
 	 * @param levelName name of new level
 	 */
-	public static void createLevel(String levelName) {
+	public static void createNewLevel(String levelName) {
 		levelsScores.add(new LevelScores(levelName));
 	}
 

@@ -30,3 +30,4 @@ level-5 -1
 Tomasz 145
 Tomasz 141
 Tomasz 117
+newLevel -1
