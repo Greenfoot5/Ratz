@@ -15,6 +15,11 @@ public class HighScoresV2 {
 
 	private static ArrayList<LevelScores> levelsScores = new ArrayList<>();
 
+	/**
+	 * Load data from text file to memory. 
+	 * Should be use only once at the start of the program.
+	 * @throws FileNotFoundException file not found
+	 */
 	public static void loadData() throws FileNotFoundException {
 		File file = new File(FILE_PATH);
 		Scanner in = new Scanner(file);
@@ -41,6 +46,12 @@ public class HighScoresV2 {
 		System.gc();
 	}
 
+	/**
+	 * Saves data from memory to a file.
+	 * Can be used many times (but it might be use only while switching the scenes).
+	 * Strongly recommended to use at the end of the program (otherwise changes are lost).
+	 * @throws IOException
+	 */
 	public static void saveDataToFile() throws IOException {
 		File file = new File(FILE_PATH);
 		File tempFile = new File("resources/temp.txt");
@@ -100,7 +111,7 @@ public class HighScoresV2 {
 	}
 
 	/**
-	 * Delete every profile score from a file.
+	 * Delete every profile score from a database.
 	 *
 	 * @param profileName name of a profile
 	 */
@@ -110,11 +121,19 @@ public class HighScoresV2 {
 		}
 	}
 
+	/**
+	 * Creates new level in database, with no scores.
+	 * @param levelName name of new level
+	 */
 	public static void createLevel(String levelName) {
 		levelsScores.add(new LevelScores(levelName));
 	}
 
-	public static void deleteLevel(String levelName) {
+	/**
+	 * Deletes level from a database, if exists.
+	 * @param levelName name of a level to delete
+	 */
+	public static void deleteLevel(String levelName) throws IllegalArgumentException{
 		if (doesLevelExist(levelName)) {
 			LevelScores levelToRemove = null;
 			for (LevelScores lvlScr : levelsScores) {
@@ -128,6 +147,11 @@ public class HighScoresV2 {
 		}
 	}
 
+	/**
+	 * Checks if level exist in database.
+	 * @param levelName  name of the level to check
+	 * @return true if level exist, false otherwise
+	 */
 	public static boolean doesLevelExist(String levelName) {
 		boolean exists = false;
 		for (LevelScores lvlScr : levelsScores) {
