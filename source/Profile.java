@@ -6,12 +6,15 @@ public class Profile {
 	
 	public Profile(String profileName, ArrayList<ProfileScore> profileScores) {
 		this.profileName = profileName;
-		profileScores = profileScores;
+		this.profileScores = profileScores;
 	}
 	
 	public Profile(String profileName) {
+
 		this.profileName = profileName;
 		ArrayList<String> levelNames = ProfileFileReaderV2.getLevelNames();
+
+		profileScores = new ArrayList<>();
 		for (String s: levelNames) {
 			profileScores.add(new ProfileScore(s, 0));
 		}
@@ -19,6 +22,7 @@ public class Profile {
 	
 	public int getBestScore(String levelName) {
 		int bestScore = 0;
+		
 		for (ProfileScore s: profileScores) {
 			if (s.getLevelName().equals(levelName)) {
 				bestScore = s.getScore();

@@ -1,5 +1,6 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Test {
 	public static void main(String[] args) throws Exception {
@@ -53,24 +54,42 @@ public class Test {
 //		System.out.println(l.getTopScores()[0].getProfileName());
 //		System.out.println(l.getTopScores()[1] == null);
 //		System.out.println(l.getTopScores()[2] == null);
-		HighScoresV2.loadData();
-		Score[] s = HighScoresV2.getTopScores("level-1");
-		for (Score str: s) {
-			if(str != null)
-			System.out.println(str.getProfileName() + " " + str.getScore());
+//		HighScoresV2.loadData();
+//		Score[] s = HighScoresV2.getTopScores("level-1");
+//		for (Score str: s) {
+//			if(str != null)
+//			System.out.println(str.getProfileName() + " " + str.getScore());
+//
+//		}
+//		HighScoresV2.safeScore("Smb", 600, "level-5");
+//		Score[] s2 = HighScoresV2.getTopScores("level-5");
+//		System.out.println(s2.length);
+//
+//		for (Score str: s2) {
+//			if(str != null)
+//			System.out.println(str.getProfileName() + " " + str.getScore());
+//
+//		}
+//
+//		HighScoresV2.safeDataToFile();
+//		System.out.println("done");
+		ProfileFileReaderV2.loadData();
+		//ProfileFileReaderV2.saveBestScore("James", "level-1", 20304);
+		ProfileFileReaderV2.createNewProfile("Mart");
+		ProfileFileReaderV2.createNewProfile("Steffan");
+//		ProfileFileReaderV2.deleteProfile("Dom");
+		
+		ArrayList<Profile> p = ProfileFileReaderV2.getProfiles();
+		for (Profile pr: p) {
+			System.out.println(pr.getProfileName());
 
 		}
-		HighScoresV2.safeScore("Smb", 600, "level-5");
-		Score[] s2 = HighScoresV2.getTopScores("level-5");
-		System.out.println(s2.length);
-
-		for (Score str: s2) {
-			if(str != null)
-			System.out.println(str.getProfileName() + " " + str.getScore());
-
-		}
-
-		HighScoresV2.safeDataToFile();
-		System.out.println("done");
+		System.out.println(ProfileFileReaderV2.getBestScore("Tony", "level-1"));
+		
+		//System.out.println(ProfileFileReaderV2.getLoggedProfile());
+		System.out.println(ProfileFileReaderV2.doesProfileExist("a"));
+		
+		ProfileFileReaderV2.saveDataToFile();
+		//System.out.println(ProfileFileReaderV2.doesProfileExist("Doam"));
 	}
 }

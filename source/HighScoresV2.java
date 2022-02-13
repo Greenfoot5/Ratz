@@ -40,7 +40,7 @@ public class HighScoresV2 {
 		System.gc();
 	}
 	
-	public static void safeDataToFile() throws IOException {
+	public static void saveDataToFile() throws IOException {
 		File file = new File(FILE_PATH);
 		File tempFile = new File("resources/temp.txt");
 		//Scanner in = new Scanner(file);
@@ -48,7 +48,7 @@ public class HighScoresV2 {
 		PrintWriter printWriter = new PrintWriter(fileWriter);
 		
 		for (LevelScores lvlScr: levelsScores) {
-			printWriter.println(lvlScr.getLevelName() + " " + "-1");
+			printWriter.println(lvlScr.getLevelName() + " -1");
 			Score[] scoresToSave = lvlScr.getTopScores();
 			for (Score scr: scoresToSave) {
 				if (scr != null) {
