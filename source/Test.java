@@ -90,11 +90,12 @@ public class Test {
 //		ProfileFileReaderV2.loadData();
 //		ProfileFileReaderV2.deleteLevel("newLvl");
 //		ProfileFileReaderV2.saveDataToFile();
-		//System.out.println(ProfileFileReaderV2.doesProfileExist("Doam"));
 		
-		HighScoresV2.loadData();
-		HighScoresV2.deleteLevel("newLevel");
-		HighScoresV2.saveDataToFile();;
+//		HighScoresV2.loadData();
+//		HighScoresV2.deleteLevel("newLevel");
+//		HighScoresV2.saveDataToFile();;
+		String s = "level-[1-5]";
+		System.out.println(s.matches("level-[1-5]"));
 		
 	}
 }

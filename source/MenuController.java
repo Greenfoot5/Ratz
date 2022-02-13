@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,28 +12,39 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 /**
  * Class to control main menu.
+ * 
  * @author Tomasz Fijalkowski
  *
  */
 public class MenuController {
 
 	private static final int PROFILES_LIMIT = 8;
+	private static final String delfaultLevelRegex = "level-[1-5]";
 	private static Stage stage;
 	private static Scene scene;
 	private Parent root;
-	//private Integer selectedLevel = 1;
+	// private Integer selectedLevel = 1;
 	private static String selectedLevelName = "";
-	private boolean profilesViewUpdated = false;
+	private static boolean profilesViewUpdated = false;
+	private static boolean levelsViewUpdated = false;
 	private final int FIRST_LETTER_OF_BUTTON_NAME = 35;
-	
+
+	@FXML
+	private CheckBox createdLevelsCheckBox;
+	@FXML
+	private CheckBox defaulLevelsCheckBox;
+	@FXML
+	private CheckBox savedGamesCheckBox;
 	@FXML
 	private Button addProfilebutton;
 	@FXML
@@ -45,6 +57,8 @@ public class MenuController {
 	private TextField newProfileTextField;
 	@FXML
 	private VBox profileButtons;
+	@FXML
+	private VBox levelButtonsVBox;
 	@FXML
 	private Button removeProfileButton;
 
@@ -81,6 +95,7 @@ public class MenuController {
 
 	/**
 	 * Changes scene to level selection.
+	 * 
 	 * @param event
 	 * @throws IOException
 	 */
@@ -97,6 +112,7 @@ public class MenuController {
 
 	/**
 	 * Changes screen to profile selection.
+	 * 
 	 * @param event
 	 * @throws IOException
 	 */
@@ -113,6 +129,7 @@ public class MenuController {
 	////////////////////////////////////////////////////////////////////////////////////// profiles
 	/**
 	 * Adds profile to database and the screen.
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -151,6 +168,7 @@ public class MenuController {
 
 	/**
 	 * Delete logged profile from database and screen.
+	 * 
 	 * @param event
 	 * @throws Exception
 	 */
@@ -174,12 +192,14 @@ public class MenuController {
 	}
 
 	/**
-	 * Update screen. Adds buttons, logged profile label (not yet), and best scores(not yet).
+	 * Update screen. Adds buttons, logged profile label (not yet), and best
+	 * scores(not yet).
+	 * 
 	 * @throws Exception
 	 */
-	public void updateProfilesView() throws Exception {
-		if (!this.profilesViewUpdated) {
-			this.profilesViewUpdated = true;
+	public void updateProfilesView() {
+		if (!profilesViewUpdated) {
+			profilesViewUpdated = true;
 
 			String[] s = { "" };
 			s = ProfileFileReaderV2.getProfiles();
@@ -207,8 +227,46 @@ public class MenuController {
 
 	////////////////////////////////////////////////////////////////////// levels
 
+	public void updateLevelsView() throws Exception {
+		System.out.print("-");
+		if (!levelsViewUpdated) {
+			levelsViewUpdated = true;
+
+			ArrayList<String> levelNames = ProfileFileReaderV2.getLevelNames();
+
+			// profileButtons.getChildren().clear();
+			// Display a button for each profile
+			Button[] levelButtons = new Button[levelNames.size()];
+
+			for (int i = 0; i < levelNames.size(); i++) {
+				levelButtons[i] = new Button(levelNames.get(i));
+				levelButtons[i].setPrefWidth(100);
+				levelButtonsVBox.getChildren().add(levelButtons[i]);
+
+				levelButtons[i].setOnAction(event -> {
+					levelButtonPressed(event);
+				});
+
+			}
+//			for (int i = 0; i < profButton.length; i++) {
+//				profButton[i] = new Button(s[i]);
+//				profButton[i].setPrefWidth(100);
+//				profileButtons.getChildren().add(profButton[i]);
+//
+//				final int buttonIndex = i;
+//				// Adds the action for each button
+//				profButton[i].setOnAction(event -> {
+//					ProfileFileReaderV2.loginProfile(profButton[buttonIndex].getText());
+//
+//				});
+//			}
+
+		}
+	}
+
 	/**
 	 * Get the text from a button.
+	 * 
 	 * @param event button pressed
 	 * @return name of the button
 	 * @throws Exception if source of action event wasn't button
@@ -219,15 +277,16 @@ public class MenuController {
 			System.out.println(source);
 
 			throw new Exception("Element is not a button");
-		} 
+		}
 		String s = event.getSource().toString();
-		//System.out.println(s.charAt(35));
+		// System.out.println(s.charAt(35));
 		return s.substring(FIRST_LETTER_OF_BUTTON_NAME, s.length() - 1);
 	}
-	
+
 	/**
 	 * Change selected level to a level with the same name as text on the button.
-	 * @param event 
+	 * 
+	 * @param event
 	 */
 	public void levelButtonPressed(ActionEvent event) {
 		try {
@@ -242,6 +301,7 @@ public class MenuController {
 
 	/**
 	 * Changes scene to start menu.
+	 * 
 	 * @param event
 	 * @throws IOException
 	 */
@@ -254,9 +314,10 @@ public class MenuController {
 		stage.setScene(scene);
 		stage.show();
 	}
-	
+
 	/**
 	 * Loads the game.
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -266,18 +327,19 @@ public class MenuController {
 			System.out.println(selectedLevelName);
 			System.out.println(stage == null);
 			System.out.println(scene == null);
-            loadLevel();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+			loadLevel();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	//************************************* Currently not in use ****************************
+	// ************************************* Currently not in use
+	// ****************************
 	/**
-     * Loads a level through the LevelController
-     *
-     * @param levelStage The stage
-     * @throws IOException If we cannot load a level
-     */
+	 * Loads a level through the LevelController
+	 *
+	 * @param levelStage The stage
+	 * @throws IOException If we cannot load a level
+	 */
 //    private void loadLevel(Stage levelStage, int levelNumber)
 //            throws IOException {
 //        LevelFileReader.loadLevelFile("./resources/levels/" + selectedLevelName);
@@ -296,40 +358,57 @@ public class MenuController {
 //
 //        levelStage.setScene(scene);
 //    }
-	
+
 	/**
 	 * Loads the game.
+	 * 
 	 * @throws IOException
 	 */
-    private void loadLevel()
-            throws IOException {
-    	System.out.println(stage == null);
+	private void loadLevel() throws IOException {
+		System.out.println(stage == null);
 		System.out.println(scene == null);
-        LevelFileReader.loadLevelFile("./resources/levels/" + selectedLevelName);
+		LevelFileReader.loadLevelFile("./resources/levels/" + selectedLevelName);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                "level.fxml"));
-        LevelController levelController = new LevelController(selectedLevelName,
-                this);
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
+		LevelController levelController = new LevelController(selectedLevelName, this);
 
-        loader.setController(levelController);
+		loader.setController(levelController);
 
-        Pane root = loader.load();
+		Pane root = loader.load();
 
-        scene = new Scene(root, root.getPrefWidth(),
-                root.getPrefHeight());
+		scene = new Scene(root, root.getPrefWidth(), root.getPrefHeight());
 
-        System.out.println(stage == null);
-        System.out.println(scene == null);
-        stage.setScene(scene);
-    }
-    
-    /**
-     * Called when a level is finished
-     */
-    public void finishLevel() {
-        stage.setScene(scene);
-        stage.show();
-    }
+		System.out.println(stage == null);
+		System.out.println(scene == null);
+		stage.setScene(scene);
+	}
+
+	/**
+	 * Called when a level is finished
+	 */
+	public void finishLevel() {
+		stage.setScene(scene);
+		stage.show();
+	}
+
+	@FXML
+	void createdLevelsCheckBoxAction(ActionEvent event) {
+
+	}
+
+	@FXML
+	void defaulLevelsCheckBoxAction(ActionEvent event) {
+
+	}
+
+	@FXML
+	void savedGamesCheckBoxAction(ActionEvent event) {
+
+	}
+
+	public boolean isDefaultLevel(String levelName) {
+
+		return levelName.matches(delfaultLevelRegex);
+	}
 
 }
