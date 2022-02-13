@@ -50,4 +50,14 @@ public class Profile {
 	public void createNewLevel(String levelName) {
 		profileScores.add(new ProfileScore(levelName, 0));
 	}
+	
+	public void deleteLevel(String levelName) {
+		ProfileScore scoreToRemove = null;
+		for (ProfileScore score: profileScores) {
+			if (score.getLevelName().equals(levelName)) {
+				scoreToRemove = score;
+			}
+		}
+		profileScores.remove(scoreToRemove);
+	}
 }

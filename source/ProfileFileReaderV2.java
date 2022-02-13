@@ -120,11 +120,11 @@ public class ProfileFileReaderV2 {
 		return exist;
 	}
 
-	public static void loginProfile(String profileName) throws Exception {
+	public static void loginProfile(String profileName) throws IllegalArgumentException {
 		if (doesProfileExist(profileName)) {
 			selectedProfile = profileName;
 		} else {
-			throw new Exception("Profile does not exist");
+			throw new IllegalArgumentException("Profile does not exist");
 		}
 	}
 
@@ -156,5 +156,33 @@ public class ProfileFileReaderV2 {
 		for (Profile p : profiles) {
 			p.createNewLevel(levelName);
 		}
+	}
+	
+	public static void deleteLevel(String levelName) throws IllegalArgumentException {
+		if (doesLevelExist(levelName)) {
+			String levelToRemove = null;
+			for (String lvlName: levelNames) {
+				if (lvlName.equals(levelName)) {
+					levelToRemove = lvlName;
+				}
+			}
+			levelNames.remove(levelToRemove);
+			
+			for (Profile p : profiles) {
+				p.deleteLevel(levelName);
+			}
+		} else {
+			throw new IllegalArgumentException("Level does not exist");
+		}
+	}
+	
+	public static boolean doesLevelExist(String levelName) {
+		boolean exists = false;
+		for (String lvlName: levelNames) {
+			if (lvlName.equals(levelName)) {
+				exists = true;
+			}
+		}
+		return exists;
 	}
 }

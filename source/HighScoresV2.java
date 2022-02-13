@@ -14,7 +14,7 @@ public class HighScoresV2 {
 	private static final int NUMBER_OF_TOP_SCORES = 10;
 
 	private static ArrayList<LevelScores> levelsScores = new ArrayList<>();
-	
+
 	public static void loadData() throws FileNotFoundException {
 		File file = new File(FILE_PATH);
 		Scanner in = new Scanner(file);
@@ -24,39 +24,40 @@ public class HighScoresV2 {
 		while (in.hasNext()) {
 			String profileName = in.next(); // or level name
 			int score = in.nextInt(); // or pointer to next level data
-			
-			if(score == -1) {
+
+			if (score == -1) {
 				levelName = profileName;
 				LevelScores levelScores = new LevelScores(levelName);
 				levelsScores.add(levelScores);
 			} else {
 				Score scoreToLoad = new Score(profileName, score);
-				levelsScores.get(levelsScores.size() - 1).safeScore(scoreToLoad);;
+				levelsScores.get(levelsScores.size() - 1).safeScore(scoreToLoad);
+				;
 			}
-			
+
 		}
 
 		in.close();
 		System.gc();
 	}
-	
+
 	public static void saveDataToFile() throws IOException {
 		File file = new File(FILE_PATH);
 		File tempFile = new File("resources/temp.txt");
-		//Scanner in = new Scanner(file);
+		// Scanner in = new Scanner(file);
 		FileWriter fileWriter = new FileWriter(tempFile, true);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
-		
-		for (LevelScores lvlScr: levelsScores) {
+
+		for (LevelScores lvlScr : levelsScores) {
 			printWriter.println(lvlScr.getLevelName() + " -1");
 			Score[] scoresToSave = lvlScr.getTopScores();
-			for (Score scr: scoresToSave) {
+			for (Score scr : scoresToSave) {
 				if (scr != null) {
 					printWriter.println(scr.getProfileName() + " " + scr.getScore());
 				}
 			}
 		}
-		
+
 		printWriter.flush();
 		printWriter.close();
 		file.delete();
@@ -108,9 +109,33 @@ public class HighScoresV2 {
 			lvlScr.deleteProfile(profileName);
 		}
 	}
-	
+
 	public static void createLevel(String levelName) {
 		levelsScores.add(new LevelScores(levelName));
+	}
+
+	public static void deleteLevel(String levelName) {
+		if (doesLevelExist(levelName)) {
+			LevelScores levelToRemove = null;
+			for (LevelScores lvlScr : levelsScores) {
+				if (lvlScr.getLevelName().equals(levelName)) {
+					levelToRemove = lvlScr;
+				}
+			}
+			levelsScores.remove(levelToRemove);
+		} else {
+			throw new IllegalArgumentException("Level does not exit");
+		}
+	}
+
+	public static boolean doesLevelExist(String levelName) {
+		boolean exists = false;
+		for (LevelScores lvlScr : levelsScores) {
+			if (lvlScr.getLevelName().equals(levelName)) {
+				exists = true;
+			}
+		}
+		return exists;
 	}
 
 }
