@@ -73,23 +73,27 @@ public class Test {
 //
 //		HighScoresV2.safeDataToFile();
 //		System.out.println("done");
-		ProfileFileReaderV2.loadData();
 		//ProfileFileReaderV2.saveBestScore("James", "level-1", 20304);
-		ProfileFileReaderV2.createNewProfile("Mart");
-		ProfileFileReaderV2.createNewProfile("Steffan");
+//		ProfileFileReaderV2.createNewProfile("Mart");
+//		ProfileFileReaderV2.createNewProfile("Steffan");
 //		ProfileFileReaderV2.deleteProfile("Dom");
 		
-		ArrayList<Profile> p = ProfileFileReaderV2.getProfiles();
-		for (Profile pr: p) {
-			System.out.println(pr.getProfileName());
-
-		}
-		System.out.println(ProfileFileReaderV2.getBestScore("Tony", "level-1"));
-		
+//		ArrayList<Profile> p = ProfileFileReaderV2.getProfiles();
+//		for (Profile pr: p) {
+//			System.out.println(pr.getProfileName());
+//
+//		}
+//		System.out.println(ProfileFileReaderV2.getBestScore("Tony", "level-1"));
 		//System.out.println(ProfileFileReaderV2.getLoggedProfile());
-		System.out.println(ProfileFileReaderV2.doesProfileExist("a"));
+		//System.out.println(ProfileFileReaderV2.doesProfileExist("a"));
 		
-		ProfileFileReaderV2.saveDataToFile();
+//		ProfileFileReaderV2.loadData();
+//		ProfileFileReaderV2.createNewLevel("newLvl");
+//		ProfileFileReaderV2.saveDataToFile();
 		//System.out.println(ProfileFileReaderV2.doesProfileExist("Doam"));
+		HighScoresV2.loadData();
+		HighScoresV2.createLevel("newLevel");;
+		HighScoresV2.saveDataToFile();;
+		
 	}
 }

@@ -46,7 +46,8 @@ public class Profile {
 	public String getProfileName() {
 		return profileName;
 	}
-
 	
-	
+	public void createNewLevel(String levelName) {
+		profileScores.add(new ProfileScore(levelName, 0));
+	}
 }

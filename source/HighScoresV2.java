@@ -89,7 +89,7 @@ public class HighScoresV2 {
 	 * @param score   achieved score you want to safe
 	 * @param level   level of the game
 	 */
-	public static void safeScore(String profileName, int score, String levelName) {
+	public static void saveScore(String profileName, int score, String levelName) {
 		for (LevelScores lvlScr : levelsScores) {
 			if (lvlScr.getLevelName().equals(levelName)) {
 				lvlScr.safeScore(new Score(profileName, score));
@@ -107,6 +107,10 @@ public class HighScoresV2 {
 		for (LevelScores lvlScr : levelsScores) {
 			lvlScr.deleteProfile(profileName);
 		}
+	}
+	
+	public static void createLevel(String levelName) {
+		levelsScores.add(new LevelScores(levelName));
 	}
 
 }

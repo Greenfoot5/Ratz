@@ -151,4 +151,10 @@ public class ProfileFileReaderV2 {
 	public static void setNumberOfLevels(int numOfLevels) {
 		numberOfLevels = numOfLevels;
 	}
+	
+	public static void createNewLevel(String levelName) {
+		for (Profile p : profiles) {
+			p.createNewLevel(levelName);
+		}
+	}
 }
