@@ -124,10 +124,10 @@ public class MenuController {
 				// Check there's at least something in the text box
 				// and the profiles doesn't already exist
 			} else if (!newProfileTextField.getText().equals("")
-					&& !ProfileFileReader.doesProfileExist(newProfileTextField.getText())) {
+					&& !ProfileFileReaderV2.doesProfileExist(newProfileTextField.getText())) {
 
-				ProfileFileReader.createNewProfile(newProfileTextField.getText());
-				ProfileFileReader.loginProfile(newProfileTextField.getText());
+				ProfileFileReaderV2.createNewProfile(newProfileTextField.getText());
+				ProfileFileReaderV2.loginProfile(newProfileTextField.getText());
 
 				newProfileTextField.setText("");
 				profilesViewUpdated = false;
@@ -158,13 +158,13 @@ public class MenuController {
 	void removeProfile(ActionEvent event) throws Exception {
 		try {
 
-			if (ProfileFileReader.getLoggedProfile() == null) {
+			if (ProfileFileReaderV2.getLoggedProfile() == null) {
 				alert("No profile is selected");
 			} else {
-				ProfileFileReader.deleteProfile(ProfileFileReader.getLoggedProfile());
-				ProfileFileReader.logout();
+				ProfileFileReaderV2.deleteProfile(ProfileFileReaderV2.getLoggedProfile());
+				ProfileFileReaderV2.logout();
 				;
-				HighScores.deleteProfile(ProfileFileReader.getLoggedProfile());
+				HighScores.deleteProfile(ProfileFileReaderV2.getLoggedProfile());
 				profilesViewUpdated = false;
 				this.updateProfilesView();
 			}
@@ -174,7 +174,7 @@ public class MenuController {
 	}
 
 	/**
-	 * Update screen. Adds buttons, logged profile label, and best scores.
+	 * Update screen. Adds buttons, logged profile label (not yet), and best scores(not yet).
 	 * @throws Exception
 	 */
 	public void updateProfilesView() throws Exception {
@@ -182,11 +182,7 @@ public class MenuController {
 			this.profilesViewUpdated = true;
 
 			String[] s = { "" };
-			try {
-				s = ProfileFileReader.getProfiles();
-			} catch (FileNotFoundException e) {
-				s[0] = "No profiles. Please Create a profile";
-			}
+			s = ProfileFileReaderV2.getProfiles();
 
 			profileButtons.getChildren().clear();
 			// Display a button for each profile
@@ -200,7 +196,7 @@ public class MenuController {
 				final int buttonIndex = i;
 				// Adds the action for each button
 				profButton[i].setOnAction(event -> {
-					ProfileFileReader.loginProfile(profButton[buttonIndex].getText());
+					ProfileFileReaderV2.loginProfile(profButton[buttonIndex].getText());
 
 				});
 			}
