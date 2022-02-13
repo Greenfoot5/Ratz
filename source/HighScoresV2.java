@@ -6,6 +6,12 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Class to manage high scores.
+ *
+ * @author Tomasz Fijalkowski
+ * @version 1.0
+ */
 public class HighScoresV2 {
 	// Path to a file storing data about scores.
 	private static final String FILE_PATH = "resources/highScores2.txt";
@@ -36,7 +42,7 @@ public class HighScoresV2 {
 				levelsScores.add(levelScores);
 			} else {
 				Score scoreToLoad = new Score(profileName, score);
-				levelsScores.get(levelsScores.size() - 1).safeScore(scoreToLoad);
+				levelsScores.get(levelsScores.size() - 1).saveScore(scoreToLoad);
 				;
 			}
 
@@ -104,7 +110,7 @@ public class HighScoresV2 {
 	public static void saveScore(String profileName, int score, String levelName) {
 		for (LevelScores lvlScr : levelsScores) {
 			if (lvlScr.getLevelName().equals(levelName)) {
-				lvlScr.safeScore(new Score(profileName, score));
+				lvlScr.saveScore(new Score(profileName, score));
 				;
 			}
 		}

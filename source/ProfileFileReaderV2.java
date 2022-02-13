@@ -6,6 +6,12 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Class to manage profiles and their best scores.
+ * 
+ * @author Tomasz Fijalkowski
+ * 
+ */
 public class ProfileFileReaderV2 {
 	private static final String FILE_PATH = "resources/profileFile2.txt";
 	private static String selectedProfile = null;
