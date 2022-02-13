@@ -98,6 +98,17 @@ public class MenuController {
 		window.showAndWait();
 	}
 
+	public void changeToLevelCreation(ActionEvent event) throws IOException {
+		System.out.println("move to level creation");
+		root = FXMLLoader.load(getClass().getResource("levelCreation.fxml"));
+		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		System.out.println(stage == null);
+		System.out.println(scene == null);
+		stage.setScene(scene);
+		stage.show();
+	}
+
 	/**
 	 * Changes scene to level selection.
 	 * 
@@ -246,13 +257,12 @@ public class MenuController {
 			for (int i = 0; i < levelNames.size(); i++) {
 				levelButtons[i] = new Button(levelNames.get(i));
 				levelButtons[i].setPrefWidth(100);
-				
+
 				if (defaultLevelsRadioButton.isSelected() && isDefaultLevel(levelNames.get(i))) {
 					levelButtonsVBox.getChildren().add(levelButtons[i]);
 				} else if (createdLevelsRadioButton.isSelected() && isCreatedLevel(levelNames.get(i))) {
 					levelButtonsVBox.getChildren().add(levelButtons[i]);
-				} else if (savedGamesRadioButton.isSelected() &&
-						isSavedGame(levelNames.get(i))) {
+				} else if (savedGamesRadioButton.isSelected() && isSavedGame(levelNames.get(i))) {
 					levelButtonsVBox.getChildren().add(levelButtons[i]);
 				}
 				levelButtons[i].setOnAction(event -> {
@@ -264,6 +274,7 @@ public class MenuController {
 
 	public void levelTypeChanged() {
 		levelsViewUpdated = false;
+		selectedLevelName = "";
 		updateLevelsView();
 	}
 
