@@ -17,9 +17,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
+/**
+ * Class to control main menu.
+ * @author Tomasz Fijalkowski
+ *
+ */
 public class MenuController {
 
+	private static final int PROFILES_LIMIT = 8;
 	private static Stage stage;
 	private static Scene scene;
 	private Parent root;
@@ -74,6 +79,11 @@ public class MenuController {
 		window.showAndWait();
 	}
 
+	/**
+	 * Changes scene to level selection.
+	 * @param event
+	 * @throws IOException
+	 */
 	public void changeToLevelSelection(ActionEvent event) throws IOException {
 		System.out.println("move to level selection");
 		root = FXMLLoader.load(getClass().getResource("levelsSelection.fxml"));
@@ -85,6 +95,11 @@ public class MenuController {
 		stage.show();
 	}
 
+	/**
+	 * Changes screen to profile selection.
+	 * @param event
+	 * @throws IOException
+	 */
 	public void changeToProfileSelection(ActionEvent event) throws IOException {
 		System.out.println("move to profile selection");
 
@@ -96,11 +111,15 @@ public class MenuController {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////// profiles
+	/**
+	 * Adds profile to database and the screen.
+	 * @param event
+	 */
 	@FXML
 	void addProfile(ActionEvent event) {
 		try {
 			// Check we don't have too many profiles already
-			if (profileButtons.getChildren().size() > 8) {
+			if (profileButtons.getChildren().size() > PROFILES_LIMIT) {
 				alert("Too many profiles!");
 				// Check there's at least something in the text box
 				// and the profiles doesn't already exist
@@ -130,6 +149,11 @@ public class MenuController {
 
 	}
 
+	/**
+	 * Delete logged profile from database and screen.
+	 * @param event
+	 * @throws Exception
+	 */
 	@FXML
 	void removeProfile(ActionEvent event) throws Exception {
 		try {
@@ -149,6 +173,10 @@ public class MenuController {
 		}
 	}
 
+	/**
+	 * Update screen. Adds buttons, logged profile label, and best scores.
+	 * @throws Exception
+	 */
 	public void updateProfilesView() throws Exception {
 		if (!this.profilesViewUpdated) {
 			this.profilesViewUpdated = true;
@@ -183,6 +211,12 @@ public class MenuController {
 
 	////////////////////////////////////////////////////////////////////// levels
 
+	/**
+	 * Get the text from a button.
+	 * @param event button pressed
+	 * @return name of the button
+	 * @throws Exception if source of action event wasn't button
+	 */
 	public String getButtonName(ActionEvent event) throws Exception {
 		String source = event.getSource().toString();
 		if (!source.contains("[styleClass=button]")) {
@@ -195,6 +229,10 @@ public class MenuController {
 		return s.substring(FIRST_LETTER_OF_BUTTON_NAME, s.length() - 1);
 	}
 	
+	/**
+	 * Change selected level to a level with the same name as text on the button.
+	 * @param event 
+	 */
 	public void levelButtonPressed(ActionEvent event) {
 		try {
 			System.out.println(getButtonName(event));
@@ -206,6 +244,11 @@ public class MenuController {
 		}
 	}
 
+	/**
+	 * Changes scene to start menu.
+	 * @param event
+	 * @throws IOException
+	 */
 	public void changeToMenu(ActionEvent event) throws IOException {
 		System.out.println("move to menu");
 
@@ -216,6 +259,10 @@ public class MenuController {
 		stage.show();
 	}
 	
+	/**
+	 * Loads the game.
+	 * @param event
+	 */
 	@FXML
 	void playTheGame(ActionEvent event) {
 		try {
@@ -228,7 +275,7 @@ public class MenuController {
             e.printStackTrace();
         }
 	}
-	
+	//************************************* Currently not in use ****************************
 	/**
      * Loads a level through the LevelController
      *
@@ -253,6 +300,11 @@ public class MenuController {
 //
 //        levelStage.setScene(scene);
 //    }
+	
+	/**
+	 * Loads the game.
+	 * @throws IOException
+	 */
     private void loadLevel()
             throws IOException {
     	System.out.println(stage == null);

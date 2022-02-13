@@ -7,6 +7,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * The main class to begin, and the one that handles the main menu
+ *
+ * @author Tomaszs Fijalkowski
+ * @version 1.0
+ */
 public class Menu extends Application{
 	
 	Stage rootStage = null;
