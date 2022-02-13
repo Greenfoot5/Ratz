@@ -88,11 +88,11 @@ public class Test {
 		//System.out.println(ProfileFileReaderV2.doesProfileExist("a"));
 		
 		ProfileFileReaderV2.loadData();
-		ProfileFileReaderV2.createNewLevel("newLevel");
+		ProfileFileReaderV2.createNewLevel("level-1-inProgress-Alex");
 		ProfileFileReaderV2.saveDataToFile();
 		
 		HighScoresV2.loadData();
-		HighScoresV2.createNewLevel("newLevel");
+		HighScoresV2.createNewLevel("level-1-inProgress-Alex");
 		HighScoresV2.saveDataToFile();
 //		String s = "level-[1-5]";
 //		System.out.println(s.matches(null));

@@ -32,7 +32,7 @@ public class MenuController {
 
 	private static final int PROFILES_LIMIT = 8;
 	private static final String delfaultLevelRegex = "level-[1-5]";
-	private static final String savedGameStringPart = "inProgres";
+	private static final String savedGameStringPart = "inProgress";
 	private static Stage stage;
 	private static Scene scene;
 	private Parent root;
@@ -116,14 +116,18 @@ public class MenuController {
 	 * @throws IOException
 	 */
 	public void changeToLevelSelection(ActionEvent event) throws IOException {
-		System.out.println("move to level selection");
-		root = FXMLLoader.load(getClass().getResource("levelsSelection.fxml"));
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		System.out.println(stage == null);
-		System.out.println(scene == null);
-		stage.setScene(scene);
-		stage.show();
+		if (ProfileFileReaderV2.getLoggedProfile() != null) {
+			System.out.println("move to level selection");
+			root = FXMLLoader.load(getClass().getResource("levelsSelection.fxml"));
+			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			System.out.println(stage == null);
+			System.out.println(scene == null);
+			stage.setScene(scene);
+			stage.show();
+		} else {
+			alert("You need to log in");
+		}
 	}
 
 	/**
@@ -226,7 +230,7 @@ public class MenuController {
 
 			for (int i = 0; i < profButton.length; i++) {
 				profButton[i] = new Button(s[i]);
-				profButton[i].setPrefWidth(100);
+				profButton[i].setPrefWidth(200);
 				profileButtons.getChildren().add(profButton[i]);
 
 				final int buttonIndex = i;

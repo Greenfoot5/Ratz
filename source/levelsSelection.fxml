@@ -34,7 +34,7 @@
                   <RadioButton fx:id="createdLevelsRadioButton" mnemonicParsing="false" onAction="#levelTypeChanged" text="Created Levels" toggleGroup="$levelTypeGroup" />
                </children>
             </VBox>
-            <VBox fx:id="levelButtonsVBox" prefHeight="200.0" prefWidth="100.0" />
+            <VBox fx:id="levelButtonsVBox" />
          </children>
       </VBox>
    </left>
