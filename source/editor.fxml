@@ -4,10 +4,14 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="896.0" prefWidth="1324.0" styleClass="root" stylesheets="@editor.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
 	<center>
@@ -50,6 +54,64 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </HBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <HBox prefHeight="70.0" prefWidth="284.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Width:">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin></Text>
+                                    <TextField fx:id="widthTextField">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </TextField>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets left="25.0" right="10.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Height">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin></Text>
+                                    <TextField fx:id="heightTextField">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </TextField>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </VBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <Button fx:id="sizeChangeButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#changeLevelSize" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Apply Changes">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="50.0" top="15.0" />
+                           </VBox.margin>
+                        </Button>
+                        <TextFlow prefHeight="200.0" prefWidth="200.0" styleClass="sideBarText">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                           <children>
+                              <Text fx:id="sizeChangeErrorText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" />
+                           </children></TextFlow>
+                     </children>
+                  </VBox>
                </children>
                <padding>
                   <Insets bottom="5.0" left="8.0" right="8.0" top="5.0" />

@@ -5,6 +5,12 @@
 .root{
     -fx-background-color: #2d4945;
 }
+.sideBarText{
+    -fx-fill: #00ffe4;
+    -fx-font-size: 20px;
+    -fx-text-alignment: center;
+    -fx-font-family: 'Linerama';
+}
 .sidebar{
     -fx-background-position: center;
     -fx-background-repeat: stretch;

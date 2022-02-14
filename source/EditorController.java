@@ -1,8 +1,8 @@
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,6 +11,13 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+
+import java.util.Arrays;
+
+import static java.lang.Integer.parseInt;
 
 public class EditorController {
 
@@ -32,14 +39,17 @@ public class EditorController {
     @FXML
     public Canvas levelCanvas;
 
-    public Button saveLevelButton;
-
     @FXML
     public RadioButton rbGrass;
     public RadioButton rbPath;
     public RadioButton rbTunnel;
 
     public HBox ratSpawnToolbar;
+
+    public TextField widthTextField;
+    public TextField heightTextField;
+    public TextFlow sizeChangeErrorTextFlow;
+    public Text sizeChangeErrorText;
 
     //Level map
     private static Tile[][] tileMap = new Tile[0][0];
@@ -55,6 +65,8 @@ public class EditorController {
         }
         maxRats = 20;
         parTime = 150;
+        dropRates = new int[8];
+        Arrays.fill(dropRates,1); //TODO: change these to millis when saving level, from millis when loading one
     }
 
     public void initialize() {
@@ -63,10 +75,13 @@ public class EditorController {
         setupDraggableSpawns();
         setupCanvasDrawing();
         setupCanvasDragBehaviour();
+
+        heightTextField.setText(String.valueOf(height));
+        widthTextField.setText(String.valueOf(width));
     }
 
     /**
-     *
+     * Sets up the ability to drag things onto canvas.
      */
     private void setupCanvasDragBehaviour() {
 
@@ -92,6 +107,11 @@ public class EditorController {
         });
     }
 
+    /**
+     * Handles dropping things onto canvas.
+     * @param event drag event.
+     * @param type type of item dropped.
+     */
     private void spawnDropped(DragEvent event, char type) {
         int x = (int) event.getX() / TILE_SIZE;
         int y = (int) event.getY() / TILE_SIZE;
@@ -113,6 +133,7 @@ public class EditorController {
 
         renderBoard();
     }
+
     /**
      *  Sets up ability to drag rat spawns onto tilemap.
      */
@@ -151,6 +172,7 @@ public class EditorController {
             event.consume();
         });
     }
+
     /**
      * Sets up the ability to draw selected tile onto tilemap.
      */
@@ -159,7 +181,7 @@ public class EditorController {
             int x = (int) event.getX() / TILE_SIZE;
             int y = (int) event.getY() / TILE_SIZE;
 
-            if (x < width && x >=0 && y>=0 && y < height){
+            if (x < width - 1 && x >= 1 && y >= 1 && y < height - 1){
                 if((!(tileMap[x][y].getClass() == selectedTile.getClass()))){
                     if(selectedTile instanceof Grass) {
                         tileMap[x][y] = new Grass();
@@ -176,7 +198,7 @@ public class EditorController {
             int x = (int) event.getX() / TILE_SIZE;
             int y = (int) event.getY() / TILE_SIZE;
 
-            if (x < width && x >=0 && y>=0 && y < height){
+            if (x < width - 1 && x >= 1 && y>= 1 && y < height - 1){
                 if((!(tileMap[x][y].getClass() == selectedTile.getClass()))){
                     if(selectedTile instanceof Grass) {
                         tileMap[x][y] = new Grass();
@@ -241,6 +263,10 @@ public class EditorController {
      */
     private void renderBoard() {
         GraphicsContext gc = levelCanvas.getGraphicsContext2D();
+
+        gc.setFill(Color.web("#2d4945"));
+        gc.fillRect(0,0,levelCanvas.getWidth(),levelCanvas.getHeight());
+
         if (tileMap != null) {
             for (int i = 0; i < tileMap.length; i++) {
                 for (int j = 0; j < tileMap[i].length; j++) {
@@ -251,9 +277,53 @@ public class EditorController {
     }
 
     /**
+     * Changes level size once "Apply Changes" is pressed. Unless invalid input, in which case it prompts the user to change their input.
+     */
+    @FXML
+    public void changeLevelSize() {
+        try {
+            int newWidth = parseInt(widthTextField.getText());
+            int newHeight = parseInt(heightTextField.getText());
+            if(newWidth > (levelCanvas.getWidth()/TILE_SIZE) || newWidth < 3 || newHeight > (levelCanvas.getHeight()/TILE_SIZE) || newHeight < 3) {
+                sizeChangeErrorText.setText("Maximum map size: 16x14");
+            } else {
+                sizeChangeErrorText.setText("");
+                changeTileMapSize(newWidth,newHeight);
+            }
+        } catch (NumberFormatException nfe) {
+            sizeChangeErrorText.setText("Please enter an integer number");
+        }
+    }
+
+    /**
+     * Changes size of tile map. For levels that need to be made bigger, replaces empty space with grass.
+     * @param newWidth width of new tile map.
+     * @param newHeight height of new tile map.
+     */
+    private void changeTileMapSize(int newWidth, int newHeight) {
+        Tile[][] newTileMap = new Tile[newWidth][newHeight];
+
+        for(int i = 0; i < newWidth ; i++) {
+            for(int j = 0; j < newHeight; j++) {
+                if((i >= tileMap.length) || (j >= tileMap[0].length) || (i == newWidth-1) || (j == newHeight-1)) {
+                    newTileMap[i][j] = new Grass();
+                } else {
+                    newTileMap[i][j] = tileMap[i][j];
+                }
+            }
+        }
+        tileMap = newTileMap;
+        width = newWidth;
+        height = newHeight;
+        renderBoard();
+    }
+
+    /**
      * Saves level once "Save Level" button is pressed.
      */
+    @FXML
     public void saveLevel() {
         System.out.println("Can't do that yet :(");
+        //TODO: add actual saving
     }
 }
