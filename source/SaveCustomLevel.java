@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class SaveCustomLevel {
 		setMaxRats(maxRats);
 		setParTime(parTime);
 		setDropRates(dropRates);
-		
+		rats = getRats();
 		createNewLevelFile(name);
 	}
 	
@@ -172,9 +173,18 @@ public class SaveCustomLevel {
 	 * @return an ArrayList of Rat objects
 	 */
 	public ArrayList<Rat> getRats() {
+		ArrayList<Rat> rats = new ArrayList<Rat>();
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				rats.addAll(map[y][x].getOccupantRats());
+				if (map[y][x].getOccupantRats().size() == 0) {
+					
+				}
+				else {
+					ArrayList<Rat> occRats = (map[y][x].getOccupantRats());
+					for (int i = 0; i < occRats.size(); i++) {
+						rats.add(occRats.get(i));
+					}
+				}
 			}
 		}
 		return rats;
@@ -203,35 +213,39 @@ public class SaveCustomLevel {
 	/**
 	 * Writes to a the new file in a format able to be read by level reader
 	 * @param f file being passed
-	 * @throws FileNotFoundException
+	 * @throws IOException 
 	 */
-	public void writeNewFile(File f) throws FileNotFoundException {
-		PrintWriter p = new PrintWriter(f);
+	public void writeNewFile(File f) throws IOException {
+		FileWriter p = new FileWriter(getPathName());
 		p.write(width + "," + height + "," + maxRats + "," + parTime);
-		p.write("/n");
+		p.write("\n");
 		for (int i = 0; i < 7; i++) {
-			p.write(dropRates[i]);
+			p.write(dropRates[i]+"");
 			if (i != 7)
 				p.write(",");
 		}
-		p.write("/n");
+		p.write("\n");
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				if (map[y][x] instanceof Grass) {
 					p.write("G");
 				}
 				else if (map[y][x] instanceof Path) {
-					p.write("p");
+					p.write("P");
 				}
 				else if (map[y][x] instanceof Tunnel) {
 					p.write("T");
 				}
 			}
-			p.write("/n");
+			p.write("\n");
 		}
-		for (int i = 0; i < rats.size(); i++) {
+		for (int i = 1; i < rats.size(); i++) {
+			p.write("(");
 			p.write(LevelFileReader.ratToStr(rats.get(i)));
+			p.write(")");
+			p.write("\n");
 		}
+		p.close();
 	}
 	
 }

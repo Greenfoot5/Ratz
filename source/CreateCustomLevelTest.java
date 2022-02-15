@@ -1,4 +1,9 @@
-public class CreateCustomLevelTest {
+import javafx.application.Application;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
+
+public class CreateCustomLevelTest extends Application {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -22,8 +27,14 @@ public class CreateCustomLevelTest {
 		
 		
 		AdultMale r = new AdultMale(1, Rat.Direction.NORTH, 0, 1, 1, true);
+		AdultMale l = new AdultMale(1, Rat.Direction.NORTH, 0, 1, 1, false);
 		map[0][0].addOccupantRat(r);
+		map[1][1].addOccupantRat(l);
 		SaveCustomLevel s = new SaveCustomLevel("BEEFYSTU", width, height, map, maxRats, parTime, dropRates);
+		launch(args);
 	}
-
+	
+	public void start(Stage primaryStage) {
+		
+	}
 }
