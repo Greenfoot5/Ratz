@@ -65,6 +65,8 @@ public class MenuController {
 	@FXML
 	private VBox levelButtonsVBox;
 	@FXML
+	private VBox profileScoresVBox;
+	@FXML
 	private Button removeProfileButton;
 
 	/**
@@ -96,6 +98,24 @@ public class MenuController {
 		window.setScene(scene);
 		window.setResizable(false);
 		window.showAndWait();
+	}
+	
+	/**
+	 * Changes scene to start menu.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
+	public void changeToMenu(ActionEvent event) throws IOException {
+		System.out.println("move to menu");
+		profilesViewUpdated = false;
+		levelsViewUpdated = false;
+		
+		root = FXMLLoader.load(getClass().getResource("menu2.fxml"));
+		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
 	}
 
 	public void changeToLevelCreation(ActionEvent event) throws IOException {
@@ -254,25 +274,45 @@ public class MenuController {
 			levelsViewUpdated = true;
 
 			levelButtonsVBox.getChildren().clear();
-
-			ArrayList<String> levelNames = ProfileFileReaderV2.getLevelNames();
-			Button[] levelButtons = new Button[levelNames.size()];
+			ArrayList<String> levelNames = null;
+			Button[] levelButtons;
+			
+			if (defaultLevelsRadioButton.isSelected()) {
+				levelNames = ProfileFileReaderV2.getDeafaultLevelsNames();
+			} else if (createdLevelsRadioButton.isSelected()) {
+				levelNames = ProfileFileReaderV2.getCreatedLevelsNames();
+			} else if (savedGamesRadioButton.isSelected()) {
+				System.out.println(ProfileFileReaderV2.getLoggedProfile());
+				levelNames = ProfileFileReaderV2.getSavedGamesNames(ProfileFileReaderV2.getLoggedProfile());
+			}
+			levelButtons = new Button[levelNames.size()];
 
 			for (int i = 0; i < levelNames.size(); i++) {
 				levelButtons[i] = new Button(levelNames.get(i));
 				levelButtons[i].setPrefWidth(100);
-
-				if (defaultLevelsRadioButton.isSelected() && isDefaultLevel(levelNames.get(i))) {
-					levelButtonsVBox.getChildren().add(levelButtons[i]);
-				} else if (createdLevelsRadioButton.isSelected() && isCreatedLevel(levelNames.get(i))) {
-					levelButtonsVBox.getChildren().add(levelButtons[i]);
-				} else if (savedGamesRadioButton.isSelected() && isSavedGame(levelNames.get(i))) {
-					levelButtonsVBox.getChildren().add(levelButtons[i]);
-				}
+				levelButtonsVBox.getChildren().add(levelButtons[i]);
 				levelButtons[i].setOnAction(event -> {
 					levelButtonPressed(event);
 				});
 			}
+//			ArrayList<String> levelNames = ProfileFileReaderV2.getLevelNames();
+//			Button[] levelButtons = new Button[levelNames.size()];
+//
+//			for (int i = 0; i < levelNames.size(); i++) {
+//				levelButtons[i] = new Button(levelNames.get(i));
+//				levelButtons[i].setPrefWidth(100);
+//
+//				if (defaultLevelsRadioButton.isSelected() && isDefaultLevel(levelNames.get(i))) {
+//					levelButtonsVBox.getChildren().add(levelButtons[i]);
+//				} else if (createdLevelsRadioButton.isSelected() && isCreatedLevel(levelNames.get(i))) {
+//					levelButtonsVBox.getChildren().add(levelButtons[i]);
+//				} else if (savedGamesRadioButton.isSelected() && isSavedGame(levelNames.get(i))) {
+//					levelButtonsVBox.getChildren().add(levelButtons[i]);
+//				}
+//				levelButtons[i].setOnAction(event -> {
+//					levelButtonPressed(event);
+//				});
+//			}
 		}
 	}
 
@@ -317,21 +357,6 @@ public class MenuController {
 		}
 	}
 
-	/**
-	 * Changes scene to start menu.
-	 * 
-	 * @param event
-	 * @throws IOException
-	 */
-	public void changeToMenu(ActionEvent event) throws IOException {
-		System.out.println("move to menu");
-
-		root = FXMLLoader.load(getClass().getResource("menu2.fxml"));
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
 
 	/**
 	 * Loads the game.

@@ -11,7 +11,7 @@
    <left>
       <VBox fx:id="profileButtons" alignment="CENTER" prefHeight="282.0" prefWidth="136.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="l1" prefHeight="147.0" prefWidth="170.0" text="Profile buttons go here" />
+            <Label fx:id="l1" prefHeight="147.0" prefWidth="170.0" text="Loading buttons..." />
          </children>
       </VBox>
    </left>
@@ -42,6 +42,9 @@
       </HBox>
    </top>
    <center>
-      <VBox fx:id="bestScoresLabel" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+      <VBox fx:id="profileScoresVBox" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Loading scores..." />
+         </children></VBox>
    </center>
 </BorderPane>

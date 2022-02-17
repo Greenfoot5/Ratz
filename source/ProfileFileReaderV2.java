@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -20,8 +21,9 @@ public class ProfileFileReaderV2 {
 	private static ArrayList<String> levelNames = new ArrayList<>();
 
 	/**
-	 * Load data from text file to memory. 
-	 * Should be use only once at the start of the program.
+	 * Load data from text file to memory. Should be use only once at the start of
+	 * the program.
+	 * 
 	 * @throws FileNotFoundException file not found
 	 */
 	public static void loadData() throws FileNotFoundException {
@@ -55,9 +57,10 @@ public class ProfileFileReaderV2 {
 	}
 
 	/**
-	 * Saves data from memory to a file.
-	 * Can be used many times (but it might be use only while switching the scenes).
-	 * Strongly recommended to use at the end of the program (otherwise changes are lost).
+	 * Saves data from memory to a file. Can be used many times (but it might be use
+	 * only while switching the scenes). Strongly recommended to use at the end of
+	 * the program (otherwise changes are lost).
+	 * 
 	 * @throws IOException
 	 */
 	public static void saveDataToFile() throws IOException {
@@ -78,7 +81,7 @@ public class ProfileFileReaderV2 {
 			ArrayList<ProfileScore> profilesToSave = profile.getProfileScores();
 			for (ProfileScore score : profilesToSave) {
 				if (score != null) {
-					printWriter.print(score.getLevelName() + " " + score.getScore() +  " ");
+					printWriter.print(score.getLevelName() + " " + score.getScore() + " ");
 				}
 			}
 		}
@@ -94,7 +97,7 @@ public class ProfileFileReaderV2 {
 	/**
 	 * Create new profile with chosen name.
 	 * 
-	 * @param profileName	name of a profile
+	 * @param profileName name of a profile
 	 */
 	public static void createNewProfile(String profileName) {
 		if (doesProfileExist(profileName)) {
@@ -104,10 +107,9 @@ public class ProfileFileReaderV2 {
 	}
 
 	/**
-	 * Delete profile from memory.
-	 * If name is not in the memory then does nothing.
+	 * Delete profile from memory. If name is not in the memory then does nothing.
 	 * 
-	 * @param profileName	name of a profile
+	 * @param profileName name of a profile
 	 */
 	public static void deleteProfile(String profileName) {
 		Profile profileToRemove = null;
@@ -122,9 +124,9 @@ public class ProfileFileReaderV2 {
 	/**
 	 * Return best profile score for the specified level.
 	 *
-	 * @param profileName	name of a profile
-	 * @param level			level which you want to safe score
-	 * @return best 		player score
+	 * @param profileName name of a profile
+	 * @param level       level which you want to safe score
+	 * @return best player score
 	 */
 	public static int getBestScore(String profileName, String levelName) {
 		int bestScore = 0;
@@ -135,12 +137,13 @@ public class ProfileFileReaderV2 {
 		}
 		return bestScore;
 	}
+
 	/**
 	 * Save score if it is new best score for specified level.
 	 *
-	 * @param profileName	name of a profile
-	 * @param level			level which you want to safe score
-	 * @param score 		score you want to safe
+	 * @param profileName name of a profile
+	 * @param level       level which you want to safe score
+	 * @param score       score you want to safe
 	 */
 	public static void saveBestScore(String profileName, String levelName, int score) {
 		for (Profile p : profiles) {
@@ -153,7 +156,7 @@ public class ProfileFileReaderV2 {
 	/**
 	 * Check if a profile exist in database.
 	 *
-	 * @param profileName				name of a profile
+	 * @param profileName name of a profile
 	 * @return true if profile exist, false otherwise
 	 */
 	public static boolean doesProfileExist(String profileName) {
@@ -169,7 +172,7 @@ public class ProfileFileReaderV2 {
 	/**
 	 * Login to a selected profile.
 	 *
-	 * @param profileName	name of a profile
+	 * @param profileName name of a profile
 	 */
 	public static void loginProfile(String profileName) throws IllegalArgumentException {
 		if (doesProfileExist(profileName)) {
@@ -179,14 +182,13 @@ public class ProfileFileReaderV2 {
 		}
 	}
 
-
 	/**
 	 * Logout the user.
 	 */
 	public static void logout() {
 		selectedProfile = null;
 	}
-	
+
 	/**
 	 * Get all registered profiles names.
 	 *
@@ -211,14 +213,65 @@ public class ProfileFileReaderV2 {
 
 	/**
 	 * Gets array list of level names.
+	 * 
 	 * @return array list of level names
 	 */
 	public static ArrayList<String> getLevelNames() {
 		return levelNames;
 	}
 
+	public static ArrayList<String> getDeafaultLevelsNames() {
+		// Creating a File object for directory
+		File directoryPath = new File("resources\\levels\\default_levels");
+
+		// List of all files and directories
+		String[] contents = directoryPath.list();
+		ArrayList<String> levels = new ArrayList<>();
+
+		assert contents != null;
+		for (String content : contents) {
+			levels.add(content.substring(0, content.length() - 4));
+		}
+
+		return levels;
+	}
+
+	public static ArrayList<String> getCreatedLevelsNames() {
+		// Creating a File object for directory
+		File directoryPath = new File("resources\\levels\\created_levels");
+
+		// List of all files and directories
+		String[] contents = directoryPath.list();
+		ArrayList<String> levels = new ArrayList<>();
+
+		assert contents != null;
+		for (String content : contents) {
+			levels.add(content.substring(0, content.length() - 4));
+		}
+
+		return levels;
+	}
+
+	public static ArrayList<String> getSavedGamesNames(String profileName) {
+		// Creating a File object for directory
+		File directoryPath = new File("resources\\levels\\saved_games\\" + profileName);
+
+		// List of all files and directories
+		String[] contents = directoryPath.list();
+		ArrayList<String> levels = new ArrayList<>();
+
+		if (contents != null) {
+			for (String content : contents) {
+				levels.add(content.substring(0, content.length() - 4));
+			}
+		}
+
+		return levels;
+	}
+
 	/**
 	 * Gets number of levels.
+	 * 
 	 * @return number of levels
 	 */
 	public static int getNumberOfLevels() {
@@ -226,7 +279,8 @@ public class ProfileFileReaderV2 {
 	}
 
 	/**
-     * Gets the name of the profile currently logged in
+	 * Gets the name of the profile currently logged in
+	 * 
 	 * @return name of a profile which is logged in
 	 */
 	public static String getLoggedProfile() {
@@ -240,9 +294,10 @@ public class ProfileFileReaderV2 {
 //	public static void setNumberOfLevels(int numOfLevels) {
 //		numberOfLevels = numOfLevels;
 //	}
-	
+
 	/**
 	 * Create new level in database with chosen name.
+	 * 
 	 * @param levelName name of the level
 	 */
 	public static void createNewLevel(String levelName) {
@@ -252,22 +307,23 @@ public class ProfileFileReaderV2 {
 		numberOfLevels++;
 		levelNames.add(levelName);
 	}
-	
+
 	/**
 	 * Deletes level from database.
-	 * @param levelName	name of the level to delete
+	 * 
+	 * @param levelName name of the level to delete
 	 * @throws IllegalArgumentException if level not exist
 	 */
 	public static void deleteLevel(String levelName) throws IllegalArgumentException {
 		if (doesLevelExist(levelName)) {
 			String levelToRemove = null;
-			for (String lvlName: levelNames) {
+			for (String lvlName : levelNames) {
 				if (lvlName.equals(levelName)) {
 					levelToRemove = lvlName;
 				}
 			}
 			levelNames.remove(levelToRemove);
-			
+
 			for (Profile p : profiles) {
 				p.deleteLevel(levelName);
 			}
@@ -275,15 +331,16 @@ public class ProfileFileReaderV2 {
 			throw new IllegalArgumentException("Level does not exist");
 		}
 	}
-	
+
 	/**
 	 * Checks if level exist in database.
-	 * @param levelName  name of the level to check
+	 * 
+	 * @param levelName name of the level to check
 	 * @return true if level exist, false otherwise
 	 */
 	public static boolean doesLevelExist(String levelName) {
 		boolean exists = false;
-		for (String lvlName: levelNames) {
+		for (String lvlName : levelNames) {
 			if (lvlName.equals(levelName)) {
 				exists = true;
 			}
