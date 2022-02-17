@@ -25,7 +25,15 @@
     -fx-font-size: 18px;
     -fx-font-family: 'Linerama';
 }
-
+.dialogueBox{
+    -fx-background-image: url('../../../resources/gui/editor-dialogue-box.png');
+    -fx-font-family: 'Linerama';
+}
+.dialogueTitle{
+    -fx-font-size: 30px;
+    -fx-text-alignment: center;
+    -fx-fill: #00ffe4;
+}
 .radio-button > .radio {
     -fx-background-color: transparent;
     -fx-background-insets: 0;

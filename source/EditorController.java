@@ -11,6 +11,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -48,8 +49,22 @@ public class EditorController {
 
     public TextField widthTextField;
     public TextField heightTextField;
-    public TextFlow sizeChangeErrorTextFlow;
     public Text sizeChangeErrorText;
+
+    public Pane settingsDialoguePane;
+
+    public TextField bombTextField;
+    public TextField gasTextField;
+    public TextField sterilizationTextField;
+    public TextField poisonTextField;
+    public TextField maleSwapTextField;
+    public TextField femaleSwapTextField;
+    public TextField stopSignTextField;
+    public TextField deathRatTextField;
+    public TextField[] powerTextFields;
+
+    public TextField maxRatTextField;
+    public TextField gameTimerTextField;
 
     //Level map
     private static Tile[][] tileMap = new Tile[0][0];
@@ -78,6 +93,14 @@ public class EditorController {
 
         heightTextField.setText(String.valueOf(height));
         widthTextField.setText(String.valueOf(width));
+
+        powerTextFields = new TextField[]{bombTextField, gasTextField, sterilizationTextField, poisonTextField, maleSwapTextField, femaleSwapTextField, stopSignTextField, deathRatTextField};
+        for(int i=0; i < dropRates.length; i++) {
+            powerTextFields[i].setText(String.valueOf(dropRates[i]));
+        }
+
+        maxRatTextField.setText(String.valueOf(maxRats));
+        gameTimerTextField.setText(String.valueOf(parTime));
     }
 
     /**
@@ -316,6 +339,21 @@ public class EditorController {
         width = newWidth;
         height = newHeight;
         renderBoard();
+    }
+
+    /**
+     * Displays level settings box when button is pressed.
+     */
+    public void displayLevelSettings() {
+        settingsDialoguePane.setVisible(true);
+    }
+
+    /**
+     * Saves level settings when button is pressed, unless the user has made invalid input.
+     * If they have, it prompts the user to enter something else
+     */
+    public void saveSettings() {
+        settingsDialoguePane.setVisible(false);
     }
 
     /**
