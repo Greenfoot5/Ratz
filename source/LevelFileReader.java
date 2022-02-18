@@ -188,7 +188,7 @@ public class LevelFileReader {
      * @return A string that can be read by the file reader
      */
     public static String ratToStr(Rat rat) {
-        String type;
+        String type = null;
         String speed;
         String direction;
         String gasTimer;
@@ -206,12 +206,20 @@ public class LevelFileReader {
         yPos = Integer.toString(rat.getYPos());
 
         if (rat instanceof ChildRat) {
-            if (((ChildRat) rat).isFemale()) {
-                type = "f";
 
-            } else {
+
+            if (((ChildRat) rat).getRatSex() == Rat.Sex.FEMALE) {
+                type = "f";
+            }
+            
+            if (((ChildRat) rat).getRatSex() == Rat.Sex.MALE) {
                 type = "m";
             }
+            
+            if (((ChildRat) rat).getRatSex() == Rat.Sex.INTERSEX) {
+                type = "i";
+            }
+
             if (((ChildRat) rat).getFertile()) {
                 item6 = "1";
             } else {
@@ -461,7 +469,7 @@ public class LevelFileReader {
                 isFertile = currentItem[6].equals("1");
                 int age = Integer.parseInt(currentItem[7]);
                 ChildRat newRat = new ChildRat(speed, direction, gasTimer,
-                        xPos, yPos, isFertile, age, true);
+                        xPos, yPos, isFertile, age, Rat.Sex.FEMALE);
                 RAT_ARRAY_LIST.add(newRat);
                 tileMap[xPos][yPos].addOccupantRat(newRat);
             }
@@ -478,7 +486,24 @@ public class LevelFileReader {
                 isFertile = currentItem[6].equals("1");
                 int age = Integer.parseInt(currentItem[7]);
                 ChildRat newRat = new ChildRat(speed, direction, gasTimer,
-                        xPos, yPos, isFertile, age, false);
+                        xPos, yPos, isFertile, age, Rat.Sex.MALE);
+                RAT_ARRAY_LIST.add(newRat);
+                tileMap[xPos][yPos].addOccupantRat(newRat);
+            }
+
+            // if current item is an intersex baby rat
+            else if (currentItem[0].equals("i")) {
+                int speed = Integer.parseInt(currentItem[1]);
+                int directionInt = Integer.parseInt(currentItem[2]);
+                Rat.Direction direction = directionIntToEnum(directionInt);
+                int gasTimer = Integer.parseInt(currentItem[3]);
+                int xPos = Integer.parseInt(currentItem[4]);
+                int yPos = Integer.parseInt(currentItem[5]);
+                boolean isFertile;
+                isFertile = currentItem[6].equals("1");
+                int age = Integer.parseInt(currentItem[7]);
+                ChildRat newRat = new ChildRat(speed, direction, gasTimer,
+                        xPos, yPos, isFertile, age, Rat.Sex.INTERSEX);
                 RAT_ARRAY_LIST.add(newRat);
                 tileMap[xPos][yPos].addOccupantRat(newRat);
             }

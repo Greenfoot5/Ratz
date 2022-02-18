@@ -31,6 +31,12 @@ public abstract class Rat extends GameObject {
         NORTH, EAST, SOUTH, WEST
     }
 
+    /**
+     * Sexes a rat can be.
+     */
+    public enum Sex {
+        MALE, FEMALE, INTERSEX
+    }
 
     /**
      * Rat constructor.

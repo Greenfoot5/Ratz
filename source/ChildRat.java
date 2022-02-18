@@ -10,8 +10,7 @@ import java.util.Objects;
 public class ChildRat extends LivingRat {
     private static final int GROWTH_AGE = 40;
     private int age;
-    private boolean isFemale;
-    private static final int INTERSEX_ODDS = 5;
+    private Sex sex;
 
     /**
      * ChildRat constructor.
@@ -23,13 +22,13 @@ public class ChildRat extends LivingRat {
      * @param yPos      where the rat is on the y-axis.
      * @param isFertile whether the rat can breed.
      * @param age       how old the rat is
-     * @param isFemale  whether the rat is female.
+     * @param sex       whether the rat is female, male, or intersex.
      */
     ChildRat(int speed, Direction direction, int gasTimer, int xPos,
-             int yPos, boolean isFertile, int age, boolean isFemale) {
+             int yPos, boolean isFertile, int age, Sex sex) {
         super(speed, direction, gasTimer, xPos, yPos, isFertile);
         this.age = age;
-        this.isFemale = isFemale;
+        this.sex = sex;
     }
 
     /**
@@ -43,51 +42,37 @@ public class ChildRat extends LivingRat {
         }
     }
 
-    /**
-     * Sets the rat's gender
-     *
-     * @param isFemale If the rat is female or not
-     */
-    public void setIsFemale(boolean isFemale) {
-        this.isFemale = isFemale;
+    public Sex getRatSex() {
+        return sex;
     }
 
-    /**
-     * Gets if the rat is female
-     *
-     * @return the current value of isFemale
-     */
-    public boolean isFemale() {
-        return isFemale;
+    public void setRatSex(Sex newSex) {
+        sex = newSex;
     }
 
     /**
      * Replaces this rat with an equivalent adult rat.
      */
     public void growUp() {
-        // decide if the rat is going to be intersex when it grows up
-        // yeah, I know that's not how it works
-        boolean intersex = Math.floor(Math.random() * INTERSEX_ODDS) == 1;
-        if (!intersex) {
-            if (isFemale) {
-                // make a female rat
-                AdultFemale newAdult = new AdultFemale(Rat.getDEFAULT_SPEED(),
-                        direction, gasTimer, xPos, yPos, isFertile, 0, 0);
-                Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).
-                        addOccupantRat(newAdult);
-                LevelController.ratAdded(newAdult);
-            } else {
-                // make a male rat
-                AdultMale newAdult = new AdultMale(Rat.getDEFAULT_SPEED(),
-                        direction, gasTimer, xPos, yPos, isFertile);
-                Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).
-                        addOccupantRat(newAdult);
-                LevelController.ratAdded(newAdult);
-            }
+        if (sex == Sex.FEMALE) {
+            // make a female rat
+            AdultFemale newAdult = new AdultFemale(Rat.getDEFAULT_SPEED(),
+                    direction, gasTimer, xPos, yPos, isFertile, 0, 0);
             Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).
-                    removeOccupantRat(this);
-            LevelController.ratRemoved(this);
-        } else {
+                    addOccupantRat(newAdult);
+            LevelController.ratAdded(newAdult);
+        }
+
+        if (sex == Sex.MALE) {
+            // make a male rat
+            AdultMale newAdult = new AdultMale(Rat.getDEFAULT_SPEED(),
+                    direction, gasTimer, xPos, yPos, isFertile);
+            Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).
+                    addOccupantRat(newAdult);
+            LevelController.ratAdded(newAdult);
+        }
+
+        if (sex == Sex.INTERSEX) {
             // make an intersex rat
             AdultIntersex newAdult = new AdultIntersex(Rat.getDEFAULT_SPEED(),
                     direction, gasTimer, xPos, yPos, isFertile, 0, 0);

@@ -51,7 +51,7 @@ public class MaleSwapper extends Power {
                 currentTile.removeActivePower(this);
             }
             if (r instanceof ChildRat) {
-                ((ChildRat) r).setIsFemale(false);
+                ((ChildRat) r).setRatSex(Rat.Sex.MALE);
             }
         }
     }

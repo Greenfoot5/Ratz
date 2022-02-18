@@ -53,7 +53,7 @@ public class FemaleSwapper extends Power {
             }
 
             if (r instanceof ChildRat) {
-                ((ChildRat) r).setIsFemale(true);
+                ((ChildRat) r).setRatSex(Rat.Sex.FEMALE);
             }
         }
     }

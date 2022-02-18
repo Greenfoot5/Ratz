@@ -87,13 +87,22 @@ public class AdultIntersex extends LivingRat {
     public void birth() {
         if (ratFetusCount > 0) {
             ratFetusCount--;
-            boolean newIsFemale;
-            newIsFemale = Math.round(Math.random()) == 0;
+            Sex newSex;
+            if (Math.round(Math.random()) == 0) {
+                newSex = Sex.MALE;
+            } else {
+                newSex = Sex.FEMALE;
+            }
 
-            ChildRat newBaby = new ChildRat(Rat.getDEFAULT_SPEED() * 2, direction, 0,
-                    xPos, yPos, true, 0, newIsFemale);
+            if (Math.round(Math.random() * 10) == 0) {
+                newSex = Sex.INTERSEX;
+            }
+
+            ChildRat newBaby = new ChildRat(Rat.getDEFAULT_SPEED() * 2,
+                    direction, 0, xPos, yPos, true, 0, newSex);
             LevelController.ratAdded(newBaby);
-            Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).addOccupantRat(newBaby);
+            Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).
+                    addOccupantRat(newBaby);
         }
     }
 
