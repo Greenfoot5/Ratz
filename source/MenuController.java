@@ -410,6 +410,7 @@ public class MenuController {
 	private void loadLevel() throws IOException {
 		System.out.println(stage == null);
 		System.out.println(scene == null);
+		//:TODO fix loading 
 		LevelFileReader.loadLevelFile("./resources/levels/" + selectedLevelName);
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
