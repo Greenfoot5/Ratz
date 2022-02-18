@@ -42,32 +42,19 @@ public class MenuController {
 	private static boolean levelsViewUpdated = false;
 	private final static int FIRST_LETTER_OF_BUTTON_NAME = 35;
 
-	@FXML
-	private RadioButton createdLevelsRadioButton;
-	@FXML
-	private RadioButton defaultLevelsRadioButton;
-	@FXML
-	private ToggleGroup levelTypeGroup;
-	@FXML
-	private RadioButton savedGamesRadioButton;
-	@FXML
-	private Button addProfilebutton;
-	@FXML
-	private VBox bestScoresLabel;
-	@FXML
-	private Label l1;
-	@FXML
-	private Label loggedProfileLabel;
-	@FXML
-	private TextField newProfileTextField;
-	@FXML
-	private VBox profileButtons;
-	@FXML
-	private VBox levelButtonsVBox;
-	@FXML
-	private VBox profileScoresVBox;
-	@FXML
-	private Button removeProfileButton;
+	@FXML private RadioButton createdLevelsRadioButton;
+	@FXML private RadioButton defaultLevelsRadioButton;
+	@FXML private ToggleGroup levelTypeGroup;
+	@FXML private RadioButton savedGamesRadioButton;
+	@FXML private Button addProfilebutton;
+	@FXML private VBox bestScoresLabel;
+	@FXML private Label l1;
+	@FXML private Label loggedProfileLabel;
+	@FXML private TextField newProfileTextField;
+	@FXML private VBox profileButtons;
+	@FXML private VBox levelButtonsVBox;
+	@FXML private VBox profileScoresVBox;
+	@FXML private Button removeProfileButton;
 
 	/**
 	 * Generates a popup alert
