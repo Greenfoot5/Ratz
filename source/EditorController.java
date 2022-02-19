@@ -1,6 +1,7 @@
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -14,7 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 
 import java.util.Arrays;
 
@@ -24,6 +24,9 @@ public class EditorController {
 
     private static final int TILE_SIZE = 64;
 
+    //Time between item drops
+    private final int[] dropRates;
+
     //Size of game map
     private int width;
     private int height;
@@ -31,9 +34,6 @@ public class EditorController {
     //Game losing conditions (maximum number of rats, time taken for a level)
     private int maxRats;
     private int parTime;
-
-    //Time between item drops
-    private int[] dropRates;
 
     private Tile selectedTile = new Grass();
 
@@ -67,6 +67,10 @@ public class EditorController {
     public TextField gameTimerTextField;
 
     public Text settingsErrorText;
+
+    public Button sizeChangeButton;
+    public Button levelSettingsButton;
+    public Button saveLevelButton;
 
     //Level map
     private static Tile[][] tileMap = new Tile[0][0];
@@ -347,6 +351,8 @@ public class EditorController {
      * Displays level settings box when button is pressed.
      */
     public void displayLevelSettings() {
+        setButtonDisabling(true);
+        disableCanvas();
         settingsDialoguePane.setVisible(true);
     }
 
@@ -374,6 +380,9 @@ public class EditorController {
             } else {
                 settingsErrorText.setText("");
                 settingsDialoguePane.setVisible(false);
+                setupCanvasDrawing();
+                setupCanvasDragBehaviour();
+                setButtonDisabling(false);
             }
         } catch (NumberFormatException nfe) {
             settingsErrorText.setText("Please enter integer numbers only.");
@@ -390,6 +399,29 @@ public class EditorController {
             }
         }
         return num;
+    }
+
+    private void disableCanvas() {
+        levelCanvas.setOnMousePressed(null);
+        levelCanvas.setOnMouseDragged(null);
+        levelCanvas.setOnDragDropped(null);
+        levelCanvas.setOnDragOver(null);
+    }
+
+    private void setButtonDisabling(boolean val) {
+        rbGrass.setDisable(val);
+        rbTunnel.setDisable(val);
+        rbPath.setDisable(val);
+        saveLevelButton.setDisable(val);
+        levelSettingsButton.setDisable(val);
+        sizeChangeButton.setDisable(val);
+        widthTextField.setDisable(val);
+        heightTextField.setDisable(val);
+    }
+
+    @FXML
+    public void openSavingDialogueBox() {
+
     }
 
     /**

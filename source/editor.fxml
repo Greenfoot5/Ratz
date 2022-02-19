@@ -173,7 +173,7 @@
 	<right>
 		<BorderPane prefHeight="200.0" prefWidth="300.0" styleClass="sidebar" stylesheets="@editor.css" BorderPane.alignment="CENTER">
 			<bottom>
-				<Button fx:id="openSavingDialogueBox" mnemonicParsing="false" onAction="#saveLevel" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Save Level" BorderPane.alignment="BOTTOM_CENTER">
+				<Button fx:id="saveLevelButton" mnemonicParsing="false" onAction="#openSavingDialogueBox" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Save Level" BorderPane.alignment="BOTTOM_CENTER">
 					<BorderPane.margin>
 						<Insets bottom="20.0" top="10.0" />
 					</BorderPane.margin>
