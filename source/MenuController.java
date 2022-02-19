@@ -8,14 +8,19 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.transform.Transform;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -42,9 +47,10 @@ public class MenuController {
 	private final static String PART_OF_BUTTON_NAME = "[styleClass=button]'";
 	private static final int LENGHT_OF_FIXED_PART_OF_BUTTON_NAME = 20;
 
-
-    @FXML
-    private Button deleteLevelButton;
+	@FXML
+	private VBox screen;
+	@FXML
+	private Button deleteLevelButton;
 	@FXML
 	private RadioButton editCustomLevelsRadioButton;
 	@FXML
@@ -505,8 +511,7 @@ public class MenuController {
 	public void updateLevelCreationView() {
 		if (!levelsCreationViewUpdated) {
 			levelsCreationViewUpdated = true;
-			
-			
+
 			levelsButtonsLevelCreationVBox.getChildren().clear();
 			ArrayList<String> levelNames = null;
 			Button[] levelButtons;
@@ -516,7 +521,7 @@ public class MenuController {
 			} else if (editCustomLevelsRadioButton.isSelected()) {
 				levelNames = ProfileFileReaderV2.getCreatedLevelsNames();
 			}
-			
+
 			levelButtons = new Button[levelNames.size()];
 
 			for (int i = 0; i < levelNames.size(); i++) {
@@ -525,7 +530,7 @@ public class MenuController {
 				levelsButtonsLevelCreationVBox.getChildren().add(levelButtons[i]);
 
 				levelButtons[i].setOnAction(event -> {
-					//TODO add code to edit/delete levels
+					// TODO add code to edit/delete levels
 					try {
 						selectedEditLevelName = getButtonName(event);
 						System.out.println(getButtonName(event));
@@ -544,7 +549,7 @@ public class MenuController {
 			tempFile.createNewFile();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} 
+		}
 		System.out.println(newLevelNameTextField.getText() + " " + tempFile.exists() + " - exist?");
 		ProfileFileReaderV2.createNewLevel(newLevelNameTextField.getText());
 		HighScoresV2.createNewLevel(newLevelNameTextField.getText());
@@ -552,14 +557,21 @@ public class MenuController {
 		updateLevelCreationView();
 		System.out.println("crt");
 	}
-	
+
 	public void editCreatedLevel(ActionEvent event) {
 		System.out.println("edit");
+		/*TODO use this code to store preview of created maps
+		SnapshotParameters param = new SnapshotParameters();
+		param.setTransform(Transform.scale(0.7, 0.7));
+		WritableImage snapshot = newLevelNameTextField.snapshot(param, null);
+		ImageView imgW = new ImageView(snapshot);
+		screen.getChildren().add(imgW);
+		*/
 	}
 
 	public void deleteCreatedLevel(ActionEvent event) {
 		File tempFile = new File("resources/levels/created_levels/" + selectedEditLevelName + ".txt");
-		tempFile.delete(); 
+		tempFile.delete();
 		System.out.println(selectedEditLevelName + " " + tempFile.exists() + " - exist_after_delete?");
 		ProfileFileReaderV2.deleteLevel(newLevelNameTextField.getText());
 		HighScoresV2.deleteLevel(newLevelNameTextField.getText());
@@ -572,7 +584,7 @@ public class MenuController {
 		if (editDefaultLevelsRadioButton.isSelected()) {
 			deleteLevelButton.setDisable(true);
 		} else if (editCustomLevelsRadioButton.isSelected()) {
-			deleteLevelButton.setDisable(false);			
+			deleteLevelButton.setDisable(false);
 		}
 		levelsCreationViewUpdated = false;
 		updateLevelCreationView();
