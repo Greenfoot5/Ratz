@@ -1,9 +1,6 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +9,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -32,11 +28,10 @@ public class MenuController {
 
 	private static final int PROFILES_LIMIT = 8;
 	private static final String delfaultLevelRegex = "level-[1-5]";
-	private static final String savedGameStringPart = "inProgress";
+	// private static final String savedGameStringPart = "inProgress";
 	private static Stage stage;
 	private static Scene scene;
 	private Parent root;
-	// private Integer selectedLevel = 1;
 	private static String selectedLevelName = "";
 	private static boolean profilesViewUpdated = false;
 	private static boolean levelsViewUpdated = false;
@@ -44,21 +39,40 @@ public class MenuController {
 	private final static String PART_OF_BUTTON_NAME = "[styleClass=button]'";
 	private static final int LENGHT_OF_FIXED_PART_OF_BUTTON_NAME = 20;
 
-	@FXML private VBox scoreTableLevelsVBox;
-	@FXML private Label loggedProfileMenuLabel;
-	@FXML private RadioButton createdLevelsRadioButton;
-	@FXML private RadioButton defaultLevelsRadioButton;
-	@FXML private ToggleGroup levelTypeGroup;
-	@FXML private RadioButton savedGamesRadioButton;
-	@FXML private Button addProfilebutton;
-	@FXML private VBox bestScoresLabel;
-	@FXML private Label l1;
-	@FXML private Label loggedProfileLabel;
-	@FXML private TextField newProfileTextField;
-	@FXML private VBox profileButtons;
-	@FXML private VBox levelButtonsVBox;
-	@FXML private VBox profileScoresVBox;
-	@FXML private Button removeProfileButton;
+	@FXML
+	private VBox levelsButtonsLevelCreationVBox;
+	@FXML
+	private TextField newLevelNameTextField;
+	@FXML
+	private VBox scoreTableLevelsVBox;
+	@FXML
+	private Label loggedProfileMenuLabel;
+	@FXML
+	private RadioButton createdLevelsRadioButton;
+	@FXML
+	private RadioButton defaultLevelsRadioButton;
+	@FXML
+	private ToggleGroup levelTypeGroup;
+	@FXML
+	private RadioButton savedGamesRadioButton;
+	@FXML
+	private Button addProfilebutton;
+	@FXML
+	private VBox bestScoresLabel;
+	@FXML
+	private Label l1;
+	@FXML
+	private Label loggedProfileLabel;
+	@FXML
+	private TextField newProfileTextField;
+	@FXML
+	private VBox profileButtons;
+	@FXML
+	private VBox levelButtonsVBox;
+	@FXML
+	private VBox profileScoresVBox;
+	@FXML
+	private Button removeProfileButton;
 
 	/**
 	 * Generates a popup alert
@@ -90,7 +104,7 @@ public class MenuController {
 		window.setResizable(false);
 		window.showAndWait();
 	}
-	
+
 	/**
 	 * Changes scene to start menu.
 	 * 
@@ -108,7 +122,10 @@ public class MenuController {
 		stage.setScene(scene);
 		stage.show();
 	}
-	
+
+	/**
+	 * Updates menu with name of logged profile.
+	 */
 	public void updateMenuView() {
 		if (!menuViewUpdated) {
 			menuViewUpdated = true;
@@ -116,11 +133,16 @@ public class MenuController {
 				loggedProfileMenuLabel.setText("Welcome " + ProfileFileReaderV2.getLoggedProfile());
 			} else {
 				loggedProfileMenuLabel.setText("You are not logged in. Please select profile");
-				
+
 			}
 		}
 	}
 
+	/**
+	 * Loads level creation menu.
+	 * @param event
+	 * @throws IOException
+	 */
 	public void changeToLevelCreation(ActionEvent event) throws IOException {
 		System.out.println("move to level creation");
 		root = FXMLLoader.load(getClass().getResource("levelCreation.fxml"));
@@ -235,8 +257,8 @@ public class MenuController {
 	}
 
 	/**
-	 * Update screen. Adds buttons, logged profile label (not yet), and best
-	 * scores(not yet).
+	 * Update screen. Adds buttons, logged profile label, and best
+	 * scores.
 	 * 
 	 * @throws Exception
 	 */
@@ -269,35 +291,38 @@ public class MenuController {
 				});
 			}
 
-			
 			if (ProfileFileReaderV2.getLoggedProfile() != null) {
 				loggedProfileLabel.setText(ProfileFileReaderV2.getLoggedProfile());
 				System.out.println("label set1");
 			} else {
-				loggedProfileLabel.setText("...");				
+				loggedProfileLabel.setText("...");
 				System.out.println("label set2");
 			}
 
 		}
 
 	}
-	
+
+	/**
+	 * Updates scores in profiles menu.
+	 */
 	public void updateProfilesScoreTable() {
-		
-		ArrayList<String> levelNames= ProfileFileReaderV2.getDeafaultLevelsNames();
+
+		ArrayList<String> levelNames = ProfileFileReaderV2.getDeafaultLevelsNames();
 		profileScoresVBox.getChildren().clear();
 		for (String lvl : levelNames) {
-			Label scoreLabel = new Label(lvl
-										+ " " 
-										+ ProfileFileReaderV2.getBestScore(ProfileFileReaderV2.getLoggedProfile(), lvl));
+			Label scoreLabel = new Label(
+					lvl + " " + ProfileFileReaderV2.getBestScore(ProfileFileReaderV2.getLoggedProfile(), lvl));
 			profileScoresVBox.getChildren().add(scoreLabel);
-			
+
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////// levels
 
-	@FXML
+	/**
+	 * Updates buttons and score table in level selection menu.
+	 */
 	public void updateLevelsView() {
 		System.out.print("-");
 		if (!levelsViewUpdated) {
@@ -306,7 +331,7 @@ public class MenuController {
 			levelButtonsVBox.getChildren().clear();
 			ArrayList<String> levelNames = null;
 			Button[] levelButtons;
-			
+
 			if (defaultLevelsRadioButton.isSelected()) {
 				levelNames = ProfileFileReaderV2.getDeafaultLevelsNames();
 			} else if (createdLevelsRadioButton.isSelected()) {
@@ -321,61 +346,35 @@ public class MenuController {
 				levelButtons[i] = new Button(levelNames.get(i));
 				levelButtons[i].setPrefWidth(100);
 				levelButtonsVBox.getChildren().add(levelButtons[i]);
-				
+
 				levelButtons[i].setOnAction(event -> {
-					
+
 					levelButtonPressed(event);
 					updateScoreTableLevels();
 
 				});
 			}
-			
-			//*********************Currently not in use, might be useful later
-//			ArrayList<String> levelNames = ProfileFileReaderV2.getLevelNames();
-//			Button[] levelButtons = new Button[levelNames.size()];
-//
-//			for (int i = 0; i < levelNames.size(); i++) {
-//				levelButtons[i] = new Button(levelNames.get(i));
-//				levelButtons[i].setPrefWidth(100);
-//
-//				if (defaultLevelsRadioButton.isSelected() && isDefaultLevel(levelNames.get(i))) {
-//					levelButtonsVBox.getChildren().add(levelButtons[i]);
-//				} else if (createdLevelsRadioButton.isSelected() && isCreatedLevel(levelNames.get(i))) {
-//					levelButtonsVBox.getChildren().add(levelButtons[i]);
-//				} else if (savedGamesRadioButton.isSelected() && isSavedGame(levelNames.get(i))) {
-//					levelButtonsVBox.getChildren().add(levelButtons[i]);
-//				}
-//				levelButtons[i].setOnAction(event -> {
-//					levelButtonPressed(event);
-//				});
-//			}
 		}
 	}
 
-
+	/**
+	 * Updates score table in level selection menu.
+	 */
 	public void updateScoreTableLevels() {
-
-//		ArrayList<String> levelNames= ProfileFileReaderV2.getDeafaultLevelsNames();
-//		profileScoresVBox.getChildren().clear();
-//		for (String lvl : levelNames) {
-//			Label scoreLabel = new Label(lvl
-//										+ " " 
-//										+ ProfileFileReaderV2.getBestScore(ProfileFileReaderV2.getLoggedProfile(), lvl));
-//			profileScoresVBox.getChildren().add(scoreLabel);
-//			
-//		}
 		System.out.println(selectedLevelName + "asfhf");
-		String[] scores = HighScoresV2.getTopScores(selectedLevelName); 
+		String[] scores = HighScoresV2.getTopScores(selectedLevelName);
 		scoreTableLevelsVBox.getChildren().clear();
-		
-		for (String score: scores) {
+
+		for (String score : scores) {
 			Label scrLabel = new Label(score);
 			scoreTableLevelsVBox.getChildren().add(scrLabel);
 		}
-		
-		
+
 	}
-	
+
+	/**
+	 * Change type of level buttons displayed.
+	 */
 	public void levelTypeChanged() {
 		levelsViewUpdated = false;
 		selectedLevelName = "";
@@ -392,17 +391,15 @@ public class MenuController {
 	public static String getButtonName(ActionEvent event) throws Exception {
 		String source = event.getSource().toString();
 		System.out.println(source);
-		
+
 		if (!source.contains(PART_OF_BUTTON_NAME)) {
 			System.out.println(source);
 
 			throw new Exception("Element is not a button");
 		}
-		
+
 		int buttonNameBegginingIndex = source.indexOf(PART_OF_BUTTON_NAME) + LENGHT_OF_FIXED_PART_OF_BUTTON_NAME;
 		System.out.println(buttonNameBegginingIndex);
-		//String s = event.getSource().toString();
-		// System.out.println(s.charAt(35));
 		return source.substring(buttonNameBegginingIndex, source.length() - 1);
 	}
 
@@ -422,7 +419,6 @@ public class MenuController {
 		}
 	}
 
-
 	/**
 	 * Loads the game.
 	 * 
@@ -440,36 +436,6 @@ public class MenuController {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	
-	// ************************************* Currently not in use
-	// ****************************
-	/**
-	 * Loads a level through the LevelController
-	 *
-	 * @param levelStage The stage
-	 * @throws IOException If we cannot load a level
-	 */
-//    private void loadLevel(Stage levelStage, int levelNumber)
-//            throws IOException {
-//        LevelFileReader.loadLevelFile("./resources/levels/" + selectedLevelName);
-//
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource(
-//                "level.fxml"));
-//        LevelController levelController = new LevelController(levelNumber,
-//                this);
-//
-//        loader.setController(levelController);
-//
-//        Pane root = loader.load();
-//
-//        scene = new Scene(root, root.getPrefWidth(),
-//                root.getPrefHeight());
-//
-//        levelStage.setScene(scene);
-//    }
 
 	/**
 	 * Loads the game.
@@ -479,7 +445,7 @@ public class MenuController {
 	private void loadLevel() throws IOException {
 		System.out.println(stage == null);
 		System.out.println(scene == null);
-		//:TODO fix loading 
+		// :TODO fix loading games in progress
 		String levelType = "";
 		if (defaultLevelsRadioButton.isSelected()) {
 			levelType = "default_levels/";
@@ -515,30 +481,21 @@ public class MenuController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		stage.setTitle("asd");
 		scene = new Scene(root, 800, 500);
 		stage.setScene(scene);
 		stage.show();
 	}
 
-//	public boolean isDefaultLevel(String levelName) {
-//
-//		return levelName.matches(delfaultLevelRegex);
-//	}
-//
-//	public boolean isSavedGame(String levelName) {
-//
-//		return levelName.contains(savedGameStringPart) && levelName.contains(ProfileFileReaderV2.getLoggedProfile());
-//	}
-//
-//	public boolean isCreatedLevel(String levelName) {
-//		return !isSavedGame(levelName) && !isDefaultLevel(levelName);
-//	}
+	///////////////////////////////////////////////////////////////////////////////////// level_creation
 
-	/////////////////////////////////////////////////////////////////////////////////////level creation
 	
 	void createLevel(ActionEvent event) {
-		
-    }
+
+	}
+
+	void deleteCreatedLevel(ActionEvent event) {
+
+	}
 }
