@@ -509,6 +509,15 @@ public class MenuController {
 	 * Called when a level is finished
 	 */
 	public void finishLevel() {
+		Parent root = null;
+		try {
+			root = FXMLLoader.load(getClass().getResource("menu2.fxml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		stage.setTitle("asd");
+		scene = new Scene(root, 800, 500);
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -527,4 +536,9 @@ public class MenuController {
 //		return !isSavedGame(levelName) && !isDefaultLevel(levelName);
 //	}
 
+	/////////////////////////////////////////////////////////////////////////////////////level creation
+	
+	void createLevel(ActionEvent event) {
+		
+    }
 }

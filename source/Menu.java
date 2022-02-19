@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 public class Menu extends Application{
 	
 	Stage rootStage = null;
-	
+	Scene scene;
 	public static void main(String[] args) {
         launch(args);
     }
@@ -30,9 +30,14 @@ public class Menu extends Application{
 			rootStage = primaryStage;
 		}
 		rootStage.setTitle("asd");
-		rootStage.setScene(new Scene(root, 800, 500));
+		scene = new Scene(root, 800, 500);
+		rootStage.setScene(scene);
 		rootStage.show();
 	}
 	
+	public void finishLevel() {
+		rootStage.setScene(scene);
+		rootStage.show();
+	}
 	
 }
