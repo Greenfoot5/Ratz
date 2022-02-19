@@ -244,12 +244,37 @@ public class MenuController {
 				// Adds the action for each button
 				profButton[i].setOnAction(event -> {
 					ProfileFileReaderV2.loginProfile(profButton[buttonIndex].getText());
+					System.out.print("button pressed lvl");
+					profilesViewUpdated = false;
+					updateProfilesScoreTable();
+					updateProfilesView();
 
 				});
 			}
 
+			
+			if (ProfileFileReaderV2.getLoggedProfile() != null) {
+				loggedProfileLabel.setText(ProfileFileReaderV2.getLoggedProfile());
+				System.out.println("label set1");
+			} else {
+				loggedProfileLabel.setText("...");				
+				System.out.println("label set2");
+			}
+
 		}
 
+	}
+	
+	public void updateProfilesScoreTable() {
+		ArrayList<String> levelNames= ProfileFileReaderV2.getDeafaultLevelsNames();
+		profileScoresVBox.getChildren().clear();
+		for (String lvl : levelNames) {
+			Label scoreLabel = new Label(lvl
+										+ " " 
+										+ ProfileFileReaderV2.getBestScore(ProfileFileReaderV2.getLoggedProfile(), lvl));
+			profileScoresVBox.getChildren().add(scoreLabel);
+			
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////// levels
@@ -279,9 +304,13 @@ public class MenuController {
 				levelButtons[i].setPrefWidth(100);
 				levelButtonsVBox.getChildren().add(levelButtons[i]);
 				levelButtons[i].setOnAction(event -> {
+				
 					levelButtonPressed(event);
+
 				});
 			}
+			
+			//*********************Currently not in use, might be useful later
 //			ArrayList<String> levelNames = ProfileFileReaderV2.getLevelNames();
 //			Button[] levelButtons = new Button[levelNames.size()];
 //
@@ -362,6 +391,10 @@ public class MenuController {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
+	
 	// ************************************* Currently not in use
 	// ****************************
 	/**
@@ -398,7 +431,16 @@ public class MenuController {
 		System.out.println(stage == null);
 		System.out.println(scene == null);
 		//:TODO fix loading 
-		LevelFileReader.loadLevelFile("./resources/levels/" + selectedLevelName);
+		String levelType = "";
+		if (defaultLevelsRadioButton.isSelected()) {
+			levelType = "default_levels/";
+		} else if (createdLevelsRadioButton.isSelected()) {
+			levelType = "created_levels/";
+		} else if (savedGamesRadioButton.isSelected()) {
+			System.out.println(ProfileFileReaderV2.getLoggedProfile());
+			levelType = "saved_games/" + ProfileFileReaderV2.getLoggedProfile() + "/";
+		}
+		LevelFileReader.loadLevelFile("./resources/levels/" + levelType + selectedLevelName);
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
 		LevelController levelController = new LevelController(selectedLevelName, this);

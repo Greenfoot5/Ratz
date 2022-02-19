@@ -33,16 +33,16 @@
       </HBox>
    </bottom>
    <top>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Best" />
+            <Label text="Best " />
             <Label fx:id="loggedProfileLabel" text="..." />
             <Label text="'s scores: " />
          </children>
       </HBox>
    </top>
    <center>
-      <VBox fx:id="profileScoresVBox" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="profileScoresVBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Loading scores..." />
          </children></VBox>
