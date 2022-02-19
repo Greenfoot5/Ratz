@@ -34,6 +34,7 @@ public class MenuController {
 	private static Scene scene;
 	private Parent root;
 	private static String selectedLevelName = "";
+	private static String selectedEditLevelName = "";
 	private static boolean menuViewUpdated = false;
 	private static boolean profilesViewUpdated = false;
 	private static boolean levelsViewUpdated = false;
@@ -526,6 +527,7 @@ public class MenuController {
 				levelButtons[i].setOnAction(event -> {
 					//TODO add code to edit/delete levels
 					try {
+						selectedEditLevelName = getButtonName(event);
 						System.out.println(getButtonName(event));
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -544,7 +546,8 @@ public class MenuController {
 			e.printStackTrace();
 		} 
 		System.out.println(newLevelNameTextField.getText() + " " + tempFile.exists() + " - exist?");
-		
+		ProfileFileReaderV2.createNewLevel(newLevelNameTextField.getText());
+		HighScoresV2.createNewLevel(newLevelNameTextField.getText());
 		levelsCreationViewUpdated = false;
 		updateLevelCreationView();
 		System.out.println("crt");
@@ -555,6 +558,13 @@ public class MenuController {
 	}
 
 	public void deleteCreatedLevel(ActionEvent event) {
+		File tempFile = new File("resources/levels/created_levels/" + selectedEditLevelName + ".txt");
+		tempFile.delete(); 
+		System.out.println(selectedEditLevelName + " " + tempFile.exists() + " - exist_after_delete?");
+		ProfileFileReaderV2.deleteLevel(newLevelNameTextField.getText());
+		HighScoresV2.deleteLevel(newLevelNameTextField.getText());
+		levelsCreationViewUpdated = false;
+		updateLevelCreationView();
 		System.out.println("delete");
 	}
 
