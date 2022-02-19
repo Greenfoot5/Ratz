@@ -39,7 +39,7 @@
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#editCreatedLevel" text="Edit" />
-            <Button mnemonicParsing="false" onAction="#deleteCreatedLevel" text="Delete" />
+            <Button fx:id="deleteLevelButton" disable="true" mnemonicParsing="false" onAction="#deleteCreatedLevel" text="Delete" />
             <Button mnemonicParsing="false" onAction="#changeToMenu" text="Back to menn" />
          </children>
       </VBox>

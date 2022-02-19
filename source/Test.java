@@ -100,18 +100,18 @@ public class Test {
 		//HighScoresV2.saveDataToFile();
 //		String s = "level-[1-5]";
 //		System.out.println(s.matches(null));
-		 File directoryPath = new File("resources\\levels");
-
-	        //List of all files and directories
-	        String[] contents = directoryPath.list();
-	        ArrayList<String> levels = new ArrayList<>();
-            System.out.println(contents.length);
-
-	        assert contents != null;
-	        for (String content : contents) {
-	            levels.add(content.substring(0, content.length() - 4));
-	            System.out.println(content.substring(0, content.length() - 4));
-	        }
+//		 File directoryPath = new File("resources\\levels");
+//
+//	        //List of all files and directories
+//	        String[] contents = directoryPath.list();
+//	        ArrayList<String> levels = new ArrayList<>();
+//            System.out.println(contents.length);
+//
+//	        assert contents != null;
+//	        for (String content : contents) {
+//	            levels.add(content.substring(0, content.length() - 4));
+//	            System.out.println(content.substring(0, content.length() - 4));
+//	        }
 
 //		File directoryPath = new File("resources\\levels\\saved_games\\" + "Harvey");
 //
@@ -126,7 +126,11 @@ public class Test {
 //				System.out.println(content.substring(0, content.length() - 4));
 //			}
 //			
-//		}
+////		}
+//		String f = "newwwww";
+//		File tempFile = new File("resources/levels/created_levels/" + f + ".txt");
+//		tempFile.createNewFile(); 
+//		System.out.println(f + " " + tempFile.exists() + " - exist?");
 
 	}
 }

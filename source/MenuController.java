@@ -41,6 +41,9 @@ public class MenuController {
 	private final static String PART_OF_BUTTON_NAME = "[styleClass=button]'";
 	private static final int LENGHT_OF_FIXED_PART_OF_BUTTON_NAME = 20;
 
+
+    @FXML
+    private Button deleteLevelButton;
 	@FXML
 	private RadioButton editCustomLevelsRadioButton;
 	@FXML
@@ -534,6 +537,16 @@ public class MenuController {
 	}
 
 	public void createLevel(ActionEvent event) {
+		File tempFile = new File("resources/levels/created_levels/" + newLevelNameTextField.getText() + ".txt");
+		try {
+			tempFile.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+		System.out.println(newLevelNameTextField.getText() + " " + tempFile.exists() + " - exist?");
+		
+		levelsCreationViewUpdated = false;
+		updateLevelCreationView();
 		System.out.println("crt");
 	}
 	
@@ -546,6 +559,11 @@ public class MenuController {
 	}
 
 	public void editLevelTypeChanged(ActionEvent event) {
+		if (editDefaultLevelsRadioButton.isSelected()) {
+			deleteLevelButton.setDisable(true);
+		} else if (editCustomLevelsRadioButton.isSelected()) {
+			deleteLevelButton.setDisable(false);			
+		}
 		levelsCreationViewUpdated = false;
 		updateLevelCreationView();
 	}
