@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -33,12 +34,17 @@ public class MenuController {
 	private static Scene scene;
 	private Parent root;
 	private static String selectedLevelName = "";
+	private static boolean menuViewUpdated = false;
 	private static boolean profilesViewUpdated = false;
 	private static boolean levelsViewUpdated = false;
-	private static boolean menuViewUpdated = false;
+	private static boolean levelsCreationViewUpdated = false;
 	private final static String PART_OF_BUTTON_NAME = "[styleClass=button]'";
 	private static final int LENGHT_OF_FIXED_PART_OF_BUTTON_NAME = 20;
 
+	@FXML
+	private RadioButton editCustomLevelsRadioButton;
+	@FXML
+	private RadioButton editDefaultLevelsRadioButton;
 	@FXML
 	private VBox levelsButtonsLevelCreationVBox;
 	@FXML
@@ -113,8 +119,6 @@ public class MenuController {
 	 */
 	public void changeToMenu(ActionEvent event) throws IOException {
 		System.out.println("move to menu");
-		profilesViewUpdated = false;
-		levelsViewUpdated = false;
 		menuViewUpdated = false;
 		root = FXMLLoader.load(getClass().getResource("menu2.fxml"));
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -140,10 +144,12 @@ public class MenuController {
 
 	/**
 	 * Loads level creation menu.
+	 * 
 	 * @param event
 	 * @throws IOException
 	 */
 	public void changeToLevelCreation(ActionEvent event) throws IOException {
+		levelsCreationViewUpdated = false;
 		System.out.println("move to level creation");
 		root = FXMLLoader.load(getClass().getResource("levelCreation.fxml"));
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -162,6 +168,7 @@ public class MenuController {
 	 */
 	public void changeToLevelSelection(ActionEvent event) throws IOException {
 		if (ProfileFileReaderV2.getLoggedProfile() != null) {
+			levelsViewUpdated = false;
 			System.out.println("move to level selection");
 			root = FXMLLoader.load(getClass().getResource("levelsSelection.fxml"));
 			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -183,6 +190,7 @@ public class MenuController {
 	 */
 	public void changeToProfileSelection(ActionEvent event) throws IOException {
 		System.out.println("move to profile selection");
+		profilesViewUpdated = false;
 
 		Parent root = FXMLLoader.load(getClass().getResource("profileSelection.fxml"));
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -257,8 +265,7 @@ public class MenuController {
 	}
 
 	/**
-	 * Update screen. Adds buttons, logged profile label, and best
-	 * scores.
+	 * Update screen. Adds buttons, logged profile label, and best scores.
 	 * 
 	 * @throws Exception
 	 */
@@ -490,12 +497,56 @@ public class MenuController {
 
 	///////////////////////////////////////////////////////////////////////////////////// level_creation
 
-	
-	void createLevel(ActionEvent event) {
+	@FXML
+	public void updateLevelCreationView() {
+		if (!levelsCreationViewUpdated) {
+			levelsCreationViewUpdated = true;
+			
+			
+			levelsButtonsLevelCreationVBox.getChildren().clear();
+			ArrayList<String> levelNames = null;
+			Button[] levelButtons;
 
+			if (editDefaultLevelsRadioButton.isSelected()) {
+				levelNames = ProfileFileReaderV2.getDeafaultLevelsNames();
+			} else if (editCustomLevelsRadioButton.isSelected()) {
+				levelNames = ProfileFileReaderV2.getCreatedLevelsNames();
+			}
+			
+			levelButtons = new Button[levelNames.size()];
+
+			for (int i = 0; i < levelNames.size(); i++) {
+				levelButtons[i] = new Button(levelNames.get(i));
+				levelButtons[i].setPrefWidth(100);
+				levelsButtonsLevelCreationVBox.getChildren().add(levelButtons[i]);
+
+				levelButtons[i].setOnAction(event -> {
+					//TODO add code to edit/delete levels
+					try {
+						System.out.println(getButtonName(event));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+				});
+			}
+		}
 	}
 
-	void deleteCreatedLevel(ActionEvent event) {
+	public void createLevel(ActionEvent event) {
+		System.out.println("crt");
+	}
+	
+	public void editCreatedLevel(ActionEvent event) {
+		System.out.println("edit");
+	}
 
+	public void deleteCreatedLevel(ActionEvent event) {
+		System.out.println("delete");
+	}
+
+	public void editLevelTypeChanged(ActionEvent event) {
+		levelsCreationViewUpdated = false;
+		updateLevelCreationView();
 	}
 }
