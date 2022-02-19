@@ -40,8 +40,10 @@ public class MenuController {
 	private static String selectedLevelName = "";
 	private static boolean profilesViewUpdated = false;
 	private static boolean levelsViewUpdated = false;
+	private static boolean menuViewUpdated = false;
 	private final static int FIRST_LETTER_OF_BUTTON_NAME = 35;
 
+	@FXML private Label loggedProfileMenuLabel;
 	@FXML private RadioButton createdLevelsRadioButton;
 	@FXML private RadioButton defaultLevelsRadioButton;
 	@FXML private ToggleGroup levelTypeGroup;
@@ -97,12 +99,24 @@ public class MenuController {
 		System.out.println("move to menu");
 		profilesViewUpdated = false;
 		levelsViewUpdated = false;
-		
+		menuViewUpdated = false;
 		root = FXMLLoader.load(getClass().getResource("menu2.fxml"));
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
+	}
+	
+	public void updateMenuView() {
+		if (!menuViewUpdated) {
+			menuViewUpdated = true;
+			if (ProfileFileReaderV2.getLoggedProfile() != null) {
+				loggedProfileMenuLabel.setText("Welcome " + ProfileFileReaderV2.getLoggedProfile());
+			} else {
+				loggedProfileMenuLabel.setText("You are not logged in. Please select profile");
+				
+			}
+		}
 	}
 
 	public void changeToLevelCreation(ActionEvent event) throws IOException {
@@ -228,6 +242,8 @@ public class MenuController {
 		if (!profilesViewUpdated) {
 			profilesViewUpdated = true;
 
+			updateProfilesScoreTable();
+
 			String[] s = { "" };
 			s = ProfileFileReaderV2.getProfiles();
 
@@ -246,7 +262,6 @@ public class MenuController {
 					ProfileFileReaderV2.loginProfile(profButton[buttonIndex].getText());
 					System.out.print("button pressed lvl");
 					profilesViewUpdated = false;
-					updateProfilesScoreTable();
 					updateProfilesView();
 
 				});
@@ -266,6 +281,7 @@ public class MenuController {
 	}
 	
 	public void updateProfilesScoreTable() {
+		
 		ArrayList<String> levelNames= ProfileFileReaderV2.getDeafaultLevelsNames();
 		profileScoresVBox.getChildren().clear();
 		for (String lvl : levelNames) {
