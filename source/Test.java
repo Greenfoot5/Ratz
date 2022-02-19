@@ -74,27 +74,30 @@ public class Test {
 //
 //		HighScoresV2.safeDataToFile();
 //		System.out.println("done");
-		//ProfileFileReaderV2.saveBestScore("James", "level-1", 20304);
+		// ProfileFileReaderV2.saveBestScore("James", "level-1", 20304);
 //		ProfileFileReaderV2.createNewProfile("Mart");
 //		ProfileFileReaderV2.createNewProfile("Steffan");
 //		ProfileFileReaderV2.deleteProfile("Dom");
-		
+
 //		ArrayList<Profile> p = ProfileFileReaderV2.getProfiles();
 //		for (Profile pr: p) {
 //			System.out.println(pr.getProfileName());
 //
 //		}
 //		System.out.println(ProfileFileReaderV2.getBestScore("Tony", "level-1"));
-		//System.out.println(ProfileFileReaderV2.getLoggedProfile());
-		//System.out.println(ProfileFileReaderV2.doesProfileExist("a"));
-		
+		// System.out.println(ProfileFileReaderV2.getLoggedProfile());
+		// System.out.println(ProfileFileReaderV2.doesProfileExist("a"));
+
 //		ProfileFileReaderV2.loadData();
 //		ProfileFileReaderV2.createNewLevel("level-1-inProgress-Alex");
 //		ProfileFileReaderV2.saveDataToFile();
 //		
-//		HighScoresV2.loadData();
-//		HighScoresV2.createNewLevel("level-1-inProgress-Alex");
-//		HighScoresV2.saveDataToFile();
+		HighScoresV2.loadData();
+		String[] s = HighScoresV2.getTopScores("level-1");
+		for (String ss : s) {
+			System.out.println(ss);
+		}
+		//HighScoresV2.saveDataToFile();
 //		String s = "level-[1-5]";
 //		System.out.println(s.matches(null));
 //		 File directoryPath = new File("resources\\levels\\default_levels");
@@ -109,21 +112,21 @@ public class Test {
 //	            levels.add(content.substring(0, content.length() - 4));
 //	            System.out.println(content.substring(0, content.length() - 4));
 //	        }
-		
-		File directoryPath = new File("resources\\levels\\saved_games\\" + "Harvey");
 
-		// List of all files and directories
-		String[] contents = directoryPath.list();
-		ArrayList<String> levels = new ArrayList<>();
+//		File directoryPath = new File("resources\\levels\\saved_games\\" + "Harvey");
+//
+//		// List of all files and directories
+//		String[] contents = directoryPath.list();
+//		ArrayList<String> levels = new ArrayList<>();
+//
+//		System.out.println(contents.length);
+//		if (contents != null) {
+//			for (String content : contents) {
+//				levels.add(content.substring(0, content.length() - 4));
+//				System.out.println(content.substring(0, content.length() - 4));
+//			}
+//			
+//		}
 
-		System.out.println(contents.length);
-		if (contents != null) {
-			for (String content : contents) {
-				levels.add(content.substring(0, content.length() - 4));
-				System.out.println(content.substring(0, content.length() - 4));
-			}
-			
-		}
-		
 	}
 }

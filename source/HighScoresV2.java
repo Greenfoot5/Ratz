@@ -90,7 +90,27 @@ public class HighScoresV2 {
 	 * @param level level of the game
 	 * @return array of Score
 	 */
-	public static Score[] getTopScores(String levelName) {
+	public static String[] getTopScores(String levelName) {
+		Score[] topScores = null;
+		for (LevelScores lvlScr : levelsScores) {
+			if (lvlScr.getLevelName().equals(levelName)) {
+				topScores = lvlScr.getTopScores();
+			}
+		}
+		String[] stringScores = new String[topScores.length];
+		for (int i = 0; i < topScores.length; i++) {
+			if (topScores[i] != null)
+			stringScores[i] = topScores[i].getProfileName() + " " + topScores[i].getScore();
+ 		}
+		return stringScores;
+	}
+	/**
+	 * Gets the tops scores for a level.
+	 *
+	 * @param level level of the game
+	 * @return array of Score
+	 */
+	public static Score[] getTopScoresObject(String levelName) {
 		Score[] topScores = null;
 		for (LevelScores lvlScr : levelsScores) {
 			if (lvlScr.getLevelName().equals(levelName)) {

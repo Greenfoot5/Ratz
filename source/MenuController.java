@@ -41,8 +41,10 @@ public class MenuController {
 	private static boolean profilesViewUpdated = false;
 	private static boolean levelsViewUpdated = false;
 	private static boolean menuViewUpdated = false;
-	private final static int FIRST_LETTER_OF_BUTTON_NAME = 35;
+	private final static String PART_OF_BUTTON_NAME = "[styleClass=button]'";
+	private static final int LENGHT_OF_FIXED_PART_OF_BUTTON_NAME = 20;
 
+	@FXML private VBox scoreTableLevelsVBox;
 	@FXML private Label loggedProfileMenuLabel;
 	@FXML private RadioButton createdLevelsRadioButton;
 	@FXML private RadioButton defaultLevelsRadioButton;
@@ -319,9 +321,11 @@ public class MenuController {
 				levelButtons[i] = new Button(levelNames.get(i));
 				levelButtons[i].setPrefWidth(100);
 				levelButtonsVBox.getChildren().add(levelButtons[i]);
-				levelButtons[i].setOnAction(event -> {
 				
+				levelButtons[i].setOnAction(event -> {
+					
 					levelButtonPressed(event);
+					updateScoreTableLevels();
 
 				});
 			}
@@ -348,6 +352,30 @@ public class MenuController {
 		}
 	}
 
+
+	public void updateScoreTableLevels() {
+
+//		ArrayList<String> levelNames= ProfileFileReaderV2.getDeafaultLevelsNames();
+//		profileScoresVBox.getChildren().clear();
+//		for (String lvl : levelNames) {
+//			Label scoreLabel = new Label(lvl
+//										+ " " 
+//										+ ProfileFileReaderV2.getBestScore(ProfileFileReaderV2.getLoggedProfile(), lvl));
+//			profileScoresVBox.getChildren().add(scoreLabel);
+//			
+//		}
+		System.out.println(selectedLevelName + "asfhf");
+		String[] scores = HighScoresV2.getTopScores(selectedLevelName); 
+		scoreTableLevelsVBox.getChildren().clear();
+		
+		for (String score: scores) {
+			Label scrLabel = new Label(score);
+			scoreTableLevelsVBox.getChildren().add(scrLabel);
+		}
+		
+		
+	}
+	
 	public void levelTypeChanged() {
 		levelsViewUpdated = false;
 		selectedLevelName = "";
@@ -363,14 +391,19 @@ public class MenuController {
 	 */
 	public static String getButtonName(ActionEvent event) throws Exception {
 		String source = event.getSource().toString();
-		if (!source.contains("[styleClass=button]")) {
+		System.out.println(source);
+		
+		if (!source.contains(PART_OF_BUTTON_NAME)) {
 			System.out.println(source);
 
 			throw new Exception("Element is not a button");
 		}
-		String s = event.getSource().toString();
+		
+		int buttonNameBegginingIndex = source.indexOf(PART_OF_BUTTON_NAME) + LENGHT_OF_FIXED_PART_OF_BUTTON_NAME;
+		System.out.println(buttonNameBegginingIndex);
+		//String s = event.getSource().toString();
 		// System.out.println(s.charAt(35));
-		return s.substring(FIRST_LETTER_OF_BUTTON_NAME, s.length() - 1);
+		return source.substring(buttonNameBegginingIndex, source.length() - 1);
 	}
 
 	/**
@@ -480,18 +513,18 @@ public class MenuController {
 		stage.show();
 	}
 
-	public boolean isDefaultLevel(String levelName) {
-
-		return levelName.matches(delfaultLevelRegex);
-	}
-
-	public boolean isSavedGame(String levelName) {
-
-		return levelName.contains(savedGameStringPart) && levelName.contains(ProfileFileReaderV2.getLoggedProfile());
-	}
-
-	public boolean isCreatedLevel(String levelName) {
-		return !isSavedGame(levelName) && !isDefaultLevel(levelName);
-	}
+//	public boolean isDefaultLevel(String levelName) {
+//
+//		return levelName.matches(delfaultLevelRegex);
+//	}
+//
+//	public boolean isSavedGame(String levelName) {
+//
+//		return levelName.contains(savedGameStringPart) && levelName.contains(ProfileFileReaderV2.getLoggedProfile());
+//	}
+//
+//	public boolean isCreatedLevel(String levelName) {
+//		return !isSavedGame(levelName) && !isDefaultLevel(levelName);
+//	}
 
 }

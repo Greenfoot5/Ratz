@@ -38,4 +38,11 @@
          </children>
       </VBox>
    </left>
+   <center>
+      <VBox fx:id="scoreTableLevelsVBox" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Loading..." />
+         </children>
+      </VBox>
+   </center>
 </BorderPane>
