@@ -66,6 +66,8 @@ public class EditorController {
     public TextField maxRatTextField;
     public TextField gameTimerTextField;
 
+    public Text settingsErrorText;
+
     //Level map
     private static Tile[][] tileMap = new Tile[0][0];
 
@@ -353,7 +355,41 @@ public class EditorController {
      * If they have, it prompts the user to enter something else
      */
     public void saveSettings() {
-        settingsDialoguePane.setVisible(false);
+        try{
+            maxRats = parseInt(maxRatTextField.getText());
+            parTime = parseInt(gameTimerTextField.getText());
+            boolean wrongDropRate = false;
+            for(int i = 0; i < dropRates.length; i++) {
+                dropRates[i] = parseInt(powerTextFields[i].getText());
+                if(dropRates[i] < 0) {
+                    wrongDropRate = true;
+                }
+            }
+            if(maxRats <= getNumOfRats()) {
+                settingsErrorText.setText("Please enter a valid number of rats.");
+            } else if (parTime < 0) {
+                settingsErrorText.setText("Please enter a valid game time.");
+            } else if (wrongDropRate) {
+                settingsErrorText.setText("Please enter valid drop rates.");
+            } else {
+                settingsErrorText.setText("");
+                settingsDialoguePane.setVisible(false);
+            }
+        } catch (NumberFormatException nfe) {
+            settingsErrorText.setText("Please enter integer numbers only.");
+        }
+    }
+
+    private int getNumOfRats() {
+        int num = 0;
+        for (Tile[] tiles : tileMap) {
+            for (Tile tile : tiles) {
+                if (tile.getOccupantRats().size() != 0) {
+                    num++;
+                }
+            }
+        }
+        return num;
     }
 
     /**

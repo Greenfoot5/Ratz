@@ -22,8 +22,8 @@
 			<Canvas fx:id="levelCanvas" height="896.0" layoutY="8.0" width="1024.0" />
             <Pane fx:id="settingsDialoguePane" layoutX="312.0" layoutY="148.0" prefHeight="600.0" prefWidth="400.0" styleClass="dialogueBox" visible="false">
             <Text layoutX="110.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="dialogueTitle" text="Level Settings" />
-            <Text layoutX="20.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Seconds between item drops:" />
-            <GridPane hgap="25.0" layoutX="20.0" layoutY="110.0" vgap="5.0">
+            <Text layoutX="20.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Seconds between item drops:" />
+            <GridPane hgap="25.0" layoutX="20.0" layoutY="95.0" vgap="5.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -149,26 +149,31 @@
                   </VBox>
                </children>
             </GridPane>
-            <Text layoutX="20.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Maximum number of rats:" />
-            <TextField fx:id="maxRatTextField" layoutX="20.0" layoutY="390.0" prefWidth="100.0">
+            <Text layoutX="20.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Maximum number of rats:" />
+            <TextField fx:id="maxRatTextField" layoutX="20.0" layoutY="370.0" prefWidth="100.0">
                <font>
                   <Font size="18.0" />
                </font>
             </TextField>
-            <Text layoutX="20.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Game timer (in seconds):" />
-            <TextField fx:id="gameTimerTextField" layoutX="20.0" layoutY="460.0" prefWidth="100.0">
+            <Text layoutX="20.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Game timer (in seconds):" />
+            <TextField fx:id="gameTimerTextField" layoutX="20.0" layoutY="440.0" prefWidth="100.0">
                <font>
                   <Font size="18.0" />
                </font>
             </TextField>
-                <Button layoutX="107.0" layoutY="530.0" mnemonicParsing="false" onAction="#saveSettings" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Save Settings" />
+            <TextFlow layoutX="10.0" layoutY="485.0" prefHeight="40.0" prefWidth="380.0" styleClass="sideBarText">
+               <children>
+                  <Text fx:id="settingsErrorText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" />
+               </children>
+            </TextFlow>
+                <Button layoutX="107.0" layoutY="540.0" mnemonicParsing="false" onAction="#saveSettings" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Save Settings" />
              </Pane>
 		</Pane>
 	</center>
 	<right>
 		<BorderPane prefHeight="200.0" prefWidth="300.0" styleClass="sidebar" stylesheets="@editor.css" BorderPane.alignment="CENTER">
 			<bottom>
-				<Button fx:id="saveLevelButton" mnemonicParsing="false" onAction="#saveLevel" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Save Level" BorderPane.alignment="BOTTOM_CENTER">
+				<Button fx:id="openSavingDialogueBox" mnemonicParsing="false" onAction="#saveLevel" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Save Level" BorderPane.alignment="BOTTOM_CENTER">
 					<BorderPane.margin>
 						<Insets bottom="20.0" top="10.0" />
 					</BorderPane.margin>
