@@ -80,7 +80,7 @@ public class StopSign extends Power {
         x = GameObject.getWIDTH()* x;
         y = GameObject.getWIDTH() * y;
 
-        String path = "file:" + "stopsign" + HP + ".png";
+        String path = "file:target/classes/" + "stopsign" + HP + ".png";
 
         g.drawImage(new Image(path),x,y);
     }
@@ -93,7 +93,7 @@ public class StopSign extends Power {
 
     @Override
     public String createTexturePath() {
-        return "file:" + "stopsign5.png";
+        return "file:target/classes/" + "stopsign5.png";
     }
 
     /**

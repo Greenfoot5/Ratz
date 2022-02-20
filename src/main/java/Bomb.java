@@ -147,7 +147,7 @@ public class Bomb extends Power {
         x = GameObject.getWIDTH()* x;
         y = GameObject.getWIDTH() * y;
 
-        String path = "file:" + "bomb" + ticksActive /
+        String path = "file:" + "target/classes/bomb" + ticksActive /
                 ANIMATION_SLOWDOWN + ".png";
 
         g.drawImage(new Image(path),x,y);
@@ -178,6 +178,6 @@ public class Bomb extends Power {
      */
     @Override
     public String createTexturePath() {
-        return "file:" + "bomb" + ticksActive + ".png";
+        return "file:" + "target/classes/bomb" + ticksActive + ".png";
     }
 }

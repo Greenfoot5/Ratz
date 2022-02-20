@@ -61,7 +61,7 @@ public abstract class GameObject {
      */
     public String createTexturePath() {
         String className = this.getClass().getSimpleName().toLowerCase();
-        return "file:" + className + ".png";
+        return "file:target/classes/" + className + ".png";
     }
 
     /**

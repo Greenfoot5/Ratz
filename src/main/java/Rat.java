@@ -411,7 +411,7 @@ public abstract class Rat extends GameObject {
         if (LevelController.getTileAt(xPos, yPos) != null) {
             Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).removeOccupantRat(this);
             AudioClip deathSound = new AudioClip(
-                    new File(DEATH_SOUND_PATH).toURI().toString());
+                    new File("target/classes/" + DEATH_SOUND_PATH).toURI().toString());
             deathSound.play();
         }
 
@@ -435,7 +435,7 @@ public abstract class Rat extends GameObject {
         String path;
 
         if (direction == null) {
-            path = "file:" + className + "NORTH" + ".png";
+            path = "file:target/classes/" + className + "NORTH" + ".png";
         } else {
             path = createTexturePath();
         }

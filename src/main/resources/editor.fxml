@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="896.0" prefWidth="1324.0" styleClass="root" stylesheets="@editor.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+	<center>
+		<Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+			<Canvas fx:id="levelCanvas" height="896.0" layoutY="8.0" width="1024.0" />
+            <Pane fx:id="settingsDialoguePane" layoutX="312.0" layoutY="148.0" prefHeight="600.0" prefWidth="400.0" styleClass="dialogueBox" visible="false">
+            <Text layoutX="110.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="dialogueTitle" text="Level Settings" />
+            <Text layoutX="20.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Seconds between item drops:" />
+            <GridPane hgap="25.0" layoutX="20.0" layoutY="95.0" vgap="5.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="70.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Bomb">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Text>
+                        <TextField fx:id="bombTextField">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Gas">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Text>
+                        <TextField fx:id="gasTextField">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Sterilization">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Text>
+                        <TextField fx:id="sterilizationTextField">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Poison">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Text>
+                        <TextField fx:id="poisonTextField">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Male Swap">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Text>
+                        <TextField fx:id="maleSwapTextField">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Female Swap">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Text>
+                        <TextField fx:id="femaleSwapTextField">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Stop Sign">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Text>
+                        <TextField fx:id="stopSignTextField">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Death Rat">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Text>
+                        <TextField fx:id="deathRatTextField">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </VBox>
+               </children>
+            </GridPane>
+            <Text layoutX="20.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Maximum number of rats:" />
+            <TextField fx:id="maxRatTextField" layoutX="20.0" layoutY="370.0" prefWidth="100.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <Text layoutX="20.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Game timer (in seconds):" />
+            <TextField fx:id="gameTimerTextField" layoutX="20.0" layoutY="440.0" prefWidth="100.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <TextFlow layoutX="10.0" layoutY="485.0" prefHeight="40.0" prefWidth="380.0" styleClass="sideBarText">
+               <children>
+                  <Text fx:id="settingsErrorText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" />
+               </children>
+            </TextFlow>
+                <Button layoutX="107.0" layoutY="540.0" mnemonicParsing="false" onAction="#saveSettings" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Save Settings" />
+             </Pane>
+		</Pane>
+	</center>
+	<right>
+		<BorderPane prefHeight="200.0" prefWidth="300.0" styleClass="sidebar" stylesheets="@editor.css" BorderPane.alignment="CENTER">
+			<bottom>
+				<Button fx:id="saveLevelButton" mnemonicParsing="false" onAction="#openSavingDialogueBox" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Save Level" BorderPane.alignment="BOTTOM_CENTER">
+					<BorderPane.margin>
+						<Insets bottom="20.0" top="10.0" />
+					</BorderPane.margin>
+				</Button>
+			</bottom>
+         <top>
+            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                   <RadioButton fx:id="rbGrass" mnemonicParsing="false" text="GRASS" />
+                  <RadioButton fx:id="rbPath" mnemonicParsing="false" text="PATH" />
+                  <RadioButton fx:id="rbTunnel" mnemonicParsing="false" text="TUNNEL" />
+               </children>
+               <BorderPane.margin>
+                  <Insets left="20.0" right="20.0" top="20.0" />
+               </BorderPane.margin>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </HBox>
+         </top>
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox fx:id="ratSpawnToolbar" prefHeight="74.0" prefWidth="200.0" styleClass="toolbar" stylesheets="@editor.css">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <HBox prefHeight="70.0" prefWidth="284.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Width:">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin></Text>
+                                    <TextField fx:id="widthTextField">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </TextField>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets left="25.0" right="10.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Height">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin></Text>
+                                    <TextField fx:id="heightTextField">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </TextField>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </VBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <Button fx:id="sizeChangeButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#changeLevelSize" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Apply Changes">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="50.0" top="15.0" />
+                           </VBox.margin>
+                        </Button>
+                        <TextFlow prefHeight="200.0" prefWidth="200.0" styleClass="sideBarText">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                           <children>
+                              <Text fx:id="sizeChangeErrorText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" />
+                           </children></TextFlow>
+                     </children>
+                  </VBox>
+                  <Button mnemonicParsing="false" onAction="#makeScreenShot" text="Make screen shot" />
+                  <Button fx:id="levelSettingsButton" mnemonicParsing="false" onAction="#displayLevelSettings" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Level Settings">
+                     <VBox.margin>
+                        <Insets left="50.0" top="350.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="8.0" right="8.0" top="5.0" />
+               </padding>
+               <BorderPane.margin>
+                  <Insets top="5.0" />
+               </BorderPane.margin></VBox>
+         </center>
+		</BorderPane>
+	</right>
+</BorderPane>

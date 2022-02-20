@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author Tomaszs Fijalkowski
  * @version 1.0
  */
-public class Menu{
+public class Menu extends Application {
 	
 	Stage rootStage = null;
 	Scene scene;
@@ -36,38 +36,38 @@ public class Menu{
             }
         }
 
-        //launch(args);
+        launch(args);
     }
 	
-//	public void start(Stage primaryStage) throws Exception {
-//        for (String levelName : ProfileFileReader.getLevelNames()) {
-//            System.out.println(levelName);
-//        }
-//
-//		//HighScores.loadData();
-//		//ProfileFileReader.loadData();
-//		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("menu2.fxml")));
-//		if (rootStage == null) {
-//			rootStage = primaryStage;
-//		}
-//		rootStage.setTitle("asd");
-//		scene = new Scene(root, 800, 500);
-//		rootStage.setScene(scene);
-//		rootStage.show();
-//
-//		rootStage.setOnCloseRequest(event -> {
-//		    System.out.println("Stage is closing");
-//
-//		    // TODO: uncomment it when we want to save data
-////			try {
-////				ProfileFileReader.saveDataToFile();
-////				HighScores.saveDataToFile();
-////			} catch (IOException e) {
-////				//TODO do give an alert
-////				e.printStackTrace();
-////			}
-//		});
-//	}
+	public void start(Stage primaryStage) throws Exception {
+        for (String levelName : ProfileFileReader.getLevelNames()) {
+            System.out.println(levelName);
+        }
+
+		HighScores.loadData();
+		ProfileFileReader.loadData();
+		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("menu2.fxml")));
+		if (rootStage == null) {
+			rootStage = primaryStage;
+		}
+		rootStage.setTitle("asd");
+		scene = new Scene(root, 800, 500);
+		rootStage.setScene(scene);
+		rootStage.show();
+
+		rootStage.setOnCloseRequest(event -> {
+		    System.out.println("Stage is closing");
+
+		    // TODO: uncomment it when we want to save data
+//			try {
+//				ProfileFileReader.saveDataToFile();
+//				HighScores.saveDataToFile();
+//			} catch (IOException e) {
+//				//TODO do give an alert
+//				e.printStackTrace();
+//			}
+		});
+	}
 	
 	public void finishLevel() {
 		rootStage.setScene(scene);

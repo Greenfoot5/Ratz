@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -128,9 +130,9 @@ public class MenuController {
 		layout.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(layout);
-		File f = new File("source/menu.css");
+		File f = new File("target/classes/menu.css");
 		scene.getStylesheets().clear();
-		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+		scene.getStylesheets().add("file://" + f.getAbsolutePath().replace("\\", "/"));
 
 		window.setScene(scene);
 		window.setResizable(false);
@@ -177,7 +179,7 @@ public class MenuController {
 	public void changeToLevelCreation(ActionEvent event) throws IOException {
 		levelsCreationViewUpdated = false;
 		System.out.println("move to level creation");
-		root = FXMLLoader.load(getClass().getResource("levelCreation.fxml"));
+		root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("levelCreation.fxml")));
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		System.out.println(stage == null);

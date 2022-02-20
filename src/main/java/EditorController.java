@@ -187,7 +187,7 @@ public class EditorController {
 		ImageView adultMaleImageView = new ImageView(adultMale.getImg());
 		ImageView adultFemaleImageView = new ImageView(adultFemale.getImg());
 		ImageView adultIntersexImageView = new ImageView(adultIntersex.getImg());
-		ImageView deleteImageView = new ImageView(new Image("file:delete.png"));
+		ImageView deleteImageView = new ImageView(new Image("file:target/classes/delete.png"));
 
 		ratSpawnToolbar.getChildren().add(adultMaleImageView);
 		ratSpawnToolbar.getChildren().add(adultFemaleImageView);
@@ -270,9 +270,9 @@ public class EditorController {
 		ImageView pathImageView = new ImageView(new Path().getImg());
 		ImageView tunnelImageView = new ImageView(new Tunnel().getImg());
 
-		ImageView grassImageViewSelected = new ImageView(new Image("file:grass_selected.png"));
-		ImageView pathImageViewSelected = new ImageView(new Image("file:path_selected.png"));
-		ImageView tunnelImageViewSelected = new ImageView(new Image("file:tunnel_selected.png"));
+		ImageView grassImageViewSelected = new ImageView(new Image("file:target/classes/grass_selected.png"));
+		ImageView pathImageViewSelected = new ImageView(new Image("file:target/classes/path_selected.png"));
+		ImageView tunnelImageViewSelected = new ImageView(new Image("file:target/classes/tunnel_selected.png"));
 
 		rbGrass.setSelected(true);
 
@@ -455,7 +455,7 @@ public class EditorController {
 		// the same as level name)
 
 		// TODO: generate file name
-		File file = new File("chart.png");
+		File file = new File("target/classes/chart.png");
 
 		WritableImage writableImage = new WritableImage(TILE_SIZE * width, TILE_SIZE * height);
 		SnapshotParameters params = new SnapshotParameters();

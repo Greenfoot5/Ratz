@@ -386,9 +386,9 @@ public class LevelFileReader {
      */
     public static void loadLevelFile(String filename) throws FileNotFoundException {
 
-        File levelDataInProgress = new File(filename + "-inProgress-"
+        File levelDataInProgress = new File("target/classes/" + filename + "-inProgress-"
                 + ProfileFileReader.getLoggedProfile() + ".txt");
-        File levelData = new File(filename + ".txt");
+        File levelData = new File("target/classes/" + filename + ".txt");
         Scanner reader = new Scanner(levelData);
 
         RAT_ARRAY_LIST.clear();
