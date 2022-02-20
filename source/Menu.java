@@ -33,6 +33,18 @@ public class Menu extends Application{
 		scene = new Scene(root, 800, 500);
 		rootStage.setScene(scene);
 		rootStage.show();
+		
+		rootStage.setOnCloseRequest(event -> {
+		    System.out.println("Stage is closing");
+
+			try {
+				ProfileFileReader.saveDataToFile();
+				HighScores.saveDataToFile();
+			} catch (IOException e) {
+				//TODO do give an alert
+				e.printStackTrace();
+			}
+		});
 	}
 	
 	public void finishLevel() {

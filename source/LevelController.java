@@ -377,7 +377,7 @@ public class LevelController {
 		for (String text : highScores) {
 		    gamePaneLeaderboard.getChildren().add(new Text(text + "\n"));
 		}
-    }///////////////////////////////////////////////////////////////////////////////////////////////////////////////:TODO
+    }
 
     /**
      * Exits level and goes back to main menu.
