@@ -451,9 +451,9 @@ public abstract class Rat extends GameObject {
     public String createTexturePath() {
         String className = this.getClass().getSimpleName().toLowerCase();
         if (direction == null) {
-            return "file:" + className + "NORTH" + ".png";
+            return "file:target/classes/" + className + "NORTH" + ".png";
         } else {
-            return "file:" + className + direction.name() + ".png";
+            return "file:target/classes/" + className + direction.name() + ".png";
         }
     }
 }
