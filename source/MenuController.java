@@ -47,6 +47,8 @@ public class MenuController {
 	private static final int LENGHT_OF_FIXED_PART_OF_BUTTON_NAME = 20;
 	private static final int MAX_WIDTH_CREATION = 420;
 	private static final int MAX_HEIGHT_CREATION = 350;
+	private static final int MAX_WIDTH_SELECTION = 200;
+	private static final int MAX_HEIGHT_SELECTION = 160;
 
 	@FXML
 	private VBox menuRoot;
@@ -555,29 +557,40 @@ public class MenuController {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					Image img = null;
-					try {
-						Image tempImg = new Image(
-								new FileInputStream("resources\\levels_images\\" + selectedEditLevelName + ".png"));
-						int width = (int) tempImg.getWidth();
-						int height = (int) tempImg.getHeight();
-						float widthCompare = (float) MAX_WIDTH_CREATION / (float) width;
-						float heightComare = (float) MAX_HEIGHT_CREATION / (float) height;
-						if (widthCompare < heightComare) {
-							width *= widthCompare;
-							height *= widthCompare;
-						} else {
-							width *= heightComare;
-							height *= heightComare;
-						}
-						img = new Image(
-								new FileInputStream("resources\\levels_images\\" + selectedEditLevelName + ".png"),
-								width, height, false, false);
-						System.out.println(width + " " + height + " ----  width and hieght");
-						levelView.setImage(img);
 
-					} catch (FileNotFoundException e) {
-						// levelView.
+					{
+						// Preview display
+						Image img = null;
+						try {
+
+							File f = new File("resources\\levels_images\\" + selectedEditLevelName + ".png");
+							if (f.exists()) {
+								Image tempImg = new Image(new FileInputStream(
+										"resources\\levels_images\\" + selectedEditLevelName + ".png"));
+
+								int width = (int) tempImg.getWidth();
+								int height = (int) tempImg.getHeight();
+								float widthCompare = (float) MAX_WIDTH_CREATION / (float) width;
+								float heightComare = (float) MAX_HEIGHT_CREATION / (float) height;
+								if (widthCompare < heightComare) {
+									width *= widthCompare;
+									height *= widthCompare;
+								} else {
+									width *= heightComare;
+									height *= heightComare;
+								}
+								img = new Image(
+										new FileInputStream(
+												"resources\\levels_images\\" + selectedEditLevelName + ".png"),
+										width, height, false, false);
+								levelView.setImage(img);
+							} else {
+								// TODO: do something in case of missing file
+							}
+
+						} catch (FileNotFoundException e) {
+							// levelView.
+						}
 					}
 
 				});
