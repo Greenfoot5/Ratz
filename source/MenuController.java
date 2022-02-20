@@ -548,19 +548,17 @@ public class MenuController {
 				levelsButtonsLevelCreationVBox.getChildren().add(levelButtons[i]);
 
 				levelButtons[i].setOnAction(event -> {
-					// TODO add code to edit/delete levels
 					try {
 						selectedEditLevelName = getButtonName(event);
 						System.out.println(getButtonName(event));
-						
+
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-//					File f = new File("resources\\levels_images\\" + selectedEditLevelName + ".png");
-//					System.out.println(f.exists() + " img ex");
 					Image img = null;
 					try {
-						Image tempImg = new Image(new FileInputStream("resources\\levels_images\\" + selectedEditLevelName + ".png"));
+						Image tempImg = new Image(
+								new FileInputStream("resources\\levels_images\\" + selectedEditLevelName + ".png"));
 						int width = (int) tempImg.getWidth();
 						int height = (int) tempImg.getHeight();
 						float widthCompare = (float) MAX_WIDTH_CREATION / (float) width;
@@ -572,13 +570,14 @@ public class MenuController {
 							width *= heightComare;
 							height *= heightComare;
 						}
-						img = new Image(new FileInputStream("resources\\levels_images\\" + selectedEditLevelName + ".png"),width , height, false, false);
+						img = new Image(
+								new FileInputStream("resources\\levels_images\\" + selectedEditLevelName + ".png"),
+								width, height, false, false);
 						System.out.println(width + " " + height + " ----  width and hieght");
-//						levelView.resize(height, width);
 						levelView.setImage(img);
-						
+
 					} catch (FileNotFoundException e) {
-						//levelView.
+						// levelView.
 					}
 
 				});

@@ -34,6 +34,7 @@ public class EditorController {
 
 	// Size of one tile in pixels
 	private static final int TILE_SIZE = 64;
+	private static final String delfaultLevelRegex = "level-[1-5]";
 
 	// Time between item drops
 	private final int[] dropRates;
@@ -48,7 +49,7 @@ public class EditorController {
 	private int maxRats;
 	private int parTime;
 
-	//Current tile selected to draw
+	// Current tile selected to draw
 	private Tile selectedTile = new Grass();
 
 	@FXML
@@ -416,6 +417,7 @@ public class EditorController {
 
 	/**
 	 * Gets current number of rats on the board.
+	 * 
 	 * @return number of rats.
 	 */
 	private int getNumOfRats() {
@@ -442,6 +444,7 @@ public class EditorController {
 
 	/**
 	 * Sets button disabling for all side panel buttons.
+	 * 
 	 * @param val whether buttons should be disabled.
 	 */
 	private void setButtonDisabling(boolean val) {
@@ -493,7 +496,9 @@ public class EditorController {
 		String newLevelName = levelNameTextField.getText();
 		if(newLevelName.contains(" ")){
 			savingErrorText.setText("Level name cannot contain spaces");
-		} else  if(newLevelName.length() == 0) {
+		} else if(newLevelName.matches(delfaultLevelRegex)) {
+			savingErrorText.setText("Level name cannot be the same as default level");
+		}else  if(newLevelName.length() == 0) {
 			savingErrorText.setText("Level name cannot be empty");
 		} else {
 			savingErrorText.setText("");
@@ -512,11 +517,11 @@ public class EditorController {
 		WritableImage writableImage = new WritableImage(TILE_SIZE * width, TILE_SIZE * height);
 		SnapshotParameters params = new SnapshotParameters();
 		levelCanvas.snapshot(params, writableImage);
-		
+
 		try {
 			ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
 		} catch (Throwable th) {
-			//TODO: handle this exception
+			// TODO: handle this exception
 		}
 
 	}
