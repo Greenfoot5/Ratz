@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="profileSelectionRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
+<BorderPane fx:id="profileSelectionRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
    <left>
       <VBox fx:id="profileButtons" alignment="CENTER" prefHeight="282.0" prefWidth="136.0" BorderPane.alignment="CENTER">
          <children>
@@ -16,7 +16,7 @@
       </VBox>
    </left>
    <right>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="300.0" prefWidth="165.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#changeToMenu" text="Main menu" />
             <Button fx:id="removeProfileButton" mnemonicParsing="false" onAction="#removeProfile" text="Remove Profile" />
@@ -28,16 +28,16 @@
          <children>
             <Label text="Add new profile:" />
             <TextField fx:id="newProfileTextField" promptText="new profile name" />
-            <Button fx:id="addProfilebutton" mnemonicParsing="false" onAction="#addProfile" text="Add" />
+            <Button fx:id="addProfilebutton" mnemonicParsing="false" onAction="#addProfile" prefHeight="39.0" prefWidth="93.0" text="Add" />
          </children>
       </HBox>
    </bottom>
    <top>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Best " />
-            <Label fx:id="loggedProfileLabel" text="..." />
-            <Label text="'s scores: " />
+            <Label styleClass="profileLabel" text="Best " />
+            <Label fx:id="loggedProfileLabel" styleClass="profileLabel" text="..." />
+            <Label styleClass="profileLabel" text="'s scores: " />
          </children>
       </HBox>
    </top>
