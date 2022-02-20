@@ -29,6 +29,10 @@
     -fx-background-image: url('../../../resources/gui/editor-dialogue-box.png');
     -fx-font-family: 'Linerama';
 }
+.savingDialogueBox{
+    -fx-background-image: url('../../../resources/gui/level-save-dialogue-box.png');
+    -fx-font-family: 'Linerama';
+}
 .dialogueTitle{
     -fx-font-size: 30px;
     -fx-text-alignment: center;

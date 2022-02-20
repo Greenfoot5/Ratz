@@ -1,5 +1,5 @@
 # Ratz
-![Project Status Label](https://img.shields.io/badge/project_status-Complete-inactive)
+![Project Status Label](https://img.shields.io/badge/project_status-in_progress-active)
 ![Last Commit Label](https://img.shields.io/github/last-commit/Greenfoot5/Ratz/main?logo=Github)
 ![Total Lines Label](https://img.shields.io/tokei/lines/github/Greenfoot5/Ratz)
 ![Contributor Count Label](https://img.shields.io/github/contributors/Greenfoot5/Ratz?color=blue)
