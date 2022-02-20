@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -27,7 +28,7 @@ import javafx.stage.Stage;
 public class MenuController {
 
 	private static final int PROFILES_LIMIT = 8;
-	//private static final String delfaultLevelRegex = "level-[1-5]";
+	// private static final String delfaultLevelRegex = "level-[1-5]";
 	// private static final String savedGameStringPart = "inProgress";
 	private static Stage stage;
 	private static Scene scene;
@@ -41,6 +42,14 @@ public class MenuController {
 	private final static String PART_OF_BUTTON_NAME = "[styleClass=button]'";
 	private static final int LENGHT_OF_FIXED_PART_OF_BUTTON_NAME = 20;
 
+	@FXML
+	private VBox menuRoot;
+	@FXML
+	private BorderPane profileSelectionRoot;
+	@FXML
+	private BorderPane levelsSelectionRoot;
+	@FXML
+	private BorderPane levelCreationRoot;
 	@FXML
 	private VBox screen;
 	@FXML
@@ -83,6 +92,19 @@ public class MenuController {
 	private VBox profileScoresVBox;
 	@FXML
 	private Button removeProfileButton;
+
+	@FXML
+	private void initialize() {
+		if (this.profileSelectionRoot != null) {
+			updateProfilesView();
+		} else if (this.menuRoot != null) {
+			updateMenuView();
+		} else if (this.levelsSelectionRoot != null) {
+			updateLevelsView();
+		} else if (this.levelCreationRoot != null) {
+			updateLevelCreationView();
+		}
+	}
 
 	/**
 	 * Generates a popup alert
@@ -549,13 +571,12 @@ public class MenuController {
 
 	public void editCreatedLevel(ActionEvent event) {
 		System.out.println("edit");
-		/*TODO use this code to store preview of created maps
-		SnapshotParameters param = new SnapshotParameters();
-		param.setTransform(Transform.scale(0.7, 0.7));
-		WritableImage snapshot = newLevelNameTextField.snapshot(param, null);
-		ImageView imgW = new ImageView(snapshot);
-		screen.getChildren().add(imgW);
-		*/
+		/*
+		 * TODO use this code to store preview of created maps SnapshotParameters param
+		 * = new SnapshotParameters(); param.setTransform(Transform.scale(0.7, 0.7));
+		 * WritableImage snapshot = newLevelNameTextField.snapshot(param, null);
+		 * ImageView imgW = new ImageView(snapshot); screen.getChildren().add(imgW);
+		 */
 	}
 
 	public void deleteCreatedLevel(ActionEvent event) {
@@ -578,20 +599,18 @@ public class MenuController {
 		levelsCreationViewUpdated = false;
 		updateLevelCreationView();
 	}
-	
+
 	public void openLevelEditor(ActionEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                "editor.fxml"));
-        EditorController editorController = new EditorController();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("editor.fxml"));
+		EditorController editorController = new EditorController();
 
-        loader.setController(editorController);
+		loader.setController(editorController);
 
-        Pane root = loader.load();
+		Pane root = loader.load();
 
-        scene = new Scene(root, root.getPrefWidth(),
-                root.getPrefHeight());
+		scene = new Scene(root, root.getPrefWidth(), root.getPrefHeight());
 
-        stage.setScene(scene);
-        stage.show();
+		stage.setScene(scene);
+		stage.show();
 	}
 }

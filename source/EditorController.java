@@ -460,6 +460,7 @@ public class EditorController {
 		WritableImage writableImage = new WritableImage(TILE_SIZE * width, TILE_SIZE * height);
 		SnapshotParameters params = new SnapshotParameters();
 		levelCanvas.snapshot(params, writableImage);
+		
 		try {
 			ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
 		} catch (Throwable th) {
