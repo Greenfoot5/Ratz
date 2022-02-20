@@ -61,6 +61,8 @@ public class MenuController {
 	@FXML
 	private ImageView levelView;
 	@FXML
+	private ImageView levelViewSelection;
+	@FXML
 	private Button deleteLevelButton;
 	@FXML
 	private RadioButton editCustomLevelsRadioButton;
@@ -388,6 +390,42 @@ public class MenuController {
 
 					levelButtonPressed(event);
 					updateScoreTableLevels();
+					
+					{
+						// Preview display
+						Image img = null;
+						try {
+
+							File f = new File("resources\\levels_images\\" + selectedLevelName + ".png");
+							if (f.exists()) {
+								Image tempImg = new Image(new FileInputStream(
+										"resources\\levels_images\\" + selectedLevelName + ".png"));
+
+								int width = (int) tempImg.getWidth();
+								int height = (int) tempImg.getHeight();
+								float widthCompare = (float) MAX_WIDTH_SELECTION / (float) width;
+								float heightComare = (float) MAX_HEIGHT_SELECTION / (float) height;
+								if (widthCompare < heightComare) {
+									width *= widthCompare;
+									height *= widthCompare;
+								} else {
+									width *= heightComare;
+									height *= heightComare;
+								}
+								img = new Image(
+										new FileInputStream(
+												"resources\\levels_images\\" + selectedEditLevelName + ".png"),
+										width, height, false, false);
+								levelViewSelection.setImage(img);
+							} else {
+								System.out.println("000000000000000000000");
+								// TODO: do something in case of missing file
+							}
+
+						} catch (FileNotFoundException e) {
+							// levelView.
+						}
+					}
 
 				});
 			}

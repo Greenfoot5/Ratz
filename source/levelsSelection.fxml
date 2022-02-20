@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="levelsSelectionRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
+<BorderPane fx:id="levelsSelectionRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
    <top>
       <Label prefHeight="100.0" prefWidth="163.0" text="Level Select" BorderPane.alignment="CENTER" />
    </top>
@@ -17,7 +17,7 @@
       <VBox alignment="CENTER" prefHeight="300.0" prefWidth="188.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#playTheGame" prefHeight="39.0" prefWidth="188.0" text="Play!" />
-            <ImageView fitHeight="160.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="levelViewSelection" fitHeight="160.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
             <Button mnemonicParsing="false" onAction="#changeToMenu" prefHeight="39.0" prefWidth="190.0" text="MainMenu" />
          </children>
       </VBox>
