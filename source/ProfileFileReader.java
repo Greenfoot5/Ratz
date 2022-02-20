@@ -144,7 +144,7 @@ public class ProfileFileReader {
 	 * @param level       level which you want to safe score
 	 * @param score       score you want to safe
 	 */
-	public static void saveBestScore(String profileName, String levelName, int score) {
+	public static void saveScore(String profileName, String levelName, int score) {
 		for (Profile p : profiles) {
 			if (p.getProfileName().equals(profileName)) {
 				p.saveBestScore(levelName, score);
@@ -326,6 +326,7 @@ public class ProfileFileReader {
 			for (Profile p : profiles) {
 				p.deleteLevel(levelName);
 			}
+			numberOfLevels--;
 		} else {
 			throw new IllegalArgumentException("Level does not exist");
 		}

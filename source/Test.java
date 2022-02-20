@@ -88,16 +88,19 @@ public class Test {
 		// System.out.println(ProfileFileReaderV2.getLoggedProfile());
 		// System.out.println(ProfileFileReaderV2.doesProfileExist("a"));
 
-//		ProfileFileReaderV2.loadData();
-//		ProfileFileReaderV2.createNewLevel("level-1-inProgress-Alex");
-//		ProfileFileReaderV2.saveDataToFile();
-//		
-//		HighScoresV2.loadData();
-//		String[] s = HighScoresV2.getTopScores("level-1");
-//		for (String ss : s) {
-//			System.out.println(ss);
-//		}
-		//HighScoresV2.saveDataToFile();
+		
+		
+//		ProfileFileReader.loadData();
+//		ProfileFileReader.saveScore("Mart", "newLevel", 465);
+//		ProfileFileReader.saveScore("Steffan", "newLevel", 564);
+//		ProfileFileReader.saveDataToFile();
+//	
+//		HighScores.loadData();
+//		HighScores.saveScore("Mart", "newLevel", 465);
+//		HighScores.saveScore("Steffan", "newLevel", 564);
+//		HighScores.saveDataToFile();
+		
+		
 //		String s = "level-[1-5]";
 //		System.out.println(s.matches(null));
 //		 File directoryPath = new File("resources\\levels");

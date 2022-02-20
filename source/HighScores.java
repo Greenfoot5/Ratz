@@ -127,7 +127,7 @@ public class HighScores {
 	 * @param score   achieved score you want to safe
 	 * @param level   level of the game
 	 */
-	public static void saveScore(String profileName, int score, String levelName) {
+	public static void saveScore(String profileName, String levelName, int score) {
 		for (LevelScores lvlScr : levelsScores) {
 			if (lvlScr.getLevelName().equals(levelName)) {
 				lvlScr.saveScore(new Score(profileName, score));

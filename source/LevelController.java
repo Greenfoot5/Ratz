@@ -353,8 +353,8 @@ public class LevelController {
             gamePaneText.getChildren().add(new Text("You've won! :)"));
             gamePaneScore.getChildren().add(new Text("Score: " + score));
 //            try {
-//                ProfileFileReader.saveBestScore(ProfileFileReader.getLoggedProfile(), LEVEL_NAME, score);
-//                HighScores.safeScore(ProfileFileReader.getLoggedProfile(), score, LEVEL_NAME);
+//                ProfileFileReader.saveScore(ProfileFileReader.getLoggedProfile(), LEVEL_NAME, score);
+//                HighScores.safeScore(ProfileFileReader.getLoggedProfile(), LEVEL_NAME, score);
 //            } catch (IOException e) {
 //                System.out.println("Couldn't save score :(");
 //            }/////////////////////////////////////////////////////////////////////////////////////////////////////////////////:TODO
