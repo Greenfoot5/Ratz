@@ -3,6 +3,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -12,275 +14,171 @@ import java.util.Scanner;
  * 
  */
 public class ProfileFileReader {
-
-    //private static final int NUMBER_OF_LEVELS = 5;
-    /**
-     * Path to file storing data about profiles
-     */
-    private static final String FILE_PATH = "resources/profileFile.txt";
-    private static final String NUMBER_OF_LEVELS_PATH = "resources/numberOfLevels.txt";
-
-    private static String selectedProfile = null;
-    
-    public static int getNumberOfLevels() throws Exception {
-    	File file = new File(NUMBER_OF_LEVELS_PATH);
-		Scanner in = new Scanner(file);
-
-		int numberOfLevels;
-		
-		if (!in.hasNext()) {
-			throw new Exception("Number of levels File is missing :(");
-		} else {
-			numberOfLevels = in.nextInt();
-		}
-		
-		in.close();
-		System.gc();
-
-		return numberOfLevels;
-    }
+	private static final String FILE_PATH = "resources/profileFile2.txt";
+	private static String selectedProfile = null;
+	private static int numberOfLevels;
+	private static ArrayList<Profile> profiles = new ArrayList<>();
+	private static ArrayList<String> levelNames = new ArrayList<>();
 
 	/**
-	 * Create new profile in text file with chosen name.
+	 * Load data from text file to memory. Should be use only once at the start of
+	 * the program.
 	 * 
-	 * @param profileName	name of a profile
-	 * @throws Exception  	if there is a problem with 
-	 * 						a file or name is already used
+	 * @throws FileNotFoundException file not found
 	 */
-	@SuppressWarnings("resource")
-	public static void createNewProfile(String profileName) throws Exception {
+	public static void loadData() throws FileNotFoundException {
 		File file = new File(FILE_PATH);
-		File tempFile = new File("resources/tempProf.txt");
 		Scanner in = new Scanner(file);
-		FileWriter fileWriter = new FileWriter(tempFile, true);
-		PrintWriter printWriter = new PrintWriter(fileWriter);
 
-		int lastProfNumber = 1;
-		boolean isAlreadyUsedName = false;
+		profiles.clear();
+		levelNames.clear();
+
+		numberOfLevels = in.nextInt();
+
+		for (int i = 0; i < numberOfLevels; i++) {
+			levelNames.add(in.next());
+		}
+		// String profileName = "";
 
 		while (in.hasNext()) {
-			int profNumber = in.nextInt();
-			String profName = in.next();
+			String levelName = in.next(); // or profile name
+			int score = in.nextInt(); // or pointer to next profile data
 
-			if (profName.equals(profileName)) {
-				isAlreadyUsedName = true;
+			if (score == -1) {
+				profiles.add(new Profile(levelName));
+			} else {
+				profiles.get(profiles.size() - 1).saveBestScore(levelName, score);
 			}
 
-			lastProfNumber = profNumber + 1;
-			printWriter.println(profNumber + " " + profName);
-
-			for (int i = 0; i < getNumberOfLevels(); i++) {
-				int lvl = in.nextInt();
-				int scr = in.nextInt();
-				printWriter.print(lvl + " " + scr + " ");
-			}
-			printWriter.println();
-
-		}
-
-		if (!isAlreadyUsedName) {
-			printWriter.println(lastProfNumber + " " + profileName);
-			for (int i = 1; i <= getNumberOfLevels(); i++) {
-				printWriter.print(i + " " + "0 ");
-			}
-		} else {
-			throw new IllegalArgumentException(
-					"Profile name is already used");
 		}
 
 		in.close();
 		System.gc();
-		printWriter.flush();
-		printWriter.close();
-		file.delete();
-
-		File rename = new File(FILE_PATH);
-		tempFile.renameTo(rename);
-
 	}
 
 	/**
-	 * Remove profile from the txt file.
-	 * If name is not in a file then does nothing.
+	 * Saves data from memory to a file. Can be used many times (but it might be use
+	 * only while switching the scenes). Strongly recommended to use at the end of
+	 * the program (otherwise changes are lost).
 	 * 
-	 * @param profileName	name of a profile
-	 * @throws Exception 
+	 * @throws IOException
 	 */
-
-	public static void deleteProfile(String profileName) throws Exception {
+	public static void saveDataToFile() throws IOException {
 		File file = new File(FILE_PATH);
 		File tempFile = new File("resources/tempProf.txt");
-		Scanner in = new Scanner(file);
-		FileWriter fileWriter = new FileWriter(tempFile, false);
+		// Scanner in = new Scanner(file);
+		FileWriter fileWriter = new FileWriter(tempFile, true);
 		PrintWriter printWriter = new PrintWriter(fileWriter);
 
-		boolean isRemoved = false;
-		while (in.hasNext()) {
-			int profNumber = in.nextInt();
-			String profName = in.next();
+		printWriter.println(getNumberOfLevels());
 
-			if (!profName.equals(profileName)) {
-				if (isRemoved) {
-					printWriter.println((profNumber - 1) 
-							+ " " + profName);
-				} else {
-					printWriter.println(profNumber 
-							+ " " + profName);
+		for (String levelName : levelNames) {
+			printWriter.print(levelName + " ");
+		}
+
+		for (Profile profile : profiles) {
+			printWriter.println("\n" + profile.getProfileName() + " -1");
+			ArrayList<ProfileScore> profilesToSave = profile.getProfileScores();
+			for (ProfileScore score : profilesToSave) {
+				if (score != null) {
+					printWriter.print(score.getLevelName() + " " + score.getScore() + " ");
 				}
-				for (int i = 0; i < getNumberOfLevels(); i++) {
-					int lvl = in.nextInt();
-					int scr = in.nextInt();
-					printWriter.print(lvl + " " 
-					+ scr + " ");
-				}
-				printWriter.println();
-			} else {
-				for (int i = 0; i < getNumberOfLevels(); i++) {
-					in.nextInt();
-					in.nextInt();
-				}
-				isRemoved = true;
 			}
 		}
 
-		in.close();
-		System.gc();
 		printWriter.flush();
 		printWriter.close();
-		fileWriter.close();
 		file.delete();
 
 		File rename = new File(FILE_PATH);
 		tempFile.renameTo(rename);
+	}
 
+	/**
+	 * Create new profile with chosen name.
+	 * 
+	 * @param profileName name of a profile
+	 */
+	public static void createNewProfile(String profileName) {
+		if (doesProfileExist(profileName)) {
+			throw new IllegalArgumentException("Profile already exist");
+		}
+		profiles.add(new Profile(profileName));
+	}
+
+	/**
+	 * Delete profile from memory. If name is not in the memory then does nothing.
+	 * 
+	 * @param profileName name of a profile
+	 */
+	public static void deleteProfile(String profileName) {
+		Profile profileToRemove = null;
+		for (Profile p : profiles) {
+			if (p.getProfileName().equals(profileName)) {
+				profileToRemove = p;
+			}
+		}
+		profiles.remove(profileToRemove);
 	}
 
 	/**
 	 * Return best profile score for the specified level.
 	 *
-	 * @param profileName	name of a profile
-	 * @param level			level which you want to safe score
+	 * @param profileName name of a profile
+	 * @param level       level which you want to safe score
 	 * @return best player score
-	 * @throws Exception 
 	 */
-	public static int getBestScore(String profileName, int level) throws Exception {
-		File file = new File(FILE_PATH);
-		Scanner in = new Scanner(file);
-
+	public static int getBestScore(String profileName, String levelName) {
 		int bestScore = 0;
-		while (in.hasNext()) {
-			in.nextInt();
-			String profName = in.next();
-
-			for (int i = 0; i < getNumberOfLevels(); i++) {
-				int lvl = in.nextInt();
-				int scr = in.nextInt();
-				if (profName.equals(profileName) 
-						&& level == lvl) {
-					bestScore = scr;
-				}
+		for (Profile p : profiles) {
+			if (p.getProfileName().equals(profileName)) {
+				bestScore = p.getBestScore(levelName);
 			}
 		}
-
-		in.close();
-		System.gc();
-
 		return bestScore;
 	}
 
 	/**
 	 * Save score if it is new best score for specified level.
 	 *
-	 * @param profileName	name of a profile
-	 * @param level			level which you want to safe score
-	 * @param score 		score you want to safe
-	 * @throws Exception 
+	 * @param profileName name of a profile
+	 * @param level       level which you want to safe score
+	 * @param score       score you want to safe
 	 */
-	public static void saveBestScore(String profileName, int level, int score) throws Exception {
-		File file = new File(FILE_PATH);
-		File tempFile = new File("resources/tempProf.txt");
-		Scanner in = new Scanner(file);
-		FileWriter fileWriter = new FileWriter(tempFile, true);
-		PrintWriter printWriter = new PrintWriter(fileWriter);
-
-		while (in.hasNext()) {
-			int profNumber = in.nextInt();
-			String profName = in.next();
-
-			printWriter.println(profNumber + " " + profName);
-
-			for (int i = 0; i < getNumberOfLevels(); i++) {
-				int lvl = in.nextInt();
-				int scr = in.nextInt();
-
-				if (profName.equals(profileName) 
-						&& level == lvl && score > scr) {
-					printWriter.print(lvl + " " + score + " ");
-				} else {
-					printWriter.print(lvl 
-							+ " " + scr + " ");
-				}
+	public static void saveBestScore(String profileName, String levelName, int score) {
+		for (Profile p : profiles) {
+			if (p.getProfileName().equals(profileName)) {
+				p.saveBestScore(levelName, score);
 			}
-			printWriter.println();
 		}
-
-		in.close();
-		System.gc();
-		printWriter.flush();
-		printWriter.close();
-
-		file.delete();
-
-		File rename = new File(FILE_PATH);
-		tempFile.renameTo(rename);
 	}
 
 	/**
 	 * Check if a profile exist in database.
 	 *
-	 * @param profileName				name of a profile
+	 * @param profileName name of a profile
 	 * @return true if profile exist, false otherwise
-	 * @throws Exception 
 	 */
-	public static boolean doesProfileExist(String profileName) throws Exception {
-		File file = new File(FILE_PATH);
-		Scanner in = new Scanner(file);
-
+	public static boolean doesProfileExist(String profileName) {
 		boolean exist = false;
-		while (in.hasNext()) {
-			in.nextInt();
-			String profName = in.next();
-
-			if (profName.equals(profileName)) {
+		for (Profile p : profiles) {
+			if (p.getProfileName().equals(profileName)) {
 				exist = true;
 			}
-
-			for (int i = 0; i < getNumberOfLevels(); i++) {
-				in.nextInt();
-				in.nextInt();
-			}
 		}
-
-		in.close();
-		System.gc();
-
 		return exist;
 	}
 
 	/**
-	 * Login to a profile. Change "selectedProfile"
+	 * Login to a selected profile.
 	 *
-	 * @param profileName	name of a profile
+	 * @param profileName name of a profile
 	 */
-	public static void loginProfile(String profileName) {
-		try {
-			if (doesProfileExist(profileName)) {
-				selectedProfile = profileName;
-			} else {
-				selectedProfile = "error";
-			}
-		} catch (Exception e) {
-			selectedProfile = "error";
+	public static void loginProfile(String profileName) throws IllegalArgumentException {
+		if (doesProfileExist(profileName)) {
+			selectedProfile = profileName;
+		} else {
+			throw new IllegalArgumentException("Profile does not exist");
 		}
 	}
 
@@ -292,53 +190,161 @@ public class ProfileFileReader {
 	}
 
 	/**
+	 * Get all registered profiles names.
+	 *
+	 * @return String array containing every profile name
+	 */
+	public static String[] getProfiles() {
+		String[] profilesString = new String[profiles.size()];
+		for (int i = 0; i < profilesString.length; i++) {
+			profilesString[i] = profiles.get(i).getProfileName();
+		}
+		return profilesString;
+	}
+
+	/**
 	 * Get all registered profiles.
 	 *
-	 * @return Sting array containing every profile name
-	 * @throws Exception 
+	 * @return Arraylist containing every profile object
 	 */
-	public static String[] getProfiles() throws Exception {
-		File file = new File(FILE_PATH);
-		Scanner in = new Scanner(file);
-
-		String[] profiles = new String[0];
-		int counter = 1;
-		while (in.hasNext()) {
-			in.nextInt();
-			String profName = in.next();
-
-			String[] newWords = new String[counter++];
-			for (int i = 0; i < profiles.length; i++) {
-				newWords[i] = profiles[i];
-			}
-			profiles = newWords;
-			profiles[counter - 2] = profName;
-
-			for (int i = 0; i < getNumberOfLevels(); i++) {
-				in.nextInt();
-				in.nextInt();
-			}
-		}
-
-		in.close();
-		System.gc();
-
+	public static ArrayList<Profile> getProfilesObject() {
 		return profiles;
 	}
 
 	/**
-     * Gets the name of the profile currently logged in
-	 * @return name of a profile which is logged in
+	 * Gets array list of level names.
+	 * 
+	 * @return array list of level names
 	 */
-	public static String getLoggedProfile() {
-		return ProfileFileReader.selectedProfile;
+	public static ArrayList<String> getLevelNames() {
+		return levelNames;
+	}
+
+	public static ArrayList<String> getDeafaultLevelsNames() {
+		// Creating a File object for directory
+		File directoryPath = new File("resources\\levels\\default_levels");
+
+		// List of all files and directories
+		String[] contents = directoryPath.list();
+		ArrayList<String> levels = new ArrayList<>();
+
+		assert contents != null;
+		for (String content : contents) {
+			levels.add(content.substring(0, content.length() - 4));
+		}
+
+		return levels;
+	}
+
+	public static ArrayList<String> getCreatedLevelsNames() {
+		// Creating a File object for directory
+		File directoryPath = new File("resources\\levels\\created_levels");
+
+		// List of all files and directories
+		String[] contents = directoryPath.list();
+		ArrayList<String> levels = new ArrayList<>();
+
+		assert contents != null;
+		for (String content : contents) {
+			levels.add(content.substring(0, content.length() - 4));
+		}
+
+		return levels;
+	}
+
+	public static ArrayList<String> getSavedGamesNames(String profileName) {
+		// Creating a File object for directory
+		File directoryPath = new File("resources\\levels\\saved_games\\" + profileName);
+
+		// List of all files and directories
+		String[] contents = directoryPath.list();
+		ArrayList<String> levels = new ArrayList<>();
+
+		if (contents != null) {
+			for (String content : contents) {
+				levels.add(content.substring(0, content.length() - 4));
+			}
+		}
+
+		return levels;
 	}
 
 	/**
-     * Gets the number of levels in the game
-	 * @return number of levels in the game
+	 * Gets number of levels.
+	 * 
+	 * @return number of levels
 	 */
-//	public static int getNumberOfLevels() {
-//		return ProfileFileReader.NUMBER_OF_LEVELS;
+	public static int getNumberOfLevels() {
+		return numberOfLevels;
+	}
+
+	/**
+	 * Gets the name of the profile currently logged in
+	 * 
+	 * @return name of a profile which is logged in
+	 */
+	public static String getLoggedProfile() {
+		return selectedProfile;
+	}
+//  Not in use right now
+//	/**
+//	 * Sets
+//	 * @param numOfLevels
+//	 */
+//	public static void setNumberOfLevels(int numOfLevels) {
+//		numberOfLevels = numOfLevels;
 //	}
+
+	/**
+	 * Create new level in database with chosen name.
+	 * 
+	 * @param levelName name of the level
+	 */
+	public static void createNewLevel(String levelName) {
+		for (Profile p : profiles) {
+			p.createNewLevel(levelName);
+		}
+		numberOfLevels++;
+		levelNames.add(levelName);
+	}
+
+	/**
+	 * Deletes level from database.
+	 * 
+	 * @param levelName name of the level to delete
+	 * @throws IllegalArgumentException if level not exist
+	 */
+	public static void deleteLevel(String levelName) throws IllegalArgumentException {
+		if (doesLevelExist(levelName)) {
+			String levelToRemove = null;
+			for (String lvlName : levelNames) {
+				if (lvlName.equals(levelName)) {
+					levelToRemove = lvlName;
+				}
+			}
+			levelNames.remove(levelToRemove);
+
+			for (Profile p : profiles) {
+				p.deleteLevel(levelName);
+			}
+		} else {
+			throw new IllegalArgumentException("Level does not exist");
+		}
+	}
+
+	/**
+	 * Checks if level exist in database.
+	 * 
+	 * @param levelName name of the level to check
+	 * @return true if level exist, false otherwise
+	 */
+	public static boolean doesLevelExist(String levelName) {
+		boolean exists = false;
+		for (String lvlName : levelNames) {
+			if (lvlName.equals(levelName)) {
+				exists = true;
+			}
+		}
+		return exists;
+	}
 }

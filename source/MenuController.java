@@ -143,8 +143,8 @@ public class MenuController {
 	public void updateMenuView() {
 		if (!menuViewUpdated) {
 			menuViewUpdated = true;
-			if (ProfileFileReaderV2.getLoggedProfile() != null) {
-				loggedProfileMenuLabel.setText("Welcome " + ProfileFileReaderV2.getLoggedProfile());
+			if (ProfileFileReader.getLoggedProfile() != null) {
+				loggedProfileMenuLabel.setText("Welcome " + ProfileFileReader.getLoggedProfile());
 			} else {
 				loggedProfileMenuLabel.setText("You are not logged in. Please select profile");
 
@@ -177,7 +177,7 @@ public class MenuController {
 	 * @throws IOException
 	 */
 	public void changeToLevelSelection(ActionEvent event) throws IOException {
-		if (ProfileFileReaderV2.getLoggedProfile() != null) {
+		if (ProfileFileReader.getLoggedProfile() != null) {
 			levelsViewUpdated = false;
 			System.out.println("move to level selection");
 			root = FXMLLoader.load(getClass().getResource("levelsSelection.fxml"));
@@ -224,10 +224,10 @@ public class MenuController {
 				// Check there's at least something in the text box
 				// and the profiles doesn't already exist
 			} else if (!newProfileTextField.getText().equals("")
-					&& !ProfileFileReaderV2.doesProfileExist(newProfileTextField.getText())) {
+					&& !ProfileFileReader.doesProfileExist(newProfileTextField.getText())) {
 
-				ProfileFileReaderV2.createNewProfile(newProfileTextField.getText());
-				ProfileFileReaderV2.loginProfile(newProfileTextField.getText());
+				ProfileFileReader.createNewProfile(newProfileTextField.getText());
+				ProfileFileReader.loginProfile(newProfileTextField.getText());
 
 				newProfileTextField.setText("");
 				profilesViewUpdated = false;
@@ -257,20 +257,15 @@ public class MenuController {
 	 */
 	@FXML
 	void removeProfile(ActionEvent event) throws Exception {
-		try {
-
-			if (ProfileFileReaderV2.getLoggedProfile() == null) {
-				alert("No profile is selected");
-			} else {
-				ProfileFileReaderV2.deleteProfile(ProfileFileReaderV2.getLoggedProfile());
-				ProfileFileReaderV2.logout();
-				;
-				HighScores.deleteProfile(ProfileFileReaderV2.getLoggedProfile());
-				profilesViewUpdated = false;
-				this.updateProfilesView();
-			}
-
-		} catch (IOException ignored) {
+		if (ProfileFileReader.getLoggedProfile() == null) {
+			alert("No profile is selected");
+		} else {
+			ProfileFileReader.deleteProfile(ProfileFileReader.getLoggedProfile());
+			ProfileFileReader.logout();
+			;
+			HighScores.deleteProfile(ProfileFileReader.getLoggedProfile());
+			profilesViewUpdated = false;
+			this.updateProfilesView();
 		}
 	}
 
@@ -286,7 +281,7 @@ public class MenuController {
 			updateProfilesScoreTable();
 
 			String[] s = { "" };
-			s = ProfileFileReaderV2.getProfiles();
+			s = ProfileFileReader.getProfiles();
 
 			profileButtons.getChildren().clear();
 			// Display a button for each profile
@@ -300,7 +295,7 @@ public class MenuController {
 				final int buttonIndex = i;
 				// Adds the action for each button
 				profButton[i].setOnAction(event -> {
-					ProfileFileReaderV2.loginProfile(profButton[buttonIndex].getText());
+					ProfileFileReader.loginProfile(profButton[buttonIndex].getText());
 					System.out.print("button pressed lvl");
 					profilesViewUpdated = false;
 					updateProfilesView();
@@ -308,8 +303,8 @@ public class MenuController {
 				});
 			}
 
-			if (ProfileFileReaderV2.getLoggedProfile() != null) {
-				loggedProfileLabel.setText(ProfileFileReaderV2.getLoggedProfile());
+			if (ProfileFileReader.getLoggedProfile() != null) {
+				loggedProfileLabel.setText(ProfileFileReader.getLoggedProfile());
 				System.out.println("label set1");
 			} else {
 				loggedProfileLabel.setText("...");
@@ -325,11 +320,11 @@ public class MenuController {
 	 */
 	public void updateProfilesScoreTable() {
 
-		ArrayList<String> levelNames = ProfileFileReaderV2.getDeafaultLevelsNames();
+		ArrayList<String> levelNames = ProfileFileReader.getDeafaultLevelsNames();
 		profileScoresVBox.getChildren().clear();
 		for (String lvl : levelNames) {
 			Label scoreLabel = new Label(
-					lvl + " " + ProfileFileReaderV2.getBestScore(ProfileFileReaderV2.getLoggedProfile(), lvl));
+					lvl + " " + ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), lvl));
 			profileScoresVBox.getChildren().add(scoreLabel);
 
 		}
@@ -350,12 +345,12 @@ public class MenuController {
 			Button[] levelButtons;
 
 			if (defaultLevelsRadioButton.isSelected()) {
-				levelNames = ProfileFileReaderV2.getDeafaultLevelsNames();
+				levelNames = ProfileFileReader.getDeafaultLevelsNames();
 			} else if (createdLevelsRadioButton.isSelected()) {
-				levelNames = ProfileFileReaderV2.getCreatedLevelsNames();
+				levelNames = ProfileFileReader.getCreatedLevelsNames();
 			} else if (savedGamesRadioButton.isSelected()) {
-				System.out.println(ProfileFileReaderV2.getLoggedProfile());
-				levelNames = ProfileFileReaderV2.getSavedGamesNames(ProfileFileReaderV2.getLoggedProfile());
+				System.out.println(ProfileFileReader.getLoggedProfile());
+				levelNames = ProfileFileReader.getSavedGamesNames(ProfileFileReader.getLoggedProfile());
 			}
 			levelButtons = new Button[levelNames.size()];
 
@@ -379,7 +374,7 @@ public class MenuController {
 	 */
 	public void updateScoreTableLevels() {
 		System.out.println(selectedLevelName + "asfhf");
-		String[] scores = HighScoresV2.getTopScores(selectedLevelName);
+		String[] scores = HighScores.getTopScores(selectedLevelName);
 		scoreTableLevelsVBox.getChildren().clear();
 
 		for (String score : scores) {
@@ -469,8 +464,8 @@ public class MenuController {
 		} else if (createdLevelsRadioButton.isSelected()) {
 			levelType = "created_levels/";
 		} else if (savedGamesRadioButton.isSelected()) {
-			System.out.println(ProfileFileReaderV2.getLoggedProfile());
-			levelType = "saved_games/" + ProfileFileReaderV2.getLoggedProfile() + "/";
+			System.out.println(ProfileFileReader.getLoggedProfile());
+			levelType = "saved_games/" + ProfileFileReader.getLoggedProfile() + "/";
 		}
 		LevelFileReader.loadLevelFile("./resources/levels/" + levelType + selectedLevelName);
 
@@ -517,9 +512,9 @@ public class MenuController {
 			Button[] levelButtons;
 
 			if (editDefaultLevelsRadioButton.isSelected()) {
-				levelNames = ProfileFileReaderV2.getDeafaultLevelsNames();
+				levelNames = ProfileFileReader.getDeafaultLevelsNames();
 			} else if (editCustomLevelsRadioButton.isSelected()) {
-				levelNames = ProfileFileReaderV2.getCreatedLevelsNames();
+				levelNames = ProfileFileReader.getCreatedLevelsNames();
 			}
 
 			levelButtons = new Button[levelNames.size()];
@@ -551,8 +546,8 @@ public class MenuController {
 			e.printStackTrace();
 		}
 		System.out.println(newLevelNameTextField.getText() + " " + tempFile.exists() + " - exist?");
-		ProfileFileReaderV2.createNewLevel(newLevelNameTextField.getText());
-		HighScoresV2.createNewLevel(newLevelNameTextField.getText());
+		ProfileFileReader.createNewLevel(newLevelNameTextField.getText());
+		HighScores.createNewLevel(newLevelNameTextField.getText());
 		levelsCreationViewUpdated = false;
 		updateLevelCreationView();
 		System.out.println("crt");
@@ -573,8 +568,8 @@ public class MenuController {
 		File tempFile = new File("resources/levels/created_levels/" + selectedEditLevelName + ".txt");
 		tempFile.delete();
 		System.out.println(selectedEditLevelName + " " + tempFile.exists() + " - exist_after_delete?");
-		ProfileFileReaderV2.deleteLevel(newLevelNameTextField.getText());
-		HighScoresV2.deleteLevel(newLevelNameTextField.getText());
+		ProfileFileReader.deleteLevel(newLevelNameTextField.getText());
+		HighScores.deleteLevel(newLevelNameTextField.getText());
 		levelsCreationViewUpdated = false;
 		updateLevelCreationView();
 		System.out.println("delete");

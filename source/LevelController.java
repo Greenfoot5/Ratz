@@ -361,8 +361,9 @@ public class LevelController {
         } else {
             gamePaneText.getChildren().add(new Text("You've lost! :("));
 
+            //TODO: Fix to works with new paths
             //Delete save file after losing
-            String levelName = "./resources/level-" + LEVEL_NUMBER;
+            String levelName = "./resources/" + LEVEL_NAME;
             String fullSavePath =
                     levelName + "-inProgress-" + ProfileFileReader.getLoggedProfile() + ".txt";
             File currentSave = new File(fullSavePath);
@@ -372,14 +373,10 @@ public class LevelController {
             }
         }
 
-//        try {
-//            String[] highScores = HighScores.getTopScores(LEVEL_NAME);
-//            for (String text : highScores) {
-//                gamePaneLeaderboard.getChildren().add(new Text(text + "\n"));
-//            }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
+        String[] highScores = HighScores.getTopScores(LEVEL_NAME);
+		for (String text : highScores) {
+		    gamePaneLeaderboard.getChildren().add(new Text(text + "\n"));
+		}
     }///////////////////////////////////////////////////////////////////////////////////////////////////////////////:TODO
 
     /**

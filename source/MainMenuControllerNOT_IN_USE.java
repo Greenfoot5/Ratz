@@ -32,7 +32,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author harvey
  * @version 1.0
  */
-public class MainMenuController extends Application {
+*
+//Dont use this class its artifact. Used only to make sure new code have the same features
+public class MainMenuControllerNOT_IN_USE extends Application {
     public static final int BOTTOM_LEVEL_SPACING = 82;
     public static final int PROFILE_BOTTOM_BOTTOM_PADDING = 30;
     // The dimensions of the window

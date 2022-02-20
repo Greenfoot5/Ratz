@@ -23,8 +23,8 @@ public class Menu extends Application{
 	
 	public void start(Stage primaryStage) throws Exception {
 		
-		HighScoresV2.loadData();
-		ProfileFileReaderV2.loadData();
+		HighScores.loadData();
+		ProfileFileReader.loadData();
 		Parent root = FXMLLoader.load(getClass().getResource("menu2.fxml"));
 		if (rootStage == null) {
 			rootStage = primaryStage;
