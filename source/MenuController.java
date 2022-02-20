@@ -563,8 +563,18 @@ public class MenuController {
 						Image tempImg = new Image(new FileInputStream("resources\\levels_images\\" + selectedEditLevelName + ".png"));
 						int width = (int) tempImg.getWidth();
 						int height = (int) tempImg.getHeight();
-						img = new Image(new FileInputStream("resources\\levels_images\\" + selectedEditLevelName + ".png"),500 , 500, false, false);
-						levelView.resize(400, 40);
+						float widthCompare = (float) MAX_WIDTH_CREATION / (float) width;
+						float heightComare = (float) MAX_HEIGHT_CREATION / (float) height;
+						if (widthCompare < heightComare) {
+							width *= widthCompare;
+							height *= widthCompare;
+						} else {
+							width *= heightComare;
+							height *= heightComare;
+						}
+						img = new Image(new FileInputStream("resources\\levels_images\\" + selectedEditLevelName + ".png"),width , height, false, false);
+						System.out.println(width + " " + height + " ----  width and hieght");
+//						levelView.resize(height, width);
 						levelView.setImage(img);
 						
 					} catch (FileNotFoundException e) {
