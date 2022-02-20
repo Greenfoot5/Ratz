@@ -51,6 +51,7 @@
             <Label text="Create new map" />
             <TextField fx:id="newLevelNameTextField" promptText="Map name" />
             <Button mnemonicParsing="false" onAction="#createLevel" text="Create" />
+            <Button mnemonicParsing="false" onAction="#openLevelEditor" text="Open level editor" />
          </children>
       </HBox>
    </bottom>

@@ -17,7 +17,7 @@ public class HighScores {
 	private static final String FILE_PATH = "resources/highScores2.txt";
 
 	// Maximum number of saved scores per level.
-	private static final int NUMBER_OF_TOP_SCORES = 10;
+	//private static final int NUMBER_OF_TOP_SCORES = 10;
 
 	private static ArrayList<LevelScores> levelsScores = new ArrayList<>();
 

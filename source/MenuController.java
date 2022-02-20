@@ -8,19 +8,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.transform.Transform;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -33,7 +27,7 @@ import javafx.stage.Stage;
 public class MenuController {
 
 	private static final int PROFILES_LIMIT = 8;
-	private static final String delfaultLevelRegex = "level-[1-5]";
+	//private static final String delfaultLevelRegex = "level-[1-5]";
 	// private static final String savedGameStringPart = "inProgress";
 	private static Stage stage;
 	private static Scene scene;
@@ -583,5 +577,21 @@ public class MenuController {
 		}
 		levelsCreationViewUpdated = false;
 		updateLevelCreationView();
+	}
+	
+	public void openLevelEditor(ActionEvent event) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "editor.fxml"));
+        EditorController editorController = new EditorController();
+
+        loader.setController(editorController);
+
+        Pane root = loader.load();
+
+        scene = new Scene(root, root.getPrefWidth(),
+                root.getPrefHeight());
+
+        stage.setScene(scene);
+        stage.show();
 	}
 }
