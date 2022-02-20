@@ -26,7 +26,7 @@ public class Profile {
 	public Profile(String profileName) {
 
 		this.profileName = profileName;
-		ArrayList<String> levelNames = ProfileFileReaderV2.getLevelNames();
+		ArrayList<String> levelNames = ProfileFileReader.getLevelNames();
 
 		profileScores = new ArrayList<>();
 		for (String s: levelNames) {
