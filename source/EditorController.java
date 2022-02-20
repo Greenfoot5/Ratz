@@ -446,8 +446,8 @@ public class EditorController {
         //TODO: add actual saving
     }
     
-    //TODO: need to use this code when saving custom level (set name of the file the same as level name) 
     public void makeScreenShot() throws IOException {
+    	//TODO: need to use this code when saving custom level (set name of the file the same as level name) 
     	WritableImage image = levelCanvas.snapshot(new SnapshotParameters(), null);
     	
     	// TODO: generate file name

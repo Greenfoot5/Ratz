@@ -1,64 +1,18 @@
-.root {
-  -fx-background-color: #30544c;
-  -fx-font-size: 10pt;
+.root{
+    -fx-background-color: #2d4945;
 }
+
+.button{
+    -fx-background-image: url('../../../resources/gui/level-button.png');
+    -fx-font-size: 18px;
+    -fx-font-family: 'Linerama';
+}
+
 .label {
-  -fx-text-fill: #04fce4;
-  
-  
+    -fx-fill: #00ffe4;
+    -fx-font-size: 20px;
+    -fx-text-alignment: center;
+    -fx-font-family: 'Linerama'
 }
-.button {
-	-fx-text-fill: #04fce4;
-    -fx-background-radius: 9;
-    -fx-padding: 3 6 6 6;
-    -fx-background-color: #103450;
-}
-.button:hover {
-	-fx-text-fill: #04fce4;
-    -fx-background-radius: 9;
-    -fx-padding: 3 6 6 6;
-    -fx-background-color: #002340;
-}
-.buttonLoad {
-    -fx-text-fill: #04fce4;
-    -fx-background-radius: 9;
-    -fx-padding: 3 6 6 6;
-    -fx-background-color: #214561;
-}
-.buttonLoad:hover {
-    -fx-text-fill: #04fce4;
-    -fx-background-radius: 9;
-    -fx-padding: 3 6 6 6;
-    -fx-background-color: #103450;
-}
-.buttonBlocked {
-	-fx-text-fill: #04fce4;
-    -fx-background-radius: 9;
-    -fx-padding: 3 6 6 6;
-    -fx-background-color: #DB494F;
-}
-.buttonBlocked:hover {
-	-fx-text-fill: #04fce4;
-    -fx-background-radius: 9;
-    -fx-padding: 3 6 6 6;
-    -fx-background-color: #CA383E;
-}
-.title {
-	  -fx-font-size: 20pt;
-	  -fx-padding: 10px;
-	  -fx-background-radius: 9;
-	
-}
-.imageView {
-	fixPosition: 20 70;
-    -fx-padding: 20 20 20 20;
-}
-.loggingLabel {
-	-fx-font-size: 20pt;
-	-fx-label-padding: 10 0 10 0;
-	-fx-background-radius: 9;
-	-fx-font-weight: bold;
-}
-.scoreHeading {
-	-fx-font-size: 14pt;
-}
+
+
