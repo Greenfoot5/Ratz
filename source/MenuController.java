@@ -390,16 +390,18 @@ public class MenuController {
 
 					levelButtonPressed(event);
 					updateScoreTableLevels();
-					
+
 					{
 						// Preview display
 						Image img = null;
 						try {
 
 							File f = new File("resources\\levels_images\\" + selectedLevelName + ".png");
+
 							if (f.exists()) {
-								Image tempImg = new Image(new FileInputStream(
-										"resources\\levels_images\\" + selectedLevelName + ".png"));
+
+								Image tempImg = new Image(
+										new FileInputStream("resources\\levels_images\\" + selectedLevelName + ".png"));
 
 								int width = (int) tempImg.getWidth();
 								int height = (int) tempImg.getHeight();
@@ -413,12 +415,11 @@ public class MenuController {
 									height *= heightComare;
 								}
 								img = new Image(
-										new FileInputStream(
-												"resources\\levels_images\\" + selectedEditLevelName + ".png"),
+										new FileInputStream("resources\\levels_images\\" + selectedLevelName + ".png"),
 										width, height, false, false);
+
 								levelViewSelection.setImage(img);
 							} else {
-								System.out.println("000000000000000000000");
 								// TODO: do something in case of missing file
 							}
 
