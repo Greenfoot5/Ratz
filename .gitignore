@@ -29,3 +29,7 @@ hs_err_pid*
 # out folder
 out/
 /bin/
+
+# Eclipse
+.classpath
+.project
