@@ -1,4 +1,6 @@
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
@@ -13,6 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -41,6 +45,8 @@ public class MenuController {
 	private static boolean levelsCreationViewUpdated = false;
 	private final static String PART_OF_BUTTON_NAME = "[styleClass=button]'";
 	private static final int LENGHT_OF_FIXED_PART_OF_BUTTON_NAME = 20;
+	private static final int MAX_WIDTH_CREATION = 420;
+	private static final int MAX_HEIGHT_CREATION = 350;
 
 	@FXML
 	private VBox menuRoot;
@@ -51,7 +57,7 @@ public class MenuController {
 	@FXML
 	private BorderPane levelCreationRoot;
 	@FXML
-	private VBox screen;
+	private ImageView levelView;
 	@FXML
 	private Button deleteLevelButton;
 	@FXML
@@ -276,6 +282,7 @@ public class MenuController {
 		if (ProfileFileReader.getLoggedProfile() == null) {
 			alert("No profile is selected");
 		} else {
+			HighScores.deleteProfile(ProfileFileReader.getLoggedProfile());
 			ProfileFileReader.deleteProfile(ProfileFileReader.getLoggedProfile());
 			ProfileFileReader.logout();
 			;
@@ -372,7 +379,7 @@ public class MenuController {
 
 			for (int i = 0; i < levelNames.size(); i++) {
 				levelButtons[i] = new Button(levelNames.get(i));
-				levelButtons[i].setPrefWidth(100);
+				levelButtons[i].setPrefWidth(200);
 				levelButtonsVBox.getChildren().add(levelButtons[i]);
 
 				levelButtons[i].setOnAction(event -> {
@@ -537,7 +544,7 @@ public class MenuController {
 
 			for (int i = 0; i < levelNames.size(); i++) {
 				levelButtons[i] = new Button(levelNames.get(i));
-				levelButtons[i].setPrefWidth(100);
+				levelButtons[i].setPrefWidth(200);
 				levelsButtonsLevelCreationVBox.getChildren().add(levelButtons[i]);
 
 				levelButtons[i].setOnAction(event -> {
@@ -545,8 +552,23 @@ public class MenuController {
 					try {
 						selectedEditLevelName = getButtonName(event);
 						System.out.println(getButtonName(event));
+						
 					} catch (Exception e) {
 						e.printStackTrace();
+					}
+//					File f = new File("resources\\levels_images\\" + selectedEditLevelName + ".png");
+//					System.out.println(f.exists() + " img ex");
+					Image img = null;
+					try {
+						Image tempImg = new Image(new FileInputStream("resources\\levels_images\\" + selectedEditLevelName + ".png"));
+						int width = (int) tempImg.getWidth();
+						int height = (int) tempImg.getHeight();
+						img = new Image(new FileInputStream("resources\\levels_images\\" + selectedEditLevelName + ".png"),500 , 500, false, false);
+						levelView.resize(400, 40);
+						levelView.setImage(img);
+						
+					} catch (FileNotFoundException e) {
+						//levelView.
 					}
 
 				});

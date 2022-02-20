@@ -9,22 +9,22 @@
 
 <BorderPane fx:id="profileSelectionRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
    <left>
-      <VBox fx:id="profileButtons" alignment="CENTER" prefHeight="282.0" prefWidth="136.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="profileButtons" alignment="CENTER" prefHeight="300.0" prefWidth="188.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="l1" prefHeight="147.0" prefWidth="170.0" text="Loading buttons..." />
+            <Label fx:id="l1" prefHeight="1.0" prefWidth="200.0" text="Loading buttons..." />
          </children>
       </VBox>
    </left>
    <right>
-      <VBox alignment="CENTER" prefHeight="300.0" prefWidth="165.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="300.0" prefWidth="188.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#changeToMenu" text="Main menu" />
-            <Button fx:id="removeProfileButton" mnemonicParsing="false" onAction="#removeProfile" text="Remove Profile" />
+            <Button mnemonicParsing="false" onAction="#changeToMenu" prefHeight="39.0" prefWidth="200.0" text="Main menu" />
+            <Button fx:id="removeProfileButton" mnemonicParsing="false" onAction="#removeProfile" prefHeight="39.0" prefWidth="200.0" text="Remove Profile" />
          </children>
       </VBox>
    </right>
    <bottom>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Add new profile:" />
             <TextField fx:id="newProfileTextField" promptText="new profile name" />

@@ -4,24 +4,25 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="levelsSelectionRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
    <top>
-      <Label prefHeight="78.0" prefWidth="163.0" text="Level Select" BorderPane.alignment="CENTER" />
+      <Label prefHeight="100.0" prefWidth="163.0" text="Level Select" BorderPane.alignment="CENTER" />
    </top>
    <right>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="300.0" prefWidth="188.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#playTheGame" text="Play!" />
+            <Button mnemonicParsing="false" onAction="#playTheGame" prefHeight="39.0" prefWidth="188.0" text="Play!" />
             <Label text="Preview" />
-            <Button mnemonicParsing="false" onAction="#changeToMenu" text="MainMenu" />
+            <Button mnemonicParsing="false" onAction="#changeToMenu" prefHeight="39.0" prefWidth="190.0" text="MainMenu" />
          </children>
       </VBox>
    </right>
    <left>
-      <VBox prefHeight="300.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="300.0" prefWidth="188.0" BorderPane.alignment="CENTER">
          <children>
             <VBox prefHeight="61.0" prefWidth="200.0">
                <children>
@@ -34,15 +35,18 @@
                   <RadioButton fx:id="createdLevelsRadioButton" mnemonicParsing="false" onAction="#levelTypeChanged" text="Created Levels" toggleGroup="$levelTypeGroup" />
                </children>
             </VBox>
-            <VBox fx:id="levelButtonsVBox" />
+            <VBox fx:id="levelButtonsVBox" maxHeight="240.0" prefHeight="240.0" prefWidth="188.0" />
          </children>
       </VBox>
    </left>
    <center>
-      <VBox fx:id="scoreTableLevelsVBox" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="scoreTableLevelsVBox" prefHeight="300.0" prefWidth="420.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Loading..." />
          </children>
       </VBox>
    </center>
+   <bottom>
+      <AnchorPane prefHeight="100.0" prefWidth="800.0" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>
