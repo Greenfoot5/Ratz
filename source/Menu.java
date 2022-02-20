@@ -36,13 +36,14 @@ public class Menu extends Application{
 		rootStage.setOnCloseRequest(event -> {
 		    System.out.println("Stage is closing");
 
-			try {
-				ProfileFileReader.saveDataToFile();
-				HighScores.saveDataToFile();
-			} catch (IOException e) {
-				//TODO do give an alert
-				e.printStackTrace();
-			}
+		    // TODO: uncomment it when we want to save data
+//			try {
+//				ProfileFileReader.saveDataToFile();
+//				HighScores.saveDataToFile();
+//			} catch (IOException e) {
+//				//TODO do give an alert
+//				e.printStackTrace();
+//			}
 		});
 	}
 	
