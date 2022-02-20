@@ -13,13 +13,32 @@ import java.util.Scanner;
  */
 public class ProfileFileReader {
 
-    private static final int NUMBER_OF_LEVELS = 5;
+    //private static final int NUMBER_OF_LEVELS = 5;
     /**
      * Path to file storing data about profiles
      */
     private static final String FILE_PATH = "resources/profileFile.txt";
+    private static final String NUMBER_OF_LEVELS_PATH = "resources/numberOfLevels.txt";
 
     private static String selectedProfile = null;
+    
+    public static int getNumberOfLevels() throws Exception {
+    	File file = new File(NUMBER_OF_LEVELS_PATH);
+		Scanner in = new Scanner(file);
+
+		int numberOfLevels;
+		
+		if (!in.hasNext()) {
+			throw new Exception("Number of levels File is missing :(");
+		} else {
+			numberOfLevels = in.nextInt();
+		}
+		
+		in.close();
+		System.gc();
+
+		return numberOfLevels;
+    }
 
 	/**
 	 * Create new profile in text file with chosen name.
@@ -50,7 +69,7 @@ public class ProfileFileReader {
 			lastProfNumber = profNumber + 1;
 			printWriter.println(profNumber + " " + profName);
 
-			for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
+			for (int i = 0; i < getNumberOfLevels(); i++) {
 				int lvl = in.nextInt();
 				int scr = in.nextInt();
 				printWriter.print(lvl + " " + scr + " ");
@@ -61,7 +80,7 @@ public class ProfileFileReader {
 
 		if (!isAlreadyUsedName) {
 			printWriter.println(lastProfNumber + " " + profileName);
-			for (int i = 1; i <= NUMBER_OF_LEVELS; i++) {
+			for (int i = 1; i <= getNumberOfLevels(); i++) {
 				printWriter.print(i + " " + "0 ");
 			}
 		} else {
@@ -85,10 +104,10 @@ public class ProfileFileReader {
 	 * If name is not in a file then does nothing.
 	 * 
 	 * @param profileName	name of a profile
-	 * @throws IOException  if there is a problem with a file
+	 * @throws Exception 
 	 */
 
-	public static void deleteProfile(String profileName) throws IOException {
+	public static void deleteProfile(String profileName) throws Exception {
 		File file = new File(FILE_PATH);
 		File tempFile = new File("resources/tempProf.txt");
 		Scanner in = new Scanner(file);
@@ -108,7 +127,7 @@ public class ProfileFileReader {
 					printWriter.println(profNumber 
 							+ " " + profName);
 				}
-				for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
+				for (int i = 0; i < getNumberOfLevels(); i++) {
 					int lvl = in.nextInt();
 					int scr = in.nextInt();
 					printWriter.print(lvl + " " 
@@ -116,7 +135,7 @@ public class ProfileFileReader {
 				}
 				printWriter.println();
 			} else {
-				for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
+				for (int i = 0; i < getNumberOfLevels(); i++) {
 					in.nextInt();
 					in.nextInt();
 				}
@@ -142,9 +161,9 @@ public class ProfileFileReader {
 	 * @param profileName	name of a profile
 	 * @param level			level which you want to safe score
 	 * @return best player score
-	 * @throws IOException  if there is a problem with a file
+	 * @throws Exception 
 	 */
-	public static int getBestScore(String profileName, int level) throws IOException {
+	public static int getBestScore(String profileName, int level) throws Exception {
 		File file = new File(FILE_PATH);
 		Scanner in = new Scanner(file);
 
@@ -153,7 +172,7 @@ public class ProfileFileReader {
 			in.nextInt();
 			String profName = in.next();
 
-			for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
+			for (int i = 0; i < getNumberOfLevels(); i++) {
 				int lvl = in.nextInt();
 				int scr = in.nextInt();
 				if (profName.equals(profileName) 
@@ -175,9 +194,9 @@ public class ProfileFileReader {
 	 * @param profileName	name of a profile
 	 * @param level			level which you want to safe score
 	 * @param score 		score you want to safe
-	 * @throws IOException  if there is a problem with a file
+	 * @throws Exception 
 	 */
-	public static void saveBestScore(String profileName, int level, int score) throws IOException {
+	public static void saveBestScore(String profileName, int level, int score) throws Exception {
 		File file = new File(FILE_PATH);
 		File tempFile = new File("resources/tempProf.txt");
 		Scanner in = new Scanner(file);
@@ -190,7 +209,7 @@ public class ProfileFileReader {
 
 			printWriter.println(profNumber + " " + profName);
 
-			for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
+			for (int i = 0; i < getNumberOfLevels(); i++) {
 				int lvl = in.nextInt();
 				int scr = in.nextInt();
 
@@ -221,9 +240,9 @@ public class ProfileFileReader {
 	 *
 	 * @param profileName				name of a profile
 	 * @return true if profile exist, false otherwise
-	 * @throws FileNotFoundException	if there is a problem with a file
+	 * @throws Exception 
 	 */
-	public static boolean doesProfileExist(String profileName) throws FileNotFoundException {
+	public static boolean doesProfileExist(String profileName) throws Exception {
 		File file = new File(FILE_PATH);
 		Scanner in = new Scanner(file);
 
@@ -236,7 +255,7 @@ public class ProfileFileReader {
 				exist = true;
 			}
 
-			for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
+			for (int i = 0; i < getNumberOfLevels(); i++) {
 				in.nextInt();
 				in.nextInt();
 			}
@@ -260,7 +279,7 @@ public class ProfileFileReader {
 			} else {
 				selectedProfile = "error";
 			}
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			selectedProfile = "error";
 		}
 	}
@@ -276,9 +295,9 @@ public class ProfileFileReader {
 	 * Get all registered profiles.
 	 *
 	 * @return Sting array containing every profile name
-	 * @throws FileNotFoundException	if there is a problem with a file
+	 * @throws Exception 
 	 */
-	public static String[] getProfiles() throws FileNotFoundException {
+	public static String[] getProfiles() throws Exception {
 		File file = new File(FILE_PATH);
 		Scanner in = new Scanner(file);
 
@@ -295,7 +314,7 @@ public class ProfileFileReader {
 			profiles = newWords;
 			profiles[counter - 2] = profName;
 
-			for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
+			for (int i = 0; i < getNumberOfLevels(); i++) {
 				in.nextInt();
 				in.nextInt();
 			}
@@ -319,7 +338,7 @@ public class ProfileFileReader {
      * Gets the number of levels in the game
 	 * @return number of levels in the game
 	 */
-	public static int getNumberOfLevels() {
-		return ProfileFileReader.NUMBER_OF_LEVELS;
-	}
+//	public static int getNumberOfLevels() {
+//		return ProfileFileReader.NUMBER_OF_LEVELS;
+//	}
 }

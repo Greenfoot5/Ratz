@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -950,7 +952,7 @@ public class MainMenuController extends Application {
      */
     private void loadLevel(Stage levelStage, int levelNumber)
             throws IOException {
-        LevelFileReader.loadLevelFile("./resources/level-" + levelNumber);
+        LevelFileReader.loadLevelFile("./resources/levels/level-" + levelNumber);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "level.fxml"));
@@ -973,5 +975,22 @@ public class MainMenuController extends Application {
     public void finishLevel() {
         mainStage.setScene(mainScene);
         mainStage.show();
+    }
+
+    public static List<String> getCustomLevelNames()
+    {
+        //Creating a File object for directory
+        File directoryPath = new File("resources/custom_levels");
+
+        //List of all files and directories
+        String[] contents = directoryPath.list();
+        List<String> levels = new ArrayList<>();
+
+        assert contents != null;
+        for (String content : contents) {
+            levels.add(content.substring(0, content.length() - 4));
+        }
+
+        return levels;
     }
 }
