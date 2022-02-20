@@ -1,4 +1,7 @@
+
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -7,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -15,10 +19,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Transform;
+import javafx.stage.FileChooser;
 
 import java.util.Arrays;
 
+import javax.imageio.ImageIO;
+
 import static java.lang.Integer.parseInt;
+
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class EditorController {
 
@@ -431,5 +444,19 @@ public class EditorController {
     public void saveLevel() {
         System.out.println("Can't do that yet :(");
         //TODO: add actual saving
+    }
+    
+    //TODO: need to use this code when saving custom level (set name of the file the same as level name) 
+    public void makeScreenShot() throws IOException {
+    	WritableImage image = levelCanvas.snapshot(new SnapshotParameters(), null);
+    	
+    	// TODO: generate file name
+    	File file = new File("resources/chart.png");
+    	
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+        } catch (IOException e) {
+        	// TODO: handle exception here
+        }
     }
 }
