@@ -53,7 +53,10 @@ public class SaveCustomLevel {
 	 * @param name
 	 */
 	private void setName(String name) {
-		this.name = name;
+		if (name.contains("inProgress")) {
+			name = name.replaceAll("inProgress", "New");
+		}
+		this.name = name.replaceAll("\\s+", "");
 	}
 	
 	/**
@@ -200,7 +203,7 @@ public class SaveCustomLevel {
 			File f = new File(getPathName());
 			if (f.createNewFile()) {
 				System.out.println("Created new file " + name);
-				writeNewFile(f);
+				writeNewFile(f, name);
 			}
 			else {
 				System.out.println("Already exists");
@@ -215,7 +218,7 @@ public class SaveCustomLevel {
 	 * @param f file being passed
 	 * @throws IOException 
 	 */
-	public void writeNewFile(File f) throws IOException {
+	public void writeNewFile(File f, String name) throws IOException {
 		FileWriter p = new FileWriter(getPathName());
 		p.write(width + "," + height + "," + maxRats + "," + parTime);
 		p.write("\n");
@@ -248,4 +251,13 @@ public class SaveCustomLevel {
 		p.close();
 	}
 	
+	public static void deleteFile(String name) {
+		File f = new File("resources\\" + name + ".txt");
+		if (f.delete()) {
+			System.out.println(name + " deleted");
+		}
+		else {
+			System.out.println("Failed to delete");
+		}
+	}
 }
