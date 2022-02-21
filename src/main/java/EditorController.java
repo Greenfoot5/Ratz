@@ -32,10 +32,14 @@ import java.io.IOException;
 
 public class EditorController {
 
+	// Size of one tile in pixels
 	private static final int TILE_SIZE = 64;
+	private static final String delfaultLevelRegex = "level-[1-5]";
 
 	// Time between item drops
 	private final int[] dropRates;
+
+	private String levelName;
 
 	// Size of game map
 	private int width;
@@ -45,12 +49,12 @@ public class EditorController {
 	private int maxRats;
 	private int parTime;
 
+	// Current tile selected to draw
 	private Tile selectedTile = new Grass();
 
 	@FXML
 	public Canvas levelCanvas;
 
-	@FXML
 	public RadioButton rbGrass;
 	public RadioButton rbPath;
 	public RadioButton rbTunnel;
@@ -78,9 +82,14 @@ public class EditorController {
 
 	public Text settingsErrorText;
 
+	public Pane saveLevelPane;
+	public TextField levelNameTextField;
+	public Text savingErrorText;
+
 	public Button sizeChangeButton;
 	public Button levelSettingsButton;
 	public Button saveLevelButton;
+	public Button saveAndExitButton;
 
 	// Level map
 	private static Tile[][] tileMap = new Tile[0][0];
@@ -406,6 +415,11 @@ public class EditorController {
 		}
 	}
 
+	/**
+	 * Gets current number of rats on the board.
+	 * 
+	 * @return number of rats.
+	 */
 	private int getNumOfRats() {
 		int num = 0;
 		for (Tile[] tiles : tileMap) {
@@ -418,6 +432,9 @@ public class EditorController {
 		return num;
 	}
 
+	/**
+	 * Disables all canvas events.
+	 */
 	private void disableCanvas() {
 		levelCanvas.setOnMousePressed(null);
 		levelCanvas.setOnMouseDragged(null);
@@ -425,6 +442,11 @@ public class EditorController {
 		levelCanvas.setOnDragOver(null);
 	}
 
+	/**
+	 * Sets button disabling for all side panel buttons.
+	 * 
+	 * @param val whether buttons should be disabled.
+	 */
 	private void setButtonDisabling(boolean val) {
 		rbGrass.setDisable(val);
 		rbTunnel.setDisable(val);
@@ -436,9 +458,34 @@ public class EditorController {
 		heightTextField.setDisable(val);
 	}
 
+	/**
+	 * Opens level saving dialogue box.
+	 */
 	@FXML
 	public void openSavingDialogueBox() {
+		saveLevelPane.setVisible(true);
+		setButtonDisabling(true);
+		disableCanvas();
+		if (getNumOfRats() <= 1) {
+			savingErrorText.setText("Please add more rat spawns to the level.");
+			saveAndExitButton.setDisable(true);
+		} else if (maxRats <= getNumOfRats()) {
+			savingErrorText.setText("Please fix level settings before saving.");
+			saveAndExitButton.setDisable(true);
+		} else {
+			saveAndExitButton.setDisable(false);
+			savingErrorText.setText("");
+		}
+	}
 
+	/**
+	 * Goes back to editor from level saving dialogue box.
+	 */
+	public void goBackToEditor() {
+		saveLevelPane.setVisible(false);
+		setupCanvasDrawing();
+		setupCanvasDragBehaviour();
+		setButtonDisabling(false);
 	}
 
 	/**
@@ -446,8 +493,18 @@ public class EditorController {
 	 */
 	@FXML
 	public void saveLevel() {
-		System.out.println("Can't do that yet :(");
-		// TODO: add actual saving
+		String newLevelName = levelNameTextField.getText();
+		if(newLevelName.contains(" ")){
+			savingErrorText.setText("Level name cannot contain spaces");
+		} else if(newLevelName.matches(delfaultLevelRegex)) {
+			savingErrorText.setText("Level name cannot be the same as default level");
+		}else  if(newLevelName.length() == 0) {
+			savingErrorText.setText("Level name cannot be empty");
+		} else {
+			savingErrorText.setText("");
+			System.out.println("Can't do that yet :(");
+			// TODO: add actual saving
+		}
 	}
 
 	public void makeScreenShot() throws IOException {
@@ -460,11 +517,11 @@ public class EditorController {
 		WritableImage writableImage = new WritableImage(TILE_SIZE * width, TILE_SIZE * height);
 		SnapshotParameters params = new SnapshotParameters();
 		levelCanvas.snapshot(params, writableImage);
-		
+
 		try {
 			ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
 		} catch (Throwable th) {
-			//TODO: handle this exception
+			// TODO: handle this exception
 		}
 
 	}

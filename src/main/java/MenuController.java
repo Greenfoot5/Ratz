@@ -1,4 +1,6 @@
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -15,6 +17,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -43,6 +47,10 @@ public class MenuController {
 	private static boolean levelsCreationViewUpdated = false;
 	private final static String PART_OF_BUTTON_NAME = "[styleClass=button]'";
 	private static final int LENGHT_OF_FIXED_PART_OF_BUTTON_NAME = 20;
+	private static final int MAX_WIDTH_CREATION = 420;
+	private static final int MAX_HEIGHT_CREATION = 350;
+	private static final int MAX_WIDTH_SELECTION = 200;
+	private static final int MAX_HEIGHT_SELECTION = 160;
 
 	@FXML
 	private VBox menuRoot;
@@ -53,7 +61,9 @@ public class MenuController {
 	@FXML
 	private BorderPane levelCreationRoot;
 	@FXML
-	private VBox screen;
+	private ImageView levelView;
+	@FXML
+	private ImageView levelViewSelection;
 	@FXML
 	private Button deleteLevelButton;
 	@FXML
@@ -278,6 +288,7 @@ public class MenuController {
 		if (ProfileFileReader.getLoggedProfile() == null) {
 			alert("No profile is selected");
 		} else {
+			HighScores.deleteProfile(ProfileFileReader.getLoggedProfile());
 			ProfileFileReader.deleteProfile(ProfileFileReader.getLoggedProfile());
 			ProfileFileReader.logout();
 			;
@@ -374,13 +385,49 @@ public class MenuController {
 
 			for (int i = 0; i < levelNames.size(); i++) {
 				levelButtons[i] = new Button(levelNames.get(i));
-				levelButtons[i].setPrefWidth(100);
+				levelButtons[i].setPrefWidth(200);
 				levelButtonsVBox.getChildren().add(levelButtons[i]);
 
 				levelButtons[i].setOnAction(event -> {
 
 					levelButtonPressed(event);
 					updateScoreTableLevels();
+					
+					{
+						// Preview display
+						Image img = null;
+						try {
+
+							File f = new File("resources\\levels_images\\" + selectedLevelName + ".png");
+							if (f.exists()) {
+								Image tempImg = new Image(new FileInputStream(
+										"resources\\levels_images\\" + selectedLevelName + ".png"));
+
+								int width = (int) tempImg.getWidth();
+								int height = (int) tempImg.getHeight();
+								float widthCompare = (float) MAX_WIDTH_SELECTION / (float) width;
+								float heightComare = (float) MAX_HEIGHT_SELECTION / (float) height;
+								if (widthCompare < heightComare) {
+									width *= widthCompare;
+									height *= widthCompare;
+								} else {
+									width *= heightComare;
+									height *= heightComare;
+								}
+								img = new Image(
+										new FileInputStream(
+												"resources\\levels_images\\" + selectedEditLevelName + ".png"),
+										width, height, false, false);
+								levelViewSelection.setImage(img);
+							} else {
+								System.out.println("000000000000000000000");
+								// TODO: do something in case of missing file
+							}
+
+						} catch (FileNotFoundException e) {
+							// levelView.
+						}
+					}
 
 				});
 			}
@@ -539,16 +586,51 @@ public class MenuController {
 
 			for (int i = 0; i < levelNames.size(); i++) {
 				levelButtons[i] = new Button(levelNames.get(i));
-				levelButtons[i].setPrefWidth(100);
+				levelButtons[i].setPrefWidth(200);
 				levelsButtonsLevelCreationVBox.getChildren().add(levelButtons[i]);
 
 				levelButtons[i].setOnAction(event -> {
-					// TODO add code to edit/delete levels
 					try {
 						selectedEditLevelName = getButtonName(event);
 						System.out.println(getButtonName(event));
+
 					} catch (Exception e) {
 						e.printStackTrace();
+					}
+
+					{
+						// Preview display
+						Image img = null;
+						try {
+
+							File f = new File("resources\\levels_images\\" + selectedEditLevelName + ".png");
+							if (f.exists()) {
+								Image tempImg = new Image(new FileInputStream(
+										"resources\\levels_images\\" + selectedEditLevelName + ".png"));
+
+								int width = (int) tempImg.getWidth();
+								int height = (int) tempImg.getHeight();
+								float widthCompare = (float) MAX_WIDTH_CREATION / (float) width;
+								float heightComare = (float) MAX_HEIGHT_CREATION / (float) height;
+								if (widthCompare < heightComare) {
+									width *= widthCompare;
+									height *= widthCompare;
+								} else {
+									width *= heightComare;
+									height *= heightComare;
+								}
+								img = new Image(
+										new FileInputStream(
+												"resources\\levels_images\\" + selectedEditLevelName + ".png"),
+										width, height, false, false);
+								levelView.setImage(img);
+							} else {
+								// TODO: do something in case of missing file
+							}
+
+						} catch (FileNotFoundException e) {
+							// levelView.
+						}
 					}
 
 				});
