@@ -29,6 +29,7 @@ hs_err_pid*
 # out folder
 out/
 /bin/
+target/
 
 # Eclipse
 .classpath
