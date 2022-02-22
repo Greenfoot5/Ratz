@@ -33,7 +33,7 @@ import javafx.stage.Stage;
  */
 public class MenuController {
 
-	private static final int PROFILES_LIMIT = 8;
+	private static final int PROFILES_LIMIT = 10;
 	// private static final String delfaultLevelRegex = "level-[1-5]";
 	// private static final String savedGameStringPart = "inProgress";
 	private static Stage stage;
