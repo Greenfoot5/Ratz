@@ -521,6 +521,9 @@ public class EditorController {
 			savingErrorText.setText("");
 			System.out.println("Can't do that yet :(");
 			// TODO: add actual saving
+			
+			SaveCustomLevel save = new SaveCustomLevel("src\\main\\resources\\levels\\created_levels\\" + newLevelName, width, height, tileMap, maxRats, parTime, dropRates);
+			
 		}
 	}
 

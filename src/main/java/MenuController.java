@@ -34,6 +34,7 @@ import javafx.stage.Stage;
 public class MenuController {
 
 	private static final int PROFILES_LIMIT = 10;
+	private static final int CUSTOM_LEVELS_LIMIT = 10;
 	// private static final String delfaultLevelRegex = "level-[1-5]";
 	// private static final String savedGameStringPart = "inProgress";
 	private static Stage stage;
@@ -550,7 +551,7 @@ public class MenuController {
 			System.out.println(ProfileFileReader.getLoggedProfile());
 			levelType = "saved_games/" + ProfileFileReader.getLoggedProfile() + "/";
 		}
-		LevelFileReader.loadLevelFile("levels/" + levelType + selectedLevelName);
+		LevelFileReader.loadLevelFile("src/main/resources/levels/" + levelType + selectedLevelName);
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
 		LevelController levelController = new LevelController(selectedLevelName, this);
@@ -660,7 +661,7 @@ public class MenuController {
 	}
 
 	public void createLevel(ActionEvent event) {
-		File tempFile = new File("levels/created_levels/" + newLevelNameTextField.getText() + ".txt");
+		File tempFile = new File("src\\main\\resources\\levels\\created_levels\\" + newLevelNameTextField.getText() + ".txt");
 		try {
 			tempFile.createNewFile();
 		} catch (IOException e) {

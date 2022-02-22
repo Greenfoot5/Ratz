@@ -222,7 +222,7 @@ public class SaveCustomLevel {
 		FileWriter p = new FileWriter(getPathName());
 		p.write(width + "," + height + "," + maxRats + "," + parTime);
 		p.write("\n");
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < 8; i++) {
 			p.write(dropRates[i]+"");
 			if (i != 7)
 				p.write(",");
