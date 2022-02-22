@@ -5,15 +5,16 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="levelCreationRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
+<BorderPane fx:id="levelCreationRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
    <left>
-      <VBox prefHeight="225.0" prefWidth="131.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="353.0" prefWidth="188.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="113.0" prefWidth="122.0">
+            <VBox prefHeight="43.0" prefWidth="188.0">
                <children>
                   <RadioButton fx:id="editDefaultLevelsRadioButton" mnemonicParsing="false" onAction="#editLevelTypeChanged" selected="true" text="Edit default levels">
                      <toggleGroup>
@@ -23,7 +24,7 @@
                   <RadioButton fx:id="editCustomLevelsRadioButton" mnemonicParsing="false" onAction="#editLevelTypeChanged" text="Edit custom levels" toggleGroup="$editLevelTypeGroup" />
                </children>
             </VBox>
-            <VBox fx:id="levelsButtonsLevelCreationVBox" prefHeight="320.0" prefWidth="131.0">
+            <VBox fx:id="levelsButtonsLevelCreationVBox" alignment="CENTER" prefHeight="320.0" prefWidth="131.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="67.0" text="Loading..." />
                </children>
@@ -32,11 +33,11 @@
       </VBox>
    </left>
    <right>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="353.0" prefWidth="188.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#editCreatedLevel" text="Edit" />
-            <Button fx:id="deleteLevelButton" disable="true" mnemonicParsing="false" onAction="#deleteCreatedLevel" text="Delete" />
-            <Button mnemonicParsing="false" onAction="#changeToMenu" text="Back to menn" />
+            <Button mnemonicParsing="false" onAction="#editCreatedLevel" prefHeight="39.0" prefWidth="206.0" text="Edit" />
+            <Button fx:id="deleteLevelButton" disable="true" mnemonicParsing="false" onAction="#deleteCreatedLevel" prefHeight="39.0" prefWidth="326.0" text="Delete" />
+            <Button mnemonicParsing="false" onAction="#changeToMenu" prefHeight="39.0" prefWidth="360.0" text="Back to menn" />
          </children>
       </VBox>
    </right>
@@ -55,6 +56,9 @@
       </HBox>
    </bottom>
    <center>
-      <VBox fx:id="screen" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="levelView" fitHeight="350.0" fitWidth="420.0" pickOnBounds="true" preserveRatio="true" />
+         </children></VBox>
    </center>
 </BorderPane>

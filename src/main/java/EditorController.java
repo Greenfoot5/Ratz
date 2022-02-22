@@ -40,7 +40,9 @@ public class EditorController {
 	private final int[] dropRates;
 
 	private String levelName;
-
+	private MenuController MAIN_MENU;
+	
+	
 	// Size of game map
 	private int width;
 	private int height;
@@ -103,6 +105,21 @@ public class EditorController {
 				tileMap[i][j] = new Grass();
 			}
 		}
+		maxRats = 20;
+		parTime = 150;
+		dropRates = new int[8];
+		Arrays.fill(dropRates, 1); // TODO: change these to millis when saving level, from millis when loading one
+	}
+	
+	public EditorController(String levelName, MenuController mainMenuController) {
+		this.levelName = levelName;
+		MAIN_MENU = mainMenuController;
+		
+		width = LevelFileReader.getWidth();
+		height = LevelFileReader.getHeight();
+		
+		tileMap = LevelFileReader.getTileMap();
+		
 		maxRats = 20;
 		parTime = 150;
 		dropRates = new int[8];

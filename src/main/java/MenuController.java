@@ -318,7 +318,10 @@ public class MenuController {
 
 			for (int i = 0; i < profButton.length; i++) {
 				profButton[i] = new Button(s[i]);
-				profButton[i].setPrefWidth(200);
+				profButton[i].setPrefWidth(145);
+				profButton[i].setPrefHeight(28);
+				profButton[i].setId("profile-button");
+				;
 				profileButtons.getChildren().add(profButton[i]);
 
 				final int buttonIndex = i;
@@ -593,8 +596,6 @@ public class MenuController {
 				levelButtons[i].setOnAction(event -> {
 					try {
 						selectedEditLevelName = getButtonName(event);
-						System.out.println(getButtonName(event));
-
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -654,14 +655,26 @@ public class MenuController {
 		System.out.println("crt");
 	}
 
-	public void editCreatedLevel(ActionEvent event) {
+	public void editCreatedLevel(ActionEvent event) throws IOException {
 		System.out.println("edit");
-		/*
-		 * TODO use this code to store preview of created maps SnapshotParameters param
-		 * = new SnapshotParameters(); param.setTransform(Transform.scale(0.7, 0.7));
-		 * WritableImage snapshot = newLevelNameTextField.snapshot(param, null);
-		 * ImageView imgW = new ImageView(snapshot); screen.getChildren().add(imgW);
-		 */
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("editor.fxml"));
+
+		if (editDefaultLevelsRadioButton.isSelected()) {
+			LevelFileReader.loadLevelFile("src\\main\\resources\\levels\\default_levels\\" + selectedEditLevelName);
+		} else if (editCustomLevelsRadioButton.isSelected()) {
+			LevelFileReader.loadLevelFile("src\\main\\resources\\levels\\created_levels\\" + selectedEditLevelName);
+		}
+
+		EditorController editorController = new EditorController(selectedEditLevelName, this);
+
+		loader.setController(editorController);
+
+		Pane root = loader.load();
+
+		scene = new Scene(root, root.getPrefWidth(), root.getPrefHeight());
+
+		stage.setScene(scene);
+		stage.show();
 	}
 
 	public void deleteCreatedLevel(ActionEvent event) {

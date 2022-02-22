@@ -388,7 +388,7 @@ public class LevelFileReader {
 
         File levelDataInProgress = new File("src/main/resources" + filename + "-inProgress-"
                 + ProfileFileReader.getLoggedProfile() + ".txt");
-        File levelData = new File("target/classes/" + filename + ".txt");
+        File levelData = new File(filename + ".txt");
         Scanner reader = new Scanner(levelData);
 
         RAT_ARRAY_LIST.clear();
