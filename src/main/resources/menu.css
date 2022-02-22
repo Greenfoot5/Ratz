@@ -12,10 +12,31 @@
     -fx-font-family: 'Linerama';
 }
 
-.profile-button {
-    -fx-background-image: url('gui/profile-button.png');
-    -fx-font-size: 18.0px;
-    -fx-font-family: 'Linerama';
+#red-menu-button {
+    -fx-background-image: url('gui/red-menu-button1.png');
+}
+
+#green-menu-button1 {
+        -fx-background-image: url('gui/green-menu-button1.png');
+    
+}
+
+#menu-button1 {
+    -fx-background-image: url('gui/menu-button1.png');
+}
+
+.radio-button > .radio {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0px;
+    -fx-padding: 0.0em; /* 4 8 4 8 */
+}
+.radio-button:selected > .radio > .dot {
+    -fx-background-color: transparent;
+}
+.radio-button {
+    -fx-text-aligmrnt: center;
+    -fx-background-image: url('gui/radio-button.png');
 }
 
 .label {
@@ -29,6 +50,13 @@
 .profileLabel {
     -fx-font-size: 30.0px;
     
+}
+
+#sidebar1-menu {
+    -fx-background-image: url('gui/sidebar1-menu.png');   
+}
+#sidebar2-menu {
+    -fx-background-image: url('gui/sidebar2-menu.png'); 
 }
 
 

@@ -24,8 +24,8 @@ Menu.class
 Score.class
 LevelController.class
 Test.class
-Power.class
 Bomb.class
+Power.class
 MenuController.class
 Rat$Sex.class
 LevelFileReader$1.class

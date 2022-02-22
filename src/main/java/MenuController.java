@@ -45,8 +45,8 @@ public class MenuController {
 	private static boolean profilesViewUpdated = false;
 	private static boolean levelsViewUpdated = false;
 	private static boolean levelsCreationViewUpdated = false;
-	private final static String PART_OF_BUTTON_NAME = "[styleClass=button]'";
-	private static final int LENGHT_OF_FIXED_PART_OF_BUTTON_NAME = 20;
+	private final static String PART_OF_BUTTON_NAME = "styleClass=button]'";
+	private static final int LENGHT_OF_FIXED_PART_OF_BUTTON_NAME = 19;
 	private static final int MAX_WIDTH_CREATION = 420;
 	private static final int MAX_HEIGHT_CREATION = 350;
 	private static final int MAX_WIDTH_SELECTION = 200;
@@ -112,6 +112,8 @@ public class MenuController {
 		} else if (this.menuRoot != null) {
 			updateMenuView();
 		} else if (this.levelsSelectionRoot != null) {
+			defaultLevelsRadioButton.getStyleClass().remove("radio-button");
+			defaultLevelsRadioButton.getStyleClass().add("toggle-button");
 			updateLevelsView();
 		} else if (this.levelCreationRoot != null) {
 			updateLevelCreationView();
@@ -140,9 +142,9 @@ public class MenuController {
 		layout.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(layout);
-		File f = new File("target/classes/menu.css");
-		scene.getStylesheets().clear();
-		scene.getStylesheets().add("file://" + f.getAbsolutePath().replace("\\", "/"));
+		//File f = new File("target/classes/menu.css");
+		//scene.getStylesheets().clear();
+		//scene.getStylesheets().add("file://" + f.getAbsolutePath().replace("\\", "/"));
 
 		window.setScene(scene);
 		window.setResizable(false);
@@ -318,10 +320,10 @@ public class MenuController {
 
 			for (int i = 0; i < profButton.length; i++) {
 				profButton[i] = new Button(s[i]);
-				profButton[i].setPrefWidth(145);
-				profButton[i].setPrefHeight(28);
-				profButton[i].setId("profile-button");
-				;
+				profButton[i].setMaxSize(155, 30);
+				profButton[i].setMinSize(155, 30);
+				profButton[i].setId("menu-button1");
+
 				profileButtons.getChildren().add(profButton[i]);
 
 				final int buttonIndex = i;
@@ -364,6 +366,13 @@ public class MenuController {
 
 	////////////////////////////////////////////////////////////////////// levels
 
+	public void selectRadioButton(RadioButton r1, RadioButton r2, RadioButton r3) {
+		r1.setStyle("-fx-background-image: url('gui/selected-radio-button.png')");
+		r2.setStyle("-fx-background-image: url('gui/radio-button.png')");
+		r3.setStyle("-fx-background-image: url('gui/radio-button.png')");
+
+	}
+
 	/**
 	 * Updates buttons and score table in level selection menu.
 	 */
@@ -378,18 +387,23 @@ public class MenuController {
 
 			if (defaultLevelsRadioButton.isSelected()) {
 				levelNames = ProfileFileReader.getDeafaultLevelsNames();
+				selectRadioButton(defaultLevelsRadioButton, createdLevelsRadioButton, savedGamesRadioButton);
 			} else if (createdLevelsRadioButton.isSelected()) {
 				levelNames = ProfileFileReader.getCreatedLevelsNames();
+				selectRadioButton(createdLevelsRadioButton, savedGamesRadioButton, defaultLevelsRadioButton);
 			} else if (savedGamesRadioButton.isSelected()) {
-				System.out.println(ProfileFileReader.getLoggedProfile());
 				levelNames = ProfileFileReader.getSavedGamesNames(ProfileFileReader.getLoggedProfile());
+				selectRadioButton(savedGamesRadioButton, defaultLevelsRadioButton, createdLevelsRadioButton);
 			}
 			levelButtons = new Button[levelNames.size()];
 
 			for (int i = 0; i < levelNames.size(); i++) {
 				levelButtons[i] = new Button(levelNames.get(i));
-				levelButtons[i].setPrefWidth(200);
+				levelButtons[i].setMaxSize(155, 30);
+				levelButtons[i].setMinSize(155, 30);
+				levelButtons[i].setId("menu-button1");
 				levelButtonsVBox.getChildren().add(levelButtons[i]);
+				
 
 				levelButtons[i].setOnAction(event -> {
 
@@ -401,12 +415,12 @@ public class MenuController {
 						Image img = null;
 						try {
 
-							File f = new File("resources\\levels_images\\" + selectedLevelName + ".png");
+							File f = new File("src\\main\\resources\\levels_images\\" + selectedLevelName + ".png");
 
 							if (f.exists()) {
 
 								Image tempImg = new Image(
-										new FileInputStream("resources\\levels_images\\" + selectedLevelName + ".png"));
+										new FileInputStream("src\\main\\resources\\levels_images\\" + selectedLevelName + ".png"));
 
 								int width = (int) tempImg.getWidth();
 								int height = (int) tempImg.getHeight();
@@ -420,7 +434,7 @@ public class MenuController {
 									height *= heightComare;
 								}
 								img = new Image(
-										new FileInputStream("resources\\levels_images\\" + selectedLevelName + ".png"),
+										new FileInputStream("src\\main\\resources\\levels_images\\" + selectedLevelName + ".png"),
 										width, height, false, false);
 
 								levelViewSelection.setImage(img);
@@ -582,15 +596,19 @@ public class MenuController {
 
 			if (editDefaultLevelsRadioButton.isSelected()) {
 				levelNames = ProfileFileReader.getDeafaultLevelsNames();
+				selectRadioButton(editDefaultLevelsRadioButton, editCustomLevelsRadioButton, editCustomLevelsRadioButton);
 			} else if (editCustomLevelsRadioButton.isSelected()) {
 				levelNames = ProfileFileReader.getCreatedLevelsNames();
+				selectRadioButton(editCustomLevelsRadioButton, editDefaultLevelsRadioButton, editDefaultLevelsRadioButton);
 			}
 
 			levelButtons = new Button[levelNames.size()];
 
 			for (int i = 0; i < levelNames.size(); i++) {
 				levelButtons[i] = new Button(levelNames.get(i));
-				levelButtons[i].setPrefWidth(200);
+				levelButtons[i].setMaxSize(155, 30);
+				levelButtons[i].setMinSize(155, 30);
+				levelButtons[i].setId("menu-button1");
 				levelsButtonsLevelCreationVBox.getChildren().add(levelButtons[i]);
 
 				levelButtons[i].setOnAction(event -> {
@@ -605,10 +623,10 @@ public class MenuController {
 						Image img = null;
 						try {
 
-							File f = new File("resources\\levels_images\\" + selectedEditLevelName + ".png");
+							File f = new File("src\\main\\resources\\levels_images\\" + selectedEditLevelName + ".png");
 							if (f.exists()) {
 								Image tempImg = new Image(new FileInputStream(
-										"resources\\levels_images\\" + selectedEditLevelName + ".png"));
+										"src\\main\\resources\\levels_images\\\\" + selectedEditLevelName + ".png"));
 
 								int width = (int) tempImg.getWidth();
 								int height = (int) tempImg.getHeight();
@@ -623,10 +641,11 @@ public class MenuController {
 								}
 								img = new Image(
 										new FileInputStream(
-												"resources\\levels_images\\" + selectedEditLevelName + ".png"),
+												"src\\main\\resources\\levels_images\\" + selectedEditLevelName + ".png"),
 										width, height, false, false);
 								levelView.setImage(img);
 							} else {
+								System.out.println("ops");
 								// TODO: do something in case of missing file
 							}
 

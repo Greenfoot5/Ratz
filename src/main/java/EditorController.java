@@ -529,7 +529,7 @@ public class EditorController {
 		// the same as level name)
 
 		// TODO: generate file name
-		File file = new File("target/classes/chart.png");
+		File file = new File("src\\main\\resources\\chart.png");
 
 		WritableImage writableImage = new WritableImage(TILE_SIZE * width, TILE_SIZE * height);
 		SnapshotParameters params = new SnapshotParameters();

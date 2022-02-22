@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
@@ -10,42 +11,58 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="levelCreationRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
+<BorderPane fx:id="levelCreationRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
    <left>
-      <VBox prefHeight="353.0" prefWidth="188.0" BorderPane.alignment="CENTER">
+      <VBox id="sidebar2-menu" maxHeight="360.0" prefHeight="360.0" prefWidth="175.0" spacing="4.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="43.0" prefWidth="188.0">
+            <VBox alignment="CENTER" minHeight="64.0" prefHeight="64.0" prefWidth="159.0" spacing="2.0">
                <children>
-                  <RadioButton fx:id="editDefaultLevelsRadioButton" mnemonicParsing="false" onAction="#editLevelTypeChanged" selected="true" text="Edit default levels">
+                  <RadioButton fx:id="editDefaultLevelsRadioButton" mnemonicParsing="false" onAction="#editLevelTypeChanged" prefHeight="24.0" prefWidth="125.0" selected="true" text="Edit default levels">
                      <toggleGroup>
                         <ToggleGroup fx:id="editLevelTypeGroup" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="editCustomLevelsRadioButton" mnemonicParsing="false" onAction="#editLevelTypeChanged" text="Edit custom levels" toggleGroup="$editLevelTypeGroup" />
+                  <RadioButton fx:id="editCustomLevelsRadioButton" mnemonicParsing="false" onAction="#editLevelTypeChanged" prefHeight="24.0" prefWidth="125.0" text="Edit custom levels" toggleGroup="$editLevelTypeGroup" />
                </children>
             </VBox>
-            <VBox fx:id="levelsButtonsLevelCreationVBox" alignment="CENTER" prefHeight="320.0" prefWidth="131.0">
+            <VBox fx:id="levelsButtonsLevelCreationVBox" alignment="CENTER" maxHeight="192.0" prefWidth="192.0" spacing="3.0">
                <children>
-                  <Label prefHeight="18.0" prefWidth="67.0" text="Loading..." />
+                  <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
+                  <Button layoutX="12.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
+                  <Button layoutX="12.0" layoutY="45.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
+                  <Button layoutX="12.0" layoutY="80.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
+                  <Button layoutX="12.0" layoutY="115.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
+                  <Button layoutX="12.0" layoutY="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
+                  <Button layoutX="12.0" layoutY="185.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
+                  <Button layoutX="12.0" layoutY="220.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
                </children>
+               <padding>
+                  <Insets bottom="1.0" left="2.0" right="2.0" />
+               </padding>
             </VBox>
          </children>
+         <BorderPane.margin>
+            <Insets left="5.0" right="4.0" />
+         </BorderPane.margin>
       </VBox>
    </left>
    <right>
-      <VBox alignment="CENTER" prefHeight="353.0" prefWidth="188.0" BorderPane.alignment="CENTER">
+      <VBox id="sidebar1-menu" alignment="CENTER" maxHeight="165.0" prefHeight="165.0" prefWidth="206.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#editCreatedLevel" prefHeight="39.0" prefWidth="206.0" text="Edit" />
-            <Button fx:id="deleteLevelButton" disable="true" mnemonicParsing="false" onAction="#deleteCreatedLevel" prefHeight="39.0" prefWidth="326.0" text="Delete" />
-            <Button mnemonicParsing="false" onAction="#changeToMenu" prefHeight="39.0" prefWidth="360.0" text="Back to menn" />
+            <Button mnemonicParsing="false" onAction="#editCreatedLevel" prefHeight="36.0" prefWidth="187.0" text="Edit" />
+            <Button fx:id="deleteLevelButton" disable="true" mnemonicParsing="false" onAction="#deleteCreatedLevel" prefHeight="36.0" prefWidth="187.0" text="Delete" />
+            <Button mnemonicParsing="false" onAction="#changeToMenu" prefHeight="36.0" prefWidth="187.0" text="Back to menn" />
          </children>
+         <BorderPane.margin>
+            <Insets left="5.0" right="5.0" />
+         </BorderPane.margin>
       </VBox>
    </right>
    <top>
       <Label prefHeight="75.0" prefWidth="489.0" text="this is suggestion for level creation menu, with basic functionality, most things are to change" BorderPane.alignment="CENTER" />
    </top>
    <bottom>
-      <HBox alignment="CENTER" prefHeight="72.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="59.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
             <Label prefHeight="66.0" prefWidth="170.0" text="(this section will probably &#10;be removed later/       ---&gt;&#10;/right now it's used for testing)" />
             <Label text="Create new map" />
@@ -56,9 +73,9 @@
       </HBox>
    </bottom>
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox maxWidth="425.0" prefHeight="366.0" prefWidth="377.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="levelView" fitHeight="350.0" fitWidth="420.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="levelView" fitHeight="300.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" />
          </children></VBox>
    </center>
 </BorderPane>
