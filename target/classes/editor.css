@@ -34,6 +34,10 @@
     -fx-text-alignment: center;
     -fx-fill: #00ffe4;
 }
+.savingDialogueBox{
+    -fx-background-image: url('gui/level-save-dialogue-box.png');
+    -fx-font-family: 'Linerama';
+}
 .radio-button > .radio {
     -fx-background-color: transparent;
     -fx-background-insets: 0;
