@@ -25,6 +25,8 @@ public class SaveCustomLevel {
 	private int[] dropRates;
 	
 	private ArrayList<Rat> rats;
+
+	private boolean wasSaved;
 	
 	/**
 	 * Constructs a save custom level object
@@ -204,9 +206,11 @@ public class SaveCustomLevel {
 			if (f.createNewFile()) {
 				System.out.println("Created new file " + name);
 				writeNewFile(f, name);
+				wasSaved=true;
 			}
 			else {
 				System.out.println("Already exists");
+				wasSaved = false;
 			}
 		} catch (IOException e) {
 			System.out.println("An error occured");
@@ -259,5 +263,9 @@ public class SaveCustomLevel {
 		else {
 			System.out.println("Failed to delete");
 		}
+	}
+
+	public boolean wasSaved(){
+		return wasSaved;
 	}
 }

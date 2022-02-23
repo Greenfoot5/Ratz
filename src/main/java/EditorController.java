@@ -569,12 +569,23 @@ public class EditorController {
 			savingErrorText.setText("Level name cannot be empty");
 		} else {
 			savingErrorText.setText("");
+			
 			changeToBabyRats();
 			for (int i = 0; i < dropRates.length; i++) {
 				dropRates[i] = dropRates[i]*MILLIS_RATIO;
 			}
+
 			SaveCustomLevel save = new SaveCustomLevel("src\\main\\resources\\levels\\created_levels\\" + newLevelName, width, height, tileMap, maxRats, parTime, dropRates);
-			MAIN_MENU.finishLevel();
+
+			if(save.wasSaved()) {
+				MAIN_MENU.finishLevel();
+			} else {
+				savingErrorText.setText("Level name already exists.");
+				changeToAdultRats();
+				for (int i = 0; i < dropRates.length; i++) {
+					dropRates[i] = dropRates[i]/MILLIS_RATIO;
+				}
+			}
 		}
 	}
 
