@@ -80,6 +80,10 @@ public class ChildRat extends LivingRat {
                     addOccupantRat(newAdult);
             LevelController.ratAdded(newAdult);
         }
+
+        Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).
+                removeOccupantRat(this);
+        LevelController.ratRemoved(this);
     }
 
     /**
