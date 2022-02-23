@@ -35,6 +35,7 @@ public class EditorController {
 	// Size of one tile in pixels
 	private static final int TILE_SIZE = 64;
 	private static final String delfaultLevelRegex = "level-[1-5]";
+	private static final int MILLIS_RATIO = 1000;
 
 	// Time between item drops
 	private final int[] dropRates;
@@ -119,11 +120,14 @@ public class EditorController {
 		height = LevelFileReader.getHeight();
 		
 		tileMap = LevelFileReader.getTileMap();
+		changeToAdultRats();
 		
-		maxRats = 20;
-		parTime = 150;
-		dropRates = new int[8];
-		Arrays.fill(dropRates, 1); // TODO: change these to millis when saving level, from millis when loading one
+		maxRats = LevelFileReader.getMaxRats();
+		parTime = LevelFileReader.getParTime();
+		dropRates = LevelFileReader.getDropRates();
+		for (int i = 0; i < dropRates.length; i++) {
+			dropRates[i] = dropRates[i]/MILLIS_RATIO;
+		}
 	}
 
 	public void initialize() {
@@ -506,6 +510,52 @@ public class EditorController {
 	}
 
 	/**
+	 * Changes all baby rats on tile map to adult ones.
+	 */
+	private void changeToAdultRats() {
+		for (int i = 0; i < tileMap.length; i++) {
+			for (int j = 0; j < tileMap[i].length; j++) {
+				if (tileMap[i][j].getOccupantRats().size() != 0) {
+					ChildRat rat = (ChildRat) tileMap[i][j].getOccupantRats().get(0);
+					if(rat.getRatSex() == Rat.Sex.MALE) {
+						tileMap[i][j].removeOccupantRat(rat);
+						tileMap[i][j].addOccupantRat(new AdultMale(6, Rat.Direction.NORTH,0,i,j,true));
+					} else if (rat.getRatSex() == Rat.Sex.FEMALE) {
+						tileMap[i][j].removeOccupantRat(rat);
+						tileMap[i][j].addOccupantRat(new AdultFemale(6,Rat.Direction.NORTH,0,i,j,true,0,0));
+					} else if(rat.getRatSex() == Rat.Sex.INTERSEX) {
+						tileMap[i][j].removeOccupantRat(rat);
+						tileMap[i][j].addOccupantRat(new AdultIntersex(6,Rat.Direction.NORTH,0,i,j,true,0,0));
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Changes all adult rats on tile map to adult ones.
+	 */
+	private void changeToBabyRats() {
+		for (int i = 0; i < tileMap.length; i++) {
+			for (int j = 0; j < tileMap[i].length; j++) {
+				if (tileMap[i][j].getOccupantRats().size() != 0) {
+					Rat rat = tileMap[i][j].getOccupantRats().get(0);
+					if(rat instanceof AdultMale) {
+						tileMap[i][j].removeOccupantRat(rat);
+						tileMap[i][j].addOccupantRat(new ChildRat(4,Rat.Direction.NORTH,0,i,j,true,0,Rat.Sex.MALE));
+					} else if (rat instanceof AdultFemale) {
+						tileMap[i][j].removeOccupantRat(rat);
+						tileMap[i][j].addOccupantRat(new ChildRat(4,Rat.Direction.NORTH,0,i,j,true,0,Rat.Sex.FEMALE));
+					} else if(rat instanceof AdultIntersex) {
+						tileMap[i][j].removeOccupantRat(rat);
+						tileMap[i][j].addOccupantRat(new ChildRat(4,Rat.Direction.NORTH,0,i,j,true,0,Rat.Sex.INTERSEX));
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * Saves level once "Save Level" button is pressed.
 	 */
 	@FXML
@@ -519,11 +569,12 @@ public class EditorController {
 			savingErrorText.setText("Level name cannot be empty");
 		} else {
 			savingErrorText.setText("");
-			System.out.println("Can't do that yet :(");
-			// TODO: add actual saving
-			
+			changeToBabyRats();
+			for (int i = 0; i < dropRates.length; i++) {
+				dropRates[i] = dropRates[i]*MILLIS_RATIO;
+			}
 			SaveCustomLevel save = new SaveCustomLevel("src\\main\\resources\\levels\\created_levels\\" + newLevelName, width, height, tileMap, maxRats, parTime, dropRates);
-			
+			MAIN_MENU.finishLevel();
 		}
 	}
 

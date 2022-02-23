@@ -179,11 +179,11 @@ public class SaveCustomLevel {
 		ArrayList<Rat> rats = new ArrayList<Rat>();
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				if (map[y][x].getOccupantRats().size() == 0) {
+				if (map[x][y].getOccupantRats().size() == 0) {
 					
 				}
 				else {
-					ArrayList<Rat> occRats = (map[y][x].getOccupantRats());
+					ArrayList<Rat> occRats = (map[x][y].getOccupantRats());
 					for (int i = 0; i < occRats.size(); i++) {
 						rats.add(occRats.get(i));
 					}
@@ -230,19 +230,19 @@ public class SaveCustomLevel {
 		p.write("\n");
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				if (map[y][x] instanceof Grass) {
+				if (map[x][y] instanceof Grass) {
 					p.write("G");
 				}
-				else if (map[y][x] instanceof Path) {
+				else if (map[x][y] instanceof Path) {
 					p.write("P");
 				}
-				else if (map[y][x] instanceof Tunnel) {
+				else if (map[x][y] instanceof Tunnel) {
 					p.write("T");
 				}
 			}
 			p.write("\n");
 		}
-		for (int i = 1; i < rats.size(); i++) {
+		for (int i = 0; i < rats.size(); i++) {
 			p.write("(");
 			p.write(LevelFileReader.ratToStr(rats.get(i)));
 			p.write(")");
