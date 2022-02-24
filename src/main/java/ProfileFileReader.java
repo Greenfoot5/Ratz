@@ -13,7 +13,7 @@ import java.util.Scanner;
  * 
  */
 public class ProfileFileReader {
-	private static final String FILE_PATH = "target/classes/profileFile2.txt";
+	private static final String FILE_PATH = "src/main/resources/profileFile2.txt";
 	private static String selectedProfile = null;
 	private static int numberOfLevels;
 	private static ArrayList<Profile> profiles = new ArrayList<>();
@@ -221,7 +221,7 @@ public class ProfileFileReader {
 
 	public static ArrayList<String> getDeafaultLevelsNames() {
 		// Creating a File object for directory
-		File directoryPath = new File("target/classes/levels/default_levels");
+		File directoryPath = new File("src/main/resources/levels/default_levels");
         System.out.println(directoryPath.getAbsolutePath());
 
 		// List of all files and directories
@@ -238,7 +238,7 @@ public class ProfileFileReader {
 
 	public static ArrayList<String> getCreatedLevelsNames() {
 		// Creating a File object for directory
-		File directoryPath = new File("target/classes/levels/created_levels");
+		File directoryPath = new File("src/main/resources/levels/created_levels");
 
 		// List of all files and directories
 		String[] contents = directoryPath.list();
@@ -254,7 +254,7 @@ public class ProfileFileReader {
 
 	public static ArrayList<String> getSavedGamesNames(String profileName) {
 		// Creating a File object for directory
-		File directoryPath = new File("target/classes/levels/saved_games/" + profileName);
+		File directoryPath = new File("src/main/resources/levels/saved_games/" + profileName);
 
 		// List of all files and directories
 		String[] contents = directoryPath.list();

@@ -686,9 +686,9 @@ public class MenuController {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("editor.fxml"));
 
 		if (editDefaultLevelsRadioButton.isSelected()) {
-			LevelFileReader.loadLevelFile("src/main/resources/levels/default_levels/" + selectedEditLevelName, false);
+			LevelFileReader.loadNormalLevelFile("src/main/resources/levels/default_levels/" + selectedEditLevelName);
 		} else if (editCustomLevelsRadioButton.isSelected()) {
-			LevelFileReader.loadLevelFile("src/main/resources/levels/created_levels/" + selectedEditLevelName, true);
+			LevelFileReader.loadNormalLevelFile("src/main/resources/levels/created_levels/" + selectedEditLevelName);
 		}
 
 		EditorController editorController = new EditorController(selectedEditLevelName, this);

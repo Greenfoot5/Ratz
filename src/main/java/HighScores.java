@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class HighScores {
 	// Path to a file storing data about scores.
-	private static final String FILE_PATH = "target/classes/highScores2.txt";
+	private static final String FILE_PATH = "src/main/resources/highScores2.txt";
 
 	// Maximum number of saved scores per level.
 	//private static final int NUMBER_OF_TOP_SCORES = 10;

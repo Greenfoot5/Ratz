@@ -357,25 +357,21 @@ public class LevelController {
             score += currentTimeLeft / 1000;
             gamePaneText.getChildren().add(new Text("You've won! :)"));
             gamePaneScore.getChildren().add(new Text("Score: " + score));
-//            try {
-//                ProfileFileReader.saveScore(ProfileFileReader.getLoggedProfile(), LEVEL_NAME, score);
-//                HighScores.safeScore(ProfileFileReader.getLoggedProfile(), LEVEL_NAME, score);
-//            } catch (IOException e) {
-//                System.out.println("Couldn't save score :(");
-//            }/////////////////////////////////////////////////////////////////////////////////////////////////////////////////:TODO
+            ProfileFileReader.saveScore(ProfileFileReader.getLoggedProfile(), LEVEL_NAME, score);
+			HighScores.saveScore(ProfileFileReader.getLoggedProfile(), LEVEL_NAME, score);
         } else {
             gamePaneText.getChildren().add(new Text("You've lost! :("));
 
             //TODO: Fix to works with new paths
             //Delete save file after losing
-            String levelName = "./" + LEVEL_NAME;
-            String fullSavePath =
-                    levelName + "-inProgress-" + ProfileFileReader.getLoggedProfile() + ".txt";
-            File currentSave = new File(fullSavePath);
-
-            if (!currentSave.delete()) {
-                System.out.println("Failed to delete save after losing!");
-            }
+//            String levelName = "./" + LEVEL_NAME;
+//            String fullSavePath =
+//                    levelName + "-inProgress-" + ProfileFileReader.getLoggedProfile() + ".txt";
+//            File currentSave = new File(fullSavePath);
+//
+//            if (!currentSave.delete()) {
+//                System.out.println("Failed to delete save after losing!");
+//            }
         }
 
         String[] highScores = HighScores.getTopScores(LEVEL_NAME);
@@ -514,8 +510,9 @@ public class LevelController {
         }
 
         try {
-            LevelFileReader.saveLevel("./" + newLevelName);
+            LevelFileReader.saveLevel(newLevelName);
         } catch (IOException e) {
+        	e.printStackTrace();
             savingErrorText.setText("An error occurred saving game state.");
         }
     }
