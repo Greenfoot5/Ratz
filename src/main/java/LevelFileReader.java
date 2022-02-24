@@ -377,6 +377,67 @@ public class LevelFileReader {
                 return 3;
         }
     }
+    
+    public static void loadNormalLevelFile(String filename) throws FileNotFoundException {
+         File levelData = new File(filename + ".txt");;
+         
+         Scanner reader = new Scanner(levelData);
+
+         RAT_ARRAY_LIST.clear();
+         inProgInv = null;
+         inProgTimer = -1;
+
+         // get level width, height, max rats, par time
+         if (reader.hasNextLine()) {
+             String[] levelStats = reader.nextLine().split(",");
+             width = Integer.parseInt(levelStats[0]);
+             height = Integer.parseInt(levelStats[1]);
+             maxRats = Integer.parseInt(levelStats[2]);
+             parTime = Integer.parseInt(levelStats[3]);
+         }
+
+         // get drop rate data
+         String[] dropRatesString = reader.nextLine().split(",");
+         for (int i = 0; i < DROP_RATES.length; i++) {
+             DROP_RATES[i] = Integer.parseInt(dropRatesString[i]);
+         }
+
+         // get tile data
+         String currentTiles = "";
+         for (int i = 0; i < height; i++) {
+             if (reader.hasNext()) {
+                 currentTiles = currentTiles.concat(reader.nextLine());
+             }
+         }
+
+         // this ugly regex splits currentTiles based on the level's width
+         String[] tiles = currentTiles.split("(?<=\\G.{" + width + "})");
+
+         tileMap = tilesToTileMap(tiles);
+         
+         hasLoadedSavedLevel = false;
+         readObjects(reader);
+         
+         reader.close();
+
+    }
+    public static void loadSavedLevelFile(String filename) throws FileNotFoundException {
+    	 File levelData = new File(filename + ".txt");
+    	 Scanner reader = new Scanner(levelData);
+    	 
+    	 loadNormalLevelFile(reader.nextLine()); // TODO: this is a temp fix to skip the level name. find out why tomasz wanted this.
+         inProgInv = new int[8];
+         if (reader.hasNextLine()) {
+             String[] savedInfo = reader.nextLine().split(",");
+             inProgTimer = Integer.parseInt(savedInfo[0]);
+             String[] inProgInvString = reader.nextLine().split(",");
+             for (int i = 0; i < inProgInvString.length; i++) {
+                 inProgInv[i] = Integer.parseInt(inProgInvString[i]);
+                 LevelController.addPowersFromSave(inProgInv);
+             }
+             readObjects(reader);
+         }
+    }
 
     /**
      * Loads game objects from the text in level files.
@@ -384,78 +445,79 @@ public class LevelFileReader {
      * @param filename The file to open.
      * @throws FileNotFoundException if the file can't be found.
      */
-    public static void loadLevelFile(String filename, boolean customLevel) throws FileNotFoundException {
-        String[] filenameTempArray = filename.split("/");
-        String levelName = filenameTempArray[filenameTempArray.length - 1];
-
-        File levelDataInProgress = new File("target/classes/levels/saved_games/" +
-                ProfileFileReader.getLoggedProfile() + "/" + levelName + ".txt");
-        File levelData;
-        if (customLevel) {
-            levelData = new File("target/classes/levels/created_levels/" + levelName + ".txt");
-        } else {
-            levelData = new File("target/classes/levels/default_levels/" + levelName + ".txt");
-        }
-
-        Scanner reader = new Scanner(levelData);
-
-        RAT_ARRAY_LIST.clear();
-        inProgInv = null;
-        inProgTimer = -1;
-
-        // get level width, height, max rats, par time
-        if (reader.hasNextLine()) {
-            String[] levelStats = reader.nextLine().split(",");
-            width = Integer.parseInt(levelStats[0]);
-            height = Integer.parseInt(levelStats[1]);
-            maxRats = Integer.parseInt(levelStats[2]);
-            parTime = Integer.parseInt(levelStats[3]);
-        }
-
-        // get drop rate data
-        String[] dropRatesString = reader.nextLine().split(",");
-        for (int i = 0; i < DROP_RATES.length; i++) {
-            DROP_RATES[i] = Integer.parseInt(dropRatesString[i]);
-        }
-
-        // get tile data
-        String currentTiles = "";
-        for (int i = 0; i < height; i++) {
-            if (reader.hasNext()) {
-                currentTiles = currentTiles.concat(reader.nextLine());
-            }
-        }
-
-        // this ugly regex splits currentTiles based on the level's width
-        String[] tiles = currentTiles.split("(?<=\\G.{" + width + "})");
-
-        tileMap = tilesToTileMap(tiles);
-
-        // check if a saved level exists.
-        // if it does, grab the rats, timer, and stored inventory from it
-        if (levelDataInProgress.isFile()) {
-            hasLoadedSavedLevel = true;
-            reader = new Scanner(levelDataInProgress);
-            reader.nextLine(); // TODO: this is a temp fix to skip the level name. find out why tomasz wanted this.
-            inProgInv = new int[8];
-            if (reader.hasNextLine()) {
-                String[] savedInfo = reader.nextLine().split(",");
-                inProgTimer = Integer.parseInt(savedInfo[0]);
-                String[] inProgInvString = reader.nextLine().split(",");
-                for (int i = 0; i < inProgInvString.length; i++) {
-                    inProgInv[i] = Integer.parseInt(inProgInvString[i]);
-                    LevelController.addPowersFromSave(inProgInv);
-                }
-                readObjects(reader);
-            }
-        } else {
-            // if no saved data exists, just read the objects from the default file.
-            hasLoadedSavedLevel = false;
-            reader = new Scanner(levelData);
-            readObjects(reader);
-        }
-        reader.close();
-    }
+    // TODO: James please check if two functions above have the same functionality, and add saving level name in first line of inProges file
+//    public static void loadLevelFile(String filename, boolean customLevel) throws FileNotFoundException {
+//        String[] filenameTempArray = filename.split("/");
+//        String levelName = filenameTempArray[filenameTempArray.length - 1];
+//
+//        File levelDataInProgress = new File("target/classes/levels/saved_games/" +
+//                ProfileFileReader.getLoggedProfile() + "/" + levelName + ".txt");
+//        File levelData;
+//        if (customLevel) {
+//            levelData = new File("target/classes/levels/created_levels/" + levelName + ".txt");
+//        } else {
+//            levelData = new File("target/classes/levels/default_levels/" + levelName + ".txt");
+//        }
+//
+//        Scanner reader = new Scanner(levelData);
+//
+//        RAT_ARRAY_LIST.clear();
+//        inProgInv = null;
+//        inProgTimer = -1;
+//
+//        // get level width, height, max rats, par time
+//        if (reader.hasNextLine()) {
+//            String[] levelStats = reader.nextLine().split(",");
+//            width = Integer.parseInt(levelStats[0]);
+//            height = Integer.parseInt(levelStats[1]);
+//            maxRats = Integer.parseInt(levelStats[2]);
+//            parTime = Integer.parseInt(levelStats[3]);
+//        }
+//
+//        // get drop rate data
+//        String[] dropRatesString = reader.nextLine().split(",");
+//        for (int i = 0; i < DROP_RATES.length; i++) {
+//            DROP_RATES[i] = Integer.parseInt(dropRatesString[i]);
+//        }
+//
+//        // get tile data
+//        String currentTiles = "";
+//        for (int i = 0; i < height; i++) {
+//            if (reader.hasNext()) {
+//                currentTiles = currentTiles.concat(reader.nextLine());
+//            }
+//        }
+//
+//        // this ugly regex splits currentTiles based on the level's width
+//        String[] tiles = currentTiles.split("(?<=\\G.{" + width + "})");
+//
+//        tileMap = tilesToTileMap(tiles);
+//
+//        // check if a saved level exists.
+//        // if it does, grab the rats, timer, and stored inventory from it
+//        if (levelDataInProgress.isFile()) {
+//            hasLoadedSavedLevel = true;
+//            reader = new Scanner(levelDataInProgress);
+//            reader.nextLine(); // TODO: this is a temp fix to skip the level name. find out why tomasz wanted this.
+//            inProgInv = new int[8];
+//            if (reader.hasNextLine()) {
+//                String[] savedInfo = reader.nextLine().split(",");
+//                inProgTimer = Integer.parseInt(savedInfo[0]);
+//                String[] inProgInvString = reader.nextLine().split(",");
+//                for (int i = 0; i < inProgInvString.length; i++) {
+//                    inProgInv[i] = Integer.parseInt(inProgInvString[i]);
+//                    LevelController.addPowersFromSave(inProgInv);
+//                }
+//                readObjects(reader);
+//            }
+//        } else {
+//            // if no saved data exists, just read the objects from the default file.
+//            hasLoadedSavedLevel = false;
+//            reader = new Scanner(levelData);
+//            readObjects(reader);
+//        }
+//        reader.close();
+//    }
 
     /**
      * Reads rats and powers from the level file.

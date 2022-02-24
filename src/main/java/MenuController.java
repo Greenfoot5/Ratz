@@ -552,10 +552,10 @@ public class MenuController {
 			levelType = "saved_games/" + ProfileFileReader.getLoggedProfile() + "/";
 		}
 		// TODO: do this but in a less hacky way. it's 6am and i am nearing death.
-		if (levelType.charAt(0) == 'c') {
-			LevelFileReader.loadLevelFile("target/classes/levels/" + levelType + selectedLevelName, true);
+		if (levelType.charAt(0) != 's') {
+			LevelFileReader.loadNormalLevelFile("src/main/resources/levels/" + levelType + selectedLevelName);
 		} else {
-			LevelFileReader.loadLevelFile("target/classes/levels/" + levelType + selectedLevelName, false);
+			LevelFileReader.loadSavedLevelFile("src/main/resources/levels/" + levelType + selectedLevelName);
 		}
 
 
@@ -686,9 +686,9 @@ public class MenuController {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("editor.fxml"));
 
 		if (editDefaultLevelsRadioButton.isSelected()) {
-			LevelFileReader.loadLevelFile("target/classes/levels/default_levels/" + selectedEditLevelName, false);
+			LevelFileReader.loadLevelFile("src/main/resources/levels/default_levels/" + selectedEditLevelName, false);
 		} else if (editCustomLevelsRadioButton.isSelected()) {
-			LevelFileReader.loadLevelFile("target/classes/levels/created_levels/" + selectedEditLevelName, true);
+			LevelFileReader.loadLevelFile("src/main/resources/levels/created_levels/" + selectedEditLevelName, true);
 		}
 
 		EditorController editorController = new EditorController(selectedEditLevelName, this);
