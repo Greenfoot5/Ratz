@@ -143,9 +143,10 @@ public class MenuController {
 		layout.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(layout);
-		//File f = new File("target/classes/menu.css");
-		//scene.getStylesheets().clear();
-		//scene.getStylesheets().add("file://" + f.getAbsolutePath().replace("\\", "/"));
+		// File f = new File("target/classes/menu.css");
+		// scene.getStylesheets().clear();
+		// scene.getStylesheets().add("file://" + f.getAbsolutePath().replace("\\",
+		// "/"));
 
 		window.setScene(scene);
 		window.setResizable(false);
@@ -404,7 +405,6 @@ public class MenuController {
 				levelButtons[i].setMinSize(155, 30);
 				levelButtons[i].setId("menu-button1");
 				levelButtonsVBox.getChildren().add(levelButtons[i]);
-				
 
 				levelButtons[i].setOnAction(event -> {
 
@@ -420,8 +420,8 @@ public class MenuController {
 
 							if (f.exists()) {
 
-								Image tempImg = new Image(
-										new FileInputStream("src\\main\\resources\\levels_images\\" + selectedLevelName + ".png"));
+								Image tempImg = new Image(new FileInputStream(
+										"src\\main\\resources\\levels_images\\" + selectedLevelName + ".png"));
 
 								int width = (int) tempImg.getWidth();
 								int height = (int) tempImg.getHeight();
@@ -435,12 +435,14 @@ public class MenuController {
 									height *= heightComare;
 								}
 								img = new Image(
-										new FileInputStream("src\\main\\resources\\levels_images\\" + selectedLevelName + ".png"),
+										new FileInputStream(
+												"src\\main\\resources\\levels_images\\" + selectedLevelName + ".png"),
 										width, height, false, false);
 
 								levelViewSelection.setImage(img);
 							} else {
 								// TODO: do something in case of missing file
+								levelViewSelection.setImage(null);
 							}
 
 						} catch (FileNotFoundException e) {
@@ -461,9 +463,14 @@ public class MenuController {
 		String[] scores = HighScores.getTopScores(selectedLevelName);
 		scoreTableLevelsVBox.getChildren().clear();
 
-		for (String score : scores) {
-			Label scrLabel = new Label(score);
-			scoreTableLevelsVBox.getChildren().add(scrLabel);
+		if (scores != null) {
+			for (String score : scores) {
+				Label scrLabel = new Label(score);
+				scoreTableLevelsVBox.getChildren().add(scrLabel);
+			}
+		} else {
+			//TODO
+			scoreTableLevelsVBox.getChildren().add(new Label("TODO: do something here"));
 		}
 
 	}
@@ -558,7 +565,6 @@ public class MenuController {
 			LevelFileReader.loadSavedLevelFile("src/main/resources/levels/" + levelType + selectedLevelName);
 		}
 
-
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
 		LevelController levelController = new LevelController(selectedLevelName, this);
 
@@ -603,10 +609,12 @@ public class MenuController {
 
 			if (editDefaultLevelsRadioButton.isSelected()) {
 				levelNames = ProfileFileReader.getDeafaultLevelsNames();
-				selectRadioButton(editDefaultLevelsRadioButton, editCustomLevelsRadioButton, editCustomLevelsRadioButton);
+				selectRadioButton(editDefaultLevelsRadioButton, editCustomLevelsRadioButton,
+						editCustomLevelsRadioButton);
 			} else if (editCustomLevelsRadioButton.isSelected()) {
 				levelNames = ProfileFileReader.getCreatedLevelsNames();
-				selectRadioButton(editCustomLevelsRadioButton, editDefaultLevelsRadioButton, editDefaultLevelsRadioButton);
+				selectRadioButton(editCustomLevelsRadioButton, editDefaultLevelsRadioButton,
+						editDefaultLevelsRadioButton);
 			}
 
 			levelButtons = new Button[levelNames.size()];
@@ -646,9 +654,8 @@ public class MenuController {
 									width *= heightComare;
 									height *= heightComare;
 								}
-								img = new Image(
-										new FileInputStream(
-												"src\\main\\resources\\levels_images\\" + selectedEditLevelName + ".png"),
+								img = new Image(new FileInputStream(
+										"src\\main\\resources\\levels_images\\" + selectedEditLevelName + ".png"),
 										width, height, false, false);
 								levelView.setImage(img);
 							} else {
@@ -667,7 +674,8 @@ public class MenuController {
 	}
 
 	public void createLevel(ActionEvent event) {
-		File tempFile = new File("src\\main\\resources\\levels\\created_levels\\" + newLevelNameTextField.getText() + ".txt");
+		File tempFile = new File(
+				"src\\main\\resources\\levels\\created_levels\\" + newLevelNameTextField.getText() + ".txt");
 		try {
 			tempFile.createNewFile();
 		} catch (IOException e) {
@@ -737,7 +745,7 @@ public class MenuController {
 		stage.setScene(scene);
 		stage.show();
 	}
-	
+
 	public void exitTheGame(ActionEvent event) {
 		stage.close();
 	}

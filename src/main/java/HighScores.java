@@ -17,13 +17,14 @@ public class HighScores {
 	private static final String FILE_PATH = "src/main/resources/highScores2.txt";
 
 	// Maximum number of saved scores per level.
-	//private static final int NUMBER_OF_TOP_SCORES = 10;
+	// private static final int NUMBER_OF_TOP_SCORES = 10;
 
 	private static ArrayList<LevelScores> levelsScores = new ArrayList<>();
 
 	/**
-	 * Load data from text file to memory. 
-	 * Should be use only once at the start of the program.
+	 * Load data from text file to memory. Should be use only once at the start of
+	 * the program.
+	 * 
 	 * @throws FileNotFoundException file not found
 	 */
 	public static void loadData() throws FileNotFoundException {
@@ -53,9 +54,10 @@ public class HighScores {
 	}
 
 	/**
-	 * Saves data from memory to a file.
-	 * Can be used many times (but it might be use only while switching the scenes).
-	 * Strongly recommended to use at the end of the program (otherwise changes are lost).
+	 * Saves data from memory to a file. Can be used many times (but it might be use
+	 * only while switching the scenes). Strongly recommended to use at the end of
+	 * the program (otherwise changes are lost).
+	 * 
 	 * @throws IOException
 	 */
 	public static void saveDataToFile() throws IOException {
@@ -97,13 +99,17 @@ public class HighScores {
 				topScores = lvlScr.getTopScores();
 			}
 		}
-		String[] stringScores = new String[topScores.length];
-		for (int i = 0; i < topScores.length; i++) {
-			if (topScores[i] != null)
-			stringScores[i] = topScores[i].getProfileName() + " " + topScores[i].getScore();
- 		}
+		String[] stringScores = null;
+		if (topScores != null) {
+			stringScores = new String[topScores.length];
+			for (int i = 0; i < topScores.length; i++) {
+				if (topScores[i] != null)
+					stringScores[i] = topScores[i].getProfileName() + " " + topScores[i].getScore();
+			}
+		}
 		return stringScores;
 	}
+
 	/**
 	 * Gets the tops scores for a level.
 	 *
@@ -124,7 +130,7 @@ public class HighScores {
 	 * Method will try to safe a score, if it is in top 10.
 	 *
 	 * @param profileName name of a profile
-	 * @param score   achieved score you want to safe
+	 * @param score       achieved score you want to safe
 	 * @param levelName   level of the game
 	 */
 	public static void saveScore(String profileName, String levelName, int score) {
@@ -149,6 +155,7 @@ public class HighScores {
 
 	/**
 	 * Creates new level in database, with no scores.
+	 * 
 	 * @param levelName name of new level
 	 */
 	public static void createNewLevel(String levelName) {
@@ -157,9 +164,10 @@ public class HighScores {
 
 	/**
 	 * Deletes level from a database, if exists.
+	 * 
 	 * @param levelName name of a level to delete
 	 */
-	public static void deleteLevel(String levelName) throws IllegalArgumentException{
+	public static void deleteLevel(String levelName) throws IllegalArgumentException {
 		if (doesLevelExist(levelName)) {
 			LevelScores levelToRemove = null;
 			for (LevelScores lvlScr : levelsScores) {
@@ -175,7 +183,8 @@ public class HighScores {
 
 	/**
 	 * Checks if level exist in database.
-	 * @param levelName  name of the level to check
+	 * 
+	 * @param levelName name of the level to check
 	 * @return true if level exist, false otherwise
 	 */
 	public static boolean doesLevelExist(String levelName) {
