@@ -384,13 +384,19 @@ public class LevelFileReader {
      * @param filename The file to open.
      * @throws FileNotFoundException if the file can't be found.
      */
-    public static void loadLevelFile(String filename) throws FileNotFoundException {
+    public static void loadLevelFile(String filename, boolean customLevel) throws FileNotFoundException {
         String[] filenameTempArray = filename.split("/");
         String levelName = filenameTempArray[filenameTempArray.length - 1];
 
         File levelDataInProgress = new File("target/classes/levels/saved_games/" +
-                ProfileFileReader.getLoggedProfile() + levelName + ".txt");
-        File levelData = new File(filename + ".txt");
+                ProfileFileReader.getLoggedProfile() + "/" + levelName + ".txt");
+        File levelData;
+        if (customLevel) {
+            levelData = new File("target/classes/levels/created_levels/" + levelName + ".txt");
+        } else {
+            levelData = new File("target/classes/levels/default_levels/" + levelName + ".txt");
+        }
+
         Scanner reader = new Scanner(levelData);
 
         RAT_ARRAY_LIST.clear();
@@ -430,6 +436,7 @@ public class LevelFileReader {
         if (levelDataInProgress.isFile()) {
             hasLoadedSavedLevel = true;
             reader = new Scanner(levelDataInProgress);
+            reader.nextLine(); // TODO: this is a temp fix to skip the level name. find out why tomasz wanted this.
             inProgInv = new int[8];
             if (reader.hasNextLine()) {
                 String[] savedInfo = reader.nextLine().split(",");
