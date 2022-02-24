@@ -6,6 +6,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -35,6 +36,8 @@ public class LevelController {
     private static final int ITEM_NUM = 8;
     private static final int TILE_SIZE = 64;
     private static int[] counters = new int[ITEM_NUM];
+
+    private static final String delfaultLevelRegex = "level-[1-5]";
 
     //For sounds
     private static final String DEATH_RAT_SOUND_1_PATH = "deathRatSound1.mp3";
@@ -89,7 +92,7 @@ public class LevelController {
     @FXML
     public Canvas levelCanvas; //Game map canvas
 
-    public Button saveAndExitButton;
+    public Button saveLevelStateButton;
 
     //Toolbars for different game items
     public HBox bombToolbar;
@@ -110,6 +113,11 @@ public class LevelController {
     public TextFlow gamePaneText;
     public TextFlow gamePaneScore;
     public TextFlow gamePaneLeaderboard;
+
+    public Pane saveLevelPane;
+    public TextField levelNameTextField;
+    public Text savingErrorText;
+    public Button saveAndExitButton;
 
     /**
      * Constructor for LevelController class.
@@ -492,20 +500,48 @@ public class LevelController {
         renderItem(index);
     }
 
+    @FXML
+    public void saveLevel() {
+        String newLevelName = levelNameTextField.getText();
+        if(newLevelName.contains(" ")){
+            savingErrorText.setText("Level name cannot contain spaces");
+        } else if(newLevelName.matches(delfaultLevelRegex)) {
+            savingErrorText.setText("Level name cannot be the same as default level");
+        }else  if(newLevelName.length() == 0) {
+            savingErrorText.setText("Level name cannot be empty");
+        } else {
+            savingErrorText.setText("");
+        }
+
+        try {
+            LevelFileReader.saveLevel("./" + newLevelName);
+        } catch (IOException e) {
+            savingErrorText.setText("An error occurred saving game state.");
+        }
+    }
+
     /**
      * Actions performed when user decides to save the game and exit to main menu.
      */
     @FXML
-    public void saveAndExit() {
+    public void openSaveDialogue() {
         tickTimeline.stop();
+        disableToolbars();
+        saveLevelStateButton.setDisable(true);
+        savingErrorText.setText("");
+        levelNameTextField.setText(LEVEL_NAME + "-inProgress");
+        saveLevelPane.setVisible(true);
+    }
 
-        try {
-            LevelFileReader.saveLevel("./" + LEVEL_NAME);
-        } catch (IOException e) {
-            System.out.println("Couldn't save level state.");
-        }
+    public void goBackToLevel() {
+        saveLevelPane.setVisible(false);
+        saveLevelStateButton.setDisable(false);
 
-        exitGame();
+        renderAllItems();
+
+        tickTimeline = new Timeline(new KeyFrame(Duration.millis(FRAME_TIME), event -> tick()));
+        tickTimeline.setCycleCount(Animation.INDEFINITE);
+        tickTimeline.play();
     }
 
     /**

@@ -45,6 +45,21 @@
     -fx-font-size: 20px;
     -fx-text-alignment: center;
 }
+.savingDialogueBox{
+    -fx-background-image: url('gui/level-save-dialogue-box.png');
+    -fx-font-family: 'Linerama';
+}
+.dialogueTitle{
+    -fx-font-size: 30px;
+    -fx-text-alignment: center;
+    -fx-fill: #00ffe4;
+}
+.dialogueText{
+    -fx-fill: #00ffe4;
+    -fx-font-size: 20px;
+    -fx-text-alignment: center;
+    -fx-font-family: 'Linerama';
+}
 .ratCounters{
     -fx-background-image: url('gui/rat-counters.png');
     -fx-background-repeat: no-repeat;
