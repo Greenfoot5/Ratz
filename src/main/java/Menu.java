@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -59,13 +60,13 @@ public class Menu extends Application {
 		    System.out.println("Stage is closing");
 
 		    // TODO: uncomment it when we want to save data
-//			try {
-//				ProfileFileReader.saveDataToFile();
-//				HighScores.saveDataToFile();
-//			} catch (IOException e) {
-//				//TODO do give an alert
-//				e.printStackTrace();
-//			}
+			try {
+				ProfileFileReader.saveDataToFile();
+				HighScores.saveDataToFile();
+			} catch (IOException e) {
+				//TODO do give an alert
+				e.printStackTrace();
+			}
 		});
 	}
 	

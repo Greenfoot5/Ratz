@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
@@ -280,7 +279,7 @@
                            </children></TextFlow>
                      </children>
                   </VBox>
-                  <Button mnemonicParsing="false" onAction="#makeScreenShot" text="Make screen shot" />
+                  <Button mnemonicParsing="false" text="Make screen shot" />
                   <Button fx:id="levelSettingsButton" mnemonicParsing="false" onAction="#displayLevelSettings" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Level Settings">
                      <VBox.margin>
                         <Insets left="50.0" top="350.0" />

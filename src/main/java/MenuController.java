@@ -737,4 +737,8 @@ public class MenuController {
 		stage.setScene(scene);
 		stage.show();
 	}
+	
+	public void exitTheGame(ActionEvent event) {
+		stage.close();
+	}
 }

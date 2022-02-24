@@ -576,8 +576,18 @@ public class EditorController {
 			}
 
 			SaveCustomLevel save = new SaveCustomLevel("src\\main\\resources\\levels\\created_levels\\" + newLevelName, width, height, tileMap, maxRats, parTime, dropRates);
-
+			
+			
 			if(save.wasSaved()) {
+				try {
+					makeScreenShot(newLevelName);
+					System.out.println("Screenshot was saved");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					System.out.println("Screenshot wasn' saved :(");
+				}
+				HighScores.createNewLevel(newLevelName);
+				ProfileFileReader.createNewLevel(newLevelName);
 				MAIN_MENU.finishLevel();
 			} else {
 				savingErrorText.setText("Level name already exists.");
@@ -589,12 +599,12 @@ public class EditorController {
 		}
 	}
 
-	public void makeScreenShot() throws IOException {
+	public void makeScreenShot(String levelName) throws IOException {
 		// TODO: need to use this code when saving custom level (set name of the file
 		// the same as level name)
 
 		// TODO: generate file name
-		File file = new File("src\\main\\resources\\chart.png");
+		File file = new File("src\\main\\resources\\levels_images\\" + levelName + ".png");
 
 		WritableImage writableImage = new WritableImage(TILE_SIZE * width, TILE_SIZE * height);
 		SnapshotParameters params = new SnapshotParameters();
