@@ -124,11 +124,11 @@ public class LevelFileReader {
      * @throws IOException if it can't find the file specified.
      */
     public static void saveLevel(String levelName) throws IOException {
-        File saveFile = new File(levelName + "-inProgress-"
-                + ProfileFileReader.getLoggedProfile() + ".txt");
+        File saveFile = new File("target/classes/levels/saved_games/" +
+                ProfileFileReader.getLoggedProfile() + levelName + ".txt");
         // if an in progress file doesn't exist yet
-        if (!new File(levelName + "-inProgress-"
-                + ProfileFileReader.getLoggedProfile() + ".txt").isFile()) {
+        if (!new File("target/classes/levels/saved_games/" +
+                ProfileFileReader.getLoggedProfile() + levelName + ".txt").isFile()) {
             try {
                 saveFile.createNewFile();
             } catch (IOException e) {
@@ -176,7 +176,7 @@ public class LevelFileReader {
 
         int timeInSeconds = (int) Math.floor(LevelController.getCurrentTimeLeft() / milli);
 
-        String fileString = String.format("%d\n%s\n%s\n", timeInSeconds, inventory, allObjects);
+        String fileString = String.format("%s\n%d\n%s\n%s\n", levelName,timeInSeconds, inventory, allObjects);
         writer.write(fileString);
         writer.close();
     }
@@ -385,9 +385,11 @@ public class LevelFileReader {
      * @throws FileNotFoundException if the file can't be found.
      */
     public static void loadLevelFile(String filename) throws FileNotFoundException {
+        String[] filenameTempArray = filename.split("/");
+        String levelName = filenameTempArray[filenameTempArray.length - 1];
 
-        File levelDataInProgress = new File("src/main/resources" + filename + "-inProgress-"
-                + ProfileFileReader.getLoggedProfile() + ".txt");
+        File levelDataInProgress = new File("target/classes/levels/saved_games/" +
+                ProfileFileReader.getLoggedProfile() + levelName + ".txt");
         File levelData = new File(filename + ".txt");
         Scanner reader = new Scanner(levelData);
 
