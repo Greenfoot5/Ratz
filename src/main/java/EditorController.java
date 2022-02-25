@@ -65,7 +65,9 @@ public class EditorController {
 	public Canvas levelCanvas;
 
 	public RadioButton rbGrass;
+	public RadioButton rbGrassB;
 	public RadioButton rbPath;
+	public RadioButton rbPathB;
 	public RadioButton rbTunnel;
 	public RadioButton rbTunnelB;
 
@@ -304,11 +306,15 @@ public class EditorController {
 				if ((!(tileMap[x][y].getClass() == selectedTile.getClass()))) {
 					if (selectedTile instanceof Grass) {
 						tileMap[x][y] = new Grass();
+					} else if (selectedTile instanceof GrassB) {
+						tileMap[x][y] = new GrassB();
 					} else if (selectedTile instanceof Path) {
 						tileMap[x][y] = new Path();
-					} else if(selectedTile instanceof Tunnel){
+					} else if (selectedTile instanceof PathB) {
+						tileMap[x][y] = new PathB();
+					} else if (selectedTile instanceof Tunnel){
 						tileMap[x][y] = new Tunnel();
-					} else {
+					} else if (selectedTile instanceof TunnelB){
 						tileMap[x][y] = new TunnelB();
 					}
 					renderBoard();
@@ -324,24 +330,32 @@ public class EditorController {
 		final ToggleGroup tileRadioButtons = new ToggleGroup();
 
 		rbGrass.setToggleGroup(tileRadioButtons);
+		rbGrassB.setToggleGroup(tileRadioButtons);
 		rbPath.setToggleGroup(tileRadioButtons);
+		rbPathB.setToggleGroup(tileRadioButtons);
 		rbTunnel.setToggleGroup(tileRadioButtons);
 		rbTunnelB.setToggleGroup(tileRadioButtons);
 
 		ImageView grassImageView = new ImageView(new Grass().getImg());
+		ImageView grassBImageView = new ImageView(new GrassB().getImg());
 		ImageView pathImageView = new ImageView(new Path().getImg());
+		ImageView pathBImageView = new ImageView(new PathB().getImg());
 		ImageView tunnelImageView = new ImageView(new Tunnel().getImg());
 		ImageView tunnelBImageView = new ImageView(new TunnelB().getImg());
 
 		ImageView grassImageViewSelected = new ImageView(new Image("file:target/classes/grass_selected.png"));
+		ImageView grassBImageViewSelected = new ImageView(new Image("file:target/classes/grass_selected.png"));
 		ImageView pathImageViewSelected = new ImageView(new Image("file:target/classes/path_selected.png"));
+		ImageView pathBImageViewSelected = new ImageView(new Image("file:target/classes/path_selected.png"));
 		ImageView tunnelImageViewSelected = new ImageView(new Image("file:target/classes/tunnel_selected.png"));
 		ImageView tunnelBImageViewSelected = new ImageView(new Image("file:target/classes/tunnel_selected.png"));
 
 		rbGrass.setSelected(true);
 
 		rbGrass.setGraphic(grassImageViewSelected);
+		rbGrassB.setGraphic(grassBImageViewSelected);
 		rbPath.setGraphic(pathImageView);
+		rbPathB.setGraphic(pathBImageView);
 		rbTunnel.setGraphic(tunnelImageView);
 		rbTunnelB.setGraphic(tunnelBImageView);
 
@@ -349,25 +363,49 @@ public class EditorController {
 			if (rbGrass.isSelected()) {
 				selectedTile = new Grass();
 				rbGrass.setGraphic(grassImageViewSelected);
+				rbGrassB.setGraphic(grassBImageView);
 				rbPath.setGraphic(pathImageView);
+				rbPathB.setGraphic(pathBImageView);
 				rbTunnel.setGraphic(tunnelImageView);
 				rbTunnelB.setGraphic(tunnelBImageView);
-			} else if (rbPath.isSelected()) {
+			} else if (rbGrassB.isSelected()) {
+				selectedTile = new GrassB();
+				rbGrass.setGraphic(grassImageView);
+				rbGrassB.setGraphic(grassBImageViewSelected);
+				rbPath.setGraphic(pathImageView);
+				rbPathB.setGraphic(pathBImageView);
+				rbTunnel.setGraphic(tunnelImageView);
+				rbTunnelB.setGraphic(tunnelBImageView);
+			}else if (rbPath.isSelected()) {
 				selectedTile = new Path();
 				rbGrass.setGraphic(grassImageView);
+				rbGrassB.setGraphic(grassBImageView);
 				rbPath.setGraphic(pathImageViewSelected);
+				rbPathB.setGraphic(pathBImageView);
+				rbTunnel.setGraphic(tunnelImageView);
+				rbTunnelB.setGraphic(tunnelBImageView);
+			}else if (rbPathB.isSelected()) {
+				selectedTile = new PathB();
+				rbGrass.setGraphic(grassImageView);
+				rbGrassB.setGraphic(grassBImageView);
+				rbPath.setGraphic(pathImageView);
+				rbPathB.setGraphic(pathBImageViewSelected);
 				rbTunnel.setGraphic(tunnelImageView);
 				rbTunnelB.setGraphic(tunnelBImageView);
 			} else if (rbTunnel.isSelected()) {
 				selectedTile = new Tunnel();
 				rbGrass.setGraphic(grassImageView);
+				rbGrassB.setGraphic(grassBImageView);
 				rbPath.setGraphic(pathImageView);
+				rbPathB.setGraphic(pathBImageView);
 				rbTunnel.setGraphic(tunnelImageViewSelected);
 				rbTunnelB.setGraphic(tunnelBImageView);
 			} else if (rbTunnelB.isSelected()) {
 				selectedTile = new TunnelB();
 				rbGrass.setGraphic(grassImageView);
+				rbGrassB.setGraphic(grassBImageView);
 				rbPath.setGraphic(pathImageView);
+				rbPathB.setGraphic(pathBImageView);
 				rbTunnel.setGraphic(tunnelImageView);
 				rbTunnelB.setGraphic(tunnelBImageViewSelected);
 			}
@@ -514,8 +552,11 @@ public class EditorController {
 	 */
 	private void setButtonDisabling(boolean val) {
 		rbGrass.setDisable(val);
+		rbGrassB.setDisable(val);
 		rbTunnel.setDisable(val);
+		rbTunnelB.setDisable(val);
 		rbPath.setDisable(val);
+		rbPathB.setDisable(val);
 		saveLevelButton.setDisable(val);
 		levelSettingsButton.setDisable(val);
 		sizeChangeButton.setDisable(val);
@@ -631,7 +672,7 @@ public class EditorController {
 					System.out.println("Screenshot was saved");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					System.out.println("Screenshot wasn' saved :(");
+					System.out.println("Screenshot wasn't saved :(");
 				}
 				HighScores.createNewLevel(newLevelName);
 				ProfileFileReader.createNewLevel(newLevelName);
