@@ -316,6 +316,10 @@ public class LevelController {
 		}
 	}
 
+	/**
+	 * Copies power data to current level.
+	 * @param powers power data.
+	 */
 	public static void addPowersFromSave(int[] powers) {
 		savedPowers = powers;
 	}
@@ -504,6 +508,9 @@ public class LevelController {
 		renderItem(index);
 	}
 
+	/**
+	 * Saves level state (if a valid level name is entered).
+	 */
 	@FXML
 	public void saveLevel() {
 		String newLevelName = levelNameTextField.getText();
@@ -533,6 +540,11 @@ public class LevelController {
 		}
 	}
 
+	/**
+	 * Makes screenshot of current tilemap.
+	 * @param levelName name of level being screenshot.
+	 * @throws IOException directory/file not found.
+	 */
 	public void makeScreenShot(String levelName) throws IOException {
 		File file = new File("src\\main\\resources\\saved_games_images\\" + ProfileFileReader.getLoggedProfile() + "\\"
 				+ levelName + ".png");
@@ -564,6 +576,9 @@ public class LevelController {
 		saveLevelPane.setVisible(true);
 	}
 
+	/**
+	 * Returns user from dialogue box back to level.
+	 */
 	public void goBackToLevel() {
 		saveLevelPane.setVisible(false);
 		saveLevelStateButton.setDisable(false);
