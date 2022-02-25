@@ -337,7 +337,7 @@ public class MenuController {
 				// Adds the action for each button
 				profButton[i].setOnAction(event -> {
 					ProfileFileReader.loginProfile(profButton[buttonIndex].getText());
-					System.out.print("button pressed lvl");
+					System.out.print("button pressed prof");
 					profilesViewUpdated = false;
 					updateProfilesView();
 
@@ -415,15 +415,16 @@ public class MenuController {
 				levelButtons[i].setMinSize(155, 30);
 				levelButtons[i].setId("menu-button1");
 				levelButtonsVBox.getChildren().add(levelButtons[i]);
-
+				final int buttonIndex = i;
 				levelButtons[i].setOnAction(event -> {
 
 					try {
-						selectedLevelHeadingLabel.setText(getButtonName(event));
+						selectedLevelHeadingLabel.setText(levelButtons[buttonIndex].getText());
 					} catch (Exception e1) {
 						selectedLevelHeadingLabel.setText("Something went wrong, please contact admin");
 					}
-					levelButtonPressed(event);
+					selectedLevelName = levelButtons[buttonIndex].getText();
+					//levelButtonPressed(event);
 					updateScoreTableLevels();
 
 					{
@@ -524,43 +525,43 @@ public class MenuController {
 		updateLevelsView();
 	}
 
-	/**
-	 * Get the text from a button.
-	 * 
-	 * @param event button pressed
-	 * @return name of the button
-	 * @throws Exception if source of action event wasn't button
-	 */
-	public static String getButtonName(ActionEvent event) throws Exception {
-		String source = event.getSource().toString();
-		System.out.println(source);
-
-		if (!source.contains(PART_OF_BUTTON_NAME)) {
-			System.out.println(source);
-
-			throw new Exception("Element is not a button");
-		}
-
-		int buttonNameBegginingIndex = source.indexOf(PART_OF_BUTTON_NAME) + LENGHT_OF_FIXED_PART_OF_BUTTON_NAME;
-		System.out.println(buttonNameBegginingIndex);
-		return source.substring(buttonNameBegginingIndex, source.length() - 1);
-	}
-
-	/**
-	 * Change selected level to a level with the same name as text on the button.
-	 * 
-	 * @param event
-	 */
-	public static void levelButtonPressed(ActionEvent event) {
-		try {
-			System.out.println(getButtonName(event));
-			selectedLevelName = getButtonName(event);
-			System.out.println(selectedLevelName);
-
-		} catch (Exception e) {
-			alert("This level data is missing :(");
-		}
-	}
+//	/** TODO: check if this code is needed
+//	 * Get the text from a button.
+//	 * 
+//	 * @param event button pressed
+//	 * @return name of the button
+//	 * @throws Exception if source of action event wasn't button
+//	 */
+//	public static String getButtonName(ActionEvent event) throws Exception {
+//		String source = event.getSource().toString();
+//		System.out.println(source);
+//
+//		if (!source.contains(PART_OF_BUTTON_NAME)) {
+//			System.out.println(source);
+//
+//			throw new Exception("Element is not a button");
+//		}
+//
+//		int buttonNameBegginingIndex = source.indexOf(PART_OF_BUTTON_NAME) + LENGHT_OF_FIXED_PART_OF_BUTTON_NAME;
+//		System.out.println(buttonNameBegginingIndex);
+//		return source.substring(buttonNameBegginingIndex, source.length() - 1);
+//	}
+//
+//	/**
+//	 * Change selected level to a level with the same name as text on the button.
+//	 * 
+//	 * @param event
+//	 */
+//	public static void levelButtonPressed(ActionEvent event) {
+//		try {
+//			System.out.println(getButtonName(event));
+//			selectedLevelName = getButtonName(event);
+//			System.out.println(selectedLevelName);
+//
+//		} catch (Exception e) {
+//			alert("This level data is missing :(");
+//		}
+//	}
 
 	/**
 	 * Loads the game.
@@ -665,10 +666,10 @@ public class MenuController {
 				levelButtons[i].setMinSize(155, 30);
 				levelButtons[i].setId("menu-button1");
 				levelsButtonsLevelCreationVBox.getChildren().add(levelButtons[i]);
-
+				final int buttonIndex = i;
 				levelButtons[i].setOnAction(event -> {
 					try {
-						selectedEditLevelName = getButtonName(event);
+						selectedEditLevelName = levelButtons[buttonIndex].getText();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

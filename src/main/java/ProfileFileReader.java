@@ -101,8 +101,12 @@ public class ProfileFileReader {
 	public static void createNewProfile(String profileName) {
 		if (doesProfileExist(profileName)) {
 			throw new IllegalArgumentException("Profile already exist");
+		} else {
+			profiles.add(new Profile(profileName));
+			new File("src/main/resources/levels/saved_games/" + profileName).mkdir();
+			new File("src/main/resources/saved_games_images/" + profileName).mkdir();
+
 		}
-		profiles.add(new Profile(profileName));
 	}
 
 	/**
@@ -115,6 +119,29 @@ public class ProfileFileReader {
 		for (Profile p : profiles) {
 			if (p.getProfileName().equals(profileName)) {
 				profileToRemove = p;
+
+				String directory = "src/main/resources/levels/saved_games/" + profileName;
+				File directoryPath = new File(directory);
+				String[] contents = directoryPath.list();
+
+				if (contents != null) {
+					for (String content : contents) {
+						new File(directory + "/" + content).delete();
+					}
+				}
+				new File(directory).delete();
+				
+				directory = "src/main/resources/saved_games_images/" + profileName;
+				directoryPath = new File(directory);
+				contents = directoryPath.list();
+
+				if (contents != null) {
+					for (String content : contents) {
+						new File(directory + "/" + content).delete();
+					}
+				}
+				new File(directory).delete();
+
 			}
 		}
 		profiles.remove(profileToRemove);
@@ -124,7 +151,7 @@ public class ProfileFileReader {
 	 * Return best profile score for the specified level.
 	 *
 	 * @param profileName name of a profile
-	 * @param levelName       level which you want to safe score
+	 * @param levelName   level which you want to safe score
 	 * @return best player score
 	 */
 	public static int getBestScore(String profileName, String levelName) {
@@ -141,7 +168,7 @@ public class ProfileFileReader {
 	 * Save score if it is new best score for specified level.
 	 *
 	 * @param profileName name of a profile
-	 * @param levelName       level which you want to safe score
+	 * @param levelName   level which you want to safe score
 	 * @param score       score you want to safe
 	 */
 	public static void saveScore(String profileName, String levelName, int score) {
@@ -222,7 +249,7 @@ public class ProfileFileReader {
 	public static ArrayList<String> getDeafaultLevelsNames() {
 		// Creating a File object for directory
 		File directoryPath = new File("src/main/resources/levels/default_levels");
-        System.out.println(directoryPath.getAbsolutePath());
+		System.out.println(directoryPath.getAbsolutePath());
 
 		// List of all files and directories
 		String[] contents = directoryPath.list();
