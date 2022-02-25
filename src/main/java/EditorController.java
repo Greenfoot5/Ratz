@@ -113,19 +113,19 @@ public class EditorController {
 
 	public EditorController(MenuController mainMenuController) {
 		MAIN_MENU = mainMenuController;
-
-		width = LevelFileReader.getWidth();
-		height = LevelFileReader.getHeight();
-
-		tileMap = LevelFileReader.getTileMap();
-		changeToAdultRats();
-
-		maxRats = LevelFileReader.getMaxRats();
-		parTime = LevelFileReader.getParTime();
-		dropRates = LevelFileReader.getDropRates();
-		for (int i = 0; i < dropRates.length; i++) {
-			dropRates[i] = dropRates[i] / MILLIS_RATIO;
+		width = 10;
+		height = 7;
+		tileMap = new Tile[width][height];
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				tileMap[i][j] = new Grass();
+			}
 		}
+		maxRats = 20;
+		parTime = 150;
+		dropRates = new int[8];
+		Arrays.fill(dropRates, 1); // TODO: change these to millis when saving level, from millis when loading one
+
 	}
 
 	public EditorController(String levelName, MenuController mainMenuController) {

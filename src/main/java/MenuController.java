@@ -76,8 +76,6 @@ public class MenuController {
 	@FXML
 	private VBox levelsButtonsLevelCreationVBox;
 	@FXML
-	private TextField newLevelNameTextField;
-	@FXML
 	private VBox scoreTableLevelsVBox;
 	@FXML
 	private Label loggedProfileMenuLabel;
@@ -589,7 +587,6 @@ public class MenuController {
 	private void loadLevel() throws IOException {
 		System.out.println(stage == null);
 		System.out.println(scene == null);
-		// :TODO fix loading games in progress
 		String levelType = "";
 		if (defaultLevelsRadioButton.isSelected()) {
 			levelType = "default_levels/";
@@ -645,6 +642,7 @@ public class MenuController {
 			levelsCreationViewUpdated = true;
 
 			levelsButtonsLevelCreationVBox.getChildren().clear();
+			levelView.setImage(null);
 			ArrayList<String> levelNames = null;
 			Button[] levelButtons;
 
@@ -714,22 +712,6 @@ public class MenuController {
 		}
 	}
 
-	public void createLevel(ActionEvent event) {
-		File tempFile = new File(
-				"src\\main\\resources\\levels\\created_levels\\" + newLevelNameTextField.getText() + ".txt");
-		try {
-			tempFile.createNewFile();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println(newLevelNameTextField.getText() + " " + tempFile.exists() + " - exist?");
-		ProfileFileReader.createNewLevel(newLevelNameTextField.getText());
-		HighScores.createNewLevel(newLevelNameTextField.getText());
-		levelsCreationViewUpdated = false;
-		updateLevelCreationView();
-		System.out.println("crt");
-	}
-
 	public void editCreatedLevel(ActionEvent event) throws IOException {
 		System.out.println("edit");
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("editor.fxml"));
@@ -740,7 +722,7 @@ public class MenuController {
 			LevelFileReader.loadNormalLevelFile("src/main/resources/levels/created_levels/" + selectedEditLevelName);
 		}
 
-		EditorController editorController = new EditorController(this);
+		EditorController editorController = new EditorController(selectedEditLevelName, this);
 
 		loader.setController(editorController);
 
@@ -753,15 +735,15 @@ public class MenuController {
 	}
 
 	public void deleteCreatedLevel(ActionEvent event) {
-		// TODO fix deleting
-		File tempFile = new File("levels/created_levels/" + selectedEditLevelName + ".txt");
+		// TODO delete all in progress files which use this level
+		File tempFile = new File("src/main/resources/levels/created_levels/" + selectedEditLevelName + ".txt");
 		tempFile.delete();
-		System.out.println(selectedEditLevelName + " " + tempFile.exists() + " - exist_after_delete?");
-		ProfileFileReader.deleteLevel(newLevelNameTextField.getText());
-		HighScores.deleteLevel(newLevelNameTextField.getText());
+		File tempImage = new File("src/main/resources/saved_games_images/" + selectedEditLevelName + ".png");
+		tempImage.delete();
+		ProfileFileReader.deleteLevel(selectedEditLevelName);
+		HighScores.deleteLevel(selectedEditLevelName);
 		levelsCreationViewUpdated = false;
 		updateLevelCreationView();
-		System.out.println("delete");
 	}
 
 	public void editLevelTypeChanged(ActionEvent event) {
