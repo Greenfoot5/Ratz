@@ -355,6 +355,7 @@ public class LevelController {
 	private void endGame(boolean wonGame) {
 		tickTimeline.stop();
 		disableToolbars();
+		saveLevelStateButton.setDisable(true);
 
 		gameEndPane.setVisible(true);
 		saveAndExitButton.setVisible(false);
