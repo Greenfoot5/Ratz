@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class MaleSwapper extends Power {
 
-    private static final String MALE_PATH = "maleSwapperSound.mp3";
+    private static final String MALE_PATH = "femaleSwapperSound.mp3";
 
     /**
      * MaleSwapper constructor

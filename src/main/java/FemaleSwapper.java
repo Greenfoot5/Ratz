@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class FemaleSwapper extends Power {
 
-    private static final String FEMALE_SWAP_SOUND_PATH = "femaleSwapperSound.mp3";
+    private static final String FEMALE_SWAP_SOUND_PATH = "maleSwapperSound.mp3";
     private static final float FEMALE_SWAP_SOUND_VOLUME = 0.1f;
 
     /**
