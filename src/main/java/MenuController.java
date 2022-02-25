@@ -94,6 +94,8 @@ public class MenuController {
 	@FXML
 	private Label l1;
 	@FXML
+	private Label selectedLevelHeadingLabel;
+	@FXML
 	private Label loggedProfileLabel;
 	@FXML
 	private TextField newProfileTextField;
@@ -113,8 +115,9 @@ public class MenuController {
 		} else if (this.menuRoot != null) {
 			updateMenuView();
 		} else if (this.levelsSelectionRoot != null) {
-			defaultLevelsRadioButton.getStyleClass().remove("radio-button");
-			defaultLevelsRadioButton.getStyleClass().add("toggle-button");
+//			defaultLevelsRadioButton.getStyleClass().remove("radio-button");
+//			defaultLevelsRadioButton.getStyleClass().add("toggle-button");
+			selectedLevelHeadingLabel.setAlignment(Pos.CENTER);
 			updateLevelsView();
 		} else if (this.levelCreationRoot != null) {
 			updateLevelCreationView();
@@ -408,6 +411,11 @@ public class MenuController {
 
 				levelButtons[i].setOnAction(event -> {
 
+					try {
+						selectedLevelHeadingLabel.setText(getButtonName(event));
+					} catch (Exception e1) {
+						selectedLevelHeadingLabel.setText("Something went wrong, please contact admin");
+					}
 					levelButtonPressed(event);
 					updateScoreTableLevels();
 
@@ -415,13 +423,19 @@ public class MenuController {
 						// Preview display
 						Image img = null;
 						try {
+							String folderPath = "";
+							if (savedGamesRadioButton.isSelected()) {
+								folderPath = "saved_games_images\\" + ProfileFileReader.getLoggedProfile() + "\\";
+							} else {
+								folderPath = "levels_images\\";
+							}
 
-							File f = new File("src\\main\\resources\\levels_images\\" + selectedLevelName + ".png");
+							File f = new File("src\\main\\resources\\" + folderPath + selectedLevelName + ".png");
 
 							if (f.exists()) {
 
 								Image tempImg = new Image(new FileInputStream(
-										"src\\main\\resources\\levels_images\\" + selectedLevelName + ".png"));
+										"src\\main\\resources\\" + folderPath + selectedLevelName + ".png"));
 
 								int width = (int) tempImg.getWidth();
 								int height = (int) tempImg.getHeight();
@@ -436,17 +450,18 @@ public class MenuController {
 								}
 								img = new Image(
 										new FileInputStream(
-												"src\\main\\resources\\levels_images\\" + selectedLevelName + ".png"),
+												"src\\main\\resources\\" + folderPath + selectedLevelName + ".png"),
 										width, height, false, false);
 
 								levelViewSelection.setImage(img);
 							} else {
 								// TODO: do something in case of missing file
 								levelViewSelection.setImage(null);
+								System.out.println("Can't find a screenshot");
 							}
 
 						} catch (FileNotFoundException e) {
-							// levelView.
+							System.out.println("Screenshot loading error");
 						}
 					}
 
@@ -459,7 +474,6 @@ public class MenuController {
 	 * Updates score table in level selection menu.
 	 */
 	public void updateScoreTableLevels() {
-		System.out.println(selectedLevelName + "asfhf");
 		String[] scores = HighScores.getTopScores(selectedLevelName);
 		scoreTableLevelsVBox.getChildren().clear();
 
@@ -469,7 +483,7 @@ public class MenuController {
 				scoreTableLevelsVBox.getChildren().add(scrLabel);
 			}
 		} else {
-			//TODO
+			// TODO
 			scoreTableLevelsVBox.getChildren().add(new Label("TODO: do something here"));
 		}
 
@@ -481,6 +495,7 @@ public class MenuController {
 	public void levelTypeChanged() {
 		levelsViewUpdated = false;
 		selectedLevelName = "";
+		selectedLevelHeadingLabel.setText("Select Level");
 		updateLevelsView();
 	}
 

@@ -600,10 +600,6 @@ public class EditorController {
 	}
 
 	public void makeScreenShot(String levelName) throws IOException {
-		// TODO: need to use this code when saving custom level (set name of the file
-		// the same as level name)
-
-		// TODO: generate file name
 		File file = new File("src\\main\\resources\\levels_images\\" + levelName + ".png");
 
 		WritableImage writableImage = new WritableImage(TILE_SIZE * width, TILE_SIZE * height);
