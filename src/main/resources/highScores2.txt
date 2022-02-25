@@ -33,3 +33,4 @@ Tomasz 117
 newLevel -1
 Steffan 564
 Mart 465
+VerticalMapTest -1

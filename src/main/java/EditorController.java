@@ -42,8 +42,7 @@ public class EditorController {
 
 	private String levelName;
 	private MenuController MAIN_MENU;
-	
-	
+
 	// Size of game map
 	private int width;
 	private int height;
@@ -111,22 +110,39 @@ public class EditorController {
 		dropRates = new int[8];
 		Arrays.fill(dropRates, 1); // TODO: change these to millis when saving level, from millis when loading one
 	}
-	
-	public EditorController(String levelName, MenuController mainMenuController) {
-		this.levelName = levelName;
+
+	public EditorController(MenuController mainMenuController) {
 		MAIN_MENU = mainMenuController;
-		
+
 		width = LevelFileReader.getWidth();
 		height = LevelFileReader.getHeight();
-		
+
 		tileMap = LevelFileReader.getTileMap();
 		changeToAdultRats();
-		
+
 		maxRats = LevelFileReader.getMaxRats();
 		parTime = LevelFileReader.getParTime();
 		dropRates = LevelFileReader.getDropRates();
 		for (int i = 0; i < dropRates.length; i++) {
-			dropRates[i] = dropRates[i]/MILLIS_RATIO;
+			dropRates[i] = dropRates[i] / MILLIS_RATIO;
+		}
+	}
+
+	public EditorController(String levelName, MenuController mainMenuController) {
+		this.levelName = levelName;
+		MAIN_MENU = mainMenuController;
+
+		width = LevelFileReader.getWidth();
+		height = LevelFileReader.getHeight();
+
+		tileMap = LevelFileReader.getTileMap();
+		changeToAdultRats();
+
+		maxRats = LevelFileReader.getMaxRats();
+		parTime = LevelFileReader.getParTime();
+		dropRates = LevelFileReader.getDropRates();
+		for (int i = 0; i < dropRates.length; i++) {
+			dropRates[i] = dropRates[i] / MILLIS_RATIO;
 		}
 	}
 
@@ -517,15 +533,15 @@ public class EditorController {
 			for (int j = 0; j < tileMap[i].length; j++) {
 				if (tileMap[i][j].getOccupantRats().size() != 0) {
 					ChildRat rat = (ChildRat) tileMap[i][j].getOccupantRats().get(0);
-					if(rat.getRatSex() == Rat.Sex.MALE) {
+					if (rat.getRatSex() == Rat.Sex.MALE) {
 						tileMap[i][j].removeOccupantRat(rat);
-						tileMap[i][j].addOccupantRat(new AdultMale(6, Rat.Direction.NORTH,0,i,j,true));
+						tileMap[i][j].addOccupantRat(new AdultMale(6, Rat.Direction.NORTH, 0, i, j, true));
 					} else if (rat.getRatSex() == Rat.Sex.FEMALE) {
 						tileMap[i][j].removeOccupantRat(rat);
-						tileMap[i][j].addOccupantRat(new AdultFemale(6,Rat.Direction.NORTH,0,i,j,true,0,0));
-					} else if(rat.getRatSex() == Rat.Sex.INTERSEX) {
+						tileMap[i][j].addOccupantRat(new AdultFemale(6, Rat.Direction.NORTH, 0, i, j, true, 0, 0));
+					} else if (rat.getRatSex() == Rat.Sex.INTERSEX) {
 						tileMap[i][j].removeOccupantRat(rat);
-						tileMap[i][j].addOccupantRat(new AdultIntersex(6,Rat.Direction.NORTH,0,i,j,true,0,0));
+						tileMap[i][j].addOccupantRat(new AdultIntersex(6, Rat.Direction.NORTH, 0, i, j, true, 0, 0));
 					}
 				}
 			}
@@ -540,15 +556,18 @@ public class EditorController {
 			for (int j = 0; j < tileMap[i].length; j++) {
 				if (tileMap[i][j].getOccupantRats().size() != 0) {
 					Rat rat = tileMap[i][j].getOccupantRats().get(0);
-					if(rat instanceof AdultMale) {
+					if (rat instanceof AdultMale) {
 						tileMap[i][j].removeOccupantRat(rat);
-						tileMap[i][j].addOccupantRat(new ChildRat(4,Rat.Direction.NORTH,0,i,j,true,0,Rat.Sex.MALE));
+						tileMap[i][j]
+								.addOccupantRat(new ChildRat(4, Rat.Direction.NORTH, 0, i, j, true, 0, Rat.Sex.MALE));
 					} else if (rat instanceof AdultFemale) {
 						tileMap[i][j].removeOccupantRat(rat);
-						tileMap[i][j].addOccupantRat(new ChildRat(4,Rat.Direction.NORTH,0,i,j,true,0,Rat.Sex.FEMALE));
-					} else if(rat instanceof AdultIntersex) {
+						tileMap[i][j]
+								.addOccupantRat(new ChildRat(4, Rat.Direction.NORTH, 0, i, j, true, 0, Rat.Sex.FEMALE));
+					} else if (rat instanceof AdultIntersex) {
 						tileMap[i][j].removeOccupantRat(rat);
-						tileMap[i][j].addOccupantRat(new ChildRat(4,Rat.Direction.NORTH,0,i,j,true,0,Rat.Sex.INTERSEX));
+						tileMap[i][j].addOccupantRat(
+								new ChildRat(4, Rat.Direction.NORTH, 0, i, j, true, 0, Rat.Sex.INTERSEX));
 					}
 				}
 			}
@@ -561,24 +580,24 @@ public class EditorController {
 	@FXML
 	public void saveLevel() {
 		String newLevelName = levelNameTextField.getText();
-		if(newLevelName.contains(" ")){
+		if (newLevelName.contains(" ")) {
 			savingErrorText.setText("Level name cannot contain spaces");
-		} else if(newLevelName.matches(delfaultLevelRegex)) {
+		} else if (newLevelName.matches(delfaultLevelRegex)) {
 			savingErrorText.setText("Level name cannot be the same as default level");
-		}else  if(newLevelName.length() == 0) {
+		} else if (newLevelName.length() == 0) {
 			savingErrorText.setText("Level name cannot be empty");
 		} else {
 			savingErrorText.setText("");
-			
+
 			changeToBabyRats();
 			for (int i = 0; i < dropRates.length; i++) {
-				dropRates[i] = dropRates[i]*MILLIS_RATIO;
+				dropRates[i] = dropRates[i] * MILLIS_RATIO;
 			}
 
-			SaveCustomLevel save = new SaveCustomLevel("src\\main\\resources\\levels\\created_levels\\" + newLevelName, width, height, tileMap, maxRats, parTime, dropRates);
-			
-			
-			if(save.wasSaved()) {
+			SaveCustomLevel save = new SaveCustomLevel("src\\main\\resources\\levels\\created_levels\\" + newLevelName,
+					width, height, tileMap, maxRats, parTime, dropRates);
+
+			if (save.wasSaved()) {
 				try {
 					makeScreenShot(newLevelName);
 					System.out.println("Screenshot was saved");
@@ -593,7 +612,7 @@ public class EditorController {
 				savingErrorText.setText("Level name already exists.");
 				changeToAdultRats();
 				for (int i = 0; i < dropRates.length; i++) {
-					dropRates[i] = dropRates[i]/MILLIS_RATIO;
+					dropRates[i] = dropRates[i] / MILLIS_RATIO;
 				}
 			}
 		}

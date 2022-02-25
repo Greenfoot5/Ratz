@@ -1,0 +1,6 @@
+src/main/resources/levels/created_levels/VerticalMapTest
+146
+4,4,4,4,4,4,4,4,
+(i,4,2,0,1,6,1,19)
+(f,4,0,0,3,11,1,18)
+

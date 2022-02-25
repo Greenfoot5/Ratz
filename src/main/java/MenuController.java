@@ -48,9 +48,9 @@ public class MenuController {
 	private static boolean levelsCreationViewUpdated = false;
 	private final static String PART_OF_BUTTON_NAME = "styleClass=button]'";
 	private static final int LENGHT_OF_FIXED_PART_OF_BUTTON_NAME = 19;
-	private static final int MAX_WIDTH_CREATION = 420;
+	private static final int MAX_WIDTH_CREATION = 390;
 	private static final int MAX_HEIGHT_CREATION = 350;
-	private static final int MAX_WIDTH_SELECTION = 200;
+	private static final int MAX_WIDTH_SELECTION = 180;
 	private static final int MAX_HEIGHT_SELECTION = 160;
 
 	@FXML
@@ -396,15 +396,15 @@ public class MenuController {
 			if (defaultLevelsRadioButton.isSelected()) {
 				levelNames = ProfileFileReader.getDeafaultLevelsNames();
 				selectRadioButton(defaultLevelsRadioButton, createdLevelsRadioButton, savedGamesRadioButton);
-				setDeleteButtonVisibility(false);
+				setDeleteButtonVisibility(true);
 			} else if (createdLevelsRadioButton.isSelected()) {
 				levelNames = ProfileFileReader.getCreatedLevelsNames();
 				selectRadioButton(createdLevelsRadioButton, savedGamesRadioButton, defaultLevelsRadioButton);
-				setDeleteButtonVisibility(false);
+				setDeleteButtonVisibility(true);
 			} else if (savedGamesRadioButton.isSelected()) {
 				levelNames = ProfileFileReader.getSavedGamesNames(ProfileFileReader.getLoggedProfile());
 				selectRadioButton(savedGamesRadioButton, defaultLevelsRadioButton, createdLevelsRadioButton);
-				setDeleteButtonVisibility(true);
+				setDeleteButtonVisibility(false);
 			}
 			levelButtons = new Button[levelNames.size()];
 
@@ -455,6 +455,7 @@ public class MenuController {
 									width *= heightComare;
 									height *= heightComare;
 								}
+								System.out.println(width + " " + height + " -----width and height");
 								img = new Image(
 										new FileInputStream(
 												"src\\main\\resources\\" + folderPath + selectedLevelName + ".png"),
@@ -477,9 +478,9 @@ public class MenuController {
 		}
 	}
 	
-	public void setDeleteButtonVisibility(Boolean visible) {
-		deleteSavedGameButton.setDisable(!visible);
-		deleteSavedGameButton.setVisible(visible);
+	public void setDeleteButtonVisibility(Boolean disable) {
+		deleteSavedGameButton.setDisable(disable);
+		//deleteSavedGameButton.setVisible(visible);
 	}
 
 	public void deleteSavedGame() {
@@ -738,7 +739,7 @@ public class MenuController {
 			LevelFileReader.loadNormalLevelFile("src/main/resources/levels/created_levels/" + selectedEditLevelName);
 		}
 
-		EditorController editorController = new EditorController(selectedEditLevelName, this);
+		EditorController editorController = new EditorController(this);
 
 		loader.setController(editorController);
 
@@ -774,7 +775,7 @@ public class MenuController {
 
 	public void openLevelEditor(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("editor.fxml"));
-		EditorController editorController = new EditorController();
+		EditorController editorController = new EditorController(this);
 
 		loader.setController(editorController);
 

@@ -58,6 +58,12 @@
 #sidebar2-menu {
     -fx-background-image: url('gui/sidebar2-menu.png'); 
 }
+#sidebar3-menu {
+    -fx-background-image: url('gui/sidebar3-menu.png'); 
+}
+#sidebar4-menu {
+    -fx-background-image: url('gui/sidebar4-menu.png'); 
+}
 #selectedLevelHeadingLabel {
     -fx-text-alignment: center;
     -fx-font-size: 30.0px;
