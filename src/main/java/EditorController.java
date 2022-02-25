@@ -67,6 +67,7 @@ public class EditorController {
 	public RadioButton rbGrass;
 	public RadioButton rbPath;
 	public RadioButton rbTunnel;
+	public RadioButton rbTunnelB;
 
 	public HBox ratSpawnToolbar;
 
@@ -286,8 +287,10 @@ public class EditorController {
 						tileMap[x][y] = new Grass();
 					} else if (selectedTile instanceof Path) {
 						tileMap[x][y] = new Path();
-					} else {
+					} else if(selectedTile instanceof Tunnel){
 						tileMap[x][y] = new Tunnel();
+					} else {
+						tileMap[x][y] = new TunnelB();
 					}
 					renderBoard();
 				}
@@ -303,8 +306,10 @@ public class EditorController {
 						tileMap[x][y] = new Grass();
 					} else if (selectedTile instanceof Path) {
 						tileMap[x][y] = new Path();
-					} else {
+					} else if(selectedTile instanceof Tunnel){
 						tileMap[x][y] = new Tunnel();
+					} else {
+						tileMap[x][y] = new TunnelB();
 					}
 					renderBoard();
 				}
@@ -321,20 +326,24 @@ public class EditorController {
 		rbGrass.setToggleGroup(tileRadioButtons);
 		rbPath.setToggleGroup(tileRadioButtons);
 		rbTunnel.setToggleGroup(tileRadioButtons);
+		rbTunnelB.setToggleGroup(tileRadioButtons);
 
 		ImageView grassImageView = new ImageView(new Grass().getImg());
 		ImageView pathImageView = new ImageView(new Path().getImg());
 		ImageView tunnelImageView = new ImageView(new Tunnel().getImg());
+		ImageView tunnelBImageView = new ImageView(new TunnelB().getImg());
 
 		ImageView grassImageViewSelected = new ImageView(new Image("file:target/classes/grass_selected.png"));
 		ImageView pathImageViewSelected = new ImageView(new Image("file:target/classes/path_selected.png"));
 		ImageView tunnelImageViewSelected = new ImageView(new Image("file:target/classes/tunnel_selected.png"));
+		ImageView tunnelBImageViewSelected = new ImageView(new Image("file:target/classes/tunnel_selected.png"));
 
 		rbGrass.setSelected(true);
 
 		rbGrass.setGraphic(grassImageViewSelected);
 		rbPath.setGraphic(pathImageView);
 		rbTunnel.setGraphic(tunnelImageView);
+		rbTunnelB.setGraphic(tunnelBImageView);
 
 		tileRadioButtons.selectedToggleProperty().addListener((ob, o, n) -> {
 			if (rbGrass.isSelected()) {
@@ -342,16 +351,25 @@ public class EditorController {
 				rbGrass.setGraphic(grassImageViewSelected);
 				rbPath.setGraphic(pathImageView);
 				rbTunnel.setGraphic(tunnelImageView);
+				rbTunnelB.setGraphic(tunnelBImageView);
 			} else if (rbPath.isSelected()) {
 				selectedTile = new Path();
 				rbGrass.setGraphic(grassImageView);
 				rbPath.setGraphic(pathImageViewSelected);
 				rbTunnel.setGraphic(tunnelImageView);
+				rbTunnelB.setGraphic(tunnelBImageView);
 			} else if (rbTunnel.isSelected()) {
 				selectedTile = new Tunnel();
 				rbGrass.setGraphic(grassImageView);
 				rbPath.setGraphic(pathImageView);
 				rbTunnel.setGraphic(tunnelImageViewSelected);
+				rbTunnelB.setGraphic(tunnelBImageView);
+			} else if (rbTunnelB.isSelected()) {
+				selectedTile = new TunnelB();
+				rbGrass.setGraphic(grassImageView);
+				rbPath.setGraphic(pathImageView);
+				rbTunnel.setGraphic(tunnelImageView);
+				rbTunnelB.setGraphic(tunnelBImageViewSelected);
 			}
 		});
 	}
