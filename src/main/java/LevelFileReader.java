@@ -369,9 +369,9 @@ public class LevelFileReader {
 		}
 	}
 
-	public static void loadNormalLevelFile(String filename) throws FileNotFoundException {
+	public static void loadNormalLevelFile(String filename, boolean loadDefaultObjects) throws FileNotFoundException {
 		File levelData = new File(filename + ".txt");
-		;
+
 		levelPath = filename;
 		Scanner reader = new Scanner(levelData);
 
@@ -408,7 +408,9 @@ public class LevelFileReader {
 		tileMap = tilesToTileMap(tiles);
 
 		hasLoadedSavedLevel = false;
-		readObjects(reader);
+		if (loadDefaultObjects) {
+			readObjects(reader, loadDefaultObjects);
+		}
 
 		reader.close();
 
@@ -418,8 +420,7 @@ public class LevelFileReader {
 		File levelData = new File(filename + ".txt");
 		Scanner reader = new Scanner(levelData);
 		levelPath = reader.nextLine();
-		loadNormalLevelFile(levelPath); // TODO: this is a temp fix to skip the level name. find out why tomasz wanted
-										// this.
+		loadNormalLevelFile(levelPath, false);
 		inProgInv = new int[8];
 		if (reader.hasNextLine()) {
 			String[] savedInfo = reader.nextLine().split(",");
@@ -429,7 +430,7 @@ public class LevelFileReader {
 				inProgInv[i] = Integer.parseInt(inProgInvString[i]);
 				LevelController.addPowersFromSave(inProgInv);
 			}
-			readObjects(reader);
+			readObjects(reader, false);
 		}
 	}
 
@@ -519,7 +520,7 @@ public class LevelFileReader {
 	 *
 	 * @param reader The scanner to read data from
 	 */
-	private static void readObjects(Scanner reader) {
+	private static void readObjects(Scanner reader, boolean readRats) {
 		while (reader.hasNextLine()) {
 			String[] currentItem = reader.nextLine().replaceAll("[()]", "").split(",");
 			// if current item is a female baby rat
