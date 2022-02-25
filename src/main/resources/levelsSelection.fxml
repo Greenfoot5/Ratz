@@ -14,14 +14,15 @@
 
 <BorderPane fx:id="levelsSelectionRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
    <right>
-      <VBox alignment="CENTER" prefHeight="300.0" prefWidth="188.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="300.0" prefWidth="188.0" spacing="2.0" BorderPane.alignment="CENTER">
          <children>
-            <Button id="green-menu-button1" alignment="CENTER" mnemonicParsing="false" onAction="#playTheGame" prefHeight="39.0" prefWidth="188.0" text="Play!" />
+            <Button id="green-menu-button1" alignment="CENTER" mnemonicParsing="false" onAction="#playTheGame" prefHeight="39.0" prefWidth="187.0" text="Play!" />
             <ImageView fx:id="levelViewSelection" fitHeight="160.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <VBox.margin>
                   <Insets right="5.0" />
                </VBox.margin></ImageView>
-            <Button mnemonicParsing="false" onAction="#changeToMenu" prefHeight="39.0" prefWidth="190.0" text="MainMenu" />
+            <Button mnemonicParsing="false" onAction="#changeToMenu" prefHeight="39.0" prefWidth="187.0" text="MainMenu" />
+            <Button id="red-menu-button" fx:id="deleteSavedGameButton" disable="true" mnemonicParsing="false" onAction="#deleteSavedGame" prefHeight="39.0" prefWidth="187.0" text="Delete saved game" visible="false" />
          </children>
       </VBox>
    </right>

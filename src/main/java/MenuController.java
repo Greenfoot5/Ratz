@@ -68,6 +68,8 @@ public class MenuController {
 	@FXML
 	private Button deleteLevelButton;
 	@FXML
+	private Button deleteSavedGameButton;
+	@FXML
 	private RadioButton editCustomLevelsRadioButton;
 	@FXML
 	private RadioButton editDefaultLevelsRadioButton;
@@ -387,22 +389,27 @@ public class MenuController {
 			levelsViewUpdated = true;
 
 			levelButtonsVBox.getChildren().clear();
+			levelViewSelection.setImage(null);
 			ArrayList<String> levelNames = null;
 			Button[] levelButtons;
 
 			if (defaultLevelsRadioButton.isSelected()) {
 				levelNames = ProfileFileReader.getDeafaultLevelsNames();
 				selectRadioButton(defaultLevelsRadioButton, createdLevelsRadioButton, savedGamesRadioButton);
+				setDeleteButtonVisibility(false);
 			} else if (createdLevelsRadioButton.isSelected()) {
 				levelNames = ProfileFileReader.getCreatedLevelsNames();
 				selectRadioButton(createdLevelsRadioButton, savedGamesRadioButton, defaultLevelsRadioButton);
+				setDeleteButtonVisibility(false);
 			} else if (savedGamesRadioButton.isSelected()) {
 				levelNames = ProfileFileReader.getSavedGamesNames(ProfileFileReader.getLoggedProfile());
 				selectRadioButton(savedGamesRadioButton, defaultLevelsRadioButton, createdLevelsRadioButton);
+				setDeleteButtonVisibility(true);
 			}
 			levelButtons = new Button[levelNames.size()];
 
 			for (int i = 0; i < levelNames.size(); i++) {
+				System.out.println(levelNames.get(i));
 				levelButtons[i] = new Button(levelNames.get(i));
 				levelButtons[i].setMaxSize(155, 30);
 				levelButtons[i].setMinSize(155, 30);
@@ -468,6 +475,23 @@ public class MenuController {
 				});
 			}
 		}
+	}
+	
+	public void setDeleteButtonVisibility(Boolean visible) {
+		deleteSavedGameButton.setDisable(!visible);
+		deleteSavedGameButton.setVisible(visible);
+	}
+
+	public void deleteSavedGame() {
+		File fileToDelete = new File("src/main/resources/levels/saved_games/" + ProfileFileReader.getLoggedProfile()
+				+ "/" + selectedLevelName + ".txt");
+		fileToDelete.delete();
+		File imageToDelete = new File("src/main/resources/saved_games_images/" + ProfileFileReader.getLoggedProfile()
+				+ "/" + selectedLevelName + ".png");
+		imageToDelete.delete();
+		selectedLevelName = "";
+		levelsViewUpdated = false;
+		updateLevelsView();
 	}
 
 	/**
@@ -727,6 +751,7 @@ public class MenuController {
 	}
 
 	public void deleteCreatedLevel(ActionEvent event) {
+		// TODO fix deleting
 		File tempFile = new File("levels/created_levels/" + selectedEditLevelName + ".txt");
 		tempFile.delete();
 		System.out.println(selectedEditLevelName + " " + tempFile.exists() + " - exist_after_delete?");

@@ -231,6 +231,8 @@ public class ProfileFileReader {
 		assert contents != null;
 		for (String content : contents) {
 			levels.add(content.substring(0, content.length() - 4));
+
+			System.out.println(content.substring(0, content.length() - 4) + "  --214124rewf");
 		}
 
 		return levels;
@@ -247,6 +249,8 @@ public class ProfileFileReader {
 		assert contents != null;
 		for (String content : contents) {
 			levels.add(content.substring(0, content.length() - 4));
+
+			System.out.println(content.substring(0, content.length() - 4) + "  --214124rewf");
 		}
 
 		return levels;
@@ -263,6 +267,7 @@ public class ProfileFileReader {
 		if (contents != null) {
 			for (String content : contents) {
 				levels.add(content.substring(0, content.length() - 4));
+				System.out.println(content.substring(0, content.length() - 4) + "  --214124rewf");
 			}
 		}
 
