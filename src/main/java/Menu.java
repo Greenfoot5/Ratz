@@ -17,36 +17,16 @@ import java.util.Objects;
  */
 public class Menu extends Application {
 	
-	Stage rootStage = null;
+	public static Stage rootStage = null;
 	Scene scene;
 	public static void main(String[] args) {
-        // Creating a File object for directory
-        File directoryPath = new File("");
-        System.out.println(directoryPath.getAbsolutePath());
-
-        // List of all files and directories
-        String[] contents = directoryPath.list();
-        ArrayList<String> levels = new ArrayList<>();
-
-        if (contents == null || contents.length == 0)
-            System.out.println("Empty");
-        else {
-            for (String content : contents) {
-                System.out.println(content);
-                levels.add(content.substring(0, content.length() - 4));
-            }
-        }
-
         launch(args);
     }
 	
 	public void start(Stage primaryStage) throws Exception {
-        for (String levelName : ProfileFileReader.getLevelNames()) {
-            System.out.println(levelName);
-        }
-
 		HighScores.loadData();
 		ProfileFileReader.loadData();
+		
 		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("menu2.fxml")));
 		if (rootStage == null) {
 			rootStage = primaryStage;
@@ -68,6 +48,10 @@ public class Menu extends Application {
 				e.printStackTrace();
 			}
 		});
+	}
+	
+	public static Stage getStage() {
+		return rootStage;
 	}
 	
 	public void finishLevel() {

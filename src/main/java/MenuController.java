@@ -751,6 +751,7 @@ public class MenuController {
 			//TODO give an alert
 			e.printStackTrace();
 		}
-		stage.close();
+		System.out.println("stage closing");
+		Menu.getStage().close();
 	}
 }
