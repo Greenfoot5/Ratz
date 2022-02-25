@@ -736,12 +736,12 @@ public class LevelFileReader {
 				case 'T':
 					tileMap[j][i] = new Tunnel();
 					break;
-//				case 'g':
-//					tileMap[j][i] = new Grass();
-//					break;
-//				case 'p':
-//					tileMap[j][i] = new Path();
-//					break;
+				case 'g':
+					tileMap[j][i] = new Grass();
+					break;
+				case 'p':
+					tileMap[j][i] = new Path();
+					break;
 				case 't':
 					tileMap[j][i] = new TunnelB();
 					break;
