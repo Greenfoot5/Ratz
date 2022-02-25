@@ -66,7 +66,7 @@
       </VBox>
    </left>
    <center>
-      <VBox fx:id="scoreTableLevelsVBox" alignment="CENTER" prefHeight="328.0" prefWidth="430.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="scoreTableLevelsVBox" alignment="CENTER" prefHeight="350.0" prefWidth="430.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Loading..." />
          </children>

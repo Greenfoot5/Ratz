@@ -52,6 +52,12 @@ public class MenuController {
 	private static final int MAX_HEIGHT_CREATION = 350;
 	private static final int MAX_WIDTH_SELECTION = 180;
 	private static final int MAX_HEIGHT_SELECTION = 160;
+	private static final double MENU_BUTTON1_WIDTH = 155;
+	private static final double MENU_BUTTON1_HEIGHT = 30;
+	private static final String MENU_BUTTON1_ID = "menu-button1";
+	private static final String NO_LOGGED_PROFILE_LABEL = "...";
+	private static final String SELECTED_RADIO_BUTTON_STYLE = "-fx-background-image: url('gui/selected-radio-button.png')";
+	private static final String NOT_SELECTED_RADIO_BUTTON_STYLE = "-fx-background-image: url('gui/radio-button.png')";
 
 	@FXML
 	private VBox menuRoot;
@@ -108,6 +114,9 @@ public class MenuController {
 	@FXML
 	private Button removeProfileButton;
 
+	/**
+	 * Method initialize initial state of each scene.
+	 */
 	@FXML
 	private void initialize() {
 		if (this.profileSelectionRoot != null) {
@@ -115,8 +124,8 @@ public class MenuController {
 		} else if (this.menuRoot != null) {
 			updateMenuView();
 		} else if (this.levelsSelectionRoot != null) {
-//			defaultLevelsRadioButton.getStyleClass().remove("radio-button");
-//			defaultLevelsRadioButton.getStyleClass().add("toggle-button");
+			defaultLevelsRadioButton.getStyleClass().remove("radio-button");
+			defaultLevelsRadioButton.getStyleClass().add("toggle-button");
 			selectedLevelHeadingLabel.setAlignment(Pos.CENTER);
 			updateLevelsView();
 		} else if (this.levelCreationRoot != null) {
@@ -159,8 +168,8 @@ public class MenuController {
 	/**
 	 * Changes scene to start menu.
 	 * 
-	 * @param event
-	 * @throws IOException
+	 * @param event button event
+	 * @throws IOException if fxml file is missing
 	 */
 	public void changeToMenu(ActionEvent event) throws IOException {
 		System.out.println("move to menu");
@@ -182,7 +191,6 @@ public class MenuController {
 				loggedProfileMenuLabel.setText("Welcome " + ProfileFileReader.getLoggedProfile());
 			} else {
 				loggedProfileMenuLabel.setText("You are not logged in. Please select profile");
-
 			}
 		}
 	}
@@ -190,17 +198,17 @@ public class MenuController {
 	/**
 	 * Loads level creation menu.
 	 * 
-	 * @param event
-	 * @throws IOException
+	 * @param event button event
+	 * @throws IOException if fxml file is missing
 	 */
 	public void changeToLevelCreation(ActionEvent event) throws IOException {
 		levelsCreationViewUpdated = false;
-		System.out.println("move to level creation");
+		System.out.println("moved to level creation");
+
 		root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("levelCreation.fxml")));
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
 		scene = new Scene(root);
-		System.out.println(stage == null);
-		System.out.println(scene == null);
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -208,18 +216,18 @@ public class MenuController {
 	/**
 	 * Changes scene to level selection.
 	 * 
-	 * @param event
-	 * @throws IOException
+	 * @param event button event
+	 * @throws IOException if fxml file is missing
 	 */
 	public void changeToLevelSelection(ActionEvent event) throws IOException {
 		if (ProfileFileReader.getLoggedProfile() != null) {
 			levelsViewUpdated = false;
-			System.out.println("move to level selection");
+			System.out.println("moved to level selection");
+
 			root = FXMLLoader.load(getClass().getResource("levelsSelection.fxml"));
 			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
 			scene = new Scene(root);
-			System.out.println(stage == null);
-			System.out.println(scene == null);
 			stage.setScene(scene);
 			stage.show();
 		} else {
@@ -230,37 +238,36 @@ public class MenuController {
 	/**
 	 * Changes screen to profile selection.
 	 * 
-	 * @param event
-	 * @throws IOException
+	 * @param event button event
+	 * @throws IOException if fxml file is missing
 	 */
 	public void changeToProfileSelection(ActionEvent event) throws IOException {
-		System.out.println("move to profile selection");
 		profilesViewUpdated = false;
+		System.out.println("moved to profile selection");
 
 		Parent root = FXMLLoader.load(getClass().getResource("profileSelection.fxml"));
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////// profiles
+	// profiles code
+
 	/**
 	 * Adds profile to database and the screen.
-	 * 
-	 * @param event
 	 */
 	@FXML
-	void addProfile(ActionEvent event) {
+	void addProfile() {
 		try {
-			// Check we don't have too many profiles already
 			if (profileButtons.getChildren().size() > PROFILES_LIMIT) {
+				// Check we don't have too many profiles already
 				alert("Too many profiles!");
-				// Check there's at least something in the text box
-				// and the profiles doesn't already exist
 			} else if (!newProfileTextField.getText().equals("")
 					&& !ProfileFileReader.doesProfileExist(newProfileTextField.getText())) {
-
+				// Check there's at least something in the text box
+				// and the profiles doesn't already exist
 				ProfileFileReader.createNewProfile(newProfileTextField.getText());
 				ProfileFileReader.loginProfile(newProfileTextField.getText());
 
@@ -268,16 +275,13 @@ public class MenuController {
 				profilesViewUpdated = false;
 				this.updateProfilesView();
 
-			}
-			// If the profile already exists
-			else if (!newProfileTextField.getText().equals("")) {
+			} else if (!newProfileTextField.getText().equals("")) {
+				// If the profile already exists
 				alert("Profile already exists");
-			}
-			// There's nothing in the text box
-			else {
+			} else {
+				// There's nothing in the text box
 				alert("Please, type a name");
 			}
-
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -286,20 +290,16 @@ public class MenuController {
 
 	/**
 	 * Delete logged profile from database and screen.
-	 * 
-	 * @param event
-	 * @throws Exception
 	 */
 	@FXML
-	void removeProfile(ActionEvent event) throws Exception {
+	void removeProfile() {
 		if (ProfileFileReader.getLoggedProfile() == null) {
 			alert("No profile is selected");
 		} else {
-			HighScores.deleteProfile(ProfileFileReader.getLoggedProfile());
 			ProfileFileReader.deleteProfile(ProfileFileReader.getLoggedProfile());
 			ProfileFileReader.logout();
-			;
 			HighScores.deleteProfile(ProfileFileReader.getLoggedProfile());
+
 			profilesViewUpdated = false;
 			this.updateProfilesView();
 		}
@@ -307,8 +307,6 @@ public class MenuController {
 
 	/**
 	 * Update screen. Adds buttons, logged profile label, and best scores.
-	 * 
-	 * @throws Exception
 	 */
 	public void updateProfilesView() {
 		if (!profilesViewUpdated) {
@@ -325,64 +323,56 @@ public class MenuController {
 
 			for (int i = 0; i < profButton.length; i++) {
 				profButton[i] = new Button(s[i]);
-				profButton[i].setMaxSize(155, 30);
-				profButton[i].setMinSize(155, 30);
-				profButton[i].setId("menu-button1");
+				profButton[i].setMaxSize(MENU_BUTTON1_WIDTH, MENU_BUTTON1_HEIGHT);
+				profButton[i].setMinSize(MENU_BUTTON1_WIDTH, MENU_BUTTON1_HEIGHT);
+				profButton[i].setId(MENU_BUTTON1_ID);
 
 				profileButtons.getChildren().add(profButton[i]);
 
 				final int buttonIndex = i;
+				
 				// Adds the action for each button
 				profButton[i].setOnAction(event -> {
 					ProfileFileReader.loginProfile(profButton[buttonIndex].getText());
-					System.out.print("button pressed prof");
 					profilesViewUpdated = false;
 					updateProfilesView();
-
 				});
 			}
 
 			if (ProfileFileReader.getLoggedProfile() != null) {
 				loggedProfileLabel.setText(ProfileFileReader.getLoggedProfile());
-				System.out.println("label set1");
 			} else {
-				loggedProfileLabel.setText("...");
-				System.out.println("label set2");
+				loggedProfileLabel.setText(NO_LOGGED_PROFILE_LABEL);
 			}
-
 		}
-
 	}
 
 	/**
 	 * Updates scores in profiles menu.
 	 */
 	public void updateProfilesScoreTable() {
-
 		ArrayList<String> levelNames = ProfileFileReader.getDeafaultLevelsNames();
 		profileScoresVBox.getChildren().clear();
+
 		for (String lvl : levelNames) {
 			Label scoreLabel = new Label(
 					lvl + " " + ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(), lvl));
 			profileScoresVBox.getChildren().add(scoreLabel);
-
 		}
 	}
 
 	////////////////////////////////////////////////////////////////////// levels
 
 	public void selectRadioButton(RadioButton r1, RadioButton r2, RadioButton r3) {
-		r1.setStyle("-fx-background-image: url('gui/selected-radio-button.png')");
-		r2.setStyle("-fx-background-image: url('gui/radio-button.png')");
-		r3.setStyle("-fx-background-image: url('gui/radio-button.png')");
-
+		r1.setStyle(SELECTED_RADIO_BUTTON_STYLE);
+		r2.setStyle(NOT_SELECTED_RADIO_BUTTON_STYLE);
+		r3.setStyle(NOT_SELECTED_RADIO_BUTTON_STYLE);
 	}
 
 	/**
 	 * Updates buttons and score table in level selection menu.
 	 */
 	public void updateLevelsView() {
-		System.out.print("-");
 		if (!levelsViewUpdated) {
 			levelsViewUpdated = true;
 
@@ -422,7 +412,7 @@ public class MenuController {
 						selectedLevelHeadingLabel.setText("Something went wrong, please contact admin");
 					}
 					selectedLevelName = levelButtons[buttonIndex].getText();
-					//levelButtonPressed(event);
+					// levelButtonPressed(event);
 					updateScoreTableLevels();
 
 					{
@@ -476,10 +466,10 @@ public class MenuController {
 			}
 		}
 	}
-	
+
 	public void setDeleteButtonVisibility(Boolean disable) {
 		deleteSavedGameButton.setDisable(disable);
-		//deleteSavedGameButton.setVisible(visible);
+		// deleteSavedGameButton.setVisible(visible);
 	}
 
 	public void deleteSavedGame() {
