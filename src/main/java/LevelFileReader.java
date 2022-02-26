@@ -483,6 +483,7 @@ public class LevelFileReader {
 				try {
 					if (isConnectedLevel(levelName, pathToProfileSaves + "/" + content)) {
 						new File(pathToProfileSaves + "/" + content).delete();
+						//TODO: fix deleting png
 						new File("src/main/resources/saved_games_images/" + profileName + "/"
 								+ content.substring(0, content.length() - 4) + ".png");
 					}

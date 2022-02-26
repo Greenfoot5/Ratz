@@ -688,8 +688,14 @@ public class MenuController {
 		File tempFile = new File("src/main/resources/levels/created_levels/" + selectedEditLevelName + ".txt");
 		tempFile.delete();
 
+		levelView.getImage().cancel();
+		
+		//TODO: fix deleting png
 		File tempImage = new File("src/main/resources/levels_images/" + selectedEditLevelName + ".png");
+		tempImage.deleteOnExit();
+		System.out.println(tempImage.exists());
 		tempImage.delete();
+		System.out.println(tempImage.exists());
 
 		ProfileFileReader.deleteLevel(selectedEditLevelName);
 		HighScores.deleteLevel(selectedEditLevelName);
