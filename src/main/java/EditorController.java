@@ -287,11 +287,15 @@ public class EditorController {
 				if ((!(tileMap[x][y].getClass() == selectedTile.getClass()))) {
 					if (selectedTile instanceof Grass) {
 						tileMap[x][y] = new Grass();
+					} else if (selectedTile instanceof GrassB) {
+						tileMap[x][y] = new GrassB();
 					} else if (selectedTile instanceof Path) {
 						tileMap[x][y] = new Path();
-					} else if(selectedTile instanceof Tunnel){
+					} else if (selectedTile instanceof PathB) {
+						tileMap[x][y] = new PathB();
+					} else if (selectedTile instanceof Tunnel){
 						tileMap[x][y] = new Tunnel();
-					} else {
+					} else if (selectedTile instanceof TunnelB){
 						tileMap[x][y] = new TunnelB();
 					}
 					renderBoard();
@@ -344,16 +348,16 @@ public class EditorController {
 		ImageView tunnelBImageView = new ImageView(new TunnelB().getImg());
 
 		ImageView grassImageViewSelected = new ImageView(new Image("file:target/classes/grass_selected.png"));
-		ImageView grassBImageViewSelected = new ImageView(new Image("file:target/classes/grass_selected.png"));
+		ImageView grassBImageViewSelected = new ImageView(new Image("file:target/classes/grassb_selected.png"));
 		ImageView pathImageViewSelected = new ImageView(new Image("file:target/classes/path_selected.png"));
-		ImageView pathBImageViewSelected = new ImageView(new Image("file:target/classes/path_selected.png"));
+		ImageView pathBImageViewSelected = new ImageView(new Image("file:target/classes/pathb_selected.png"));
 		ImageView tunnelImageViewSelected = new ImageView(new Image("file:target/classes/tunnel_selected.png"));
-		ImageView tunnelBImageViewSelected = new ImageView(new Image("file:target/classes/tunnel_selected.png"));
+		ImageView tunnelBImageViewSelected = new ImageView(new Image("file:target/classes/tunnelb_selected.png"));
 
 		rbGrass.setSelected(true);
 
 		rbGrass.setGraphic(grassImageViewSelected);
-		rbGrassB.setGraphic(grassBImageViewSelected);
+		rbGrassB.setGraphic(grassBImageView);
 		rbPath.setGraphic(pathImageView);
 		rbPathB.setGraphic(pathBImageView);
 		rbTunnel.setGraphic(tunnelImageView);
