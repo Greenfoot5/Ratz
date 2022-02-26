@@ -318,6 +318,7 @@ public class LevelController {
 
 	/**
 	 * Copies power data to current level.
+	 * 
 	 * @param powers power data.
 	 */
 	public static void addPowersFromSave(int[] powers) {
@@ -513,6 +514,7 @@ public class LevelController {
 	 */
 	@FXML
 	public void saveLevel() {
+		boolean canBeSaved = false;
 		String newLevelName = levelNameTextField.getText();
 		if (newLevelName.contains(" ")) {
 			savingErrorText.setText("Level name cannot contain spaces");
@@ -522,26 +524,25 @@ public class LevelController {
 			savingErrorText.setText("Level name cannot be empty");
 		} else {
 			savingErrorText.setText("");
+			canBeSaved = true;
 		}
 
-		try {
-			makeScreenShot(newLevelName);
-			System.out.println("Screenshot was saved");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Screenshot wasn' saved :(");
-		}
-		MAIN_MENU.finishLevel();
-		try {
-			LevelFileReader.saveLevel(newLevelName);
-		} catch (IOException e) {
-			e.printStackTrace();
-			savingErrorText.setText("An error occurred saving game state.");
+		if (canBeSaved) {
+			try {
+				LevelFileReader.saveLevel(newLevelName);
+				makeScreenShot(newLevelName);
+				System.out.println("Screenshot was saved");
+			} catch (IOException e) {
+				e.printStackTrace();
+				savingErrorText.setText("An error occurred saving game state.");
+			}
+			MAIN_MENU.finishLevel();
 		}
 	}
 
 	/**
 	 * Makes screenshot of current tilemap.
+	 * 
 	 * @param levelName name of level being screenshot.
 	 * @throws IOException directory/file not found.
 	 */

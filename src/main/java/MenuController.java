@@ -528,7 +528,7 @@ public class MenuController {
 			}
 		} else {
 			// TODO
-			scoreTableLevelsVBox.getChildren().add(new Label("TODO: do something here"));
+			scoreTableLevelsVBox.getChildren().add(new Label("Complete level to see score table"));
 		}
 	}
 
