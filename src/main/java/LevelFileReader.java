@@ -369,6 +369,17 @@ public class LevelFileReader {
 		}
 	}
 
+    /**
+     * Loads a level from a txt file.
+     * The "default objects" referred to by the loadDefaultObjects parameter
+     * are the rats which spawn at the start of the level. This should be false
+     * if this function is loading a saved level.
+     *
+     * @param filename the level file to load
+     * @param loadDefaultObjects whether the level's default objects should
+     *                          be loaded
+     * @throws FileNotFoundException if the level file isn't found
+     */
 	public static void loadNormalLevelFile(String filename, boolean loadDefaultObjects) throws FileNotFoundException {
 		File levelData = new File(filename + ".txt");
 
@@ -416,6 +427,11 @@ public class LevelFileReader {
 
 	}
 
+    /**
+     * Loads content from a level's save file.
+     * @param filename the level save file to load.
+     * @throws FileNotFoundException if the file can't be found.
+     */
 	public static void loadSavedLevelFile(String filename) throws FileNotFoundException {
 		File levelData = new File(filename + ".txt");
 		Scanner reader = new Scanner(levelData);
@@ -434,14 +450,13 @@ public class LevelFileReader {
 		}
 	}
 
-	/**
+	/*
+	 * Deprecated, but I am sentimental.
 	 * Loads game objects from the text in level files.
 	 *
 	 * @param filename The file to open.
 	 * @throws FileNotFoundException if the file can't be found.
 	 */
-	// TODO: James please check if two functions above have the same functionality,
-	// and add saving level name in first line of inProges file
 //    public static void loadLevelFile(String filename, boolean customLevel) throws FileNotFoundException {
 //        String[] filenameTempArray = filename.split("/");
 //        String levelName = filenameTempArray[filenameTempArray.length - 1];
@@ -494,7 +509,7 @@ public class LevelFileReader {
 //        if (levelDataInProgress.isFile()) {
 //            hasLoadedSavedLevel = true;
 //            reader = new Scanner(levelDataInProgress);
-//            reader.nextLine(); // TODO: this is a temp fix to skip the level name. find out why tomasz wanted this.
+//            reader.nextLine(); //jank
 //            inProgInv = new int[8];
 //            if (reader.hasNextLine()) {
 //                String[] savedInfo = reader.nextLine().split(",");
