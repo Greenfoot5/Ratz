@@ -46,8 +46,6 @@ public class MenuController {
 	private static boolean profilesViewUpdated = false;
 	private static boolean levelsViewUpdated = false;
 	private static boolean levelsCreationViewUpdated = false;
-	private final static String PART_OF_BUTTON_NAME = "styleClass=button]'";
-	private static final int LENGHT_OF_FIXED_PART_OF_BUTTON_NAME = 19;
 	private static final int MAX_WIDTH_CREATION = 390;
 	private static final int MAX_HEIGHT_CREATION = 350;
 	private static final int MAX_WIDTH_SELECTION = 180;
@@ -81,6 +79,8 @@ public class MenuController {
 	private ImageView levelViewSelection;
 	@FXML
 	private Button deleteLevelButton;
+	@FXML
+	private Button editCreatedLevelButton;
 	@FXML
 	private Button deleteSavedGameButton;
 	@FXML
@@ -163,10 +163,6 @@ public class MenuController {
 		layout.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(layout);
-		// File f = new File("target/classes/menu.css");
-		// scene.getStylesheets().clear();
-		// scene.getStylesheets().add("file://" + f.getAbsolutePath().replace("\\",
-		// "/"));
 
 		window.setScene(scene);
 		window.setResizable(false);
@@ -485,7 +481,7 @@ public class MenuController {
 				}
 				FileInputStream tempStream2 = new FileInputStream(RESOURCES_PATH + folderPath + levelName + ".png");
 				img = new Image(tempStream2, width, height, false, false);
-				
+
 				tempStream.close();
 				tempStream2.close();
 			} else {
@@ -645,6 +641,7 @@ public class MenuController {
 
 				levelButtons[i].setOnAction(event -> {
 					selectedEditLevelName = levelButtons[buttonIndex].getText();
+					editCreatedLevelButton.setDisable(false);
 					levelView.setImage(
 							getPreview(selectedEditLevelName, false, MAX_WIDTH_CREATION, MAX_HEIGHT_CREATION));
 				});
@@ -712,6 +709,7 @@ public class MenuController {
 		} else if (editCustomLevelsRadioButton.isSelected()) {
 			deleteLevelButton.setDisable(false);
 		}
+		editCreatedLevelButton.setDisable(true);
 		levelsCreationViewUpdated = false;
 		updateLevelCreationView();
 	}
