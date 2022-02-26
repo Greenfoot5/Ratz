@@ -446,11 +446,14 @@ public class MenuController {
 
 	/**
 	 * Make a level preview.
-	 * @param levelName	name of the level to display preview
-	 * @param savedGame	true if level is of saved game type (in progress), false otherwise
-	 * @param maxWidth	max width of preview
-	 * @param maxHeight	max height of preview
-	 * @return	image of preview with chosen width and height, null in case of missing png file 	
+	 * 
+	 * @param levelName name of the level to display preview
+	 * @param savedGame true if level is of saved game type (in progress), false
+	 *                  otherwise
+	 * @param maxWidth  max width of preview
+	 * @param maxHeight max height of preview
+	 * @return image of preview with chosen width and height, null in case of
+	 *         missing png file
 	 */
 	public Image getPreview(String levelName, boolean savedGame, int maxWidth, int maxHeight) {
 		Image img = null;
@@ -465,9 +468,8 @@ public class MenuController {
 			File f = new File(RESOURCES_PATH + folderPath + levelName + ".png");
 
 			if (f.exists()) {
-
-				Image tempImg = new Image(
-						new FileInputStream(RESOURCES_PATH + folderPath + levelName + ".png"));
+				FileInputStream tempStream = new FileInputStream(RESOURCES_PATH + folderPath + levelName + ".png");
+				Image tempImg = new Image(tempStream);
 
 				int width = (int) tempImg.getWidth();
 				int height = (int) tempImg.getHeight();
@@ -481,14 +483,16 @@ public class MenuController {
 					width *= heightComare;
 					height *= heightComare;
 				}
-
-				img = new Image(new FileInputStream(RESOURCES_PATH + folderPath + levelName + ".png"), width,
-						height, false, false);
+				FileInputStream tempStream2 = new FileInputStream(RESOURCES_PATH + folderPath + levelName + ".png");
+				img = new Image(tempStream2, width, height, false, false);
+				
+				tempStream.close();
+				tempStream2.close();
 			} else {
 				img = null;
 			}
 
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			System.out.println("Screenshot loading error");
 		}
 
@@ -499,8 +503,8 @@ public class MenuController {
 	 * Deletes selected saved game and connected screenshot.
 	 */
 	public void deleteSavedGame() {
-		File fileToDelete = new File(RESOURCES_PATH + "levels/saved_games/" + ProfileFileReader.getLoggedProfile()
-				+ "/" + selectedLevelName + ".txt");
+		File fileToDelete = new File(RESOURCES_PATH + "levels/saved_games/" + ProfileFileReader.getLoggedProfile() + "/"
+				+ selectedLevelName + ".txt");
 		fileToDelete.delete();
 
 		File imageToDelete = new File(RESOURCES_PATH + SAVED_GAMES_IMAGES_PATH + ProfileFileReader.getLoggedProfile()
@@ -684,18 +688,12 @@ public class MenuController {
 	public void deleteCreatedLevel(ActionEvent event) {
 		// TODO delete all in progress files which use this level
 		LevelFileReader.deleteAllConnectedFiles("src/main/resources/levels/created_levels/" + selectedEditLevelName);
-		
+
 		File tempFile = new File("src/main/resources/levels/created_levels/" + selectedEditLevelName + ".txt");
 		tempFile.delete();
 
-		levelView.getImage().cancel();
-		
-		//TODO: fix deleting png
 		File tempImage = new File("src/main/resources/levels_images/" + selectedEditLevelName + ".png");
-		tempImage.deleteOnExit();
-		System.out.println(tempImage.exists());
 		tempImage.delete();
-		System.out.println(tempImage.exists());
 
 		ProfileFileReader.deleteLevel(selectedEditLevelName);
 		HighScores.deleteLevel(selectedEditLevelName);

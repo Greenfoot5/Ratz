@@ -21,10 +21,6 @@ public class Menu extends Application {
 	public static Stage rootStage = null;
 	Scene scene;
 	public static void main(String[] args) {
-		File tempFile = new File("src/main/resources/levels_images/" + "testlvl" + ".png");
-		System.out.println(tempFile.exists());
-		tempFile.delete();
-		System.out.println(tempFile.exists());
         launch(args);
     }
 	
