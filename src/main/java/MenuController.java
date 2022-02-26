@@ -557,9 +557,7 @@ public class MenuController {
 	}
 
 	/**
-	 * Calls function loading the game.
-	 * 
-	 * @param event
+	 * Calls the function that loads the game.
 	 */
 	@FXML
 	void playTheGame() {
