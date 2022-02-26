@@ -61,6 +61,11 @@ public class MenuController {
 	private static final String WINDOW_TITLE = "Ratz";
 	private static final double WINDOW_WIDTH = 800;
 	private static final double WINDOW_HEIGHT = 500;
+	private static final String LETTERS_AND_NUMBERS_REGEX = "[a-zA-Z0-9]*";
+	private static final String SAVED_GAMES_IMAGES_PATH = "saved_games_images\\";
+	private static final String LEVELS_IMAGES = "levels_images\\";
+	private static final String RESOURCES_PATH = "src\\main\\resources\\";
+	private static final String SELECT_LEVEL_LABEL = "Select level";
 
 	@FXML
 	private VBox menuRoot;
@@ -269,9 +274,9 @@ public class MenuController {
 				alert("Too many profiles!");
 			} else if (newProfileTextField.getText().contains(" ")) {
 				alert("Profile name can not contins spaces");
-			} else if (!newProfileTextField.getText().matches("[a-zA-Z0-9]*")) {
+			} else if (!newProfileTextField.getText().matches(LETTERS_AND_NUMBERS_REGEX)) {
 				alert("Only letters and numbers allowed");
-			}else if (!newProfileTextField.getText().equals("")
+			} else if (!newProfileTextField.getText().equals("")
 					&& !ProfileFileReader.doesProfileExist(newProfileTextField.getText())) {
 				// Check there's at least something in the text box
 				// and the profiles doesn't already exist
@@ -431,66 +436,76 @@ public class MenuController {
 					selectedLevelName = levelButtons[buttonIndex].getText();
 					updateScoreTableLevels();
 
-					{
-						// Preview display
-						Image img = null;
-						try {
-							String folderPath = "";
-							if (savedGamesRadioButton.isSelected()) {
-								folderPath = "saved_games_images\\" + ProfileFileReader.getLoggedProfile() + "\\";
-							} else {
-								folderPath = "levels_images\\";
-							}
+					levelViewSelection.setImage(getPreview(selectedLevelName, savedGamesRadioButton.isSelected(),
+							MAX_WIDTH_SELECTION, MAX_HEIGHT_SELECTION));
 
-							File f = new File("src\\main\\resources\\" + folderPath + selectedLevelName + ".png");
-
-							if (f.exists()) {
-
-								Image tempImg = new Image(new FileInputStream(
-										"src\\main\\resources\\" + folderPath + selectedLevelName + ".png"));
-
-								int width = (int) tempImg.getWidth();
-								int height = (int) tempImg.getHeight();
-								float widthCompare = (float) MAX_WIDTH_SELECTION / (float) width;
-								float heightComare = (float) MAX_HEIGHT_SELECTION / (float) height;
-								if (widthCompare < heightComare) {
-									width *= widthCompare;
-									height *= widthCompare;
-								} else {
-									width *= heightComare;
-									height *= heightComare;
-								}
-								System.out.println(width + " " + height + " -----width and height");
-								img = new Image(
-										new FileInputStream(
-												"src\\main\\resources\\" + folderPath + selectedLevelName + ".png"),
-										width, height, false, false);
-
-								levelViewSelection.setImage(img);
-							} else {
-								// TODO: do something in case of missing file
-								levelViewSelection.setImage(null);
-								System.out.println("Can't find a screenshot");
-							}
-
-						} catch (FileNotFoundException e) {
-							System.out.println("Screenshot loading error");
-						}
-					}
 				});
 			}
 		}
+	}
+
+	/**
+	 * Make a level preview.
+	 * @param levelName	name of the level to display preview
+	 * @param savedGame	true if level is of saved game type (in progress), false otherwise
+	 * @param maxWidth	max width of preview
+	 * @param maxHeight	max height of preview
+	 * @return	image of preview with chosen width and height, null in case of missing png file 	
+	 */
+	public Image getPreview(String levelName, boolean savedGame, int maxWidth, int maxHeight) {
+		Image img = null;
+		try {
+			String folderPath = "";
+			if (savedGame) {
+				folderPath = SAVED_GAMES_IMAGES_PATH + ProfileFileReader.getLoggedProfile() + "\\";
+			} else {
+				folderPath = LEVELS_IMAGES;
+			}
+
+			File f = new File(RESOURCES_PATH + folderPath + levelName + ".png");
+
+			if (f.exists()) {
+
+				Image tempImg = new Image(
+						new FileInputStream(RESOURCES_PATH + folderPath + levelName + ".png"));
+
+				int width = (int) tempImg.getWidth();
+				int height = (int) tempImg.getHeight();
+				float widthCompare = (float) maxWidth / (float) width;
+				float heightComare = (float) maxHeight / (float) height;
+
+				if (widthCompare < heightComare) {
+					width *= widthCompare;
+					height *= widthCompare;
+				} else {
+					width *= heightComare;
+					height *= heightComare;
+				}
+
+				img = new Image(new FileInputStream(RESOURCES_PATH + folderPath + levelName + ".png"), width,
+						height, false, false);
+			} else {
+				// TODO: do something in case of missing file
+				img = null;
+				System.out.println("Can't find a screenshot");
+			}
+
+		} catch (FileNotFoundException e) {
+			System.out.println("Screenshot loading error");
+		}
+
+		return img;
 	}
 
 	/*
 	 * Deletes selected saved game and connected screenshot.
 	 */
 	public void deleteSavedGame() {
-		File fileToDelete = new File("src/main/resources/levels/saved_games/" + ProfileFileReader.getLoggedProfile()
+		File fileToDelete = new File(RESOURCES_PATH + "levels/saved_games/" + ProfileFileReader.getLoggedProfile()
 				+ "/" + selectedLevelName + ".txt");
 		fileToDelete.delete();
 
-		File imageToDelete = new File("src/main/resources/saved_games_images/" + ProfileFileReader.getLoggedProfile()
+		File imageToDelete = new File(RESOURCES_PATH + SAVED_GAMES_IMAGES_PATH + ProfileFileReader.getLoggedProfile()
 				+ "/" + selectedLevelName + ".png");
 		imageToDelete.delete();
 
@@ -523,7 +538,7 @@ public class MenuController {
 	public void levelTypeChanged() {
 		levelsViewUpdated = false;
 		selectedLevelName = "";
-		selectedLevelHeadingLabel.setText("Select Level");
+		selectedLevelHeadingLabel.setText(SELECT_LEVEL_LABEL);
 		updateLevelsView();
 	}
 
@@ -629,42 +644,8 @@ public class MenuController {
 
 				levelButtons[i].setOnAction(event -> {
 					selectedEditLevelName = levelButtons[buttonIndex].getText();
-
-					{
-						// Preview display
-						Image img = null;
-						try {
-
-							File f = new File("src\\main\\resources\\levels_images\\" + selectedEditLevelName + ".png");
-							if (f.exists()) {
-								Image tempImg = new Image(new FileInputStream(
-										"src\\main\\resources\\levels_images\\\\" + selectedEditLevelName + ".png"));
-
-								int width = (int) tempImg.getWidth();
-								int height = (int) tempImg.getHeight();
-								float widthCompare = (float) MAX_WIDTH_CREATION / (float) width;
-								float heightComare = (float) MAX_HEIGHT_CREATION / (float) height;
-								if (widthCompare < heightComare) {
-									width *= widthCompare;
-									height *= widthCompare;
-								} else {
-									width *= heightComare;
-									height *= heightComare;
-								}
-								img = new Image(new FileInputStream(
-										"src\\main\\resources\\levels_images\\" + selectedEditLevelName + ".png"),
-										width, height, false, false);
-								levelView.setImage(img);
-							} else {
-								System.out.println("ops");
-								// TODO: do something in case of missing file
-							}
-
-						} catch (FileNotFoundException e) {
-							// levelView.
-						}
-					}
-
+					levelView.setImage(
+							getPreview(selectedEditLevelName, false, MAX_WIDTH_CREATION, MAX_HEIGHT_CREATION));
 				});
 			}
 		}
@@ -672,8 +653,9 @@ public class MenuController {
 
 	/**
 	 * Runs level editor with loaded selected level.
-	 * @param event			button event
-	 * @throws IOException	if files are missing
+	 * 
+	 * @param event button event
+	 * @throws IOException if files are missing
 	 */
 	public void editCreatedLevel(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("editor.fxml"));
@@ -696,26 +678,29 @@ public class MenuController {
 	}
 
 	/**
-	 * Deletes created level file and screenshot from memory and form screen.
-	 * Also deletes all in progress files which use selected level as reference. //TODO: actually do that
+	 * Deletes created level file and screenshot from memory and form screen. Also
+	 * deletes all in progress files which use selected level as reference. //TODO:
+	 * actually do that
+	 * 
 	 * @param event
 	 */
 	public void deleteCreatedLevel(ActionEvent event) {
 		// TODO delete all in progress files which use this level
 		File tempFile = new File("src/main/resources/levels/created_levels/" + selectedEditLevelName + ".txt");
 		tempFile.delete();
-		
+
 		File tempImage = new File("src/main/resources/saved_games_images/" + selectedEditLevelName + ".png");
 		tempImage.delete();
-		
+
 		ProfileFileReader.deleteLevel(selectedEditLevelName);
 		HighScores.deleteLevel(selectedEditLevelName);
 		levelsCreationViewUpdated = false;
 		updateLevelCreationView();
 	}
-	
+
 	/**
 	 * Disable/unlock delete level button.
+	 * 
 	 * @param event
 	 */
 	public void editLevelTypeChanged(ActionEvent event) {
@@ -730,7 +715,8 @@ public class MenuController {
 
 	/**
 	 * Runs level editor without any map loaded.
-	 * @throws IOException	if fxml file is missing
+	 * 
+	 * @throws IOException if fxml file is missing
 	 */
 	public void openLevelEditor() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("editor.fxml"));
@@ -745,14 +731,14 @@ public class MenuController {
 	}
 
 	/**
-	 * Close the window and save necessary data to text files. 
+	 * Close the window and save necessary data to text files.
 	 */
 	public void exitTheGame() {
 		try {
 			ProfileFileReader.saveDataToFile();
 			HighScores.saveDataToFile();
 		} catch (IOException e) {
-			//TODO give an alert
+			// TODO give an alert
 			e.printStackTrace();
 		}
 		System.out.println("stage closing");
