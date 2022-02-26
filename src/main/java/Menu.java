@@ -33,6 +33,7 @@ public class Menu extends Application {
 			rootStage = primaryStage;
 		}
 		rootStage.setTitle("asd");
+		rootStage.setResizable(false);
 		scene = new Scene(root, 800, 500);
 		rootStage.setScene(scene);
 		rootStage.show();
