@@ -485,9 +485,7 @@ public class MenuController {
 				img = new Image(new FileInputStream(RESOURCES_PATH + folderPath + levelName + ".png"), width,
 						height, false, false);
 			} else {
-				// TODO: do something in case of missing file
 				img = null;
-				System.out.println("Can't find a screenshot");
 			}
 
 		} catch (FileNotFoundException e) {
@@ -527,7 +525,6 @@ public class MenuController {
 				scoreTableLevelsVBox.getChildren().add(scrLabel);
 			}
 		} else {
-			// TODO
 			scoreTableLevelsVBox.getChildren().add(new Label("Complete level to see score table"));
 		}
 	}
@@ -686,10 +683,12 @@ public class MenuController {
 	 */
 	public void deleteCreatedLevel(ActionEvent event) {
 		// TODO delete all in progress files which use this level
+		LevelFileReader.deleteAllConnectedFiles("src/main/resources/levels/created_levels/" + selectedEditLevelName);
+		
 		File tempFile = new File("src/main/resources/levels/created_levels/" + selectedEditLevelName + ".txt");
 		tempFile.delete();
 
-		File tempImage = new File("src/main/resources/saved_games_images/" + selectedEditLevelName + ".png");
+		File tempImage = new File("src/main/resources/levels_images/" + selectedEditLevelName + ".png");
 		tempImage.delete();
 
 		ProfileFileReader.deleteLevel(selectedEditLevelName);
