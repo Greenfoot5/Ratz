@@ -267,7 +267,11 @@ public class MenuController {
 			if (profileButtons.getChildren().size() > PROFILES_LIMIT) {
 				// Check we don't have too many profiles already
 				alert("Too many profiles!");
-			} else if (!newProfileTextField.getText().equals("")
+			} else if (newProfileTextField.getText().contains(" ")) {
+				alert("Profile name can not contins spaces");
+			} else if (!newProfileTextField.getText().matches("[a-zA-Z0-9]*")) {
+				alert("Only letters and numbers allowed");
+			}else if (!newProfileTextField.getText().equals("")
 					&& !ProfileFileReader.doesProfileExist(newProfileTextField.getText())) {
 				// Check there's at least something in the text box
 				// and the profiles doesn't already exist
