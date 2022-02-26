@@ -22,7 +22,7 @@
       <Button mnemonicParsing="false" onAction="#changeToLevelSelection" prefHeight="39.0" prefWidth="180.0" text="Select Level!" />
       <Button mnemonicParsing="false" onAction="#changeToProfileSelection" prefHeight="39.0" prefWidth="180.0" text="Select Profile!" />
       <Button mnemonicParsing="false" onAction="#changeToLevelCreation" prefHeight="39.0" prefWidth="180.0" text="Create Level!" />
-      <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="180.0" text="Exit!" />
+      <Button mnemonicParsing="false" onAction="#exitTheGame" prefHeight="39.0" prefWidth="180.0" text="Exit!" />
       <AnchorPane prefHeight="200.0" prefWidth="200.0" />
    </children>
 </VBox>

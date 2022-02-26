@@ -30,6 +30,13 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Class that implements level editing/creating GUI.
+ *
+ * @author Vilija Pundyte
+ * @version 1.0
+ */
+
 public class EditorController {
 
 	// Size of one tile in pixels
@@ -146,6 +153,9 @@ public class EditorController {
 		}
 	}
 
+	/**
+	 * Initializes FXML elements and editor data.
+	 */
 	public void initialize() {
 		renderBoard();
 		setupRadioButtons();
@@ -618,6 +628,11 @@ public class EditorController {
 		}
 	}
 
+	/**
+	 * Makes screenshot of current tilemap.
+	 * @param levelName name of level being screenshot.
+	 * @throws IOException directory/file not found.
+	 */
 	public void makeScreenShot(String levelName) throws IOException {
 		File file = new File("src\\main\\resources\\levels_images\\" + levelName + ".png");
 
