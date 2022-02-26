@@ -53,6 +53,7 @@ public class MenuController {
 	private static final double MENU_BUTTON1_WIDTH = 155;
 	private static final double MENU_BUTTON1_HEIGHT = 30;
 	private static final String MENU_BUTTON1_ID = "menu-button1";
+	private static final String RED_MENU_BUTTON_ID = "red-menu-button";
 	private static final String NO_LOGGED_PROFILE_LABEL = "...";
 	private static final String SELECTED_RADIO_BUTTON_STYLE = "-fx-background-image: url('gui/selected-radio-button.png')";
 	private static final String NOT_SELECTED_RADIO_BUTTON_STYLE = "-fx-background-image: url('gui/radio-button.png')";
@@ -415,6 +416,7 @@ public class MenuController {
 
 			levelButtons = new Button[levelNames.size()];
 
+			boolean disableNextButton = false;
 			for (int i = 0; i < levelNames.size(); i++) {
 				// Creating a button for each level
 				levelButtons[i] = new Button(levelNames.get(i));
@@ -425,17 +427,32 @@ public class MenuController {
 				levelButtonsVBox.getChildren().add(levelButtons[i]);
 
 				final int buttonIndex = i;
-
+				final boolean disableNextButtonAction = disableNextButton;
+				if (disableNextButtonAction) {
+					levelButtons[i].setId(RED_MENU_BUTTON_ID);
+				}
 				levelButtons[i].setOnAction(event -> {
 					// attaching action to each button
-					selectedLevelHeadingLabel.setText(levelButtons[buttonIndex].getText());
-					selectedLevelName = levelButtons[buttonIndex].getText();
-					updateScoreTableLevels();
+					if (disableNextButtonAction) {
+						alert("You haven't unlocked this level");
+					} else {
+						selectedLevelHeadingLabel.setText(levelButtons[buttonIndex].getText());
+						selectedLevelName = levelButtons[buttonIndex].getText();
+						updateScoreTableLevels();
 
-					levelViewSelection.setImage(getPreview(selectedLevelName, savedGamesRadioButton.isSelected(),
-							MAX_WIDTH_SELECTION, MAX_HEIGHT_SELECTION));
-
+						levelViewSelection.setImage(getPreview(selectedLevelName, savedGamesRadioButton.isSelected(),
+								MAX_WIDTH_SELECTION, MAX_HEIGHT_SELECTION));
+					}
 				});
+
+				if (defaultLevelsRadioButton.isSelected()) {
+					//levelButtons[i].setDisable(disableNextButton);
+					int score = ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(),
+							levelButtons[i].getText());
+					if (score == 0) {
+						disableNextButton = true;
+					}
+				}
 			}
 		}
 	}
