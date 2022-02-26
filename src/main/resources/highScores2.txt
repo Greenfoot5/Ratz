@@ -35,3 +35,4 @@ newLevel -1
 Steffan 564
 Mart 465
 VerticalMapTest -1
+demo-level-2 -1
