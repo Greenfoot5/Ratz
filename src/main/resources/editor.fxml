@@ -197,19 +197,33 @@
 				</Button>
 			</bottom>
          <top>
-            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <children>
-                   <RadioButton fx:id="rbGrass" mnemonicParsing="false" text="GRASS" />
-                  <RadioButton fx:id="rbPath" mnemonicParsing="false" text="PATH" />
-                  <RadioButton fx:id="rbTunnel" mnemonicParsing="false" text="TUNNEL" />
-               </children>
+            <VBox BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="20.0" right="20.0" top="20.0" />
                </BorderPane.margin>
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
-            </HBox>
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                         <RadioButton fx:id="rbGrass" mnemonicParsing="false" text="GRASS" />
+                        <RadioButton fx:id="rbPath" mnemonicParsing="false" text="PATH" />
+                        <RadioButton fx:id="rbTunnel" mnemonicParsing="false" text="TUNNEL" />
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <RadioButton fx:id="rbGrassB" mnemonicParsing="false" text="GRASS" />
+                        <RadioButton fx:id="rbPathB" mnemonicParsing="false" text="PATH" />
+                        <RadioButton fx:id="rbTunnelB" mnemonicParsing="false" text="TUNNEL" />
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
          </top>
          <center>
             <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
@@ -282,7 +296,7 @@
                   </VBox>
                   <Button fx:id="levelSettingsButton" mnemonicParsing="false" onAction="#displayLevelSettings" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Level Settings">
                      <VBox.margin>
-                        <Insets left="50.0" top="350.0" />
+                        <Insets left="50.0" top="240.0" />
                      </VBox.margin>
                   </Button>
                </children>

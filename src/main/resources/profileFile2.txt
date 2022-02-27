@@ -1,4 +1,5 @@
 8
+
 level-1 level-2 level-3 level-4 level-5 newLevel VerticalMapTest demo-level-2 
 Alex -1
 level-1 123 level-2 234 level-3 0 level-4 0 level-5 0 newLevel 0 VerticalMapTest 0 demo-level-2 0 
@@ -16,3 +17,4 @@ Mart -1
 level-1 186 level-2 0 level-3 0 level-4 0 level-5 0 newLevel 465 VerticalMapTest 0 demo-level-2 0 
 Steffan -1
 level-1 0 level-2 0 level-3 0 level-4 0 level-5 0 newLevel 564 VerticalMapTest 0 demo-level-2 0 
+

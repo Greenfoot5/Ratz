@@ -238,11 +238,20 @@ public class SaveCustomLevel {
 				if (map[x][y] instanceof Grass) {
 					p.write("G");
 				}
+				if (map[x][y] instanceof GrassB) {
+					p.write("g");
+				}
 				else if (map[x][y] instanceof Path) {
 					p.write("P");
 				}
+				else if (map[x][y] instanceof PathB) {
+					p.write("p");
+				}
 				else if (map[x][y] instanceof Tunnel) {
 					p.write("T");
+				}
+				else if (map[x][y] instanceof TunnelB) {
+					p.write("t");
 				}
 			}
 			p.write("\n");

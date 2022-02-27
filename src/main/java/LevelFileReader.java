@@ -730,6 +730,15 @@ public class LevelFileReader {
 				case 'T':
 					tileMap[j][i] = new Tunnel();
 					break;
+				case 'g':
+					tileMap[j][i] = new GrassB();
+					break;
+				case 'p':
+					tileMap[j][i] = new PathB();
+					break;
+				case 't':
+					tileMap[j][i] = new TunnelB();
+					break;
 				}
 			}
 		}
