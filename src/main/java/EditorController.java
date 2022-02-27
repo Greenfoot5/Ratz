@@ -45,8 +45,8 @@ public class EditorController {
 	// Time between item drops
 	private final int[] dropRates;
 
-	private String levelName;
-	private MenuController MAIN_MENU;
+	private final String levelName;
+	private final MenuController MAIN_MENU;
 
 	// Size of game map
 	private int width;

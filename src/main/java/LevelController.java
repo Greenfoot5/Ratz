@@ -40,7 +40,7 @@ public class LevelController {
 
 	private static final int ITEM_NUM = 8;
 	private static final int TILE_SIZE = 64;
-	private static int[] counters = new int[ITEM_NUM];
+	private static final int[] counters = new int[ITEM_NUM];
 
 	private static final String delfaultLevelRegex = "level-[1-5]";
 

@@ -4,8 +4,8 @@
  *
  */
 public class Score {
-	private String profileName;
-	private int score;
+	private final String profileName;
+	private final int score;
 
 	/**
 	 * Creates score with chosen profile name and score.

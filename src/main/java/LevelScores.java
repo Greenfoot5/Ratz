@@ -6,7 +6,7 @@
  * @version 1.0
  */
 public class LevelScores {
-	private String levelName;
+	private final String levelName;
 	private static final int NUMBER_OF_TOP_SCORES = 10;
 	private Score[] scores;
 

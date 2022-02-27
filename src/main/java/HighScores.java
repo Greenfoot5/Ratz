@@ -19,7 +19,7 @@ public class HighScores {
 	// Maximum number of saved scores per level.
 	// private static final int NUMBER_OF_TOP_SCORES = 10;
 
-	private static ArrayList<LevelScores> levelsScores = new ArrayList<>();
+	private static final ArrayList<LevelScores> levelsScores = new ArrayList<>();
 
 	/**
 	 * Load data from text file to memory. Should be use only once at the start of
@@ -44,7 +44,6 @@ public class HighScores {
 			} else {
 				Score scoreToLoad = new Score(profileName, score);
 				levelsScores.get(levelsScores.size() - 1).saveScore(scoreToLoad);
-				;
 			}
 
 		}
@@ -137,7 +136,6 @@ public class HighScores {
 		for (LevelScores lvlScr : levelsScores) {
 			if (lvlScr.getLevelName().equals(levelName)) {
 				lvlScr.saveScore(new Score(profileName, score));
-				;
 			}
 		}
 	}

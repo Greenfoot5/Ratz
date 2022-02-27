@@ -6,8 +6,8 @@ import java.util.ArrayList;
  *
  */
 public class Profile {
-	private String profileName;
-	private ArrayList<ProfileScore> profileScores;
+	private final String profileName;
+	private final ArrayList<ProfileScore> profileScores;
 	
 	/**
 	 * Creates profile with chosen name provided scores.

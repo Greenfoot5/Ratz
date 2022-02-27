@@ -25,7 +25,7 @@ public class SaveCustomLevel {
 	
 	private int[] dropRates;
 	
-	private ArrayList<Rat> rats;
+	private final ArrayList<Rat> rats;
 
 	private boolean wasSaved;
 	

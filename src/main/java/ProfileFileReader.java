@@ -16,8 +16,8 @@ public class ProfileFileReader {
 	private static final String FILE_PATH = "src/main/resources/profileFile2.txt";
 	private static String selectedProfile = null;
 	private static int numberOfLevels;
-	private static ArrayList<Profile> profiles = new ArrayList<>();
-	private static ArrayList<String> levelNames = new ArrayList<>();
+	private static final ArrayList<Profile> profiles = new ArrayList<>();
+	private static final ArrayList<String> levelNames = new ArrayList<>();
 
 	/**
 	 * Load data from text file to memory. Should be use only once at the start of

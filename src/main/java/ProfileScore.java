@@ -4,7 +4,7 @@
  *
  */
 public class ProfileScore {
-	private String levelName;
+	private final String levelName;
 	private int score;
 
 	/**

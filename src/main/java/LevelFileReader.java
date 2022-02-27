@@ -501,6 +501,8 @@ public class LevelFileReader {
 	 * @throws FileNotFoundException	if file in progress is missing
 	 */
 	public static boolean isConnectedLevel(String levelName, String levelInProgress) throws FileNotFoundException {
+		System.out.println(levelInProgress);
+		System.out.println(levelName);
 		File levelData = new File(levelInProgress);
 		Scanner reader = new Scanner(levelData);
 		levelPath = reader.nextLine();
