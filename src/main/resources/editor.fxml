@@ -221,48 +221,42 @@
                </HBox>
                <VBox prefHeight="200.0" prefWidth="100.0">
                   <HBox prefHeight="70.0" prefWidth="284.0">
-                     <children>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Width:">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0"/>
-                                 </VBox.margin>
-                              </Text>
-                              <TextField fx:id="widthTextField">
-                                 <font>
-                                    <Font size="18.0"/>
-                                 </font>
-                              </TextField>
-                           </children>
-                           <HBox.margin>
-                              <Insets left="25.0" right="10.0"/>
-                           </HBox.margin>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Height">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0"/>
-                                 </VBox.margin>
-                              </Text>
-                              <TextField fx:id="heightTextField">
-                                 <font>
-                                    <Font size="18.0"/>
-                                 </font>
-                              </TextField>
-                           </children>
-                           <HBox.margin>
-                              <Insets left="10.0"/>
-                           </HBox.margin>
-                        </VBox>
-                     </children>
                      <VBox.margin>
                         <Insets left="5.0" right="5.0"/>
                      </VBox.margin>
                      <padding>
                         <Insets left="5.0" right="5.0" top="5.0"/>
                      </padding>
+                     <VBox prefHeight="200.0" prefWidth="100.0">
+                        <HBox.margin>
+                           <Insets left="25.0" right="10.0"/>
+                        </HBox.margin>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Width:">
+                           <VBox.margin>
+                              <Insets bottom="5.0"/>
+                           </VBox.margin>
+                        </Text>
+                        <TextField fx:id="widthTextField">
+                           <font>
+                              <Font size="18.0"/>
+                           </font>
+                        </TextField>
+                     </VBox>
+                     <VBox prefHeight="200.0" prefWidth="100.0">
+                        <HBox.margin>
+                           <Insets left="10.0"/>
+                        </HBox.margin>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sideBarText" text="Height">
+                           <VBox.margin>
+                              <Insets bottom="5.0"/>
+                           </VBox.margin>
+                        </Text>
+                        <TextField fx:id="heightTextField">
+                           <font>
+                              <Font size="18.0"/>
+                           </font>
+                        </TextField>
+                     </VBox>
                   </HBox>
                   <Button fx:id="sizeChangeButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
                           onAction="#changeLevelSize" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton"
@@ -275,10 +269,8 @@
                      <VBox.margin>
                         <Insets top="10.0"/>
                      </VBox.margin>
-                     <children>
-                        <Text fx:id="sizeChangeErrorText" strokeType="OUTSIDE" strokeWidth="0.0"
-                              styleClass="sideBarText"/>
-                     </children>
+                     <Text fx:id="sizeChangeErrorText" strokeType="OUTSIDE" strokeWidth="0.0"
+                           styleClass="sideBarText"/>
                   </TextFlow>
                </VBox>
                <Button fx:id="levelSettingsButton" mnemonicParsing="false" onAction="#displayLevelSettings"

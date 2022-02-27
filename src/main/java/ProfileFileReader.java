@@ -294,6 +294,7 @@ public class ProfileFileReader {
 
 		if (contents != null) {
 			for (String content : contents) {
+				String substring = content.substring(0, content.length() - 4);
 				levels.add(content.substring(0, content.length() - 4));
 				System.out.println(content.substring(0, content.length() - 4) + "  --214124rewf");
 			}

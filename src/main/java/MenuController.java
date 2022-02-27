@@ -38,6 +38,7 @@ public class MenuController {
 	// private static final String savedGameStringPart = "inProgress";
 	private static Stage stage;
 	private static Scene scene;
+	public ToggleGroup editLevelTypeGroup;
 	private Parent root;
 	private static String selectedLevelName = "";
 	private static String selectedEditLevelName = "";
