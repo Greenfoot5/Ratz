@@ -28,8 +28,7 @@ public class LevelScores {
 		Score tempScore2;
 		boolean inserted = false;
 		for (int i = 0; i < NUMBER_OF_TOP_SCORES; i++) {
-			if (((scores[i] != null && newScore.getScore() > scores[i].getScore())
-					|| scores[i] == null) && !inserted) {
+			if ((scores[i] == null || newScore.getScore() > scores[i].getScore()) && !inserted) {
 				tempScore = scores[i];
 				scores[i] = newScore;
 				inserted = true;

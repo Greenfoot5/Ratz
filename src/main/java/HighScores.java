@@ -31,7 +31,7 @@ public class HighScores {
 		File file = new File(FILE_PATH);
 		Scanner in = new Scanner(file);
 
-		String levelName = "";
+		String levelName;
 		levelsScores.clear();
 		while (in.hasNext()) {
 			String profileName = in.next(); // or level name
@@ -54,10 +54,9 @@ public class HighScores {
 
 	/**
 	 * Saves data from memory to a file. Can be used many times (but it might be use
-	 * only while switching the scenes). Strongly recommended to use at the end of
+	 * only while switching the scenes). Strongly recommended using at the end of
 	 * the program (otherwise changes are lost).
-	 * 
-	 * @throws IOException
+	 *
 	 */
 	public static void saveDataToFile() throws IOException {
 		File file = new File(FILE_PATH);

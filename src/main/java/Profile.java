@@ -21,7 +21,6 @@ public class Profile {
 	
 	/**
 	 * Creates profile with chosen name with default scores (all 0).
-	 * @param profileName
 	 */
 	public Profile(String profileName) {
 

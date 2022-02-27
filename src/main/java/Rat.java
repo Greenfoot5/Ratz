@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 
 public abstract class Rat extends GameObject {
-    protected int speed;
+    protected final int speed;
     protected Direction direction;
     protected int gasTimer;
     protected int xPos;

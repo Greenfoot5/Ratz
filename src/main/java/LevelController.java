@@ -20,7 +20,6 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +41,7 @@ public class LevelController {
 	private static final int TILE_SIZE = 64;
 	private static final int[] counters = new int[ITEM_NUM];
 
-	private static final String delfaultLevelRegex = "level-[1-5]";
+	private static final String defaultLevelRegex = "level-[1-5]";
 
 	// For sounds
 	private static final String DEATH_RAT_SOUND_1_PATH = "deathRatSound1.mp3";
@@ -501,7 +500,7 @@ public class LevelController {
 		String newLevelName = levelNameTextField.getText();
 		if (newLevelName.contains(" ")) {
 			savingErrorText.setText("Level name cannot contain spaces");
-		} else if (newLevelName.matches(delfaultLevelRegex)) {
+		} else if (newLevelName.matches(defaultLevelRegex)) {
 			savingErrorText.setText("Level name cannot be the same as default level");
 		} else if (newLevelName.length() == 0) {
 			savingErrorText.setText("Level name cannot be empty");
@@ -527,9 +526,8 @@ public class LevelController {
 	 * Makes screenshot of current tilemap.
 	 * 
 	 * @param levelName name of level being screenshot.
-	 * @throws IOException directory/file not found.
 	 */
-	public void makeScreenShot(String levelName) throws IOException {
+	public void makeScreenShot(String levelName) {
 		File file = new File("src\\main\\resources\\saved_games_images\\" + ProfileFileReader.getLoggedProfile() + "\\"
 				+ levelName + ".png");
 

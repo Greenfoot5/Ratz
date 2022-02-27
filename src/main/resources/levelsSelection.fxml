@@ -14,65 +14,74 @@
 
 <BorderPane fx:id="levelsSelectionRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
    <right>
-      <VBox id="sidebar3-menu" alignment="TOP_CENTER" maxHeight="315.0" minHeight="315.0" prefHeight="315.0" prefWidth="206.0" spacing="7.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" onAction="#changeToMenu" prefHeight="39.0" prefWidth="187.0" text="MainMenu" />
-            <Button id="green-menu-button1" alignment="CENTER" mnemonicParsing="false" onAction="#playTheGame" prefHeight="39.0" prefWidth="187.0" text="Play!" />
-            <Button id="red-menu-button" fx:id="deleteSavedGameButton" disable="true" mnemonicParsing="false" onAction="#deleteSavedGame" prefHeight="39.0" prefWidth="187.0" text="Delete saved game" />
-            <ImageView fx:id="levelViewSelection" pickOnBounds="true" preserveRatio="true">
-               <VBox.margin>
-                  <Insets left="4.0" right="5.0" />
-               </VBox.margin></ImageView>
-         </children>
+      <VBox id="sidebar3-menu" alignment="TOP_CENTER" maxHeight="315.0" minHeight="315.0" prefHeight="315.0"
+            prefWidth="206.0" spacing="7.0" BorderPane.alignment="CENTER">
          <padding>
-            <Insets top="13.0" />
+            <Insets top="13.0"/>
          </padding>
+         <Button mnemonicParsing="false" onAction="#changeToMenu" prefHeight="39.0" prefWidth="187.0" text="MainMenu"/>
+         <Button id="green-menu-button1" alignment="CENTER" mnemonicParsing="false" onAction="#playTheGame"
+                 prefHeight="39.0" prefWidth="187.0" text="Play!"/>
+         <Button id="red-menu-button" fx:id="deleteSavedGameButton" disable="true" mnemonicParsing="false"
+                 onAction="#deleteSavedGame" prefHeight="39.0" prefWidth="187.0" text="Delete saved game"/>
+         <ImageView fx:id="levelViewSelection" pickOnBounds="true" preserveRatio="true">
+            <VBox.margin>
+               <Insets left="4.0" right="5.0"/>
+            </VBox.margin>
+         </ImageView>
       </VBox>
    </right>
    <left>
       <VBox id="sidebar4-menu" prefHeight="350.0" prefWidth="175.0" spacing="5.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox alignment="CENTER" minHeight="0.0" prefHeight="82.0" prefWidth="175.0" spacing="2.0">
-               <children>
-                  <RadioButton id="radio-button" fx:id="defaultLevelsRadioButton" mnemonicParsing="false" onAction="#levelTypeChanged" prefHeight="24.0" prefWidth="125.0" selected="true" text="  Default Levels">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="levelTypeGroup" />
-                     </toggleGroup>
-                  </RadioButton>
-                  <RadioButton id="radio-button" fx:id="savedGamesRadioButton" mnemonicParsing="false" onAction="#levelTypeChanged" prefHeight="24.0" prefWidth="125.0" text="     Saved Games" toggleGroup="$levelTypeGroup" />
-                  <RadioButton id="radio-button" fx:id="createdLevelsRadioButton" mnemonicParsing="false" onAction="#levelTypeChanged" prefHeight="24.0" prefWidth="125.0" text="    Created Levels" toggleGroup="$levelTypeGroup" />
-               </children>
-               <padding>
-                  <Insets top="6.0" />
-               </padding>
-            </VBox>
-            <VBox fx:id="levelButtonsVBox" alignment="TOP_CENTER" maxHeight="267.0" prefHeight="261.0" prefWidth="175.0" spacing="2.0">
-               <padding>
-                  <Insets bottom="2.0" left="2.0" right="2.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <children>
-                  <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-                  <Button layoutX="20.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-                  <Button layoutX="20.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-                  <Button layoutX="20.0" layoutY="47.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-                  <Button layoutX="20.0" layoutY="84.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-                  <Button layoutX="20.0" layoutY="120.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-                  <Button layoutX="20.0" layoutY="194.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-               </children></VBox>
-         </children>
          <BorderPane.margin>
-            <Insets left="5.0" />
+            <Insets left="5.0"/>
          </BorderPane.margin>
+         <VBox alignment="CENTER" minHeight="0.0" prefHeight="82.0" prefWidth="175.0" spacing="2.0">
+            <padding>
+               <Insets top="6.0"/>
+            </padding>
+            <RadioButton id="radio-button" fx:id="defaultLevelsRadioButton" mnemonicParsing="false"
+                         onAction="#levelTypeChanged" prefHeight="24.0" prefWidth="125.0" selected="true"
+                         text="  Default Levels">
+               <toggleGroup>
+                  <ToggleGroup fx:id="levelTypeGroup"/>
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton id="radio-button" fx:id="savedGamesRadioButton" mnemonicParsing="false"
+                         onAction="#levelTypeChanged" prefHeight="24.0" prefWidth="125.0" text="     Saved Games"
+                         toggleGroup="$levelTypeGroup"/>
+            <RadioButton id="radio-button" fx:id="createdLevelsRadioButton" mnemonicParsing="false"
+                         onAction="#levelTypeChanged" prefHeight="24.0" prefWidth="125.0" text="    Created Levels"
+                         toggleGroup="$levelTypeGroup"/>
+         </VBox>
+         <VBox fx:id="levelButtonsVBox" alignment="TOP_CENTER" maxHeight="267.0" prefHeight="261.0" prefWidth="175.0"
+               spacing="2.0">
+            <padding>
+               <Insets bottom="2.0" left="2.0" right="2.0"/>
+            </padding>
+            <VBox.margin>
+               <Insets/>
+            </VBox.margin>
+            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button"/>
+            <Button layoutX="20.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                    text="Button"/>
+            <Button layoutX="20.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                    text="Button"/>
+            <Button layoutX="20.0" layoutY="47.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                    text="Button"/>
+            <Button layoutX="20.0" layoutY="84.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                    text="Button"/>
+            <Button layoutX="20.0" layoutY="120.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                    text="Button"/>
+            <Button layoutX="20.0" layoutY="194.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                    text="Button"/>
+         </VBox>
       </VBox>
    </left>
    <center>
-      <VBox fx:id="scoreTableLevelsVBox" alignment="CENTER" prefHeight="350.0" prefWidth="430.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Loading..." />
-         </children>
+      <VBox fx:id="scoreTableLevelsVBox" alignment="CENTER" prefHeight="350.0" prefWidth="430.0"
+            BorderPane.alignment="CENTER">
+         <Label text="Loading..."/>
       </VBox>
    </center>
    <bottom>
@@ -80,13 +89,12 @@
    </bottom>
    <top>
       <HBox prefHeight="76.0" prefWidth="800.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label id="selectedLevelHeadingLabel" fx:id="selectedLevelHeadingLabel" contentDisplay="CENTER" prefHeight="72.0" prefWidth="771.0" text="Level Select">
-               <font>
-                  <Font size="48.0" />
-               </font>
-            </Label>
-         </children>
+         <Label id="selectedLevelHeadingLabel" fx:id="selectedLevelHeadingLabel" contentDisplay="CENTER"
+                prefHeight="72.0" prefWidth="771.0" text="Level Select">
+            <font>
+               <Font size="48.0"/>
+            </font>
+         </Label>
       </HBox>
    </top>
 </BorderPane>

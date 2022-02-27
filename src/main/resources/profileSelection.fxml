@@ -10,57 +10,62 @@
 
 <BorderPane fx:id="profileSelectionRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
    <left>
-      <VBox id="sidebar2-menu" fx:id="profileButtons" alignment="CENTER" minHeight="360.0" prefWidth="175.0" spacing="2.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-            <Button layoutX="15.0" layoutY="144.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-            <Button layoutX="15.0" layoutY="126.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-            <Button layoutX="15.0" layoutY="161.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-            <Button layoutX="15.0" layoutY="161.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-            <Button layoutX="15.0" layoutY="196.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-            <Button layoutX="15.0" layoutY="196.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-            <Button layoutX="15.0" layoutY="231.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-            <Button layoutX="15.0" layoutY="231.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-            <Button layoutX="15.0" layoutY="103.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-         </children>
+      <VBox id="sidebar2-menu" fx:id="profileButtons" alignment="CENTER" minHeight="360.0" prefWidth="175.0"
+            spacing="2.0" BorderPane.alignment="CENTER">
          <padding>
-            <Insets bottom="1.0" left="2.0" right="2.0" />
+            <Insets bottom="1.0" left="2.0" right="2.0"/>
          </padding>
+         <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button"/>
+         <Button layoutX="15.0" layoutY="144.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                 text="Button"/>
+         <Button layoutX="15.0" layoutY="126.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                 text="Button"/>
+         <Button layoutX="15.0" layoutY="161.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                 text="Button"/>
+         <Button layoutX="15.0" layoutY="161.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                 text="Button"/>
+         <Button layoutX="15.0" layoutY="196.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                 text="Button"/>
+         <Button layoutX="15.0" layoutY="196.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                 text="Button"/>
+         <Button layoutX="15.0" layoutY="231.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                 text="Button"/>
+         <Button layoutX="15.0" layoutY="231.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                 text="Button"/>
+         <Button layoutX="15.0" layoutY="103.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                 text="Button"/>
       </VBox>
    </left>
    <right>
-      <VBox id="sidebar1-menu" alignment="CENTER" maxHeight="165.0" prefHeight="165.0" prefWidth="206.0" spacing="10.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" onAction="#changeToMenu" prefHeight="36.0" prefWidth="187.0" text="Main menu" />
-            <Button id="red-menu-button" fx:id="removeProfileButton" mnemonicParsing="false" onAction="#removeProfile" prefHeight="36.0" prefWidth="187.0" text="Remove Profile" />
-         </children>
+      <VBox id="sidebar1-menu" alignment="CENTER" maxHeight="165.0" prefHeight="165.0" prefWidth="206.0" spacing="10.0"
+            BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets left="5.0" right="5.0" />
+            <Insets left="5.0" right="5.0"/>
          </BorderPane.margin>
+         <Button mnemonicParsing="false" onAction="#changeToMenu" prefHeight="36.0" prefWidth="187.0" text="Main menu"/>
+         <Button id="red-menu-button" fx:id="removeProfileButton" mnemonicParsing="false" onAction="#removeProfile"
+                 prefHeight="36.0" prefWidth="187.0" text="Remove Profile"/>
       </VBox>
    </right>
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Add new profile:" />
-            <TextField fx:id="newProfileTextField" promptText="new profile name" />
-            <Button id="green-menu-button1" fx:id="addProfilebutton" mnemonicParsing="false" onAction="#addProfile" prefHeight="36.0" prefWidth="90.0" text="Add" />
-         </children>
+         <Label text="Add new profile:"/>
+         <TextField fx:id="newProfileTextField" promptText="new profile name"/>
+         <Button id="green-menu-button1" fx:id="addProfilebutton" mnemonicParsing="false" onAction="#addProfile"
+                 prefHeight="36.0" prefWidth="90.0" text="Add"/>
       </HBox>
    </bottom>
    <top>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label styleClass="profileLabel" text="Best " />
-            <Label fx:id="loggedProfileLabel" styleClass="profileLabel" text="..." />
-            <Label styleClass="profileLabel" text="'s scores: " />
-         </children>
+         <Label styleClass="profileLabel" text="Best "/>
+         <Label fx:id="loggedProfileLabel" styleClass="profileLabel" text="..."/>
+         <Label styleClass="profileLabel" text="'s scores: "/>
       </HBox>
    </top>
    <center>
-      <VBox fx:id="profileScoresVBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Loading scores..." />
-         </children></VBox>
+      <VBox fx:id="profileScoresVBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0"
+            BorderPane.alignment="CENTER">
+         <Label text="Loading scores..."/>
+      </VBox>
    </center>
 </BorderPane>

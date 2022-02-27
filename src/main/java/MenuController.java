@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -35,7 +34,7 @@ public class MenuController {
 
 	private static final int PROFILES_LIMIT = 10;
 	private static final int CUSTOM_LEVELS_LIMIT = 10;
-	// private static final String delfaultLevelRegex = "level-[1-5]";
+	// private static final String defaultLevelRegex = "level-[1-5]";
 	// private static final String savedGameStringPart = "inProgress";
 	private static Stage stage;
 	private static Scene scene;
@@ -102,8 +101,6 @@ public class MenuController {
 	private ToggleGroup levelTypeGroup;
 	@FXML
 	private RadioButton savedGamesRadioButton;
-	@FXML
-	private Button addProfilebutton;
 	@FXML
 	private VBox bestScoresLabel;
 	@FXML
@@ -274,7 +271,7 @@ public class MenuController {
 				// Check we don't have too many profiles already
 				alert("Too many profiles!");
 			} else if (newProfileTextField.getText().contains(" ")) {
-				alert("Profile name can not contins spaces");
+				alert("Profile name can not contains spaces");
 			} else if (!newProfileTextField.getText().matches(LETTERS_AND_NUMBERS_REGEX)) {
 				alert("Only letters and numbers allowed");
 			} else if (!newProfileTextField.getText().equals("")
@@ -319,7 +316,7 @@ public class MenuController {
 	}
 
 	/**
-	 * Update screen. Adds buttons, logged profile label, and best scores.
+	 * Update screen. Add buttons, logged profile label, and best scores.
 	 */
 	public void updateProfilesView() {
 		if (!profilesViewUpdated) {
@@ -327,7 +324,7 @@ public class MenuController {
 
 			updateProfilesScoreTable();
 
-			String[] s = { "" };
+			String[] s;
 			s = ProfileFileReader.getProfiles();
 
 			profileButtons.getChildren().clear();
@@ -364,7 +361,7 @@ public class MenuController {
 	 * Updates scores in profiles menu.
 	 */
 	public void updateProfilesScoreTable() {
-		ArrayList<String> levelNames = ProfileFileReader.getDeafaultLevelsNames();
+		ArrayList<String> levelNames = ProfileFileReader.getDefaultLevelsNames();
 		profileScoresVBox.getChildren().clear();
 
 		for (String lvl : levelNames) {
@@ -405,7 +402,7 @@ public class MenuController {
 			// Checking which radio button is selected
 			// to choose type of levels to display
 			if (defaultLevelsRadioButton.isSelected()) {
-				levelNames = ProfileFileReader.getDeafaultLevelsNames();
+				levelNames = ProfileFileReader.getDefaultLevelsNames();
 				selectRadioButton(defaultLevelsRadioButton, createdLevelsRadioButton, savedGamesRadioButton);
 				deleteSavedGameButton.setDisable(true);
 			} else if (createdLevelsRadioButton.isSelected()) {
@@ -475,7 +472,7 @@ public class MenuController {
 	public Image getPreview(String levelName, boolean savedGame, int maxWidth, int maxHeight) {
 		Image img = null;
 		try {
-			String folderPath = "";
+			String folderPath;
 			if (savedGame) {
 				folderPath = SAVED_GAMES_IMAGES_PATH + ProfileFileReader.getLoggedProfile() + "\\";
 			} else {
@@ -491,14 +488,14 @@ public class MenuController {
 				int width = (int) tempImg.getWidth();
 				int height = (int) tempImg.getHeight();
 				float widthCompare = (float) maxWidth / (float) width;
-				float heightComare = (float) maxHeight / (float) height;
+				float heightCompare = (float) maxHeight / (float) height;
 
-				if (widthCompare < heightComare) {
+				if (widthCompare < heightCompare) {
 					width *= widthCompare;
 					height *= widthCompare;
 				} else {
-					width *= heightComare;
-					height *= heightComare;
+					width *= heightCompare;
+					height *= heightCompare;
 				}
 				FileInputStream tempStream2 = new FileInputStream(RESOURCES_PATH + folderPath + levelName + ".png");
 				img = new Image(tempStream2, width, height, false, false);
@@ -562,12 +559,11 @@ public class MenuController {
 
 	/**
 	 * Loads the game.
-	 * 
-	 * @throws IOException
+	 *
 	 */
 	@FXML
 	private void playTheGame() throws IOException {
-		String levelType = "";
+		String levelType;
 
 		if (defaultLevelsRadioButton.isSelected()) {
 			levelType = "default_levels/";
@@ -626,7 +622,7 @@ public class MenuController {
 			// Checking which radio button is selected
 			// to display level buttons
 			if (editDefaultLevelsRadioButton.isSelected()) {
-				levelNames = ProfileFileReader.getDeafaultLevelsNames();
+				levelNames = ProfileFileReader.getDefaultLevelsNames();
 				selectRadioButton(editDefaultLevelsRadioButton, editCustomLevelsRadioButton,
 						editCustomLevelsRadioButton);
 			} else if (editCustomLevelsRadioButton.isSelected()) {
@@ -692,8 +688,7 @@ public class MenuController {
 	 * Deletes created level file and screenshot from memory and form screen. Also
 	 * deletes all in progress files which use selected level as reference. //TODO:
 	 * actually do that
-	 * 
-	 * @param event
+	 *
 	 */
 	public void deleteCreatedLevel(ActionEvent event) {
 		// TODO delete all in progress files which use this level
@@ -714,8 +709,7 @@ public class MenuController {
 
 	/**
 	 * Disable/unlock delete level button.
-	 * 
-	 * @param event
+	 *
 	 */
 	public void editLevelTypeChanged(ActionEvent event) {
 

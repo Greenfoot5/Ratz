@@ -57,10 +57,9 @@ public class ProfileFileReader {
 
 	/**
 	 * Saves data from memory to a file. Can be used many times (but it might be use
-	 * only while switching the scenes). Strongly recommended to use at the end of
+	 * only while switching the scenes). Strongly recommended using at the end of
 	 * the program (otherwise changes are lost).
-	 * 
-	 * @throws IOException
+	 *
 	 */
 	public static void saveDataToFile() throws IOException {
 		File file = new File(FILE_PATH);
@@ -246,7 +245,7 @@ public class ProfileFileReader {
 		return levelNames;
 	}
 
-	public static ArrayList<String> getDeafaultLevelsNames() {
+	public static ArrayList<String> getDefaultLevelsNames() {
 		// Creating a File object for directory
 		File directoryPath = new File("src/main/resources/levels/default_levels");
 		System.out.println(directoryPath.getAbsolutePath());
@@ -257,9 +256,10 @@ public class ProfileFileReader {
 
 		assert contents != null;
 		for (String content : contents) {
-			levels.add(content.substring(0, content.length() - 4));
+			String substring = content.substring(0, content.length() - 4);
+			levels.add(substring);
 
-			System.out.println(content.substring(0, content.length() - 4) + "  --214124rewf");
+			System.out.println(substring + "  --214124rewf");
 		}
 
 		return levels;
@@ -275,9 +275,10 @@ public class ProfileFileReader {
 
 		assert contents != null;
 		for (String content : contents) {
-			levels.add(content.substring(0, content.length() - 4));
+			String substring = content.substring(0, content.length() - 4);
+			levels.add(substring);
 
-			System.out.println(content.substring(0, content.length() - 4) + "  --214124rewf");
+			System.out.println(substring + "  --214124rewf");
 		}
 
 		return levels;

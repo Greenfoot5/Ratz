@@ -8,8 +8,8 @@ import java.util.ArrayList;
  */
 
 public abstract class Power extends GameObject {
-    protected int xPos;
-    protected int yPos;
+    protected final int xPos;
+    protected final int yPos;
 
     /**
      * Power constructor

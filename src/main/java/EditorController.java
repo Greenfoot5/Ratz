@@ -26,7 +26,6 @@ import javax.imageio.ImageIO;
 import static java.lang.Integer.parseInt;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Class that implements level editing/creating GUI.
@@ -664,13 +663,9 @@ public class EditorController {
 					width, height, tileMap, maxRats, parTime, dropRates);
 
 			if (save.wasSaved()) {
-				try {
-					makeScreenShot(newLevelName);
-					System.out.println("Screenshot was saved");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					System.out.println("Screenshot wasn't saved :(");
-				}
+				makeScreenShot(newLevelName);
+				System.out.println("Screenshot was saved");
+
 				HighScores.createNewLevel(newLevelName);
 				ProfileFileReader.createNewLevel(newLevelName);
 				MAIN_MENU.finishLevel();
@@ -687,9 +682,8 @@ public class EditorController {
 	/**
 	 * Makes screenshot of current tilemap.
 	 * @param levelName name of level being screenshot.
-	 * @throws IOException directory/file not found.
 	 */
-	public void makeScreenShot(String levelName) throws IOException {
+	public void makeScreenShot(String levelName) {
 		File file = new File("src\\main\\resources\\levels_images\\" + levelName + ".png");
 
 		WritableImage writableImage = new WritableImage(TILE_SIZE * width, TILE_SIZE * height);

@@ -224,11 +224,6 @@ ul.blockList li.blockList h2 {
 /*
 Page layout container styles
 */
-.contentContainer, .sourceContainer, .classUseContainer, .serializedFormContainer, .constantValuesContainer {
-    clear:both;
-    padding:10px 20px;
-    position:relative;
-}
 .indexContainer {
     margin:10px;
     position:relative;
@@ -325,15 +320,6 @@ table tr td dl, table tr td dl dt, table tr td dl dd {
 /*
 Table styles
 */
-.overviewSummary, .memberSummary, .typeSummary, .useSummary, .constantsSummary, .deprecatedSummary {
-    width:100%;
-    border-left:1px solid #EEE; 
-    border-right:1px solid #EEE; 
-    border-bottom:1px solid #EEE; 
-}
-.overviewSummary, .memberSummary  {
-    padding:0;
-}
 .overviewSummary caption, .memberSummary caption, .typeSummary caption,
 .useSummary caption, .constantsSummary caption, .deprecatedSummary caption {
     position:relative;
@@ -461,9 +447,7 @@ td.colOne, th.colOne {
 td.colOne a:link, td.colOne a:active, td.colOne a:visited, td.colOne a:hover, td.colFirst a:link, td.colFirst a:active, td.colFirst a:visited, td.colFirst a:hover, td.colLast a:link, td.colLast a:active, td.colLast a:visited, td.colLast a:hover, .constantValuesContainer td a:link, .constantValuesContainer td a:active, .constantValuesContainer td a:visited, .constantValuesContainer td a:hover {
     font-weight:bold;
 }
-.tableSubHeadingColor {
-    background-color:#EEEEFF;
-}
+
 .altColor {
     background-color:#FFFFFF;
 }
@@ -475,13 +459,6 @@ Content styles
 */
 .description pre {
     margin-top:0;
-}
-.deprecatedContent {
-    margin:0;
-    padding:10px 0;
-}
-.docSummary {
-    padding:0;
 }
 
 ul.blockList ul.blockList ul.blockList li.blockList h3 {
@@ -504,32 +481,10 @@ td.colLast a {
 /*
 Formatting effect styles
 */
-.sourceLineNo {
-    color:green;
-    padding:0 30px 0 0;
-}
-h1.hidden {
-    visibility:hidden;
-    overflow:hidden;
-    font-size:10px;
-}
 .block {
     display:block;
     margin:3px 10px 2px 0;
     color:#474747;
-}
-.deprecatedLabel, .descfrmTypeLabel, .memberNameLabel, .memberNameLink,
-.overrideSpecifyLabel, .packageHierarchyLabel, .paramLabel, .returnLabel,
-.seeLabel, .simpleTagLabel, .throwsLabel, .typeNameLabel, .typeNameLink {
-    font-weight:bold;
-}
-.deprecationComment, .emphasizedPhrase, .interfaceName {
-    font-style:italic;
-}
-
-div.block div.block span.deprecationComment, div.block div.block span.emphasizedPhrase,
-div.block div.block span.interfaceName {
-    font-style:normal;
 }
 
 div.contentContainer ul.blockList li.blockList h2{

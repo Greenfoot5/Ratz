@@ -13,49 +13,58 @@
 
 <BorderPane fx:id="levelCreationRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
    <left>
-      <VBox id="sidebar2-menu" maxHeight="360.0" prefHeight="360.0" prefWidth="175.0" spacing="4.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox alignment="CENTER" minHeight="64.0" prefHeight="64.0" prefWidth="159.0" spacing="2.0">
-               <children>
-                  <RadioButton fx:id="editDefaultLevelsRadioButton" mnemonicParsing="false" onAction="#editLevelTypeChanged" prefHeight="24.0" prefWidth="125.0" selected="true" text="Edit default levels">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="editLevelTypeGroup" />
-                     </toggleGroup>
-                  </RadioButton>
-                  <RadioButton fx:id="editCustomLevelsRadioButton" mnemonicParsing="false" onAction="#editLevelTypeChanged" prefHeight="24.0" prefWidth="125.0" text="Edit custom levels" toggleGroup="$editLevelTypeGroup" />
-               </children>
-            </VBox>
-            <VBox fx:id="levelsButtonsLevelCreationVBox" alignment="CENTER" maxHeight="192.0" prefWidth="192.0" spacing="3.0">
-               <children>
-                  <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-                  <Button layoutX="12.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-                  <Button layoutX="12.0" layoutY="45.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-                  <Button layoutX="12.0" layoutY="80.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-                  <Button layoutX="12.0" layoutY="115.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-                  <Button layoutX="12.0" layoutY="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-                  <Button layoutX="12.0" layoutY="185.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-                  <Button layoutX="12.0" layoutY="220.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button" />
-               </children>
-               <padding>
-                  <Insets bottom="1.0" left="2.0" right="2.0" />
-               </padding>
-            </VBox>
-         </children>
+      <VBox id="sidebar2-menu" maxHeight="360.0" prefHeight="360.0" prefWidth="175.0" spacing="4.0"
+            BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets left="5.0" right="4.0" />
+            <Insets left="5.0" right="4.0"/>
          </BorderPane.margin>
+         <VBox alignment="CENTER" minHeight="64.0" prefHeight="64.0" prefWidth="159.0" spacing="2.0">
+            <RadioButton fx:id="editDefaultLevelsRadioButton" mnemonicParsing="false"
+                         onAction="#editLevelTypeChanged" prefHeight="24.0" prefWidth="125.0" selected="true"
+                         text="Edit default levels">
+               <toggleGroup>
+                  <ToggleGroup fx:id="editLevelTypeGroup"/>
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="editCustomLevelsRadioButton" mnemonicParsing="false" onAction="#editLevelTypeChanged"
+                         prefHeight="24.0" prefWidth="125.0" text="Edit custom levels"
+                         toggleGroup="$editLevelTypeGroup"/>
+         </VBox>
+         <VBox fx:id="levelsButtonsLevelCreationVBox" alignment="CENTER" maxHeight="192.0" prefWidth="192.0"
+               spacing="3.0">
+            <padding>
+               <Insets bottom="1.0" left="2.0" right="2.0"/>
+            </padding>
+            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" text="Button"/>
+            <Button layoutX="12.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                    text="Button"/>
+            <Button layoutX="12.0" layoutY="45.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                    text="Button"/>
+            <Button layoutX="12.0" layoutY="80.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                    text="Button"/>
+            <Button layoutX="12.0" layoutY="115.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                    text="Button"/>
+            <Button layoutX="12.0" layoutY="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                    text="Button"/>
+            <Button layoutX="12.0" layoutY="185.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                    text="Button"/>
+            <Button layoutX="12.0" layoutY="220.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0"
+                    text="Button"/>
+         </VBox>
       </VBox>
    </left>
    <right>
-      <VBox id="sidebar1-menu" alignment="CENTER" maxHeight="165.0" prefHeight="165.0" prefWidth="206.0" spacing="10.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" onAction="#changeToMenu" prefHeight="36.0" prefWidth="187.0" text="Back to menu" />
-            <Button id="green-menu-button1" fx:id="editCreatedLevelButton" disable="true" mnemonicParsing="false" onAction="#editCreatedLevel" prefHeight="36.0" prefWidth="187.0" text="Edit" />
-            <Button id="red-menu-button" fx:id="deleteLevelButton" disable="true" mnemonicParsing="false" onAction="#deleteCreatedLevel" prefHeight="36.0" prefWidth="187.0" text="Delete" />
-         </children>
+      <VBox id="sidebar1-menu" alignment="CENTER" maxHeight="165.0" prefHeight="165.0" prefWidth="206.0" spacing="10.0"
+            BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets left="5.0" right="5.0" />
+            <Insets left="5.0" right="5.0"/>
          </BorderPane.margin>
+         <Button mnemonicParsing="false" onAction="#changeToMenu" prefHeight="36.0" prefWidth="187.0"
+                 text="Back to menu"/>
+         <Button id="green-menu-button1" fx:id="editCreatedLevelButton" disable="true" mnemonicParsing="false"
+                 onAction="#editCreatedLevel" prefHeight="36.0" prefWidth="187.0" text="Edit"/>
+         <Button id="red-menu-button" fx:id="deleteLevelButton" disable="true" mnemonicParsing="false"
+                 onAction="#deleteCreatedLevel" prefHeight="36.0" prefWidth="187.0" text="Delete"/>
       </VBox>
    </right>
    <top>
@@ -66,16 +75,14 @@
    </top>
    <bottom>
       <HBox alignment="CENTER" prefHeight="59.0" prefWidth="800.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="To create new custom level: " />
-            <Button id="green-menu-button1" mnemonicParsing="false" onAction="#openLevelEditor" prefHeight="36.0" prefWidth="187.0" text="Open level editor" />
-         </children>
+         <Label text="To create new custom level: "/>
+         <Button id="green-menu-button1" mnemonicParsing="false" onAction="#openLevelEditor" prefHeight="36.0"
+                 prefWidth="187.0" text="Open level editor"/>
       </HBox>
    </bottom>
    <center>
       <VBox alignment="CENTER" maxWidth="425.0" prefHeight="366.0" prefWidth="377.0" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fx:id="levelView" pickOnBounds="true" preserveRatio="true" />
-         </children></VBox>
+         <ImageView fx:id="levelView" pickOnBounds="true" preserveRatio="true"/>
+      </VBox>
    </center>
 </BorderPane>

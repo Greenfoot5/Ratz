@@ -18,14 +18,14 @@
         catch (error) {
             return false;
         }
-        var pos = url.indexOf(".html");
+        const pos = url.indexOf(".html");
         if (pos === -1 || pos !== url.length - 5)
             return false;
-        var allowNumber = false;
-        var allowSep = false;
-        var seenDot = false;
-        for (var i = 0; i < url.length - 5; i++) {
-            var ch = url.charAt(i);
+        let allowNumber = false;
+        let allowSep = false;
+        let seenDot = false;
+        for (let i = 0; i < url.length - 5; i++) {
+            const ch = url.charAt(i);
             if ('a' <= ch && ch <= 'z' ||
                     'A' <= ch && ch <= 'Z' ||
                     ch === '$' ||

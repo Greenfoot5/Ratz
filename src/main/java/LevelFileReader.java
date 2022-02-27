@@ -501,14 +501,11 @@ public class LevelFileReader {
 	 * @throws FileNotFoundException	if file in progress is missing
 	 */
 	public static boolean isConnectedLevel(String levelName, String levelInProgress) throws FileNotFoundException {
-		System.out.println(levelInProgress);
-		System.out.println(levelName);
 		File levelData = new File(levelInProgress);
 		Scanner reader = new Scanner(levelData);
 		levelPath = reader.nextLine();
 		reader.close();
-		return levelPath.equals(levelName);
-
+		return levelPath.equals(levelName + ".txt");
 	}
 
 	/**
@@ -520,190 +517,206 @@ public class LevelFileReader {
 		while (reader.hasNextLine()) {
 			String[] currentItem = reader.nextLine().replaceAll("[()]", "").split(",");
 			// if current item is a female baby rat
-			if (currentItem[0].equals("f")) {
-				int speed = Integer.parseInt(currentItem[1]);
-				int directionInt = Integer.parseInt(currentItem[2]);
-				Rat.Direction direction = directionIntToEnum(directionInt);
-				int gasTimer = Integer.parseInt(currentItem[3]);
-				int xPos = Integer.parseInt(currentItem[4]);
-				int yPos = Integer.parseInt(currentItem[5]);
-				boolean isFertile;
-				isFertile = currentItem[6].equals("1");
-				int age = Integer.parseInt(currentItem[7]);
-				ChildRat newRat = new ChildRat(speed, direction, gasTimer, xPos, yPos, isFertile, age, Rat.Sex.FEMALE);
-				RAT_ARRAY_LIST.add(newRat);
-				tileMap[xPos][yPos].addOccupantRat(newRat);
-			}
+			switch (currentItem[0]) {
+				case "f": {
+					int speed = Integer.parseInt(currentItem[1]);
+					int directionInt = Integer.parseInt(currentItem[2]);
+					Rat.Direction direction = directionIntToEnum(directionInt);
+					int gasTimer = Integer.parseInt(currentItem[3]);
+					int xPos = Integer.parseInt(currentItem[4]);
+					int yPos = Integer.parseInt(currentItem[5]);
+					boolean isFertile;
+					isFertile = currentItem[6].equals("1");
+					int age = Integer.parseInt(currentItem[7]);
+					ChildRat newRat = new ChildRat(speed, direction, gasTimer, xPos, yPos, isFertile, age, Rat.Sex.FEMALE);
+					RAT_ARRAY_LIST.add(newRat);
+					tileMap[xPos][yPos].addOccupantRat(newRat);
+					break;
+				}
 
-			// if current item is a male baby rat
-			else if (currentItem[0].equals("m")) {
-				int speed = Integer.parseInt(currentItem[1]);
-				int directionInt = Integer.parseInt(currentItem[2]);
-				Rat.Direction direction = directionIntToEnum(directionInt);
-				int gasTimer = Integer.parseInt(currentItem[3]);
-				int xPos = Integer.parseInt(currentItem[4]);
-				int yPos = Integer.parseInt(currentItem[5]);
-				boolean isFertile;
-				isFertile = currentItem[6].equals("1");
-				int age = Integer.parseInt(currentItem[7]);
-				ChildRat newRat = new ChildRat(speed, direction, gasTimer, xPos, yPos, isFertile, age, Rat.Sex.MALE);
-				RAT_ARRAY_LIST.add(newRat);
-				tileMap[xPos][yPos].addOccupantRat(newRat);
-			}
+				// if current item is a male baby rat
+				case "m": {
+					int speed = Integer.parseInt(currentItem[1]);
+					int directionInt = Integer.parseInt(currentItem[2]);
+					Rat.Direction direction = directionIntToEnum(directionInt);
+					int gasTimer = Integer.parseInt(currentItem[3]);
+					int xPos = Integer.parseInt(currentItem[4]);
+					int yPos = Integer.parseInt(currentItem[5]);
+					boolean isFertile;
+					isFertile = currentItem[6].equals("1");
+					int age = Integer.parseInt(currentItem[7]);
+					ChildRat newRat = new ChildRat(speed, direction, gasTimer, xPos, yPos, isFertile, age, Rat.Sex.MALE);
+					RAT_ARRAY_LIST.add(newRat);
+					tileMap[xPos][yPos].addOccupantRat(newRat);
+					break;
+				}
 
-			// if current item is an intersex baby rat
-			else if (currentItem[0].equals("i")) {
-				int speed = Integer.parseInt(currentItem[1]);
-				int directionInt = Integer.parseInt(currentItem[2]);
-				Rat.Direction direction = directionIntToEnum(directionInt);
-				int gasTimer = Integer.parseInt(currentItem[3]);
-				int xPos = Integer.parseInt(currentItem[4]);
-				int yPos = Integer.parseInt(currentItem[5]);
-				boolean isFertile;
-				isFertile = currentItem[6].equals("1");
-				int age = Integer.parseInt(currentItem[7]);
-				ChildRat newRat = new ChildRat(speed, direction, gasTimer, xPos, yPos, isFertile, age,
-						Rat.Sex.INTERSEX);
-				RAT_ARRAY_LIST.add(newRat);
-				tileMap[xPos][yPos].addOccupantRat(newRat);
-			}
+				// if current item is an intersex baby rat
+				case "i": {
+					int speed = Integer.parseInt(currentItem[1]);
+					int directionInt = Integer.parseInt(currentItem[2]);
+					Rat.Direction direction = directionIntToEnum(directionInt);
+					int gasTimer = Integer.parseInt(currentItem[3]);
+					int xPos = Integer.parseInt(currentItem[4]);
+					int yPos = Integer.parseInt(currentItem[5]);
+					boolean isFertile;
+					isFertile = currentItem[6].equals("1");
+					int age = Integer.parseInt(currentItem[7]);
+					ChildRat newRat = new ChildRat(speed, direction, gasTimer, xPos, yPos, isFertile, age,
+							Rat.Sex.INTERSEX);
+					RAT_ARRAY_LIST.add(newRat);
+					tileMap[xPos][yPos].addOccupantRat(newRat);
+					break;
+				}
 
-			// if current item is a female adult rat
-			else if (currentItem[0].equals("F")) {
-				int speed = Integer.parseInt(currentItem[1]);
-				int directionInt = Integer.parseInt(currentItem[2]);
-				Rat.Direction direction = directionIntToEnum(directionInt);
-				int gasTimer = Integer.parseInt(currentItem[3]);
-				int xPos = Integer.parseInt(currentItem[4]);
-				int yPos = Integer.parseInt(currentItem[5]);
-				boolean isFertile;
-				isFertile = currentItem[6].equals("1");
-				int pregnancyTimer = Integer.parseInt(currentItem[7]);
-				int ratFetusCount = Integer.parseInt(currentItem[8]);
-				AdultFemale newRat = new AdultFemale(speed, direction, gasTimer, xPos, yPos, isFertile, pregnancyTimer,
-						ratFetusCount);
-				RAT_ARRAY_LIST.add(newRat);
-				tileMap[xPos][yPos].addOccupantRat(newRat);
-			}
+				// if current item is a female adult rat
+				case "F": {
+					int speed = Integer.parseInt(currentItem[1]);
+					int directionInt = Integer.parseInt(currentItem[2]);
+					Rat.Direction direction = directionIntToEnum(directionInt);
+					int gasTimer = Integer.parseInt(currentItem[3]);
+					int xPos = Integer.parseInt(currentItem[4]);
+					int yPos = Integer.parseInt(currentItem[5]);
+					boolean isFertile;
+					isFertile = currentItem[6].equals("1");
+					int pregnancyTimer = Integer.parseInt(currentItem[7]);
+					int ratFetusCount = Integer.parseInt(currentItem[8]);
+					AdultFemale newRat = new AdultFemale(speed, direction, gasTimer, xPos, yPos, isFertile, pregnancyTimer,
+							ratFetusCount);
+					RAT_ARRAY_LIST.add(newRat);
+					tileMap[xPos][yPos].addOccupantRat(newRat);
+					break;
+				}
 
-			// if current item is a male adult rat
-			else if (currentItem[0].equals("M")) {
-				int speed = Integer.parseInt(currentItem[1]);
-				int directionInt = Integer.parseInt(currentItem[2]);
-				Rat.Direction direction = directionIntToEnum(directionInt);
-				int gasTimer = Integer.parseInt(currentItem[3]);
-				int xPos = Integer.parseInt(currentItem[4]);
-				int yPos = Integer.parseInt(currentItem[5]);
-				boolean isFertile;
-				isFertile = currentItem[6].equals("1");
-				AdultMale newRat = new AdultMale(speed, direction, gasTimer, xPos, yPos, isFertile);
-				RAT_ARRAY_LIST.add(newRat);
-				tileMap[xPos][yPos].addOccupantRat(newRat);
-			}
+				// if current item is a male adult rat
+				case "M": {
+					int speed = Integer.parseInt(currentItem[1]);
+					int directionInt = Integer.parseInt(currentItem[2]);
+					Rat.Direction direction = directionIntToEnum(directionInt);
+					int gasTimer = Integer.parseInt(currentItem[3]);
+					int xPos = Integer.parseInt(currentItem[4]);
+					int yPos = Integer.parseInt(currentItem[5]);
+					boolean isFertile;
+					isFertile = currentItem[6].equals("1");
+					AdultMale newRat = new AdultMale(speed, direction, gasTimer, xPos, yPos, isFertile);
+					RAT_ARRAY_LIST.add(newRat);
+					tileMap[xPos][yPos].addOccupantRat(newRat);
+					break;
+				}
 
-			// if current item is an intersex adult rat
-			else if (currentItem[0].equals("I")) {
-				int speed = Integer.parseInt(currentItem[1]);
-				int directionInt = Integer.parseInt(currentItem[2]);
-				Rat.Direction direction = directionIntToEnum(directionInt);
-				int gasTimer = Integer.parseInt(currentItem[3]);
-				int xPos = Integer.parseInt(currentItem[4]);
-				int yPos = Integer.parseInt(currentItem[5]);
-				boolean isFertile;
-				isFertile = currentItem[6].equals("1");
-				int pregnancyTimer = Integer.parseInt(currentItem[7]);
-				int ratFetusCount = Integer.parseInt(currentItem[8]);
-				AdultIntersex newRat = new AdultIntersex(speed, direction, gasTimer, xPos, yPos, isFertile,
-						pregnancyTimer, ratFetusCount);
-				RAT_ARRAY_LIST.add(newRat);
-				tileMap[xPos][yPos].addOccupantRat(newRat);
-			}
+				// if current item is an intersex adult rat
+				case "I": {
+					int speed = Integer.parseInt(currentItem[1]);
+					int directionInt = Integer.parseInt(currentItem[2]);
+					Rat.Direction direction = directionIntToEnum(directionInt);
+					int gasTimer = Integer.parseInt(currentItem[3]);
+					int xPos = Integer.parseInt(currentItem[4]);
+					int yPos = Integer.parseInt(currentItem[5]);
+					boolean isFertile;
+					isFertile = currentItem[6].equals("1");
+					int pregnancyTimer = Integer.parseInt(currentItem[7]);
+					int ratFetusCount = Integer.parseInt(currentItem[8]);
+					AdultIntersex newRat = new AdultIntersex(speed, direction, gasTimer, xPos, yPos, isFertile,
+							pregnancyTimer, ratFetusCount);
+					RAT_ARRAY_LIST.add(newRat);
+					tileMap[xPos][yPos].addOccupantRat(newRat);
+					break;
+				}
 
-			// if current item is a death rat
-			else if (currentItem[0].equals("D")) {
-				int speed = Integer.parseInt(currentItem[1]);
-				int directionInt = Integer.parseInt(currentItem[2]);
-				Rat.Direction direction = directionIntToEnum(directionInt);
-				int gasTimer = Integer.parseInt(currentItem[3]);
-				int xPos = Integer.parseInt(currentItem[4]);
-				int yPos = Integer.parseInt(currentItem[5]);
-				int killCounter = Integer.parseInt(currentItem[6]);
-				DeathRat newRat = new DeathRat(speed, direction, gasTimer, xPos, yPos, killCounter);
-				RAT_ARRAY_LIST.add(newRat);
-				tileMap[xPos][yPos].addOccupantRat(newRat);
-			}
+				// if current item is a death rat
+				case "D": {
+					int speed = Integer.parseInt(currentItem[1]);
+					int directionInt = Integer.parseInt(currentItem[2]);
+					Rat.Direction direction = directionIntToEnum(directionInt);
+					int gasTimer = Integer.parseInt(currentItem[3]);
+					int xPos = Integer.parseInt(currentItem[4]);
+					int yPos = Integer.parseInt(currentItem[5]);
+					int killCounter = Integer.parseInt(currentItem[6]);
+					DeathRat newRat = new DeathRat(speed, direction, gasTimer, xPos, yPos, killCounter);
+					RAT_ARRAY_LIST.add(newRat);
+					tileMap[xPos][yPos].addOccupantRat(newRat);
+					break;
+				}
 
-			// if currentItem item is a bomb
-			else if (currentItem[0].equals("B")) {
-				int xPos = Integer.parseInt(currentItem[1]);
-				int yPos = Integer.parseInt(currentItem[2]);
-				int ticksActive = Integer.parseInt(currentItem[3]);
-				Bomb newBomb = new Bomb(xPos, yPos);
-				newBomb.setTicksActive(ticksActive);
-				POWER_ARRAY_LIST.add(newBomb);
-				tileMap[xPos][yPos].addActivePower(newBomb);
-			}
+				// if currentItem item is a bomb
+				case "B": {
+					int xPos = Integer.parseInt(currentItem[1]);
+					int yPos = Integer.parseInt(currentItem[2]);
+					int ticksActive = Integer.parseInt(currentItem[3]);
+					Bomb newBomb = new Bomb(xPos, yPos);
+					newBomb.setTicksActive(ticksActive);
+					POWER_ARRAY_LIST.add(newBomb);
+					tileMap[xPos][yPos].addActivePower(newBomb);
+					break;
+				}
 
-			// if currentItem item is gas
-			else if (currentItem[0].equals("G")) {
-				int xPos = Integer.parseInt(currentItem[1]);
-				int yPos = Integer.parseInt(currentItem[2]);
-				boolean isOriginal;
-				isOriginal = currentItem[3].equals("1");
-				int ticksActive = Integer.parseInt(currentItem[4]);
-				Gas newGas = new Gas(xPos, yPos, isOriginal);
-				newGas.setTicksActive(ticksActive);
-				POWER_ARRAY_LIST.add(newGas);
-				tileMap[xPos][yPos].addActivePower(newGas);
-			}
+				// if currentItem item is gas
+				case "G": {
+					int xPos = Integer.parseInt(currentItem[1]);
+					int yPos = Integer.parseInt(currentItem[2]);
+					boolean isOriginal;
+					isOriginal = currentItem[3].equals("1");
+					int ticksActive = Integer.parseInt(currentItem[4]);
+					Gas newGas = new Gas(xPos, yPos, isOriginal);
+					newGas.setTicksActive(ticksActive);
+					POWER_ARRAY_LIST.add(newGas);
+					tileMap[xPos][yPos].addActivePower(newGas);
+					break;
+				}
 
-			// if currentItem item is steriliser
-			else if (currentItem[0].equals("S")) {
-				int xPos = Integer.parseInt(currentItem[1]);
-				int yPos = Integer.parseInt(currentItem[2]);
-				int ticksActive = Integer.parseInt(currentItem[3]);
-				Sterilisation newSterilisation = new Sterilisation(xPos, yPos);
-				newSterilisation.setTicksActive(ticksActive);
-				POWER_ARRAY_LIST.add(newSterilisation);
-				tileMap[xPos][yPos].addActivePower(newSterilisation);
-			}
+				// if currentItem item is steriliser
+				case "S": {
+					int xPos = Integer.parseInt(currentItem[1]);
+					int yPos = Integer.parseInt(currentItem[2]);
+					int ticksActive = Integer.parseInt(currentItem[3]);
+					Sterilisation newSterilisation = new Sterilisation(xPos, yPos);
+					newSterilisation.setTicksActive(ticksActive);
+					POWER_ARRAY_LIST.add(newSterilisation);
+					tileMap[xPos][yPos].addActivePower(newSterilisation);
+					break;
+				}
 
-			// if currentItem item is poison
-			else if (currentItem[0].equals("P")) {
-				int xPos = Integer.parseInt(currentItem[1]);
-				int yPos = Integer.parseInt(currentItem[2]);
-				Poison newPoison = new Poison(xPos, yPos);
-				POWER_ARRAY_LIST.add(newPoison);
-				tileMap[xPos][yPos].addActivePower(newPoison);
-			}
+				// if currentItem item is poison
+				case "P": {
+					int xPos = Integer.parseInt(currentItem[1]);
+					int yPos = Integer.parseInt(currentItem[2]);
+					Poison newPoison = new Poison(xPos, yPos);
+					POWER_ARRAY_LIST.add(newPoison);
+					tileMap[xPos][yPos].addActivePower(newPoison);
+					break;
+				}
 
-			// if currentItem item is a male sex change
-			else if (currentItem[0].equals("T")) {
-				int xPos = Integer.parseInt(currentItem[1]);
-				int yPos = Integer.parseInt(currentItem[2]);
-				MaleSwapper newMaleSwapper = new MaleSwapper(xPos, yPos);
-				POWER_ARRAY_LIST.add(newMaleSwapper);
-				tileMap[xPos][yPos].addActivePower(newMaleSwapper);
-			}
+				// if currentItem item is a male sex change
+				case "T": {
+					int xPos = Integer.parseInt(currentItem[1]);
+					int yPos = Integer.parseInt(currentItem[2]);
+					MaleSwapper newMaleSwapper = new MaleSwapper(xPos, yPos);
+					POWER_ARRAY_LIST.add(newMaleSwapper);
+					tileMap[xPos][yPos].addActivePower(newMaleSwapper);
+					break;
+				}
 
-			// if currentItem item is a female sex change
-			else if (currentItem[0].equals("E")) {
-				int xPos = Integer.parseInt(currentItem[1]);
-				int yPos = Integer.parseInt(currentItem[2]);
-				FemaleSwapper newFemaleSwapper = new FemaleSwapper(xPos, yPos);
-				POWER_ARRAY_LIST.add(newFemaleSwapper);
-				tileMap[xPos][yPos].addActivePower(newFemaleSwapper);
-			}
+				// if currentItem item is a female sex change
+				case "E": {
+					int xPos = Integer.parseInt(currentItem[1]);
+					int yPos = Integer.parseInt(currentItem[2]);
+					FemaleSwapper newFemaleSwapper = new FemaleSwapper(xPos, yPos);
+					POWER_ARRAY_LIST.add(newFemaleSwapper);
+					tileMap[xPos][yPos].addActivePower(newFemaleSwapper);
+					break;
+				}
 
-			// if currentItem item is a no-entry sign (StopSign)
-			else if (currentItem[0].equals("N")) {
-				int xPos = Integer.parseInt(currentItem[1]);
-				int yPos = Integer.parseInt(currentItem[2]);
-				int HP = Integer.parseInt(currentItem[3]);
-				StopSign newStopSign = new StopSign(xPos, yPos);
-				newStopSign.setHP(HP);
-				POWER_ARRAY_LIST.add(newStopSign);
-				tileMap[xPos][yPos].addActivePower(newStopSign);
+				// if currentItem item is a no-entry sign (StopSign)
+				case "N": {
+					int xPos = Integer.parseInt(currentItem[1]);
+					int yPos = Integer.parseInt(currentItem[2]);
+					int HP = Integer.parseInt(currentItem[3]);
+					StopSign newStopSign = new StopSign(xPos, yPos);
+					newStopSign.setHP(HP);
+					POWER_ARRAY_LIST.add(newStopSign);
+					tileMap[xPos][yPos].addActivePower(newStopSign);
+					break;
+				}
 			}
 
 		}

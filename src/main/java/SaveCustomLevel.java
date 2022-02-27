@@ -1,8 +1,6 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -32,7 +30,7 @@ public class SaveCustomLevel {
 	/**
 	 * Constructs a save custom level object
 	 * @param name of the custom level
-	 * @param width of the cutstom level
+	 * @param width of the custom level
 	 * @param height of the custom level
 	 * @param map of Tile objects representing the level board
 	 * @param maxRats int of lose condition
@@ -53,7 +51,6 @@ public class SaveCustomLevel {
 	
 	/**
 	 * Sets the name of the level
-	 * @param name
 	 */
 	private void setName(String name) {
 		if (name.contains("inProgress")) {
@@ -64,7 +61,6 @@ public class SaveCustomLevel {
 	
 	/**
 	 * Sets the width of the level
-	 * @param width
 	 */
 	private void setWidth(int width) {
 		this.width = width;
@@ -72,7 +68,6 @@ public class SaveCustomLevel {
 	
 	/**
 	 * Sets the height of the level
-	 * @param height
 	 */
 	private void setHeight(int height) {
 		this.height = height;
@@ -80,7 +75,6 @@ public class SaveCustomLevel {
 	
 	/**
 	 * Sets the map of the level
-	 * @param map
 	 */
 	private void setMap(Tile[][] map) {
 		this.map = map;
@@ -88,7 +82,6 @@ public class SaveCustomLevel {
 	
 	/**
 	 * Sets the max rats of the level
-	 * @param maxRats
 	 */
 	private void setMaxRats(int maxRats) {
 		this.maxRats = maxRats;
@@ -96,7 +89,6 @@ public class SaveCustomLevel {
 	
 	/**
 	 * Sets the winning time of the level
-	 * @param parTime
 	 */
 	private void setParTime(int parTime) {
 		this.parTime = parTime;
@@ -104,7 +96,6 @@ public class SaveCustomLevel {
 	
 	/**
 	 * Sets the item drop rates for inventory
-	 * @param dropRates
 	 */
 	private void setDropRates(int[] dropRates) {
 		this.dropRates = dropRates;
@@ -128,7 +119,6 @@ public class SaveCustomLevel {
 
 	/**
 	 * Gets the height of the level
-	 * @return
 	 */
 	public int getHeight() {
 		return this.height;
@@ -179,17 +169,12 @@ public class SaveCustomLevel {
 	 * @return an ArrayList of Rat objects
 	 */
 	public ArrayList<Rat> getRats() {
-		ArrayList<Rat> rats = new ArrayList<Rat>();
+		ArrayList<Rat> rats = new ArrayList<>();
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				if (map[x][y].getOccupantRats().size() == 0) {
-					
-				}
-				else {
+				if (map[x][y].getOccupantRats().size() != 0) {
 					ArrayList<Rat> occRats = (map[x][y].getOccupantRats());
-					for (int i = 0; i < occRats.size(); i++) {
-						rats.add(occRats.get(i));
-					}
+					rats.addAll(occRats);
 				}
 			}
 		}
@@ -197,9 +182,7 @@ public class SaveCustomLevel {
 	}
 	
 	/**
-	 * Creates new level file with name, checks if 
-	 * if there is already a file with the name
-	 * @param name
+	 * Creates new level file with name, checks if there is already a file with the name
 	 */
 	public void createNewLevelFile(String name) {
 		try {
@@ -214,14 +197,13 @@ public class SaveCustomLevel {
 				wasSaved = false;
 			}
 		} catch (IOException e) {
-			System.out.println("An error occured");
+			System.out.println("An error occurred");
 		}
 	}
 	
 	/**
-	 * Writes to a the new file in a format able to be read by level reader
+	 * Writes to a new file in a format able to be read by level reader
 	 * @param f file being passed
-	 * @throws IOException 
 	 */
 	public void writeNewFile(File f, String name) throws IOException {
 		FileWriter p = new FileWriter(getPathName());
@@ -256,9 +238,9 @@ public class SaveCustomLevel {
 			}
 			p.write("\n");
 		}
-		for (int i = 0; i < rats.size(); i++) {
+		for (Rat rat : rats) {
 			p.write("(");
-			p.write(LevelFileReader.ratToStr(rats.get(i)));
+			p.write(LevelFileReader.ratToStr(rat));
 			p.write(")");
 			p.write("\n");
 		}
