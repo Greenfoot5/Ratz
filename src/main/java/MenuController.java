@@ -129,15 +129,19 @@ public class MenuController {
 	@FXML
 	private void initialize() {
 		if (this.profileSelectionRoot != null) {
+			profilesViewUpdated = false;
 			updateProfilesView();
 		} else if (this.menuRoot != null) {
+			menuViewUpdated = false;
 			updateMenuView();
 		} else if (this.levelsSelectionRoot != null) {
+			levelsViewUpdated = false;
 			defaultLevelsRadioButton.getStyleClass().remove("radio-button");
 			defaultLevelsRadioButton.getStyleClass().add("toggle-button");
 			selectedLevelHeadingLabel.setAlignment(Pos.CENTER);
 			updateLevelsView();
 		} else if (this.levelCreationRoot != null) {
+			levelsCreationViewUpdated = false;
 			updateLevelCreationView();
 		}
 	}
