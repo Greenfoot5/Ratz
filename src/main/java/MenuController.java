@@ -557,23 +557,12 @@ public class MenuController {
 	}
 
 	/**
-	 * Calls the function that loads the game.
-	 */
-	@FXML
-	void playTheGame() {
-		try {
-			loadLevel();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Loads the game.
 	 * 
 	 * @throws IOException
 	 */
-	private void loadLevel() throws IOException {
+	@FXML
+	private void playTheGame() throws IOException {
 		String levelType = "";
 
 		if (defaultLevelsRadioButton.isSelected()) {
