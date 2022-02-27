@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * 
  * @author steff
  * This class saves a custom level made by the user to file
+ * Also has a satic method to allow for these files to be deleted
  *
  */
 public class SaveCustomLevel {
@@ -255,6 +256,10 @@ public class SaveCustomLevel {
 		p.close();
 	}
 	
+	/**
+	 * Static method to delete a file 
+	 * @param name of the file being deleted
+	 */
 	public static void deleteFile(String name) {
 		File f = new File("resources\\" + name + ".txt");
 		if (f.delete()) {
@@ -265,7 +270,11 @@ public class SaveCustomLevel {
 		}
 	}
 
-	public boolean wasSaved(){
+	/**
+	 * 
+	 * @return boolean of if the level has been saved or not.
+	 */
+	public boolean wasSaved() {
 		return wasSaved;
 	}
 }
