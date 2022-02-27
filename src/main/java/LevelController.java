@@ -130,23 +130,6 @@ public class LevelController {
 	 * @param selectedLevelName  Number of level being played.
 	 * @param mainMenuController Reference to the main menu controller.
 	 */
-//    public LevelController(int levelNum, MainMenuController mainMenuController) {
-//        LEVEL_NUMBER = levelNum;
-//        MAIN_MENU = mainMenuController;
-//        WIDTH = LevelFileReader.getWidth();
-//        HEIGHT = LevelFileReader.getHeight();
-//
-//        buildNewLevel();
-//
-//        MAX_RATS = LevelFileReader.getMaxRats();
-//        if (LevelFileReader.getInProgTimer() != -1) {
-//            PAR_TIME = LevelFileReader.getInProgTimer();
-//        } else {
-//            PAR_TIME = LevelFileReader.getParTime();
-//        }
-//        DROP_RATES = LevelFileReader.getDropRates();
-//    }
-	// copy
 	public LevelController(String selectedLevelName, MenuController mainMenuController) {
 		LEVEL_NAME = selectedLevelName;
 		MAIN_MENU = mainMenuController;
