@@ -11,18 +11,40 @@
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <ImageView fitHeight="127.0" fitWidth="266.0" layoutX="673.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="127.0" fitWidth="266.0" layoutX="26.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/adultfemaleWEST.png" />
+                  <Image url="@adultfemaleSOUTH.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="127.0" fitWidth="266.0" layoutX="646.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@deathratNORTH.png" />
                </image>
             </ImageView>
          </children>
       </AnchorPane>
       <Label fx:id="loggedProfileMenuLabel" text="You are not logged in. Please select profile" />
-      <Button mnemonicParsing="false" onAction="#changeToLevelSelection" prefHeight="39.0" prefWidth="180.0" text="Select Level!" />
-      <Button mnemonicParsing="false" onAction="#changeToProfileSelection" prefHeight="39.0" prefWidth="180.0" text="Select Profile!" />
-      <Button mnemonicParsing="false" onAction="#changeToLevelCreation" prefHeight="39.0" prefWidth="180.0" text="Create Level!" />
-      <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="180.0" text="Exit!" />
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+      <Button mnemonicParsing="false" onAction="#changeToProfileSelection" prefHeight="39.0" prefWidth="180.0" text="Log in" />
+      <Button mnemonicParsing="false" onAction="#changeToLevelSelection" prefHeight="39.0" prefWidth="180.0" text="Select Level" />
+      <Button mnemonicParsing="false" onAction="#changeToLevelCreation" prefHeight="39.0" prefWidth="180.0" text="Create Level" />
+      <Button mnemonicParsing="false" onAction="#exitTheGame" prefHeight="39.0" prefWidth="180.0" text="Exit" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <ImageView fitHeight="127.0" fitWidth="266.0" layoutX="115.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@adultmaleEAST.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="127.0" fitWidth="266.0" layoutX="337.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@adultmaleEAST.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="127.0" fitWidth="266.0" layoutX="563.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@adultmaleEAST.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
    </children>
 </VBox>

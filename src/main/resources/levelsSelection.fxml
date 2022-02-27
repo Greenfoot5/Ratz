@@ -30,9 +30,9 @@
       </VBox>
    </right>
    <left>
-      <VBox id="sidebar4-menu" prefHeight="350.0" prefWidth="175.0" spacing="4.0" BorderPane.alignment="CENTER">
+      <VBox id="sidebar4-menu" prefHeight="350.0" prefWidth="175.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="CENTER" minHeight="0.0" prefHeight="80.0" prefWidth="159.0" spacing="2.0">
+            <VBox alignment="CENTER" minHeight="0.0" prefHeight="82.0" prefWidth="175.0" spacing="2.0">
                <children>
                   <RadioButton id="radio-button" fx:id="defaultLevelsRadioButton" mnemonicParsing="false" onAction="#levelTypeChanged" prefHeight="24.0" prefWidth="125.0" selected="true" text="  Default Levels">
                      <toggleGroup>
@@ -42,8 +42,11 @@
                   <RadioButton id="radio-button" fx:id="savedGamesRadioButton" mnemonicParsing="false" onAction="#levelTypeChanged" prefHeight="24.0" prefWidth="125.0" text="     Saved Games" toggleGroup="$levelTypeGroup" />
                   <RadioButton id="radio-button" fx:id="createdLevelsRadioButton" mnemonicParsing="false" onAction="#levelTypeChanged" prefHeight="24.0" prefWidth="125.0" text="    Created Levels" toggleGroup="$levelTypeGroup" />
                </children>
+               <padding>
+                  <Insets top="6.0" />
+               </padding>
             </VBox>
-            <VBox fx:id="levelButtonsVBox" alignment="TOP_CENTER" maxHeight="267.0" prefHeight="267.0" prefWidth="159.0" spacing="2.0">
+            <VBox fx:id="levelButtonsVBox" alignment="TOP_CENTER" maxHeight="267.0" prefHeight="261.0" prefWidth="175.0" spacing="2.0">
                <padding>
                   <Insets bottom="2.0" left="2.0" right="2.0" />
                </padding>
@@ -66,7 +69,7 @@
       </VBox>
    </left>
    <center>
-      <VBox fx:id="scoreTableLevelsVBox" alignment="CENTER" prefHeight="328.0" prefWidth="430.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="scoreTableLevelsVBox" alignment="CENTER" prefHeight="350.0" prefWidth="430.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Loading..." />
          </children>

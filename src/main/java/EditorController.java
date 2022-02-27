@@ -25,8 +25,6 @@ import javax.imageio.ImageIO;
 
 import static java.lang.Integer.parseInt;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -41,7 +39,7 @@ public class EditorController {
 
 	// Size of one tile in pixels
 	private static final int TILE_SIZE = 64;
-	private static final String delfaultLevelRegex = "level-[1-5]";
+	private static final String defaultLevelRegex = "level-[1-5]";
 	private static final int MILLIS_RATIO = 1000;
 
 	// Time between item drops
@@ -106,21 +104,10 @@ public class EditorController {
 	// Level map
 	private static Tile[][] tileMap = new Tile[0][0];
 
-	public EditorController() {
-		width = 10;
-		height = 7;
-		tileMap = new Tile[width][height];
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				tileMap[i][j] = new Grass();
-			}
-		}
-		maxRats = 20;
-		parTime = 150;
-		dropRates = new int[8];
-		Arrays.fill(dropRates, 1); // TODO: change these to millis when saving level, from millis when loading one
-	}
-
+	/**
+	 * Constructor for EditorController when a level is being made from scratch.
+	 * @param mainMenuController reference to main menu.
+	 */
 	public EditorController(MenuController mainMenuController) {
 		MAIN_MENU = mainMenuController;
 		width = 10;
@@ -134,10 +121,15 @@ public class EditorController {
 		maxRats = 20;
 		parTime = 150;
 		dropRates = new int[8];
-		Arrays.fill(dropRates, 1); // TODO: change these to millis when saving level, from millis when loading one
-
+		Arrays.fill(dropRates, 1);
+		levelName = "";
 	}
 
+	/**
+	 * Constructor for EditorController when an existing level is being edited.
+	 * @param levelName name of original existing level.
+	 * @param mainMenuController reference to main menu.
+	 */
 	public EditorController(String levelName, MenuController mainMenuController) {
 		this.levelName = levelName;
 		MAIN_MENU = mainMenuController;
@@ -177,6 +169,7 @@ public class EditorController {
 
 		maxRatTextField.setText(String.valueOf(maxRats));
 		gameTimerTextField.setText(String.valueOf(parTime));
+		levelNameTextField.setText(levelName);
 	}
 
 	/**
@@ -655,7 +648,7 @@ public class EditorController {
 		String newLevelName = levelNameTextField.getText();
 		if (newLevelName.contains(" ")) {
 			savingErrorText.setText("Level name cannot contain spaces");
-		} else if (newLevelName.matches(delfaultLevelRegex)) {
+		} else if (newLevelName.matches(defaultLevelRegex)) {
 			savingErrorText.setText("Level name cannot be the same as default level");
 		} else if (newLevelName.length() == 0) {
 			savingErrorText.setText("Level name cannot be empty");

@@ -369,6 +369,16 @@ public class LevelFileReader {
 		}
 	}
 
+	/**
+	 * Loads a level from a txt file. The "default objects" referred to by the
+	 * loadDefaultObjects parameter are the rats which spawn at the start of the
+	 * level. This should be false if this function is loading a saved level.
+	 *
+	 * @param filename           the level file to load
+	 * @param loadDefaultObjects whether the level's default objects should be
+	 *                           loaded
+	 * @throws FileNotFoundException if the level file isn't found
+	 */
 	public static void loadNormalLevelFile(String filename, boolean loadDefaultObjects) throws FileNotFoundException {
 		File levelData = new File(filename + ".txt");
 
@@ -416,6 +426,12 @@ public class LevelFileReader {
 
 	}
 
+	/**
+	 * Loads content from a level's save file.
+	 * 
+	 * @param filename the level save file to load.
+	 * @throws FileNotFoundException if the file can't be found.
+	 */
 	public static void loadSavedLevelFile(String filename) throws FileNotFoundException {
 		File levelData = new File(filename + ".txt");
 		Scanner reader = new Scanner(levelData);
@@ -435,85 +451,63 @@ public class LevelFileReader {
 	}
 
 	/**
-	 * Loads game objects from the text in level files.
-	 *
-	 * @param filename The file to open.
-	 * @throws FileNotFoundException if the file can't be found.
+	 * Deletes all in progress files which are connected to chosen level.
+	 * @param levelName name of the level
 	 */
-	// TODO: James please check if two functions above have the same functionality,
-	// and add saving level name in first line of inProges file
-//    public static void loadLevelFile(String filename, boolean customLevel) throws FileNotFoundException {
-//        String[] filenameTempArray = filename.split("/");
-//        String levelName = filenameTempArray[filenameTempArray.length - 1];
-//
-//        File levelDataInProgress = new File("target/classes/levels/saved_games/" +
-//                ProfileFileReader.getLoggedProfile() + "/" + levelName + ".txt");
-//        File levelData;
-//        if (customLevel) {
-//            levelData = new File("target/classes/levels/created_levels/" + levelName + ".txt");
-//        } else {
-//            levelData = new File("target/classes/levels/default_levels/" + levelName + ".txt");
-//        }
-//
-//        Scanner reader = new Scanner(levelData);
-//
-//        RAT_ARRAY_LIST.clear();
-//        inProgInv = null;
-//        inProgTimer = -1;
-//
-//        // get level width, height, max rats, par time
-//        if (reader.hasNextLine()) {
-//            String[] levelStats = reader.nextLine().split(",");
-//            width = Integer.parseInt(levelStats[0]);
-//            height = Integer.parseInt(levelStats[1]);
-//            maxRats = Integer.parseInt(levelStats[2]);
-//            parTime = Integer.parseInt(levelStats[3]);
-//        }
-//
-//        // get drop rate data
-//        String[] dropRatesString = reader.nextLine().split(",");
-//        for (int i = 0; i < DROP_RATES.length; i++) {
-//            DROP_RATES[i] = Integer.parseInt(dropRatesString[i]);
-//        }
-//
-//        // get tile data
-//        String currentTiles = "";
-//        for (int i = 0; i < height; i++) {
-//            if (reader.hasNext()) {
-//                currentTiles = currentTiles.concat(reader.nextLine());
-//            }
-//        }
-//
-//        // this ugly regex splits currentTiles based on the level's width
-//        String[] tiles = currentTiles.split("(?<=\\G.{" + width + "})");
-//
-//        tileMap = tilesToTileMap(tiles);
-//
-//        // check if a saved level exists.
-//        // if it does, grab the rats, timer, and stored inventory from it
-//        if (levelDataInProgress.isFile()) {
-//            hasLoadedSavedLevel = true;
-//            reader = new Scanner(levelDataInProgress);
-//            reader.nextLine(); // TODO: this is a temp fix to skip the level name. find out why tomasz wanted this.
-//            inProgInv = new int[8];
-//            if (reader.hasNextLine()) {
-//                String[] savedInfo = reader.nextLine().split(",");
-//                inProgTimer = Integer.parseInt(savedInfo[0]);
-//                String[] inProgInvString = reader.nextLine().split(",");
-//                for (int i = 0; i < inProgInvString.length; i++) {
-//                    inProgInv[i] = Integer.parseInt(inProgInvString[i]);
-//                    LevelController.addPowersFromSave(inProgInv);
-//                }
-//                readObjects(reader);
-//            }
-//        } else {
-//            // if no saved data exists, just read the objects from the default file.
-//            hasLoadedSavedLevel = false;
-//            reader = new Scanner(levelData);
-//            readObjects(reader);
-//        }
-//        reader.close();
-//    }
+	public static void deleteAllConnectedFiles(String levelName) {
+		String savedGamesPath = "src/main/resources/levels/saved_games";
+
+		File directoryPath = new File(savedGamesPath);
+		String[] contents = directoryPath.list();
+
+		if (contents != null) {
+			for (String content : contents) {
+				deleteAllConnectedFilesFromProfile(savedGamesPath + "/" + content, levelName, content);
+			}
+		}
+	}
+
+	/**
+	 * Deletes all in progress files (from profile directory) which are connected to chosen level.
+	 * @param pathToProfileSaves 	path to file in progress
+	 * @param levelName				path to level file
+	 * @param profileName			name of the profile directory
+	 */
+	public static void deleteAllConnectedFilesFromProfile(String pathToProfileSaves, String levelName,
+			String profileName) {
+		File directoryPath = new File(pathToProfileSaves);
+		String[] contents = directoryPath.list();
+
+		if (contents != null) {
+			for (String content : contents) {
+				try {
+					if (isConnectedLevel(levelName, pathToProfileSaves + "/" + content)) {
+						new File(pathToProfileSaves + "/" + content).delete();
+						new File("src/main/resources/saved_games_images/" + profileName + "/"
+								+ content.substring(0, content.length() - 4) + ".png").delete();
+					}
+				} catch (FileNotFoundException e) {
+					System.out.println("Check unexpected exception");
+				}
+			}
+		}
+	}
+
+	/**
+	 * Checks if file in progress is connected to level file.
+	 * @param levelName			directory to the level file
+	 * @param levelInProgress	directory to the file in progress
+	 * @return	true if file is connected, false otherwise
+	 * @throws FileNotFoundException	if file in progress is missing
+	 */
+	public static boolean isConnectedLevel(String levelName, String levelInProgress) throws FileNotFoundException {
+		File levelData = new File(levelInProgress);
+		Scanner reader = new Scanner(levelData);
+		levelPath = reader.nextLine();
+		reader.close();
+		return levelPath.equals(levelName);
+
+	}
 
 	/**
 	 * Reads rats and powers from the level file.

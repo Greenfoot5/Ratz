@@ -49,9 +49,9 @@
    <right>
       <VBox id="sidebar1-menu" alignment="CENTER" maxHeight="165.0" prefHeight="165.0" prefWidth="206.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button id="green-menu-button1" mnemonicParsing="false" onAction="#editCreatedLevel" prefHeight="36.0" prefWidth="187.0" text="Edit" />
+            <Button mnemonicParsing="false" onAction="#changeToMenu" prefHeight="36.0" prefWidth="187.0" text="Back to menu" />
+            <Button id="green-menu-button1" fx:id="editCreatedLevelButton" disable="true" mnemonicParsing="false" onAction="#editCreatedLevel" prefHeight="36.0" prefWidth="187.0" text="Edit" />
             <Button id="red-menu-button" fx:id="deleteLevelButton" disable="true" mnemonicParsing="false" onAction="#deleteCreatedLevel" prefHeight="36.0" prefWidth="187.0" text="Delete" />
-            <Button mnemonicParsing="false" onAction="#changeToMenu" prefHeight="36.0" prefWidth="187.0" text="Back to menn" />
          </children>
          <BorderPane.margin>
             <Insets left="5.0" right="5.0" />

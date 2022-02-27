@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="896.0" prefWidth="1324.0" styleClass="root" stylesheets="@editor.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="896.0" prefWidth="1324.0" styleClass="root" stylesheets="@editor.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
 	<center>
 		<Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
 			<Canvas fx:id="levelCanvas" height="896.0" layoutY="8.0" width="1024.0" />
@@ -294,7 +294,6 @@
                            </children></TextFlow>
                      </children>
                   </VBox>
-                  <Button mnemonicParsing="false" text="Make screen shot" />
                   <Button fx:id="levelSettingsButton" mnemonicParsing="false" onAction="#displayLevelSettings" prefHeight="36.0" prefWidth="187.0" styleClass="sideBarButton" text="Level Settings">
                      <VBox.margin>
                         <Insets left="50.0" top="240.0" />
