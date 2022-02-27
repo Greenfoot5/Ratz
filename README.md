@@ -13,11 +13,10 @@ Based off the 1996 game Rats! by Sean O'Connor, built in Java and JavaFX.
 3. Kill the rats before they overwhelm you!
 
 # Installing, Compiling and Executing
-<!--Missing Compile and Run-->
 ```sh
 $ git clone https://github.com/Greenfoot5/Ratz.git
 $ cd Ratz
-...
+$ mvn clean javafx:run
 ```
 
 # Design
