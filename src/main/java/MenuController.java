@@ -450,7 +450,7 @@ public class MenuController {
 				});
 
 				if (defaultLevelsRadioButton.isSelected()) {
-					//levelButtons[i].setDisable(disableNextButton);
+					// levelButtons[i].setDisable(disableNextButton);
 					int score = ProfileFileReader.getBestScore(ProfileFileReader.getLoggedProfile(),
 							levelButtons[i].getText());
 					if (score == 0) {
@@ -633,6 +633,7 @@ public class MenuController {
 				levelNames = ProfileFileReader.getCreatedLevelsNames();
 				selectRadioButton(editCustomLevelsRadioButton, editDefaultLevelsRadioButton,
 						editDefaultLevelsRadioButton);
+
 			}
 
 			levelButtons = new Button[levelNames.size()];
@@ -648,6 +649,10 @@ public class MenuController {
 				final int buttonIndex = i;
 
 				levelButtons[i].setOnAction(event -> {
+					if (editCustomLevelsRadioButton.isSelected()) {
+						deleteLevelButton.setDisable(false);
+					}
+
 					selectedEditLevelName = levelButtons[buttonIndex].getText();
 					editCreatedLevelButton.setDisable(false);
 					levelView.setImage(
@@ -702,6 +707,7 @@ public class MenuController {
 
 		ProfileFileReader.deleteLevel(selectedEditLevelName);
 		HighScores.deleteLevel(selectedEditLevelName);
+		deleteLevelButton.setDisable(true);
 		levelsCreationViewUpdated = false;
 		updateLevelCreationView();
 	}
@@ -712,13 +718,11 @@ public class MenuController {
 	 * @param event
 	 */
 	public void editLevelTypeChanged(ActionEvent event) {
-		if (editDefaultLevelsRadioButton.isSelected()) {
-			deleteLevelButton.setDisable(true);
-		} else if (editCustomLevelsRadioButton.isSelected()) {
-			deleteLevelButton.setDisable(false);
-		}
+
+		deleteLevelButton.setDisable(true);
 		editCreatedLevelButton.setDisable(true);
 		levelsCreationViewUpdated = false;
+		selectedEditLevelName = "";
 		updateLevelCreationView();
 	}
 
