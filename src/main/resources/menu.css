@@ -7,6 +7,13 @@
     -fx-font-family: 'Linerama';
 }
 
+.label {
+    
+    -fx-text-fill: #00ffe4;
+    -fx-font-size: 20.0px;
+    -fx-text-alignment: center;
+}
+
 .button{
     -fx-background-image: url('gui/level-button.png');
     -fx-font-size: 18px;
