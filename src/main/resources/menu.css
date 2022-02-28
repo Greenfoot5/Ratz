@@ -14,6 +14,20 @@
     -fx-text-alignment: center;
 }
 
+.radio-button > .radio {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0px;
+    -fx-padding: 0.0em; /* 4 8 4 8 */
+}
+.radio-button:selected > .radio > .dot {
+    -fx-background-color: transparent;
+}
+.radio-button {
+    -fx-text-aligmrnt: center;
+    -fx-background-image: url('gui/radio-button.png');
+}
+
 .button{
     -fx-background-image: url('gui/level-button.png');
     -fx-font-size: 18px;
