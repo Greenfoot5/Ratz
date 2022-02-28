@@ -98,7 +98,7 @@ public class AdultIntersex extends LivingRat {
                 newSex = Sex.INTERSEX;
             }
 
-            ChildRat newBaby = new ChildRat(Rat.getDEFAULT_SPEED() * 2,
+            ChildRat newBaby = new ChildRat(Rat.getDEFAULT_SPEED() / 2,
                     direction, 0, xPos, yPos, true, 0, newSex);
             LevelController.ratAdded(newBaby);
             Objects.requireNonNull(LevelController.getTileAt(xPos, yPos)).
