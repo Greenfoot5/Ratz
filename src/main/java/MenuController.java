@@ -34,9 +34,7 @@ import javafx.stage.Stage;
 public class MenuController {
 
 	private static final int PROFILES_LIMIT = 10;
-	private static final int CUSTOM_LEVELS_LIMIT = 10;
-	// private static final String defaultLevelRegex = "level-[1-5]";
-	// private static final String savedGameStringPart = "inProgress";
+	private static final int CUSTOM_LEVELS_LIMIT = 7;
 	private static Stage stage;
 	private static Scene scene;
 	public ToggleGroup editLevelTypeGroup;
@@ -123,6 +121,8 @@ public class MenuController {
 	private VBox profileScoresVBox;
 	@FXML
 	private Button removeProfileButton;
+	@FXML
+	private Button openLevelEditorButton;
 
 	/**
 	 * Method initialize initial state of each scene.
@@ -638,6 +638,10 @@ public class MenuController {
 
 			}
 
+			if (levelNames.size() > CUSTOM_LEVELS_LIMIT) {
+				editCreatedLevelButton.setDisable(true);
+				openLevelEditorButton.setDisable(true);
+			}
 			levelButtons = new Button[levelNames.size()];
 
 			for (int i = 0; i < levelNames.size(); i++) {
@@ -649,14 +653,16 @@ public class MenuController {
 				levelsButtonsLevelCreationVBox.getChildren().add(levelButtons[i]);
 
 				final int buttonIndex = i;
-
+				final int levelsLimit = levelNames.size();
 				levelButtons[i].setOnAction(event -> {
 					if (editCustomLevelsRadioButton.isSelected()) {
 						deleteLevelButton.setDisable(false);
 					}
 
 					selectedEditLevelName = levelButtons[buttonIndex].getText();
-					editCreatedLevelButton.setDisable(false);
+					if (levelsLimit <= CUSTOM_LEVELS_LIMIT) {
+						editCreatedLevelButton.setDisable(false);
+					}
 					levelView.setImage(
 							getPreview(selectedEditLevelName, false, MAX_WIDTH_CREATION, MAX_HEIGHT_CREATION));
 				});
@@ -692,12 +698,9 @@ public class MenuController {
 
 	/**
 	 * Deletes created level file and screenshot from memory and form screen. Also
-	 * deletes all in progress files which use selected level as reference. //TODO:
-	 * actually do that
-	 *
+	 * deletes all in progress files which use selected level as reference.
 	 */
 	public void deleteCreatedLevel(ActionEvent event) {
-		// TODO delete all in progress files which use this level
 		LevelFileReader.deleteAllConnectedFiles("src/main/resources/levels/created_levels/" + selectedEditLevelName);
 
 		File tempFile = new File("src/main/resources/levels/created_levels/" + selectedEditLevelName + ".txt");
@@ -751,7 +754,7 @@ public class MenuController {
 			ProfileFileReader.saveDataToFile();
 			HighScores.saveDataToFile();
 		} catch (IOException e) {
-			// TODO give an alert
+			alert("Scores didn't saved. Please check source files");
 			e.printStackTrace();
 		}
 		System.out.println("stage closing");
