@@ -4,6 +4,7 @@
 }
 .root{
     -fx-background-color: #2d4945;
+    -fx-font-family: 'Linerama';
 }
 
 .button{
@@ -17,8 +18,7 @@
 }
 
 #green-menu-button1 {
-        -fx-background-image: url('gui/green-menu-button1.png');
-    
+    -fx-background-image: url('gui/green-menu-button1.png');
 }
 
 #menu-button1 {
@@ -27,7 +27,7 @@
 
 .profileLabel {
     -fx-font-size: 30px;
-    
+    -fx-font-family: 'Linerama';
 }
 
 #sidebar1-menu {
@@ -45,6 +45,7 @@
 #selectedLevelHeadingLabel {
     -fx-text-alignment: center;
     -fx-font-size: 30px;
+    -fx-font-family: 'Linerama';
 }
 
 

@@ -4,6 +4,7 @@
 }
 .root{
     -fx-background-color: #2d4945;
+    -fx-font-family: 'Linerama';
 }
 .sideBarText{
     -fx-fill: #00ffe4;
@@ -33,6 +34,7 @@
     -fx-font-size: 30px;
     -fx-text-alignment: center;
     -fx-fill: #00ffe4;
+    -fx-font-family: 'Linerama';
 }
 .savingDialogueBox{
     -fx-background-image: url('gui/level-save-dialogue-box.png');
