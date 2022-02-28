@@ -13,7 +13,7 @@ import java.util.Objects;
  * @author Tomaszs Fijalkowski
  * @version 1.0
  */
-public class Menu extends Application {
+public class Main extends Application {
 
 	public static Stage rootStage = null;
 	Scene scene;
