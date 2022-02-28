@@ -198,7 +198,6 @@ public class MenuController {
 		if (!menuViewUpdated) {
 			menuViewUpdated = true;
 			messageOfTheDay.setMaxWidth(700);
-//			messageOfTheDay.setWrapText(true);
 			messageOfTheDay.setText(MOTD.GETMotd());
 			if (ProfileFileReader.getLoggedProfile() != null) {
 				loggedProfileMenuLabel.setText("Welcome " + ProfileFileReader.getLoggedProfile());
