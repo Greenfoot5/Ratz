@@ -182,7 +182,7 @@ public class EditorController {
 
 			if (event.getGestureSource() instanceof ImageView) {
 				if (x < width && x >= 0 && y >= 0 && y < height) { // if x and y are in the size of the tilemap
-					if (tileMap[x][y] instanceof Path) { // if the tile at (x,y) is a path
+					if (tileMap[x][y] instanceof Path || tileMap[x][y] instanceof PathB) { // if the tile at (x,y) is a path
 						event.acceptTransferModes(TransferMode.ANY);
 					}
 				}
