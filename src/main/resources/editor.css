@@ -40,4 +40,13 @@
     -fx-background-image: url('gui/level-save-dialogue-box.png');
     -fx-font-family: 'Linerama';
 }
+.radio-button > .radio {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0px;
+    -fx-padding: 0.0em; /* 4 8 4 8 */
+}
+.radio-button:selected > .radio > .dot {
+    -fx-background-color: transparent;
+}
 
