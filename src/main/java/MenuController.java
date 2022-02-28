@@ -124,6 +124,7 @@ public class MenuController {
 	@FXML
 	private Button openLevelEditorButton;
 
+
 	/**
 	 * Method initialize initial state of each scene.
 	 */

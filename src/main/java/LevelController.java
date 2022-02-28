@@ -426,6 +426,7 @@ public class LevelController {
 	 * Adds item dropped by the player onto a Tile.
 	 *
 	 * @param event Drag and drop event.
+	 * @param index Which item has been dragged
 	 */
 	private void itemDropped(DragEvent event, int index) {
 		int x = (int) event.getX() / TILE_SIZE;
@@ -562,6 +563,7 @@ public class LevelController {
 
 	/**
 	 * Renders toolbar of one specific item type.
+	 * @param index the number representing an item in the toolbar
 	 */
 	private void renderItem(int index) {
 		toolbars.get(index).getChildren().clear();
