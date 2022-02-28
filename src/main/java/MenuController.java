@@ -755,6 +755,6 @@ public class MenuController {
 			e.printStackTrace();
 		}
 		System.out.println("stage closing");
-		Main.getStage().close();
+		Menu.getStage().close();
 	}
 }
