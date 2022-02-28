@@ -355,17 +355,6 @@ public class LevelController {
 			HighScores.saveScore(ProfileFileReader.getLoggedProfile(), LEVEL_NAME, score);
 		} else {
 			gamePaneText.getChildren().add(new Text("You've lost! :("));
-
-			// TODO: Fix to works with new paths
-			// Delete save file after losing
-//            String levelName = "./" + LEVEL_NAME;
-//            String fullSavePath =
-//                    levelName + "-inProgress-" + ProfileFileReader.getLoggedProfile() + ".txt";
-//            File currentSave = new File(fullSavePath);
-//
-//            if (!currentSave.delete()) {
-//                System.out.println("Failed to delete save after losing!");
-//            }
 		}
 
 		String[] highScores = HighScores.getTopScores(LEVEL_NAME);
@@ -538,7 +527,6 @@ public class LevelController {
 		try {
 			ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
 		} catch (Throwable th) {
-			// TODO: handle this exception
 			System.out.println("Screenshot wasn' saved :(");
 
 		}

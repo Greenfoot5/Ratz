@@ -14,6 +14,13 @@
     -fx-text-alignment: center;
 }
 
+#labelMOTD {
+    
+    -fx-text-fill: #00ffe4;
+    -fx-font-size: 15.0px;
+    -fx-text-alignment: center;
+}
+
 .radio-button > .radio {
     -fx-background-color: transparent;
     -fx-background-insets: 0;

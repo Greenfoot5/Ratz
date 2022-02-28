@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -66,6 +67,8 @@ public class MenuController {
 	private static final String RESOURCES_PATH = "src\\main\\resources\\";
 	private static final String SELECT_LEVEL_LABEL = "Select level";
 
+	@FXML
+	private Label messageOfTheDay;
 	@FXML
 	private VBox menuRoot;
 	@FXML
@@ -194,6 +197,9 @@ public class MenuController {
 	public void updateMenuView() {
 		if (!menuViewUpdated) {
 			menuViewUpdated = true;
+			messageOfTheDay.setMaxWidth(700);
+//			messageOfTheDay.setWrapText(true);
+			messageOfTheDay.setText(MOTD.GETMotd());
 			if (ProfileFileReader.getLoggedProfile() != null) {
 				loggedProfileMenuLabel.setText("Welcome " + ProfileFileReader.getLoggedProfile());
 			} else {
